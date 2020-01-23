@@ -370,7 +370,7 @@ export class BigQueryStorageClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      table_reference_project_id: request.tableReference!.project_id || '',
+      'table_reference.project_id': request.tableReference!.projectId || '',
     });
     return this._innerApiCalls.createReadSession(request, options, callback);
   }
@@ -457,7 +457,7 @@ export class BigQueryStorageClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      session_name: request.session!.name || '',
+      'session.name': request.session!.name || '',
     });
     return this._innerApiCalls.batchCreateReadSessionStreams(
       request,
@@ -554,7 +554,7 @@ export class BigQueryStorageClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      stream_name: request.stream!.name || '',
+      'stream.name': request.stream!.name || '',
     });
     return this._innerApiCalls.finalizeStream(request, options, callback);
   }
@@ -654,7 +654,7 @@ export class BigQueryStorageClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      original_stream_name: request.originalStream!.name || '',
+      'original_stream.name': request.originalStream!.name || '',
     });
     return this._innerApiCalls.splitReadStream(request, options, callback);
   }

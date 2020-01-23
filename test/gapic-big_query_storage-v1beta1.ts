@@ -114,7 +114,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest = {};
       request.tableReference = {};
-      request.tableReference.project_id = '';
+      request.tableReference.projectId = '';
       // Mock response
       const expectedResponse = {};
       // Mock gRPC layer
@@ -138,7 +138,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest = {};
       request.tableReference = {};
-      request.tableReference.project_id = '';
+      request.tableReference.projectId = '';
       // Mock response
       const expectedResponse = {};
       // Mock gRPC layer
