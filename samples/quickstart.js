@@ -24,19 +24,22 @@ async function main() {
   const  bqStorage  = require('@google-cloud/bigquery-storage').v1beta1.BigQueryStorageClient;
   const client = new bqStorage();
 
+  const myProjectId = 'my-project-id'
+
 
   // This example reads baby name data from the public datasets.
-  const projectId = 'projects/bigquery-public-data'
+  const projectId = 'bigquery-public-data'
   const datasetId = 'usa_names'
-  const tableId =  "usa_1910_current"
+  const tableId =  'usa_1910_current'
 
   const tableReference = {
     projectId,
     datasetId,
     tableId
   }
+  
 
-  const parent = 'projects/mastodon-dataset'
+  const parent = `projects/${myProjectId}`
 
   const request = {
     tableReference,
