@@ -21,32 +21,62 @@
  */
 async function main() {
   // [START bigquery_storage_quickstart]
-  const  bqStorage  = require('@google-cloud/bigquery-storage').v1beta1.BigQueryStorageClient;
+  const bqStorage = require('@google-cloud/bigquery-storage').v1beta1
+    .BigQueryStorageClient;
   const client = new bqStorage();
 
-  const myProjectId = 'my-project-id'
-
+  const myProjectId = 'mastodon-dataset';
 
   // This example reads baby name data from the public datasets.
-  const projectId = 'bigquery-public-data'
-  const datasetId = 'usa_names'
-  const tableId =  'usa_1910_current'
+  const projectId = 'bigquery-public-data';
+  const datasetId = 'usa_names';
+  const tableId = 'usa_1910_current';
 
   const tableReference = {
     projectId,
     datasetId,
-    tableId
-  }
-  
+    tableId,
+  };
 
-  const parent = `projects/${myProjectId}`
+  const parent = `projects/${myProjectId}`;
+
+  const readOptions = {
+    selectedFields: ['name', 'number', 'state'],
+    rowRestriction: 'state = "WA"'
+  }
+
+  let tableModifiers = null
+
+  let snapshotSeconds = Math.floor(Date.now()/1000)
+
+  if (snapshotSeconds > 0) {
+    tableModifiers = { snapshotTime: { seconds: snapshotSeconds} }
+  }
+
+  console.log(tableModifiers)
 
   const request = {
     tableReference,
     parent,
+    readOptions,
+    tableModifiers,
+    /* Format enum values: 
+     * DATA_FORMAT_UNSPECIFIED = 0,
+     * AVRO = 1,
+     * ARROW = 3
+     */
+    // format: 3,
+    // shardingStrategy: 1
+  };
+
+  const [session] = await client.createReadSession(request);
+  console.log(session)
+
+  const readRowsRequest = {
+    readPosition: {stream: session.streams[0]}
   }
 
-  await client.createReadSession(request)
+  // const reader = client.readRows(readRowsRequest)
   // [END bigquery_storage_quickstart]
 }
 

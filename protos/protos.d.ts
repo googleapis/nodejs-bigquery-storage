@@ -215,198 +215,6 @@ export namespace google {
                         public toJSON(): { [k: string]: any };
                     }
 
-                    /** Properties of a TableReference. */
-                    interface ITableReference {
-
-                        /** TableReference projectId */
-                        projectId?: (string|null);
-
-                        /** TableReference datasetId */
-                        datasetId?: (string|null);
-
-                        /** TableReference tableId */
-                        tableId?: (string|null);
-                    }
-
-                    /** Represents a TableReference. */
-                    class TableReference implements ITableReference {
-
-                        /**
-                         * Constructs a new TableReference.
-                         * @param [properties] Properties to set
-                         */
-                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.ITableReference);
-
-                        /** TableReference projectId. */
-                        public projectId: string;
-
-                        /** TableReference datasetId. */
-                        public datasetId: string;
-
-                        /** TableReference tableId. */
-                        public tableId: string;
-
-                        /**
-                         * Creates a new TableReference instance using the specified properties.
-                         * @param [properties] Properties to set
-                         * @returns TableReference instance
-                         */
-                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.ITableReference): google.cloud.bigquery.storage.v1beta1.TableReference;
-
-                        /**
-                         * Encodes the specified TableReference message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableReference.verify|verify} messages.
-                         * @param message TableReference message or plain object to encode
-                         * @param [writer] Writer to encode to
-                         * @returns Writer
-                         */
-                        public static encode(message: google.cloud.bigquery.storage.v1beta1.ITableReference, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                        /**
-                         * Encodes the specified TableReference message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableReference.verify|verify} messages.
-                         * @param message TableReference message or plain object to encode
-                         * @param [writer] Writer to encode to
-                         * @returns Writer
-                         */
-                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.ITableReference, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                        /**
-                         * Decodes a TableReference message from the specified reader or buffer.
-                         * @param reader Reader or buffer to decode from
-                         * @param [length] Message length if known beforehand
-                         * @returns TableReference
-                         * @throws {Error} If the payload is not a reader or valid buffer
-                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                         */
-                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.TableReference;
-
-                        /**
-                         * Decodes a TableReference message from the specified reader or buffer, length delimited.
-                         * @param reader Reader or buffer to decode from
-                         * @returns TableReference
-                         * @throws {Error} If the payload is not a reader or valid buffer
-                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                         */
-                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.TableReference;
-
-                        /**
-                         * Verifies a TableReference message.
-                         * @param message Plain object to verify
-                         * @returns `null` if valid, otherwise the reason why it is not
-                         */
-                        public static verify(message: { [k: string]: any }): (string|null);
-
-                        /**
-                         * Creates a TableReference message from a plain object. Also converts values to their respective internal types.
-                         * @param object Plain object
-                         * @returns TableReference
-                         */
-                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.TableReference;
-
-                        /**
-                         * Creates a plain object from a TableReference message. Also converts values to other types if specified.
-                         * @param message TableReference
-                         * @param [options] Conversion options
-                         * @returns Plain object
-                         */
-                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.TableReference, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                        /**
-                         * Converts this TableReference to JSON.
-                         * @returns JSON object
-                         */
-                        public toJSON(): { [k: string]: any };
-                    }
-
-                    /** Properties of a TableModifiers. */
-                    interface ITableModifiers {
-
-                        /** TableModifiers snapshotTime */
-                        snapshotTime?: (google.protobuf.ITimestamp|null);
-                    }
-
-                    /** Represents a TableModifiers. */
-                    class TableModifiers implements ITableModifiers {
-
-                        /**
-                         * Constructs a new TableModifiers.
-                         * @param [properties] Properties to set
-                         */
-                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.ITableModifiers);
-
-                        /** TableModifiers snapshotTime. */
-                        public snapshotTime?: (google.protobuf.ITimestamp|null);
-
-                        /**
-                         * Creates a new TableModifiers instance using the specified properties.
-                         * @param [properties] Properties to set
-                         * @returns TableModifiers instance
-                         */
-                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.ITableModifiers): google.cloud.bigquery.storage.v1beta1.TableModifiers;
-
-                        /**
-                         * Encodes the specified TableModifiers message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableModifiers.verify|verify} messages.
-                         * @param message TableModifiers message or plain object to encode
-                         * @param [writer] Writer to encode to
-                         * @returns Writer
-                         */
-                        public static encode(message: google.cloud.bigquery.storage.v1beta1.ITableModifiers, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                        /**
-                         * Encodes the specified TableModifiers message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableModifiers.verify|verify} messages.
-                         * @param message TableModifiers message or plain object to encode
-                         * @param [writer] Writer to encode to
-                         * @returns Writer
-                         */
-                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.ITableModifiers, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                        /**
-                         * Decodes a TableModifiers message from the specified reader or buffer.
-                         * @param reader Reader or buffer to decode from
-                         * @param [length] Message length if known beforehand
-                         * @returns TableModifiers
-                         * @throws {Error} If the payload is not a reader or valid buffer
-                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                         */
-                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.TableModifiers;
-
-                        /**
-                         * Decodes a TableModifiers message from the specified reader or buffer, length delimited.
-                         * @param reader Reader or buffer to decode from
-                         * @returns TableModifiers
-                         * @throws {Error} If the payload is not a reader or valid buffer
-                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                         */
-                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.TableModifiers;
-
-                        /**
-                         * Verifies a TableModifiers message.
-                         * @param message Plain object to verify
-                         * @returns `null` if valid, otherwise the reason why it is not
-                         */
-                        public static verify(message: { [k: string]: any }): (string|null);
-
-                        /**
-                         * Creates a TableModifiers message from a plain object. Also converts values to their respective internal types.
-                         * @param object Plain object
-                         * @returns TableModifiers
-                         */
-                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.TableModifiers;
-
-                        /**
-                         * Creates a plain object from a TableModifiers message. Also converts values to other types if specified.
-                         * @param message TableModifiers
-                         * @param [options] Conversion options
-                         * @returns Plain object
-                         */
-                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.TableModifiers, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                        /**
-                         * Converts this TableModifiers to JSON.
-                         * @returns JSON object
-                         */
-                        public toJSON(): { [k: string]: any };
-                    }
-
                     /** Properties of an AvroSchema. */
                     interface IAvroSchema {
 
@@ -2247,6 +2055,198 @@ export namespace google {
                          */
                         public toJSON(): { [k: string]: any };
                     }
+
+                    /** Properties of a TableReference. */
+                    interface ITableReference {
+
+                        /** TableReference projectId */
+                        projectId?: (string|null);
+
+                        /** TableReference datasetId */
+                        datasetId?: (string|null);
+
+                        /** TableReference tableId */
+                        tableId?: (string|null);
+                    }
+
+                    /** Represents a TableReference. */
+                    class TableReference implements ITableReference {
+
+                        /**
+                         * Constructs a new TableReference.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.ITableReference);
+
+                        /** TableReference projectId. */
+                        public projectId: string;
+
+                        /** TableReference datasetId. */
+                        public datasetId: string;
+
+                        /** TableReference tableId. */
+                        public tableId: string;
+
+                        /**
+                         * Creates a new TableReference instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns TableReference instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.ITableReference): google.cloud.bigquery.storage.v1beta1.TableReference;
+
+                        /**
+                         * Encodes the specified TableReference message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableReference.verify|verify} messages.
+                         * @param message TableReference message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.ITableReference, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified TableReference message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableReference.verify|verify} messages.
+                         * @param message TableReference message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.ITableReference, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a TableReference message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns TableReference
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.TableReference;
+
+                        /**
+                         * Decodes a TableReference message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns TableReference
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.TableReference;
+
+                        /**
+                         * Verifies a TableReference message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a TableReference message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns TableReference
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.TableReference;
+
+                        /**
+                         * Creates a plain object from a TableReference message. Also converts values to other types if specified.
+                         * @param message TableReference
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.TableReference, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this TableReference to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+                    }
+
+                    /** Properties of a TableModifiers. */
+                    interface ITableModifiers {
+
+                        /** TableModifiers snapshotTime */
+                        snapshotTime?: (google.protobuf.ITimestamp|null);
+                    }
+
+                    /** Represents a TableModifiers. */
+                    class TableModifiers implements ITableModifiers {
+
+                        /**
+                         * Constructs a new TableModifiers.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.ITableModifiers);
+
+                        /** TableModifiers snapshotTime. */
+                        public snapshotTime?: (google.protobuf.ITimestamp|null);
+
+                        /**
+                         * Creates a new TableModifiers instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns TableModifiers instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.ITableModifiers): google.cloud.bigquery.storage.v1beta1.TableModifiers;
+
+                        /**
+                         * Encodes the specified TableModifiers message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableModifiers.verify|verify} messages.
+                         * @param message TableModifiers message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.ITableModifiers, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified TableModifiers message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableModifiers.verify|verify} messages.
+                         * @param message TableModifiers message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.ITableModifiers, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a TableModifiers message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns TableModifiers
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.TableModifiers;
+
+                        /**
+                         * Decodes a TableModifiers message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns TableModifiers
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.TableModifiers;
+
+                        /**
+                         * Verifies a TableModifiers message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a TableModifiers message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns TableModifiers
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.TableModifiers;
+
+                        /**
+                         * Creates a plain object from a TableModifiers message. Also converts values to other types if specified.
+                         * @param message TableModifiers
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.TableModifiers, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this TableModifiers to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+                    }
                 }
             }
         }
@@ -2254,232 +2254,6 @@ export namespace google {
 
     /** Namespace api. */
     namespace api {
-
-        /** Properties of a ResourceDescriptor. */
-        interface IResourceDescriptor {
-
-            /** ResourceDescriptor type */
-            type?: (string|null);
-
-            /** ResourceDescriptor pattern */
-            pattern?: (string[]|null);
-
-            /** ResourceDescriptor nameField */
-            nameField?: (string|null);
-
-            /** ResourceDescriptor history */
-            history?: (google.api.ResourceDescriptor.History|null);
-
-            /** ResourceDescriptor plural */
-            plural?: (string|null);
-
-            /** ResourceDescriptor singular */
-            singular?: (string|null);
-        }
-
-        /** Represents a ResourceDescriptor. */
-        class ResourceDescriptor implements IResourceDescriptor {
-
-            /**
-             * Constructs a new ResourceDescriptor.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: google.api.IResourceDescriptor);
-
-            /** ResourceDescriptor type. */
-            public type: string;
-
-            /** ResourceDescriptor pattern. */
-            public pattern: string[];
-
-            /** ResourceDescriptor nameField. */
-            public nameField: string;
-
-            /** ResourceDescriptor history. */
-            public history: google.api.ResourceDescriptor.History;
-
-            /** ResourceDescriptor plural. */
-            public plural: string;
-
-            /** ResourceDescriptor singular. */
-            public singular: string;
-
-            /**
-             * Creates a new ResourceDescriptor instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns ResourceDescriptor instance
-             */
-            public static create(properties?: google.api.IResourceDescriptor): google.api.ResourceDescriptor;
-
-            /**
-             * Encodes the specified ResourceDescriptor message. Does not implicitly {@link google.api.ResourceDescriptor.verify|verify} messages.
-             * @param message ResourceDescriptor message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encode(message: google.api.IResourceDescriptor, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified ResourceDescriptor message, length delimited. Does not implicitly {@link google.api.ResourceDescriptor.verify|verify} messages.
-             * @param message ResourceDescriptor message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encodeDelimited(message: google.api.IResourceDescriptor, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes a ResourceDescriptor message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns ResourceDescriptor
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.api.ResourceDescriptor;
-
-            /**
-             * Decodes a ResourceDescriptor message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns ResourceDescriptor
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.api.ResourceDescriptor;
-
-            /**
-             * Verifies a ResourceDescriptor message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            public static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates a ResourceDescriptor message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns ResourceDescriptor
-             */
-            public static fromObject(object: { [k: string]: any }): google.api.ResourceDescriptor;
-
-            /**
-             * Creates a plain object from a ResourceDescriptor message. Also converts values to other types if specified.
-             * @param message ResourceDescriptor
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            public static toObject(message: google.api.ResourceDescriptor, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this ResourceDescriptor to JSON.
-             * @returns JSON object
-             */
-            public toJSON(): { [k: string]: any };
-        }
-
-        namespace ResourceDescriptor {
-
-            /** History enum. */
-            enum History {
-                HISTORY_UNSPECIFIED = 0,
-                ORIGINALLY_SINGLE_PATTERN = 1,
-                FUTURE_MULTI_PATTERN = 2
-            }
-        }
-
-        /** Properties of a ResourceReference. */
-        interface IResourceReference {
-
-            /** ResourceReference type */
-            type?: (string|null);
-
-            /** ResourceReference childType */
-            childType?: (string|null);
-        }
-
-        /** Represents a ResourceReference. */
-        class ResourceReference implements IResourceReference {
-
-            /**
-             * Constructs a new ResourceReference.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: google.api.IResourceReference);
-
-            /** ResourceReference type. */
-            public type: string;
-
-            /** ResourceReference childType. */
-            public childType: string;
-
-            /**
-             * Creates a new ResourceReference instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns ResourceReference instance
-             */
-            public static create(properties?: google.api.IResourceReference): google.api.ResourceReference;
-
-            /**
-             * Encodes the specified ResourceReference message. Does not implicitly {@link google.api.ResourceReference.verify|verify} messages.
-             * @param message ResourceReference message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encode(message: google.api.IResourceReference, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified ResourceReference message, length delimited. Does not implicitly {@link google.api.ResourceReference.verify|verify} messages.
-             * @param message ResourceReference message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encodeDelimited(message: google.api.IResourceReference, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes a ResourceReference message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns ResourceReference
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.api.ResourceReference;
-
-            /**
-             * Decodes a ResourceReference message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns ResourceReference
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.api.ResourceReference;
-
-            /**
-             * Verifies a ResourceReference message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            public static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates a ResourceReference message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns ResourceReference
-             */
-            public static fromObject(object: { [k: string]: any }): google.api.ResourceReference;
-
-            /**
-             * Creates a plain object from a ResourceReference message. Also converts values to other types if specified.
-             * @param message ResourceReference
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            public static toObject(message: google.api.ResourceReference, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this ResourceReference to JSON.
-             * @returns JSON object
-             */
-            public toJSON(): { [k: string]: any };
-        }
 
         /** Properties of a Http. */
         interface IHttp {
@@ -2828,6 +2602,232 @@ export namespace google {
             OUTPUT_ONLY = 3,
             INPUT_ONLY = 4,
             IMMUTABLE = 5
+        }
+
+        /** Properties of a ResourceDescriptor. */
+        interface IResourceDescriptor {
+
+            /** ResourceDescriptor type */
+            type?: (string|null);
+
+            /** ResourceDescriptor pattern */
+            pattern?: (string[]|null);
+
+            /** ResourceDescriptor nameField */
+            nameField?: (string|null);
+
+            /** ResourceDescriptor history */
+            history?: (google.api.ResourceDescriptor.History|null);
+
+            /** ResourceDescriptor plural */
+            plural?: (string|null);
+
+            /** ResourceDescriptor singular */
+            singular?: (string|null);
+        }
+
+        /** Represents a ResourceDescriptor. */
+        class ResourceDescriptor implements IResourceDescriptor {
+
+            /**
+             * Constructs a new ResourceDescriptor.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.api.IResourceDescriptor);
+
+            /** ResourceDescriptor type. */
+            public type: string;
+
+            /** ResourceDescriptor pattern. */
+            public pattern: string[];
+
+            /** ResourceDescriptor nameField. */
+            public nameField: string;
+
+            /** ResourceDescriptor history. */
+            public history: google.api.ResourceDescriptor.History;
+
+            /** ResourceDescriptor plural. */
+            public plural: string;
+
+            /** ResourceDescriptor singular. */
+            public singular: string;
+
+            /**
+             * Creates a new ResourceDescriptor instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ResourceDescriptor instance
+             */
+            public static create(properties?: google.api.IResourceDescriptor): google.api.ResourceDescriptor;
+
+            /**
+             * Encodes the specified ResourceDescriptor message. Does not implicitly {@link google.api.ResourceDescriptor.verify|verify} messages.
+             * @param message ResourceDescriptor message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.api.IResourceDescriptor, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ResourceDescriptor message, length delimited. Does not implicitly {@link google.api.ResourceDescriptor.verify|verify} messages.
+             * @param message ResourceDescriptor message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.api.IResourceDescriptor, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ResourceDescriptor message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns ResourceDescriptor
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.api.ResourceDescriptor;
+
+            /**
+             * Decodes a ResourceDescriptor message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns ResourceDescriptor
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.api.ResourceDescriptor;
+
+            /**
+             * Verifies a ResourceDescriptor message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ResourceDescriptor message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ResourceDescriptor
+             */
+            public static fromObject(object: { [k: string]: any }): google.api.ResourceDescriptor;
+
+            /**
+             * Creates a plain object from a ResourceDescriptor message. Also converts values to other types if specified.
+             * @param message ResourceDescriptor
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.api.ResourceDescriptor, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ResourceDescriptor to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        namespace ResourceDescriptor {
+
+            /** History enum. */
+            enum History {
+                HISTORY_UNSPECIFIED = 0,
+                ORIGINALLY_SINGLE_PATTERN = 1,
+                FUTURE_MULTI_PATTERN = 2
+            }
+        }
+
+        /** Properties of a ResourceReference. */
+        interface IResourceReference {
+
+            /** ResourceReference type */
+            type?: (string|null);
+
+            /** ResourceReference childType */
+            childType?: (string|null);
+        }
+
+        /** Represents a ResourceReference. */
+        class ResourceReference implements IResourceReference {
+
+            /**
+             * Constructs a new ResourceReference.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.api.IResourceReference);
+
+            /** ResourceReference type. */
+            public type: string;
+
+            /** ResourceReference childType. */
+            public childType: string;
+
+            /**
+             * Creates a new ResourceReference instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ResourceReference instance
+             */
+            public static create(properties?: google.api.IResourceReference): google.api.ResourceReference;
+
+            /**
+             * Encodes the specified ResourceReference message. Does not implicitly {@link google.api.ResourceReference.verify|verify} messages.
+             * @param message ResourceReference message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.api.IResourceReference, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ResourceReference message, length delimited. Does not implicitly {@link google.api.ResourceReference.verify|verify} messages.
+             * @param message ResourceReference message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.api.IResourceReference, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ResourceReference message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns ResourceReference
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.api.ResourceReference;
+
+            /**
+             * Decodes a ResourceReference message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns ResourceReference
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.api.ResourceReference;
+
+            /**
+             * Verifies a ResourceReference message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ResourceReference message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ResourceReference
+             */
+            public static fromObject(object: { [k: string]: any }): google.api.ResourceReference;
+
+            /**
+             * Creates a plain object from a ResourceReference message. Also converts values to other types if specified.
+             * @param message ResourceReference
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.api.ResourceReference, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ResourceReference to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
         }
     }
 
@@ -4688,11 +4688,11 @@ export namespace google {
             /** FieldOptions uninterpretedOption */
             uninterpretedOption?: (google.protobuf.IUninterpretedOption[]|null);
 
-            /** FieldOptions .google.api.resourceReference */
-            ".google.api.resourceReference"?: (google.api.IResourceReference|null);
-
             /** FieldOptions .google.api.fieldBehavior */
             ".google.api.fieldBehavior"?: (google.api.FieldBehavior[]|null);
+
+            /** FieldOptions .google.api.resourceReference */
+            ".google.api.resourceReference"?: (google.api.IResourceReference|null);
         }
 
         /** Represents a FieldOptions. */

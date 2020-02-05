@@ -11,7 +11,7 @@
                     "v1beta1": {
                       "options": {
                         "go_package": "google.golang.org/genproto/googleapis/cloud/bigquery/storage/v1beta1;storage",
-                        "java_outer_classname": "AvroProto",
+                        "java_outer_classname": "TableReferenceProto",
                         "java_package": "com.google.cloud.bigquery.storage.v1beta1"
                       },
                       "nested": {
@@ -32,30 +32,6 @@
                             "rowCount": {
                               "type": "int64",
                               "id": 2
-                            }
-                          }
-                        },
-                        "TableReference": {
-                          "fields": {
-                            "projectId": {
-                              "type": "string",
-                              "id": 1
-                            },
-                            "datasetId": {
-                              "type": "string",
-                              "id": 2
-                            },
-                            "tableId": {
-                              "type": "string",
-                              "id": 3
-                            }
-                          }
-                        },
-                        "TableModifiers": {
-                          "fields": {
-                            "snapshotTime": {
-                              "type": "google.protobuf.Timestamp",
-                              "id": 1
                             }
                           }
                         },
@@ -412,6 +388,30 @@
                               "id": 2
                             }
                           }
+                        },
+                        "TableReference": {
+                          "fields": {
+                            "projectId": {
+                              "type": "string",
+                              "id": 1
+                            },
+                            "datasetId": {
+                              "type": "string",
+                              "id": 2
+                            },
+                            "tableId": {
+                              "type": "string",
+                              "id": 3
+                            }
+                          }
+                        },
+                        "TableModifiers": {
+                          "fields": {
+                            "snapshotTime": {
+                              "type": "google.protobuf.Timestamp",
+                              "id": 1
+                            }
+                          }
                         }
                       }
                     }
@@ -423,80 +423,14 @@
         },
         "api": {
           "options": {
-            "cc_enable_arenas": true,
             "go_package": "google.golang.org/genproto/googleapis/api/annotations;annotations",
             "java_multiple_files": true,
-            "java_outer_classname": "FieldBehaviorProto",
+            "java_outer_classname": "ResourceProto",
             "java_package": "com.google.api",
-            "objc_class_prefix": "GAPI"
+            "objc_class_prefix": "GAPI",
+            "cc_enable_arenas": true
           },
           "nested": {
-            "resourceReference": {
-              "type": "google.api.ResourceReference",
-              "id": 1055,
-              "extend": "google.protobuf.FieldOptions"
-            },
-            "resourceDefinition": {
-              "rule": "repeated",
-              "type": "google.api.ResourceDescriptor",
-              "id": 1053,
-              "extend": "google.protobuf.FileOptions"
-            },
-            "resource": {
-              "type": "google.api.ResourceDescriptor",
-              "id": 1053,
-              "extend": "google.protobuf.MessageOptions"
-            },
-            "ResourceDescriptor": {
-              "fields": {
-                "type": {
-                  "type": "string",
-                  "id": 1
-                },
-                "pattern": {
-                  "rule": "repeated",
-                  "type": "string",
-                  "id": 2
-                },
-                "nameField": {
-                  "type": "string",
-                  "id": 3
-                },
-                "history": {
-                  "type": "History",
-                  "id": 4
-                },
-                "plural": {
-                  "type": "string",
-                  "id": 5
-                },
-                "singular": {
-                  "type": "string",
-                  "id": 6
-                }
-              },
-              "nested": {
-                "History": {
-                  "values": {
-                    "HISTORY_UNSPECIFIED": 0,
-                    "ORIGINALLY_SINGLE_PATTERN": 1,
-                    "FUTURE_MULTI_PATTERN": 2
-                  }
-                }
-              }
-            },
-            "ResourceReference": {
-              "fields": {
-                "type": {
-                  "type": "string",
-                  "id": 1
-                },
-                "childType": {
-                  "type": "string",
-                  "id": 2
-                }
-              }
-            },
             "http": {
               "type": "HttpRule",
               "id": 72295728,
@@ -614,6 +548,72 @@
                 "OUTPUT_ONLY": 3,
                 "INPUT_ONLY": 4,
                 "IMMUTABLE": 5
+              }
+            },
+            "resourceReference": {
+              "type": "google.api.ResourceReference",
+              "id": 1055,
+              "extend": "google.protobuf.FieldOptions"
+            },
+            "resourceDefinition": {
+              "rule": "repeated",
+              "type": "google.api.ResourceDescriptor",
+              "id": 1053,
+              "extend": "google.protobuf.FileOptions"
+            },
+            "resource": {
+              "type": "google.api.ResourceDescriptor",
+              "id": 1053,
+              "extend": "google.protobuf.MessageOptions"
+            },
+            "ResourceDescriptor": {
+              "fields": {
+                "type": {
+                  "type": "string",
+                  "id": 1
+                },
+                "pattern": {
+                  "rule": "repeated",
+                  "type": "string",
+                  "id": 2
+                },
+                "nameField": {
+                  "type": "string",
+                  "id": 3
+                },
+                "history": {
+                  "type": "History",
+                  "id": 4
+                },
+                "plural": {
+                  "type": "string",
+                  "id": 5
+                },
+                "singular": {
+                  "type": "string",
+                  "id": 6
+                }
+              },
+              "nested": {
+                "History": {
+                  "values": {
+                    "HISTORY_UNSPECIFIED": 0,
+                    "ORIGINALLY_SINGLE_PATTERN": 1,
+                    "FUTURE_MULTI_PATTERN": 2
+                  }
+                }
+              }
+            },
+            "ResourceReference": {
+              "fields": {
+                "type": {
+                  "type": "string",
+                  "id": 1
+                },
+                "childType": {
+                  "type": "string",
+                  "id": 2
+                }
               }
             }
           }

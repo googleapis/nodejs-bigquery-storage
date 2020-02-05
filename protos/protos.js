@@ -504,430 +504,6 @@
                             return ArrowRecordBatch;
                         })();
     
-                        v1beta1.TableReference = (function() {
-    
-                            /**
-                             * Properties of a TableReference.
-                             * @memberof google.cloud.bigquery.storage.v1beta1
-                             * @interface ITableReference
-                             * @property {string|null} [projectId] TableReference projectId
-                             * @property {string|null} [datasetId] TableReference datasetId
-                             * @property {string|null} [tableId] TableReference tableId
-                             */
-    
-                            /**
-                             * Constructs a new TableReference.
-                             * @memberof google.cloud.bigquery.storage.v1beta1
-                             * @classdesc Represents a TableReference.
-                             * @implements ITableReference
-                             * @constructor
-                             * @param {google.cloud.bigquery.storage.v1beta1.ITableReference=} [properties] Properties to set
-                             */
-                            function TableReference(properties) {
-                                if (properties)
-                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                                        if (properties[keys[i]] != null)
-                                            this[keys[i]] = properties[keys[i]];
-                            }
-    
-                            /**
-                             * TableReference projectId.
-                             * @member {string} projectId
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
-                             * @instance
-                             */
-                            TableReference.prototype.projectId = "";
-    
-                            /**
-                             * TableReference datasetId.
-                             * @member {string} datasetId
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
-                             * @instance
-                             */
-                            TableReference.prototype.datasetId = "";
-    
-                            /**
-                             * TableReference tableId.
-                             * @member {string} tableId
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
-                             * @instance
-                             */
-                            TableReference.prototype.tableId = "";
-    
-                            /**
-                             * Creates a new TableReference instance using the specified properties.
-                             * @function create
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
-                             * @static
-                             * @param {google.cloud.bigquery.storage.v1beta1.ITableReference=} [properties] Properties to set
-                             * @returns {google.cloud.bigquery.storage.v1beta1.TableReference} TableReference instance
-                             */
-                            TableReference.create = function create(properties) {
-                                return new TableReference(properties);
-                            };
-    
-                            /**
-                             * Encodes the specified TableReference message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableReference.verify|verify} messages.
-                             * @function encode
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
-                             * @static
-                             * @param {google.cloud.bigquery.storage.v1beta1.ITableReference} message TableReference message or plain object to encode
-                             * @param {$protobuf.Writer} [writer] Writer to encode to
-                             * @returns {$protobuf.Writer} Writer
-                             */
-                            TableReference.encode = function encode(message, writer) {
-                                if (!writer)
-                                    writer = $Writer.create();
-                                if (message.projectId != null && message.hasOwnProperty("projectId"))
-                                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.projectId);
-                                if (message.datasetId != null && message.hasOwnProperty("datasetId"))
-                                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.datasetId);
-                                if (message.tableId != null && message.hasOwnProperty("tableId"))
-                                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.tableId);
-                                return writer;
-                            };
-    
-                            /**
-                             * Encodes the specified TableReference message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableReference.verify|verify} messages.
-                             * @function encodeDelimited
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
-                             * @static
-                             * @param {google.cloud.bigquery.storage.v1beta1.ITableReference} message TableReference message or plain object to encode
-                             * @param {$protobuf.Writer} [writer] Writer to encode to
-                             * @returns {$protobuf.Writer} Writer
-                             */
-                            TableReference.encodeDelimited = function encodeDelimited(message, writer) {
-                                return this.encode(message, writer).ldelim();
-                            };
-    
-                            /**
-                             * Decodes a TableReference message from the specified reader or buffer.
-                             * @function decode
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
-                             * @static
-                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                             * @param {number} [length] Message length if known beforehand
-                             * @returns {google.cloud.bigquery.storage.v1beta1.TableReference} TableReference
-                             * @throws {Error} If the payload is not a reader or valid buffer
-                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                             */
-                            TableReference.decode = function decode(reader, length) {
-                                if (!(reader instanceof $Reader))
-                                    reader = $Reader.create(reader);
-                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1beta1.TableReference();
-                                while (reader.pos < end) {
-                                    var tag = reader.uint32();
-                                    switch (tag >>> 3) {
-                                    case 1:
-                                        message.projectId = reader.string();
-                                        break;
-                                    case 2:
-                                        message.datasetId = reader.string();
-                                        break;
-                                    case 3:
-                                        message.tableId = reader.string();
-                                        break;
-                                    default:
-                                        reader.skipType(tag & 7);
-                                        break;
-                                    }
-                                }
-                                return message;
-                            };
-    
-                            /**
-                             * Decodes a TableReference message from the specified reader or buffer, length delimited.
-                             * @function decodeDelimited
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
-                             * @static
-                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                             * @returns {google.cloud.bigquery.storage.v1beta1.TableReference} TableReference
-                             * @throws {Error} If the payload is not a reader or valid buffer
-                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                             */
-                            TableReference.decodeDelimited = function decodeDelimited(reader) {
-                                if (!(reader instanceof $Reader))
-                                    reader = new $Reader(reader);
-                                return this.decode(reader, reader.uint32());
-                            };
-    
-                            /**
-                             * Verifies a TableReference message.
-                             * @function verify
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
-                             * @static
-                             * @param {Object.<string,*>} message Plain object to verify
-                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                             */
-                            TableReference.verify = function verify(message) {
-                                if (typeof message !== "object" || message === null)
-                                    return "object expected";
-                                if (message.projectId != null && message.hasOwnProperty("projectId"))
-                                    if (!$util.isString(message.projectId))
-                                        return "projectId: string expected";
-                                if (message.datasetId != null && message.hasOwnProperty("datasetId"))
-                                    if (!$util.isString(message.datasetId))
-                                        return "datasetId: string expected";
-                                if (message.tableId != null && message.hasOwnProperty("tableId"))
-                                    if (!$util.isString(message.tableId))
-                                        return "tableId: string expected";
-                                return null;
-                            };
-    
-                            /**
-                             * Creates a TableReference message from a plain object. Also converts values to their respective internal types.
-                             * @function fromObject
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
-                             * @static
-                             * @param {Object.<string,*>} object Plain object
-                             * @returns {google.cloud.bigquery.storage.v1beta1.TableReference} TableReference
-                             */
-                            TableReference.fromObject = function fromObject(object) {
-                                if (object instanceof $root.google.cloud.bigquery.storage.v1beta1.TableReference)
-                                    return object;
-                                var message = new $root.google.cloud.bigquery.storage.v1beta1.TableReference();
-                                if (object.projectId != null)
-                                    message.projectId = String(object.projectId);
-                                if (object.datasetId != null)
-                                    message.datasetId = String(object.datasetId);
-                                if (object.tableId != null)
-                                    message.tableId = String(object.tableId);
-                                return message;
-                            };
-    
-                            /**
-                             * Creates a plain object from a TableReference message. Also converts values to other types if specified.
-                             * @function toObject
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
-                             * @static
-                             * @param {google.cloud.bigquery.storage.v1beta1.TableReference} message TableReference
-                             * @param {$protobuf.IConversionOptions} [options] Conversion options
-                             * @returns {Object.<string,*>} Plain object
-                             */
-                            TableReference.toObject = function toObject(message, options) {
-                                if (!options)
-                                    options = {};
-                                var object = {};
-                                if (options.defaults) {
-                                    object.projectId = "";
-                                    object.datasetId = "";
-                                    object.tableId = "";
-                                }
-                                if (message.projectId != null && message.hasOwnProperty("projectId"))
-                                    object.projectId = message.projectId;
-                                if (message.datasetId != null && message.hasOwnProperty("datasetId"))
-                                    object.datasetId = message.datasetId;
-                                if (message.tableId != null && message.hasOwnProperty("tableId"))
-                                    object.tableId = message.tableId;
-                                return object;
-                            };
-    
-                            /**
-                             * Converts this TableReference to JSON.
-                             * @function toJSON
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
-                             * @instance
-                             * @returns {Object.<string,*>} JSON object
-                             */
-                            TableReference.prototype.toJSON = function toJSON() {
-                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                            };
-    
-                            return TableReference;
-                        })();
-    
-                        v1beta1.TableModifiers = (function() {
-    
-                            /**
-                             * Properties of a TableModifiers.
-                             * @memberof google.cloud.bigquery.storage.v1beta1
-                             * @interface ITableModifiers
-                             * @property {google.protobuf.ITimestamp|null} [snapshotTime] TableModifiers snapshotTime
-                             */
-    
-                            /**
-                             * Constructs a new TableModifiers.
-                             * @memberof google.cloud.bigquery.storage.v1beta1
-                             * @classdesc Represents a TableModifiers.
-                             * @implements ITableModifiers
-                             * @constructor
-                             * @param {google.cloud.bigquery.storage.v1beta1.ITableModifiers=} [properties] Properties to set
-                             */
-                            function TableModifiers(properties) {
-                                if (properties)
-                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                                        if (properties[keys[i]] != null)
-                                            this[keys[i]] = properties[keys[i]];
-                            }
-    
-                            /**
-                             * TableModifiers snapshotTime.
-                             * @member {google.protobuf.ITimestamp|null|undefined} snapshotTime
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
-                             * @instance
-                             */
-                            TableModifiers.prototype.snapshotTime = null;
-    
-                            /**
-                             * Creates a new TableModifiers instance using the specified properties.
-                             * @function create
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
-                             * @static
-                             * @param {google.cloud.bigquery.storage.v1beta1.ITableModifiers=} [properties] Properties to set
-                             * @returns {google.cloud.bigquery.storage.v1beta1.TableModifiers} TableModifiers instance
-                             */
-                            TableModifiers.create = function create(properties) {
-                                return new TableModifiers(properties);
-                            };
-    
-                            /**
-                             * Encodes the specified TableModifiers message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableModifiers.verify|verify} messages.
-                             * @function encode
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
-                             * @static
-                             * @param {google.cloud.bigquery.storage.v1beta1.ITableModifiers} message TableModifiers message or plain object to encode
-                             * @param {$protobuf.Writer} [writer] Writer to encode to
-                             * @returns {$protobuf.Writer} Writer
-                             */
-                            TableModifiers.encode = function encode(message, writer) {
-                                if (!writer)
-                                    writer = $Writer.create();
-                                if (message.snapshotTime != null && message.hasOwnProperty("snapshotTime"))
-                                    $root.google.protobuf.Timestamp.encode(message.snapshotTime, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                                return writer;
-                            };
-    
-                            /**
-                             * Encodes the specified TableModifiers message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableModifiers.verify|verify} messages.
-                             * @function encodeDelimited
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
-                             * @static
-                             * @param {google.cloud.bigquery.storage.v1beta1.ITableModifiers} message TableModifiers message or plain object to encode
-                             * @param {$protobuf.Writer} [writer] Writer to encode to
-                             * @returns {$protobuf.Writer} Writer
-                             */
-                            TableModifiers.encodeDelimited = function encodeDelimited(message, writer) {
-                                return this.encode(message, writer).ldelim();
-                            };
-    
-                            /**
-                             * Decodes a TableModifiers message from the specified reader or buffer.
-                             * @function decode
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
-                             * @static
-                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                             * @param {number} [length] Message length if known beforehand
-                             * @returns {google.cloud.bigquery.storage.v1beta1.TableModifiers} TableModifiers
-                             * @throws {Error} If the payload is not a reader or valid buffer
-                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                             */
-                            TableModifiers.decode = function decode(reader, length) {
-                                if (!(reader instanceof $Reader))
-                                    reader = $Reader.create(reader);
-                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1beta1.TableModifiers();
-                                while (reader.pos < end) {
-                                    var tag = reader.uint32();
-                                    switch (tag >>> 3) {
-                                    case 1:
-                                        message.snapshotTime = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
-                                        break;
-                                    default:
-                                        reader.skipType(tag & 7);
-                                        break;
-                                    }
-                                }
-                                return message;
-                            };
-    
-                            /**
-                             * Decodes a TableModifiers message from the specified reader or buffer, length delimited.
-                             * @function decodeDelimited
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
-                             * @static
-                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                             * @returns {google.cloud.bigquery.storage.v1beta1.TableModifiers} TableModifiers
-                             * @throws {Error} If the payload is not a reader or valid buffer
-                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                             */
-                            TableModifiers.decodeDelimited = function decodeDelimited(reader) {
-                                if (!(reader instanceof $Reader))
-                                    reader = new $Reader(reader);
-                                return this.decode(reader, reader.uint32());
-                            };
-    
-                            /**
-                             * Verifies a TableModifiers message.
-                             * @function verify
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
-                             * @static
-                             * @param {Object.<string,*>} message Plain object to verify
-                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                             */
-                            TableModifiers.verify = function verify(message) {
-                                if (typeof message !== "object" || message === null)
-                                    return "object expected";
-                                if (message.snapshotTime != null && message.hasOwnProperty("snapshotTime")) {
-                                    var error = $root.google.protobuf.Timestamp.verify(message.snapshotTime);
-                                    if (error)
-                                        return "snapshotTime." + error;
-                                }
-                                return null;
-                            };
-    
-                            /**
-                             * Creates a TableModifiers message from a plain object. Also converts values to their respective internal types.
-                             * @function fromObject
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
-                             * @static
-                             * @param {Object.<string,*>} object Plain object
-                             * @returns {google.cloud.bigquery.storage.v1beta1.TableModifiers} TableModifiers
-                             */
-                            TableModifiers.fromObject = function fromObject(object) {
-                                if (object instanceof $root.google.cloud.bigquery.storage.v1beta1.TableModifiers)
-                                    return object;
-                                var message = new $root.google.cloud.bigquery.storage.v1beta1.TableModifiers();
-                                if (object.snapshotTime != null) {
-                                    if (typeof object.snapshotTime !== "object")
-                                        throw TypeError(".google.cloud.bigquery.storage.v1beta1.TableModifiers.snapshotTime: object expected");
-                                    message.snapshotTime = $root.google.protobuf.Timestamp.fromObject(object.snapshotTime);
-                                }
-                                return message;
-                            };
-    
-                            /**
-                             * Creates a plain object from a TableModifiers message. Also converts values to other types if specified.
-                             * @function toObject
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
-                             * @static
-                             * @param {google.cloud.bigquery.storage.v1beta1.TableModifiers} message TableModifiers
-                             * @param {$protobuf.IConversionOptions} [options] Conversion options
-                             * @returns {Object.<string,*>} Plain object
-                             */
-                            TableModifiers.toObject = function toObject(message, options) {
-                                if (!options)
-                                    options = {};
-                                var object = {};
-                                if (options.defaults)
-                                    object.snapshotTime = null;
-                                if (message.snapshotTime != null && message.hasOwnProperty("snapshotTime"))
-                                    object.snapshotTime = $root.google.protobuf.Timestamp.toObject(message.snapshotTime, options);
-                                return object;
-                            };
-    
-                            /**
-                             * Converts this TableModifiers to JSON.
-                             * @function toJSON
-                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
-                             * @instance
-                             * @returns {Object.<string,*>} JSON object
-                             */
-                            TableModifiers.prototype.toJSON = function toJSON() {
-                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                            };
-    
-                            return TableModifiers;
-                        })();
-    
                         v1beta1.AvroSchema = (function() {
     
                             /**
@@ -5276,6 +4852,430 @@
                             return SplitReadStreamResponse;
                         })();
     
+                        v1beta1.TableReference = (function() {
+    
+                            /**
+                             * Properties of a TableReference.
+                             * @memberof google.cloud.bigquery.storage.v1beta1
+                             * @interface ITableReference
+                             * @property {string|null} [projectId] TableReference projectId
+                             * @property {string|null} [datasetId] TableReference datasetId
+                             * @property {string|null} [tableId] TableReference tableId
+                             */
+    
+                            /**
+                             * Constructs a new TableReference.
+                             * @memberof google.cloud.bigquery.storage.v1beta1
+                             * @classdesc Represents a TableReference.
+                             * @implements ITableReference
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1beta1.ITableReference=} [properties] Properties to set
+                             */
+                            function TableReference(properties) {
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * TableReference projectId.
+                             * @member {string} projectId
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
+                             * @instance
+                             */
+                            TableReference.prototype.projectId = "";
+    
+                            /**
+                             * TableReference datasetId.
+                             * @member {string} datasetId
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
+                             * @instance
+                             */
+                            TableReference.prototype.datasetId = "";
+    
+                            /**
+                             * TableReference tableId.
+                             * @member {string} tableId
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
+                             * @instance
+                             */
+                            TableReference.prototype.tableId = "";
+    
+                            /**
+                             * Creates a new TableReference instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1beta1.ITableReference=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1beta1.TableReference} TableReference instance
+                             */
+                            TableReference.create = function create(properties) {
+                                return new TableReference(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified TableReference message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableReference.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1beta1.ITableReference} message TableReference message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            TableReference.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.projectId != null && message.hasOwnProperty("projectId"))
+                                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.projectId);
+                                if (message.datasetId != null && message.hasOwnProperty("datasetId"))
+                                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.datasetId);
+                                if (message.tableId != null && message.hasOwnProperty("tableId"))
+                                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.tableId);
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified TableReference message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableReference.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1beta1.ITableReference} message TableReference message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            TableReference.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a TableReference message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1beta1.TableReference} TableReference
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            TableReference.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1beta1.TableReference();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1:
+                                        message.projectId = reader.string();
+                                        break;
+                                    case 2:
+                                        message.datasetId = reader.string();
+                                        break;
+                                    case 3:
+                                        message.tableId = reader.string();
+                                        break;
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a TableReference message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1beta1.TableReference} TableReference
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            TableReference.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a TableReference message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            TableReference.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.projectId != null && message.hasOwnProperty("projectId"))
+                                    if (!$util.isString(message.projectId))
+                                        return "projectId: string expected";
+                                if (message.datasetId != null && message.hasOwnProperty("datasetId"))
+                                    if (!$util.isString(message.datasetId))
+                                        return "datasetId: string expected";
+                                if (message.tableId != null && message.hasOwnProperty("tableId"))
+                                    if (!$util.isString(message.tableId))
+                                        return "tableId: string expected";
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a TableReference message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1beta1.TableReference} TableReference
+                             */
+                            TableReference.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1beta1.TableReference)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1beta1.TableReference();
+                                if (object.projectId != null)
+                                    message.projectId = String(object.projectId);
+                                if (object.datasetId != null)
+                                    message.datasetId = String(object.datasetId);
+                                if (object.tableId != null)
+                                    message.tableId = String(object.tableId);
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a TableReference message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1beta1.TableReference} message TableReference
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            TableReference.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.defaults) {
+                                    object.projectId = "";
+                                    object.datasetId = "";
+                                    object.tableId = "";
+                                }
+                                if (message.projectId != null && message.hasOwnProperty("projectId"))
+                                    object.projectId = message.projectId;
+                                if (message.datasetId != null && message.hasOwnProperty("datasetId"))
+                                    object.datasetId = message.datasetId;
+                                if (message.tableId != null && message.hasOwnProperty("tableId"))
+                                    object.tableId = message.tableId;
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this TableReference to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableReference
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            TableReference.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            return TableReference;
+                        })();
+    
+                        v1beta1.TableModifiers = (function() {
+    
+                            /**
+                             * Properties of a TableModifiers.
+                             * @memberof google.cloud.bigquery.storage.v1beta1
+                             * @interface ITableModifiers
+                             * @property {google.protobuf.ITimestamp|null} [snapshotTime] TableModifiers snapshotTime
+                             */
+    
+                            /**
+                             * Constructs a new TableModifiers.
+                             * @memberof google.cloud.bigquery.storage.v1beta1
+                             * @classdesc Represents a TableModifiers.
+                             * @implements ITableModifiers
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1beta1.ITableModifiers=} [properties] Properties to set
+                             */
+                            function TableModifiers(properties) {
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * TableModifiers snapshotTime.
+                             * @member {google.protobuf.ITimestamp|null|undefined} snapshotTime
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
+                             * @instance
+                             */
+                            TableModifiers.prototype.snapshotTime = null;
+    
+                            /**
+                             * Creates a new TableModifiers instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1beta1.ITableModifiers=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1beta1.TableModifiers} TableModifiers instance
+                             */
+                            TableModifiers.create = function create(properties) {
+                                return new TableModifiers(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified TableModifiers message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableModifiers.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1beta1.ITableModifiers} message TableModifiers message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            TableModifiers.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.snapshotTime != null && message.hasOwnProperty("snapshotTime"))
+                                    $root.google.protobuf.Timestamp.encode(message.snapshotTime, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified TableModifiers message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableModifiers.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1beta1.ITableModifiers} message TableModifiers message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            TableModifiers.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a TableModifiers message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1beta1.TableModifiers} TableModifiers
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            TableModifiers.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1beta1.TableModifiers();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1:
+                                        message.snapshotTime = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                                        break;
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a TableModifiers message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1beta1.TableModifiers} TableModifiers
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            TableModifiers.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a TableModifiers message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            TableModifiers.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.snapshotTime != null && message.hasOwnProperty("snapshotTime")) {
+                                    var error = $root.google.protobuf.Timestamp.verify(message.snapshotTime);
+                                    if (error)
+                                        return "snapshotTime." + error;
+                                }
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a TableModifiers message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1beta1.TableModifiers} TableModifiers
+                             */
+                            TableModifiers.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1beta1.TableModifiers)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1beta1.TableModifiers();
+                                if (object.snapshotTime != null) {
+                                    if (typeof object.snapshotTime !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1beta1.TableModifiers.snapshotTime: object expected");
+                                    message.snapshotTime = $root.google.protobuf.Timestamp.fromObject(object.snapshotTime);
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a TableModifiers message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1beta1.TableModifiers} message TableModifiers
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            TableModifiers.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.defaults)
+                                    object.snapshotTime = null;
+                                if (message.snapshotTime != null && message.hasOwnProperty("snapshotTime"))
+                                    object.snapshotTime = $root.google.protobuf.Timestamp.toObject(message.snapshotTime, options);
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this TableModifiers to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1beta1.TableModifiers
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            TableModifiers.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            return TableModifiers;
+                        })();
+    
                         return v1beta1;
                     })();
     
@@ -5296,565 +5296,6 @@
              * @namespace
              */
             var api = {};
-    
-            api.ResourceDescriptor = (function() {
-    
-                /**
-                 * Properties of a ResourceDescriptor.
-                 * @memberof google.api
-                 * @interface IResourceDescriptor
-                 * @property {string|null} [type] ResourceDescriptor type
-                 * @property {Array.<string>|null} [pattern] ResourceDescriptor pattern
-                 * @property {string|null} [nameField] ResourceDescriptor nameField
-                 * @property {google.api.ResourceDescriptor.History|null} [history] ResourceDescriptor history
-                 * @property {string|null} [plural] ResourceDescriptor plural
-                 * @property {string|null} [singular] ResourceDescriptor singular
-                 */
-    
-                /**
-                 * Constructs a new ResourceDescriptor.
-                 * @memberof google.api
-                 * @classdesc Represents a ResourceDescriptor.
-                 * @implements IResourceDescriptor
-                 * @constructor
-                 * @param {google.api.IResourceDescriptor=} [properties] Properties to set
-                 */
-                function ResourceDescriptor(properties) {
-                    this.pattern = [];
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-    
-                /**
-                 * ResourceDescriptor type.
-                 * @member {string} type
-                 * @memberof google.api.ResourceDescriptor
-                 * @instance
-                 */
-                ResourceDescriptor.prototype.type = "";
-    
-                /**
-                 * ResourceDescriptor pattern.
-                 * @member {Array.<string>} pattern
-                 * @memberof google.api.ResourceDescriptor
-                 * @instance
-                 */
-                ResourceDescriptor.prototype.pattern = $util.emptyArray;
-    
-                /**
-                 * ResourceDescriptor nameField.
-                 * @member {string} nameField
-                 * @memberof google.api.ResourceDescriptor
-                 * @instance
-                 */
-                ResourceDescriptor.prototype.nameField = "";
-    
-                /**
-                 * ResourceDescriptor history.
-                 * @member {google.api.ResourceDescriptor.History} history
-                 * @memberof google.api.ResourceDescriptor
-                 * @instance
-                 */
-                ResourceDescriptor.prototype.history = 0;
-    
-                /**
-                 * ResourceDescriptor plural.
-                 * @member {string} plural
-                 * @memberof google.api.ResourceDescriptor
-                 * @instance
-                 */
-                ResourceDescriptor.prototype.plural = "";
-    
-                /**
-                 * ResourceDescriptor singular.
-                 * @member {string} singular
-                 * @memberof google.api.ResourceDescriptor
-                 * @instance
-                 */
-                ResourceDescriptor.prototype.singular = "";
-    
-                /**
-                 * Creates a new ResourceDescriptor instance using the specified properties.
-                 * @function create
-                 * @memberof google.api.ResourceDescriptor
-                 * @static
-                 * @param {google.api.IResourceDescriptor=} [properties] Properties to set
-                 * @returns {google.api.ResourceDescriptor} ResourceDescriptor instance
-                 */
-                ResourceDescriptor.create = function create(properties) {
-                    return new ResourceDescriptor(properties);
-                };
-    
-                /**
-                 * Encodes the specified ResourceDescriptor message. Does not implicitly {@link google.api.ResourceDescriptor.verify|verify} messages.
-                 * @function encode
-                 * @memberof google.api.ResourceDescriptor
-                 * @static
-                 * @param {google.api.IResourceDescriptor} message ResourceDescriptor message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                ResourceDescriptor.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.type != null && message.hasOwnProperty("type"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.type);
-                    if (message.pattern != null && message.pattern.length)
-                        for (var i = 0; i < message.pattern.length; ++i)
-                            writer.uint32(/* id 2, wireType 2 =*/18).string(message.pattern[i]);
-                    if (message.nameField != null && message.hasOwnProperty("nameField"))
-                        writer.uint32(/* id 3, wireType 2 =*/26).string(message.nameField);
-                    if (message.history != null && message.hasOwnProperty("history"))
-                        writer.uint32(/* id 4, wireType 0 =*/32).int32(message.history);
-                    if (message.plural != null && message.hasOwnProperty("plural"))
-                        writer.uint32(/* id 5, wireType 2 =*/42).string(message.plural);
-                    if (message.singular != null && message.hasOwnProperty("singular"))
-                        writer.uint32(/* id 6, wireType 2 =*/50).string(message.singular);
-                    return writer;
-                };
-    
-                /**
-                 * Encodes the specified ResourceDescriptor message, length delimited. Does not implicitly {@link google.api.ResourceDescriptor.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof google.api.ResourceDescriptor
-                 * @static
-                 * @param {google.api.IResourceDescriptor} message ResourceDescriptor message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                ResourceDescriptor.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-    
-                /**
-                 * Decodes a ResourceDescriptor message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof google.api.ResourceDescriptor
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {google.api.ResourceDescriptor} ResourceDescriptor
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                ResourceDescriptor.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.api.ResourceDescriptor();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.type = reader.string();
-                            break;
-                        case 2:
-                            if (!(message.pattern && message.pattern.length))
-                                message.pattern = [];
-                            message.pattern.push(reader.string());
-                            break;
-                        case 3:
-                            message.nameField = reader.string();
-                            break;
-                        case 4:
-                            message.history = reader.int32();
-                            break;
-                        case 5:
-                            message.plural = reader.string();
-                            break;
-                        case 6:
-                            message.singular = reader.string();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-    
-                /**
-                 * Decodes a ResourceDescriptor message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof google.api.ResourceDescriptor
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {google.api.ResourceDescriptor} ResourceDescriptor
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                ResourceDescriptor.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-    
-                /**
-                 * Verifies a ResourceDescriptor message.
-                 * @function verify
-                 * @memberof google.api.ResourceDescriptor
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                ResourceDescriptor.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.type != null && message.hasOwnProperty("type"))
-                        if (!$util.isString(message.type))
-                            return "type: string expected";
-                    if (message.pattern != null && message.hasOwnProperty("pattern")) {
-                        if (!Array.isArray(message.pattern))
-                            return "pattern: array expected";
-                        for (var i = 0; i < message.pattern.length; ++i)
-                            if (!$util.isString(message.pattern[i]))
-                                return "pattern: string[] expected";
-                    }
-                    if (message.nameField != null && message.hasOwnProperty("nameField"))
-                        if (!$util.isString(message.nameField))
-                            return "nameField: string expected";
-                    if (message.history != null && message.hasOwnProperty("history"))
-                        switch (message.history) {
-                        default:
-                            return "history: enum value expected";
-                        case 0:
-                        case 1:
-                        case 2:
-                            break;
-                        }
-                    if (message.plural != null && message.hasOwnProperty("plural"))
-                        if (!$util.isString(message.plural))
-                            return "plural: string expected";
-                    if (message.singular != null && message.hasOwnProperty("singular"))
-                        if (!$util.isString(message.singular))
-                            return "singular: string expected";
-                    return null;
-                };
-    
-                /**
-                 * Creates a ResourceDescriptor message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof google.api.ResourceDescriptor
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {google.api.ResourceDescriptor} ResourceDescriptor
-                 */
-                ResourceDescriptor.fromObject = function fromObject(object) {
-                    if (object instanceof $root.google.api.ResourceDescriptor)
-                        return object;
-                    var message = new $root.google.api.ResourceDescriptor();
-                    if (object.type != null)
-                        message.type = String(object.type);
-                    if (object.pattern) {
-                        if (!Array.isArray(object.pattern))
-                            throw TypeError(".google.api.ResourceDescriptor.pattern: array expected");
-                        message.pattern = [];
-                        for (var i = 0; i < object.pattern.length; ++i)
-                            message.pattern[i] = String(object.pattern[i]);
-                    }
-                    if (object.nameField != null)
-                        message.nameField = String(object.nameField);
-                    switch (object.history) {
-                    case "HISTORY_UNSPECIFIED":
-                    case 0:
-                        message.history = 0;
-                        break;
-                    case "ORIGINALLY_SINGLE_PATTERN":
-                    case 1:
-                        message.history = 1;
-                        break;
-                    case "FUTURE_MULTI_PATTERN":
-                    case 2:
-                        message.history = 2;
-                        break;
-                    }
-                    if (object.plural != null)
-                        message.plural = String(object.plural);
-                    if (object.singular != null)
-                        message.singular = String(object.singular);
-                    return message;
-                };
-    
-                /**
-                 * Creates a plain object from a ResourceDescriptor message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof google.api.ResourceDescriptor
-                 * @static
-                 * @param {google.api.ResourceDescriptor} message ResourceDescriptor
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                ResourceDescriptor.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.arrays || options.defaults)
-                        object.pattern = [];
-                    if (options.defaults) {
-                        object.type = "";
-                        object.nameField = "";
-                        object.history = options.enums === String ? "HISTORY_UNSPECIFIED" : 0;
-                        object.plural = "";
-                        object.singular = "";
-                    }
-                    if (message.type != null && message.hasOwnProperty("type"))
-                        object.type = message.type;
-                    if (message.pattern && message.pattern.length) {
-                        object.pattern = [];
-                        for (var j = 0; j < message.pattern.length; ++j)
-                            object.pattern[j] = message.pattern[j];
-                    }
-                    if (message.nameField != null && message.hasOwnProperty("nameField"))
-                        object.nameField = message.nameField;
-                    if (message.history != null && message.hasOwnProperty("history"))
-                        object.history = options.enums === String ? $root.google.api.ResourceDescriptor.History[message.history] : message.history;
-                    if (message.plural != null && message.hasOwnProperty("plural"))
-                        object.plural = message.plural;
-                    if (message.singular != null && message.hasOwnProperty("singular"))
-                        object.singular = message.singular;
-                    return object;
-                };
-    
-                /**
-                 * Converts this ResourceDescriptor to JSON.
-                 * @function toJSON
-                 * @memberof google.api.ResourceDescriptor
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                ResourceDescriptor.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-    
-                /**
-                 * History enum.
-                 * @name google.api.ResourceDescriptor.History
-                 * @enum {string}
-                 * @property {number} HISTORY_UNSPECIFIED=0 HISTORY_UNSPECIFIED value
-                 * @property {number} ORIGINALLY_SINGLE_PATTERN=1 ORIGINALLY_SINGLE_PATTERN value
-                 * @property {number} FUTURE_MULTI_PATTERN=2 FUTURE_MULTI_PATTERN value
-                 */
-                ResourceDescriptor.History = (function() {
-                    var valuesById = {}, values = Object.create(valuesById);
-                    values[valuesById[0] = "HISTORY_UNSPECIFIED"] = 0;
-                    values[valuesById[1] = "ORIGINALLY_SINGLE_PATTERN"] = 1;
-                    values[valuesById[2] = "FUTURE_MULTI_PATTERN"] = 2;
-                    return values;
-                })();
-    
-                return ResourceDescriptor;
-            })();
-    
-            api.ResourceReference = (function() {
-    
-                /**
-                 * Properties of a ResourceReference.
-                 * @memberof google.api
-                 * @interface IResourceReference
-                 * @property {string|null} [type] ResourceReference type
-                 * @property {string|null} [childType] ResourceReference childType
-                 */
-    
-                /**
-                 * Constructs a new ResourceReference.
-                 * @memberof google.api
-                 * @classdesc Represents a ResourceReference.
-                 * @implements IResourceReference
-                 * @constructor
-                 * @param {google.api.IResourceReference=} [properties] Properties to set
-                 */
-                function ResourceReference(properties) {
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-    
-                /**
-                 * ResourceReference type.
-                 * @member {string} type
-                 * @memberof google.api.ResourceReference
-                 * @instance
-                 */
-                ResourceReference.prototype.type = "";
-    
-                /**
-                 * ResourceReference childType.
-                 * @member {string} childType
-                 * @memberof google.api.ResourceReference
-                 * @instance
-                 */
-                ResourceReference.prototype.childType = "";
-    
-                /**
-                 * Creates a new ResourceReference instance using the specified properties.
-                 * @function create
-                 * @memberof google.api.ResourceReference
-                 * @static
-                 * @param {google.api.IResourceReference=} [properties] Properties to set
-                 * @returns {google.api.ResourceReference} ResourceReference instance
-                 */
-                ResourceReference.create = function create(properties) {
-                    return new ResourceReference(properties);
-                };
-    
-                /**
-                 * Encodes the specified ResourceReference message. Does not implicitly {@link google.api.ResourceReference.verify|verify} messages.
-                 * @function encode
-                 * @memberof google.api.ResourceReference
-                 * @static
-                 * @param {google.api.IResourceReference} message ResourceReference message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                ResourceReference.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.type != null && message.hasOwnProperty("type"))
-                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.type);
-                    if (message.childType != null && message.hasOwnProperty("childType"))
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.childType);
-                    return writer;
-                };
-    
-                /**
-                 * Encodes the specified ResourceReference message, length delimited. Does not implicitly {@link google.api.ResourceReference.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof google.api.ResourceReference
-                 * @static
-                 * @param {google.api.IResourceReference} message ResourceReference message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                ResourceReference.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-    
-                /**
-                 * Decodes a ResourceReference message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof google.api.ResourceReference
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {google.api.ResourceReference} ResourceReference
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                ResourceReference.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.api.ResourceReference();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.type = reader.string();
-                            break;
-                        case 2:
-                            message.childType = reader.string();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-    
-                /**
-                 * Decodes a ResourceReference message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof google.api.ResourceReference
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {google.api.ResourceReference} ResourceReference
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                ResourceReference.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-    
-                /**
-                 * Verifies a ResourceReference message.
-                 * @function verify
-                 * @memberof google.api.ResourceReference
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                ResourceReference.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.type != null && message.hasOwnProperty("type"))
-                        if (!$util.isString(message.type))
-                            return "type: string expected";
-                    if (message.childType != null && message.hasOwnProperty("childType"))
-                        if (!$util.isString(message.childType))
-                            return "childType: string expected";
-                    return null;
-                };
-    
-                /**
-                 * Creates a ResourceReference message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof google.api.ResourceReference
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {google.api.ResourceReference} ResourceReference
-                 */
-                ResourceReference.fromObject = function fromObject(object) {
-                    if (object instanceof $root.google.api.ResourceReference)
-                        return object;
-                    var message = new $root.google.api.ResourceReference();
-                    if (object.type != null)
-                        message.type = String(object.type);
-                    if (object.childType != null)
-                        message.childType = String(object.childType);
-                    return message;
-                };
-    
-                /**
-                 * Creates a plain object from a ResourceReference message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof google.api.ResourceReference
-                 * @static
-                 * @param {google.api.ResourceReference} message ResourceReference
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                ResourceReference.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.defaults) {
-                        object.type = "";
-                        object.childType = "";
-                    }
-                    if (message.type != null && message.hasOwnProperty("type"))
-                        object.type = message.type;
-                    if (message.childType != null && message.hasOwnProperty("childType"))
-                        object.childType = message.childType;
-                    return object;
-                };
-    
-                /**
-                 * Converts this ResourceReference to JSON.
-                 * @function toJSON
-                 * @memberof google.api.ResourceReference
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                ResourceReference.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-    
-                return ResourceReference;
-            })();
     
             api.Http = (function() {
     
@@ -6780,6 +6221,565 @@
                 values[valuesById[4] = "INPUT_ONLY"] = 4;
                 values[valuesById[5] = "IMMUTABLE"] = 5;
                 return values;
+            })();
+    
+            api.ResourceDescriptor = (function() {
+    
+                /**
+                 * Properties of a ResourceDescriptor.
+                 * @memberof google.api
+                 * @interface IResourceDescriptor
+                 * @property {string|null} [type] ResourceDescriptor type
+                 * @property {Array.<string>|null} [pattern] ResourceDescriptor pattern
+                 * @property {string|null} [nameField] ResourceDescriptor nameField
+                 * @property {google.api.ResourceDescriptor.History|null} [history] ResourceDescriptor history
+                 * @property {string|null} [plural] ResourceDescriptor plural
+                 * @property {string|null} [singular] ResourceDescriptor singular
+                 */
+    
+                /**
+                 * Constructs a new ResourceDescriptor.
+                 * @memberof google.api
+                 * @classdesc Represents a ResourceDescriptor.
+                 * @implements IResourceDescriptor
+                 * @constructor
+                 * @param {google.api.IResourceDescriptor=} [properties] Properties to set
+                 */
+                function ResourceDescriptor(properties) {
+                    this.pattern = [];
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+    
+                /**
+                 * ResourceDescriptor type.
+                 * @member {string} type
+                 * @memberof google.api.ResourceDescriptor
+                 * @instance
+                 */
+                ResourceDescriptor.prototype.type = "";
+    
+                /**
+                 * ResourceDescriptor pattern.
+                 * @member {Array.<string>} pattern
+                 * @memberof google.api.ResourceDescriptor
+                 * @instance
+                 */
+                ResourceDescriptor.prototype.pattern = $util.emptyArray;
+    
+                /**
+                 * ResourceDescriptor nameField.
+                 * @member {string} nameField
+                 * @memberof google.api.ResourceDescriptor
+                 * @instance
+                 */
+                ResourceDescriptor.prototype.nameField = "";
+    
+                /**
+                 * ResourceDescriptor history.
+                 * @member {google.api.ResourceDescriptor.History} history
+                 * @memberof google.api.ResourceDescriptor
+                 * @instance
+                 */
+                ResourceDescriptor.prototype.history = 0;
+    
+                /**
+                 * ResourceDescriptor plural.
+                 * @member {string} plural
+                 * @memberof google.api.ResourceDescriptor
+                 * @instance
+                 */
+                ResourceDescriptor.prototype.plural = "";
+    
+                /**
+                 * ResourceDescriptor singular.
+                 * @member {string} singular
+                 * @memberof google.api.ResourceDescriptor
+                 * @instance
+                 */
+                ResourceDescriptor.prototype.singular = "";
+    
+                /**
+                 * Creates a new ResourceDescriptor instance using the specified properties.
+                 * @function create
+                 * @memberof google.api.ResourceDescriptor
+                 * @static
+                 * @param {google.api.IResourceDescriptor=} [properties] Properties to set
+                 * @returns {google.api.ResourceDescriptor} ResourceDescriptor instance
+                 */
+                ResourceDescriptor.create = function create(properties) {
+                    return new ResourceDescriptor(properties);
+                };
+    
+                /**
+                 * Encodes the specified ResourceDescriptor message. Does not implicitly {@link google.api.ResourceDescriptor.verify|verify} messages.
+                 * @function encode
+                 * @memberof google.api.ResourceDescriptor
+                 * @static
+                 * @param {google.api.IResourceDescriptor} message ResourceDescriptor message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ResourceDescriptor.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.type != null && message.hasOwnProperty("type"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.type);
+                    if (message.pattern != null && message.pattern.length)
+                        for (var i = 0; i < message.pattern.length; ++i)
+                            writer.uint32(/* id 2, wireType 2 =*/18).string(message.pattern[i]);
+                    if (message.nameField != null && message.hasOwnProperty("nameField"))
+                        writer.uint32(/* id 3, wireType 2 =*/26).string(message.nameField);
+                    if (message.history != null && message.hasOwnProperty("history"))
+                        writer.uint32(/* id 4, wireType 0 =*/32).int32(message.history);
+                    if (message.plural != null && message.hasOwnProperty("plural"))
+                        writer.uint32(/* id 5, wireType 2 =*/42).string(message.plural);
+                    if (message.singular != null && message.hasOwnProperty("singular"))
+                        writer.uint32(/* id 6, wireType 2 =*/50).string(message.singular);
+                    return writer;
+                };
+    
+                /**
+                 * Encodes the specified ResourceDescriptor message, length delimited. Does not implicitly {@link google.api.ResourceDescriptor.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof google.api.ResourceDescriptor
+                 * @static
+                 * @param {google.api.IResourceDescriptor} message ResourceDescriptor message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ResourceDescriptor.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+    
+                /**
+                 * Decodes a ResourceDescriptor message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof google.api.ResourceDescriptor
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {google.api.ResourceDescriptor} ResourceDescriptor
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ResourceDescriptor.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.api.ResourceDescriptor();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            message.type = reader.string();
+                            break;
+                        case 2:
+                            if (!(message.pattern && message.pattern.length))
+                                message.pattern = [];
+                            message.pattern.push(reader.string());
+                            break;
+                        case 3:
+                            message.nameField = reader.string();
+                            break;
+                        case 4:
+                            message.history = reader.int32();
+                            break;
+                        case 5:
+                            message.plural = reader.string();
+                            break;
+                        case 6:
+                            message.singular = reader.string();
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+    
+                /**
+                 * Decodes a ResourceDescriptor message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof google.api.ResourceDescriptor
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {google.api.ResourceDescriptor} ResourceDescriptor
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ResourceDescriptor.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+    
+                /**
+                 * Verifies a ResourceDescriptor message.
+                 * @function verify
+                 * @memberof google.api.ResourceDescriptor
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                ResourceDescriptor.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.type != null && message.hasOwnProperty("type"))
+                        if (!$util.isString(message.type))
+                            return "type: string expected";
+                    if (message.pattern != null && message.hasOwnProperty("pattern")) {
+                        if (!Array.isArray(message.pattern))
+                            return "pattern: array expected";
+                        for (var i = 0; i < message.pattern.length; ++i)
+                            if (!$util.isString(message.pattern[i]))
+                                return "pattern: string[] expected";
+                    }
+                    if (message.nameField != null && message.hasOwnProperty("nameField"))
+                        if (!$util.isString(message.nameField))
+                            return "nameField: string expected";
+                    if (message.history != null && message.hasOwnProperty("history"))
+                        switch (message.history) {
+                        default:
+                            return "history: enum value expected";
+                        case 0:
+                        case 1:
+                        case 2:
+                            break;
+                        }
+                    if (message.plural != null && message.hasOwnProperty("plural"))
+                        if (!$util.isString(message.plural))
+                            return "plural: string expected";
+                    if (message.singular != null && message.hasOwnProperty("singular"))
+                        if (!$util.isString(message.singular))
+                            return "singular: string expected";
+                    return null;
+                };
+    
+                /**
+                 * Creates a ResourceDescriptor message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof google.api.ResourceDescriptor
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {google.api.ResourceDescriptor} ResourceDescriptor
+                 */
+                ResourceDescriptor.fromObject = function fromObject(object) {
+                    if (object instanceof $root.google.api.ResourceDescriptor)
+                        return object;
+                    var message = new $root.google.api.ResourceDescriptor();
+                    if (object.type != null)
+                        message.type = String(object.type);
+                    if (object.pattern) {
+                        if (!Array.isArray(object.pattern))
+                            throw TypeError(".google.api.ResourceDescriptor.pattern: array expected");
+                        message.pattern = [];
+                        for (var i = 0; i < object.pattern.length; ++i)
+                            message.pattern[i] = String(object.pattern[i]);
+                    }
+                    if (object.nameField != null)
+                        message.nameField = String(object.nameField);
+                    switch (object.history) {
+                    case "HISTORY_UNSPECIFIED":
+                    case 0:
+                        message.history = 0;
+                        break;
+                    case "ORIGINALLY_SINGLE_PATTERN":
+                    case 1:
+                        message.history = 1;
+                        break;
+                    case "FUTURE_MULTI_PATTERN":
+                    case 2:
+                        message.history = 2;
+                        break;
+                    }
+                    if (object.plural != null)
+                        message.plural = String(object.plural);
+                    if (object.singular != null)
+                        message.singular = String(object.singular);
+                    return message;
+                };
+    
+                /**
+                 * Creates a plain object from a ResourceDescriptor message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof google.api.ResourceDescriptor
+                 * @static
+                 * @param {google.api.ResourceDescriptor} message ResourceDescriptor
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                ResourceDescriptor.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.arrays || options.defaults)
+                        object.pattern = [];
+                    if (options.defaults) {
+                        object.type = "";
+                        object.nameField = "";
+                        object.history = options.enums === String ? "HISTORY_UNSPECIFIED" : 0;
+                        object.plural = "";
+                        object.singular = "";
+                    }
+                    if (message.type != null && message.hasOwnProperty("type"))
+                        object.type = message.type;
+                    if (message.pattern && message.pattern.length) {
+                        object.pattern = [];
+                        for (var j = 0; j < message.pattern.length; ++j)
+                            object.pattern[j] = message.pattern[j];
+                    }
+                    if (message.nameField != null && message.hasOwnProperty("nameField"))
+                        object.nameField = message.nameField;
+                    if (message.history != null && message.hasOwnProperty("history"))
+                        object.history = options.enums === String ? $root.google.api.ResourceDescriptor.History[message.history] : message.history;
+                    if (message.plural != null && message.hasOwnProperty("plural"))
+                        object.plural = message.plural;
+                    if (message.singular != null && message.hasOwnProperty("singular"))
+                        object.singular = message.singular;
+                    return object;
+                };
+    
+                /**
+                 * Converts this ResourceDescriptor to JSON.
+                 * @function toJSON
+                 * @memberof google.api.ResourceDescriptor
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                ResourceDescriptor.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+    
+                /**
+                 * History enum.
+                 * @name google.api.ResourceDescriptor.History
+                 * @enum {string}
+                 * @property {number} HISTORY_UNSPECIFIED=0 HISTORY_UNSPECIFIED value
+                 * @property {number} ORIGINALLY_SINGLE_PATTERN=1 ORIGINALLY_SINGLE_PATTERN value
+                 * @property {number} FUTURE_MULTI_PATTERN=2 FUTURE_MULTI_PATTERN value
+                 */
+                ResourceDescriptor.History = (function() {
+                    var valuesById = {}, values = Object.create(valuesById);
+                    values[valuesById[0] = "HISTORY_UNSPECIFIED"] = 0;
+                    values[valuesById[1] = "ORIGINALLY_SINGLE_PATTERN"] = 1;
+                    values[valuesById[2] = "FUTURE_MULTI_PATTERN"] = 2;
+                    return values;
+                })();
+    
+                return ResourceDescriptor;
+            })();
+    
+            api.ResourceReference = (function() {
+    
+                /**
+                 * Properties of a ResourceReference.
+                 * @memberof google.api
+                 * @interface IResourceReference
+                 * @property {string|null} [type] ResourceReference type
+                 * @property {string|null} [childType] ResourceReference childType
+                 */
+    
+                /**
+                 * Constructs a new ResourceReference.
+                 * @memberof google.api
+                 * @classdesc Represents a ResourceReference.
+                 * @implements IResourceReference
+                 * @constructor
+                 * @param {google.api.IResourceReference=} [properties] Properties to set
+                 */
+                function ResourceReference(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+    
+                /**
+                 * ResourceReference type.
+                 * @member {string} type
+                 * @memberof google.api.ResourceReference
+                 * @instance
+                 */
+                ResourceReference.prototype.type = "";
+    
+                /**
+                 * ResourceReference childType.
+                 * @member {string} childType
+                 * @memberof google.api.ResourceReference
+                 * @instance
+                 */
+                ResourceReference.prototype.childType = "";
+    
+                /**
+                 * Creates a new ResourceReference instance using the specified properties.
+                 * @function create
+                 * @memberof google.api.ResourceReference
+                 * @static
+                 * @param {google.api.IResourceReference=} [properties] Properties to set
+                 * @returns {google.api.ResourceReference} ResourceReference instance
+                 */
+                ResourceReference.create = function create(properties) {
+                    return new ResourceReference(properties);
+                };
+    
+                /**
+                 * Encodes the specified ResourceReference message. Does not implicitly {@link google.api.ResourceReference.verify|verify} messages.
+                 * @function encode
+                 * @memberof google.api.ResourceReference
+                 * @static
+                 * @param {google.api.IResourceReference} message ResourceReference message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ResourceReference.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.type != null && message.hasOwnProperty("type"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.type);
+                    if (message.childType != null && message.hasOwnProperty("childType"))
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.childType);
+                    return writer;
+                };
+    
+                /**
+                 * Encodes the specified ResourceReference message, length delimited. Does not implicitly {@link google.api.ResourceReference.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof google.api.ResourceReference
+                 * @static
+                 * @param {google.api.IResourceReference} message ResourceReference message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ResourceReference.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+    
+                /**
+                 * Decodes a ResourceReference message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof google.api.ResourceReference
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {google.api.ResourceReference} ResourceReference
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ResourceReference.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.api.ResourceReference();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1:
+                            message.type = reader.string();
+                            break;
+                        case 2:
+                            message.childType = reader.string();
+                            break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+    
+                /**
+                 * Decodes a ResourceReference message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof google.api.ResourceReference
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {google.api.ResourceReference} ResourceReference
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ResourceReference.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+    
+                /**
+                 * Verifies a ResourceReference message.
+                 * @function verify
+                 * @memberof google.api.ResourceReference
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                ResourceReference.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.type != null && message.hasOwnProperty("type"))
+                        if (!$util.isString(message.type))
+                            return "type: string expected";
+                    if (message.childType != null && message.hasOwnProperty("childType"))
+                        if (!$util.isString(message.childType))
+                            return "childType: string expected";
+                    return null;
+                };
+    
+                /**
+                 * Creates a ResourceReference message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof google.api.ResourceReference
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {google.api.ResourceReference} ResourceReference
+                 */
+                ResourceReference.fromObject = function fromObject(object) {
+                    if (object instanceof $root.google.api.ResourceReference)
+                        return object;
+                    var message = new $root.google.api.ResourceReference();
+                    if (object.type != null)
+                        message.type = String(object.type);
+                    if (object.childType != null)
+                        message.childType = String(object.childType);
+                    return message;
+                };
+    
+                /**
+                 * Creates a plain object from a ResourceReference message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof google.api.ResourceReference
+                 * @static
+                 * @param {google.api.ResourceReference} message ResourceReference
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                ResourceReference.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.defaults) {
+                        object.type = "";
+                        object.childType = "";
+                    }
+                    if (message.type != null && message.hasOwnProperty("type"))
+                        object.type = message.type;
+                    if (message.childType != null && message.hasOwnProperty("childType"))
+                        object.childType = message.childType;
+                    return object;
+                };
+    
+                /**
+                 * Converts this ResourceReference to JSON.
+                 * @function toJSON
+                 * @memberof google.api.ResourceReference
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                ResourceReference.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+    
+                return ResourceReference;
             })();
     
             return api;
@@ -11992,8 +11992,8 @@
                  * @property {boolean|null} [deprecated] FieldOptions deprecated
                  * @property {boolean|null} [weak] FieldOptions weak
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpretedOption] FieldOptions uninterpretedOption
-                 * @property {google.api.IResourceReference|null} [".google.api.resourceReference"] FieldOptions .google.api.resourceReference
                  * @property {Array.<google.api.FieldBehavior>|null} [".google.api.fieldBehavior"] FieldOptions .google.api.fieldBehavior
+                 * @property {google.api.IResourceReference|null} [".google.api.resourceReference"] FieldOptions .google.api.resourceReference
                  */
     
                 /**
@@ -12070,20 +12070,20 @@
                 FieldOptions.prototype.uninterpretedOption = $util.emptyArray;
     
                 /**
-                 * FieldOptions .google.api.resourceReference.
-                 * @member {google.api.IResourceReference|null|undefined} .google.api.resourceReference
-                 * @memberof google.protobuf.FieldOptions
-                 * @instance
-                 */
-                FieldOptions.prototype[".google.api.resourceReference"] = null;
-    
-                /**
                  * FieldOptions .google.api.fieldBehavior.
                  * @member {Array.<google.api.FieldBehavior>} .google.api.fieldBehavior
                  * @memberof google.protobuf.FieldOptions
                  * @instance
                  */
                 FieldOptions.prototype[".google.api.fieldBehavior"] = $util.emptyArray;
+    
+                /**
+                 * FieldOptions .google.api.resourceReference.
+                 * @member {google.api.IResourceReference|null|undefined} .google.api.resourceReference
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".google.api.resourceReference"] = null;
     
                 /**
                  * Creates a new FieldOptions instance using the specified properties.
@@ -12189,9 +12189,6 @@
                                 message.uninterpretedOption = [];
                             message.uninterpretedOption.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32()));
                             break;
-                        case 1055:
-                            message[".google.api.resourceReference"] = $root.google.api.ResourceReference.decode(reader, reader.uint32());
-                            break;
                         case 1052:
                             if (!(message[".google.api.fieldBehavior"] && message[".google.api.fieldBehavior"].length))
                                 message[".google.api.fieldBehavior"] = [];
@@ -12201,6 +12198,9 @@
                                     message[".google.api.fieldBehavior"].push(reader.int32());
                             } else
                                 message[".google.api.fieldBehavior"].push(reader.int32());
+                            break;
+                        case 1055:
+                            message[".google.api.resourceReference"] = $root.google.api.ResourceReference.decode(reader, reader.uint32());
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -12276,11 +12276,6 @@
                                 return "uninterpretedOption." + error;
                         }
                     }
-                    if (message[".google.api.resourceReference"] != null && message.hasOwnProperty(".google.api.resourceReference")) {
-                        var error = $root.google.api.ResourceReference.verify(message[".google.api.resourceReference"]);
-                        if (error)
-                            return ".google.api.resourceReference." + error;
-                    }
                     if (message[".google.api.fieldBehavior"] != null && message.hasOwnProperty(".google.api.fieldBehavior")) {
                         if (!Array.isArray(message[".google.api.fieldBehavior"]))
                             return ".google.api.fieldBehavior: array expected";
@@ -12296,6 +12291,11 @@
                             case 5:
                                 break;
                             }
+                    }
+                    if (message[".google.api.resourceReference"] != null && message.hasOwnProperty(".google.api.resourceReference")) {
+                        var error = $root.google.api.ResourceReference.verify(message[".google.api.resourceReference"]);
+                        if (error)
+                            return ".google.api.resourceReference." + error;
                     }
                     return null;
                 };
@@ -12358,11 +12358,6 @@
                             message.uninterpretedOption[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpretedOption[i]);
                         }
                     }
-                    if (object[".google.api.resourceReference"] != null) {
-                        if (typeof object[".google.api.resourceReference"] !== "object")
-                            throw TypeError(".google.protobuf.FieldOptions..google.api.resourceReference: object expected");
-                        message[".google.api.resourceReference"] = $root.google.api.ResourceReference.fromObject(object[".google.api.resourceReference"]);
-                    }
                     if (object[".google.api.fieldBehavior"]) {
                         if (!Array.isArray(object[".google.api.fieldBehavior"]))
                             throw TypeError(".google.protobuf.FieldOptions..google.api.fieldBehavior: array expected");
@@ -12395,6 +12390,11 @@
                                 message[".google.api.fieldBehavior"][i] = 5;
                                 break;
                             }
+                    }
+                    if (object[".google.api.resourceReference"] != null) {
+                        if (typeof object[".google.api.resourceReference"] !== "object")
+                            throw TypeError(".google.protobuf.FieldOptions..google.api.resourceReference: object expected");
+                        message[".google.api.resourceReference"] = $root.google.api.ResourceReference.fromObject(object[".google.api.resourceReference"]);
                     }
                     return message;
                 };

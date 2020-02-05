@@ -41,6 +41,7 @@ const version = require('../../../package.json').version;
 export class BigQueryStorageClient {
   private _descriptors: Descriptors = {page: {}, stream: {}, longrunning: {}};
   private _innerApiCalls: {[name: string]: Function};
+  private _pathTemplates: {[name: string]: gax.PathTemplate};
   private _terminated = false;
   auth: gax.GoogleAuth;
   bigQueryStorageStub: Promise<{[name: string]: Function}>;
@@ -135,6 +136,18 @@ export class BigQueryStorageClient {
     const protos = gaxGrpc.loadProto(
       opts.fallback ? require('../../protos/protos.json') : nodejsProtoPath
     );
+
+    // This API contains "path templates"; forward-slash-separated
+    // identifiers to uniquely identify resources within the API.
+    // Create useful helper objects for these.
+    this._pathTemplates = {
+      streamPathTemplate: new gaxModule.PathTemplate(
+        'projects/{project}/locations/{location}/streams/{stream}'
+      ),
+      readSessionPathTemplate: new gaxModule.PathTemplate(
+        'projects/{project}/locations/{location}/sessions/{session}'
+      ),
+    };
 
     // Some of the methods on this service provide streaming responses.
     // Provide descriptors for these.
@@ -371,6 +384,7 @@ export class BigQueryStorageClient {
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
       'table_reference.project_id': request.tableReference!.projectId || '',
+      'table_reference.dataset_id': request.tableReference!.datasetId || '',
     });
     return this._innerApiCalls.createReadSession(request, options, callback);
   }
@@ -688,6 +702,111 @@ export class BigQueryStorageClient {
     request = request || {};
     options = options || {};
     return this._innerApiCalls.readRows(request, options);
+  }
+
+  // --------------------
+  // -- Path templates --
+  // --------------------
+
+  /**
+   * Return a fully-qualified stream resource name string.
+   *
+   * @param {string} project
+   * @param {string} location
+   * @param {string} stream
+   * @returns {string} Resource name string.
+   */
+  streamPath(project: string, location: string, stream: string) {
+    return this._pathTemplates.streamPathTemplate.render({
+      project,
+      location,
+      stream,
+    });
+  }
+
+  /**
+   * Parse the project from Stream resource.
+   *
+   * @param {string} streamName
+   *   A fully-qualified path representing Stream resource.
+   * @returns {string} A string representing the project.
+   */
+  matchProjectFromStreamName(streamName: string) {
+    return this._pathTemplates.streamPathTemplate.match(streamName).project;
+  }
+
+  /**
+   * Parse the location from Stream resource.
+   *
+   * @param {string} streamName
+   *   A fully-qualified path representing Stream resource.
+   * @returns {string} A string representing the location.
+   */
+  matchLocationFromStreamName(streamName: string) {
+    return this._pathTemplates.streamPathTemplate.match(streamName).location;
+  }
+
+  /**
+   * Parse the stream from Stream resource.
+   *
+   * @param {string} streamName
+   *   A fully-qualified path representing Stream resource.
+   * @returns {string} A string representing the stream.
+   */
+  matchStreamFromStreamName(streamName: string) {
+    return this._pathTemplates.streamPathTemplate.match(streamName).stream;
+  }
+
+  /**
+   * Return a fully-qualified readSession resource name string.
+   *
+   * @param {string} project
+   * @param {string} location
+   * @param {string} session
+   * @returns {string} Resource name string.
+   */
+  readSessionPath(project: string, location: string, session: string) {
+    return this._pathTemplates.readSessionPathTemplate.render({
+      project,
+      location,
+      session,
+    });
+  }
+
+  /**
+   * Parse the project from ReadSession resource.
+   *
+   * @param {string} readSessionName
+   *   A fully-qualified path representing ReadSession resource.
+   * @returns {string} A string representing the project.
+   */
+  matchProjectFromReadSessionName(readSessionName: string) {
+    return this._pathTemplates.readSessionPathTemplate.match(readSessionName)
+      .project;
+  }
+
+  /**
+   * Parse the location from ReadSession resource.
+   *
+   * @param {string} readSessionName
+   *   A fully-qualified path representing ReadSession resource.
+   * @returns {string} A string representing the location.
+   */
+  matchLocationFromReadSessionName(readSessionName: string) {
+    return this._pathTemplates.readSessionPathTemplate.match(readSessionName)
+      .location;
+  }
+
+  /**
+   * Parse the session from ReadSession resource.
+   *
+   * @param {string} readSessionName
+   *   A fully-qualified path representing ReadSession resource.
+   * @returns {string} A string representing the session.
+   */
+  matchSessionFromReadSessionName(readSessionName: string) {
+    return this._pathTemplates.readSessionPathTemplate.match(readSessionName)
+      .session;
   }
 
   /**
