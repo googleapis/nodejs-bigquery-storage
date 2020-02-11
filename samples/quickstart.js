@@ -1,5 +1,5 @@
 /**
- * Copyright 2019, Google LLC.
+ * Copyright 2020, Google LLC.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,72 +15,129 @@
 
 'use strict';
 
-/**
- * DESCRIBE WHAT THIS SAMPLE DOES.
- * @param {string} LIST EXPECTED ARGUMENTS.
- */
 async function main() {
   // [START bigquery_storage_quickstart]
-  const bqStorage = require('@google-cloud/bigquery-storage').v1beta1
-    .BigQueryStorageClient;
-  const client = new bqStorage();
+  async function bigqueryStorageQuickstart() {
+    // The read stream contains blocks of Avro-encoded bytes. We use the
+    // 'avsc' library to decode these blocks. Install avsc with the following
+    // command: npm install avsc
+    const avro = require('avsc');
 
-  const myProjectId = 'mastodon-dataset';
+    // See reference documentation at
+    // https://cloud.google.com/bigquery/docs/reference/storage
+    const bqStorage = require('@google-cloud/bigquery-storage').v1beta1
+      .BigQueryStorageClient;
 
-  // This example reads baby name data from the public datasets.
-  const projectId = 'bigquery-public-data';
-  const datasetId = 'usa_names';
-  const tableId = 'usa_1910_current';
+    const client = new bqStorage();
 
-  const tableReference = {
-    projectId,
-    datasetId,
-    tableId,
-  };
+    // Get current project ID. The read session is created in this project.
+    // This project can be different from that which contains the table.
+    const myProjectId = await client.getProjectId();
 
-  const parent = `projects/${myProjectId}`;
+    // This example reads baby name data from the public datasets.
+    const projectId = 'bigquery-public-data';
+    const datasetId = 'usa_names';
+    const tableId = 'usa_1910_current';
 
-  const readOptions = {
-    selectedFields: ['name', 'number', 'state'],
-    rowRestriction: 'state = "WA"'
-  }
+    const tableReference = {
+      projectId,
+      datasetId,
+      tableId,
+    };
 
-  let tableModifiers = null
+    const parent = `projects/${myProjectId}`;
 
-  let snapshotSeconds = Math.floor(Date.now()/1000)
-
-  if (snapshotSeconds > 0) {
-    tableModifiers = { snapshotTime: { seconds: snapshotSeconds} }
-  }
-
-  console.log(tableModifiers)
-
-  const request = {
-    tableReference,
-    parent,
-    readOptions,
-    tableModifiers,
-    /* Format enum values: 
-     * DATA_FORMAT_UNSPECIFIED = 0,
-     * AVRO = 1,
-     * ARROW = 3
+    /* We limit the output columns to a subset of those allowed in the table,
+     * and set a simple filter to only report names from the state of
+     * Washington (WA).
      */
-    // format: 3,
-    // shardingStrategy: 1
-  };
+    const readOptions = {
+      selectedFields: ['name', 'number', 'state'],
+      rowRestriction: 'state = "WA"',
+    };
 
-  const [session] = await client.createReadSession(request);
-  console.log(session)
+    let tableModifiers = null;
+    const snapshotSeconds = 0;
 
-  const readRowsRequest = {
-    readPosition: {stream: session.streams[0]}
+    // Set a snapshot time if it's been specified.
+    if (snapshotSeconds > 0) {
+      tableModifiers = {snapshotTime: {seconds: snapshotSeconds}};
+    }
+
+    // API request.
+    const request = {
+      tableReference,
+      parent,
+      readOptions,
+      tableModifiers,
+      // This API can also deliver data serialized in Apache Arrow format.
+      // This example leverages Apache Avro.
+      format: 'AVRO',
+      /* We use a LIQUID strategy in this example because we only read from a
+       * single stream. Consider BALANCED if you're consuming multiple streams
+       * concurrently and want more consistent stream sizes.
+       */
+      shardingStrategy: 'LIQUID',
+    };
+
+    const [session] = await client.createReadSession(request);
+
+    const schema = JSON.parse(session.avroSchema.schema);
+
+    const avroType = avro.Type.forSchema(schema);
+
+    /* The offset requested must be less than the last
+     * row read from ReadRows. Requesting a larger offset is
+     * undefined.
+     */
+    let offset = 0;
+
+    const readRowsRequest = {
+      // Optional stream name or offset. Offset requested must be less than the last
+      // row read from readRows(). Requesting a larger offset is undefined.
+      readPosition: {
+        stream: session.streams[0],
+        offset,
+      },
+    };
+
+    const names = new Set();
+    const states = {};
+
+    /* We'll use only a single stream for reading data from the table. Because
+     * of dynamic sharding, this will yield all the rows in the table. However,
+     * if you wanted to fan out multiple readers you could do so by having a
+     * reader process each individual stream.
+     */
+    client
+      .readRows(readRowsRequest)
+      .on('error', console.error)
+      .on('data', function(data) {
+        try {
+          const decodedData = avroType.decode(
+            data.avroRows.serializedBinaryRows
+          );
+
+          names.add(decodedData.value.name);
+
+          if (!states[decodedData.value.state]) {
+            states[decodedData.value.state] = true;
+          }
+
+          offset = decodedData.offset;
+        } catch (error) {
+          console.log(error);
+        }
+      })
+      .on('end', function() {
+        console.log(
+          `Got ${names.size} unique names in states: ${Object.keys(states)}`
+        );
+        console.log(`Last offset: ${offset}`);
+      });
   }
-
-  // const reader = client.readRows(readRowsRequest)
   // [END bigquery_storage_quickstart]
+  bigqueryStorageQuickstart();
 }
 
-main(...process.argv.slice(2)).catch(err => {
-  console.error(err);
-  process.exitCode = 1;
-});
+main(...process.argv.slice(2));

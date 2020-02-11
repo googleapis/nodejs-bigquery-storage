@@ -141,11 +141,11 @@ export class BigQueryStorageClient {
     // identifiers to uniquely identify resources within the API.
     // Create useful helper objects for these.
     this._pathTemplates = {
-      streamPathTemplate: new gaxModule.PathTemplate(
-        'projects/{project}/locations/{location}/streams/{stream}'
-      ),
       readSessionPathTemplate: new gaxModule.PathTemplate(
         'projects/{project}/locations/{location}/sessions/{session}'
+      ),
+      streamPathTemplate: new gaxModule.PathTemplate(
+        'projects/{project}/locations/{location}/streams/{stream}'
       ),
     };
 
@@ -701,61 +701,19 @@ export class BigQueryStorageClient {
   ): gax.CancellableStream {
     request = request || {};
     options = options || {};
+    options.otherArgs = options.otherArgs || {};
+    options.otherArgs.headers = options.otherArgs.headers || {};
+    options.otherArgs.headers[
+      'x-goog-request-params'
+    ] = gax.routingHeader.fromParams({
+      'read_position.stream.name': request.readPosition!.stream!.name || '',
+    });
     return this._innerApiCalls.readRows(request, options);
   }
 
   // --------------------
   // -- Path templates --
   // --------------------
-
-  /**
-   * Return a fully-qualified stream resource name string.
-   *
-   * @param {string} project
-   * @param {string} location
-   * @param {string} stream
-   * @returns {string} Resource name string.
-   */
-  streamPath(project: string, location: string, stream: string) {
-    return this._pathTemplates.streamPathTemplate.render({
-      project,
-      location,
-      stream,
-    });
-  }
-
-  /**
-   * Parse the project from Stream resource.
-   *
-   * @param {string} streamName
-   *   A fully-qualified path representing Stream resource.
-   * @returns {string} A string representing the project.
-   */
-  matchProjectFromStreamName(streamName: string) {
-    return this._pathTemplates.streamPathTemplate.match(streamName).project;
-  }
-
-  /**
-   * Parse the location from Stream resource.
-   *
-   * @param {string} streamName
-   *   A fully-qualified path representing Stream resource.
-   * @returns {string} A string representing the location.
-   */
-  matchLocationFromStreamName(streamName: string) {
-    return this._pathTemplates.streamPathTemplate.match(streamName).location;
-  }
-
-  /**
-   * Parse the stream from Stream resource.
-   *
-   * @param {string} streamName
-   *   A fully-qualified path representing Stream resource.
-   * @returns {string} A string representing the stream.
-   */
-  matchStreamFromStreamName(streamName: string) {
-    return this._pathTemplates.streamPathTemplate.match(streamName).stream;
-  }
 
   /**
    * Return a fully-qualified readSession resource name string.
@@ -807,6 +765,55 @@ export class BigQueryStorageClient {
   matchSessionFromReadSessionName(readSessionName: string) {
     return this._pathTemplates.readSessionPathTemplate.match(readSessionName)
       .session;
+  }
+
+  /**
+   * Return a fully-qualified stream resource name string.
+   *
+   * @param {string} project
+   * @param {string} location
+   * @param {string} stream
+   * @returns {string} Resource name string.
+   */
+  streamPath(project: string, location: string, stream: string) {
+    return this._pathTemplates.streamPathTemplate.render({
+      project,
+      location,
+      stream,
+    });
+  }
+
+  /**
+   * Parse the project from Stream resource.
+   *
+   * @param {string} streamName
+   *   A fully-qualified path representing Stream resource.
+   * @returns {string} A string representing the project.
+   */
+  matchProjectFromStreamName(streamName: string) {
+    return this._pathTemplates.streamPathTemplate.match(streamName).project;
+  }
+
+  /**
+   * Parse the location from Stream resource.
+   *
+   * @param {string} streamName
+   *   A fully-qualified path representing Stream resource.
+   * @returns {string} A string representing the location.
+   */
+  matchLocationFromStreamName(streamName: string) {
+    return this._pathTemplates.streamPathTemplate.match(streamName).location;
+  }
+
+  /**
+   * Parse the stream from Stream resource.
+   *
+   * @param {string} streamName
+   *   A fully-qualified path representing Stream resource.
+   * @returns {string} A string representing the stream.
+   */
+  matchStreamFromStreamName(streamName: string) {
+    return this._pathTemplates.streamPathTemplate.match(streamName).stream;
   }
 
   /**
