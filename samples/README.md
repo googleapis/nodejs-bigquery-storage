@@ -12,7 +12,7 @@
 
 * [Before you begin](#before-you-begin)
 * [Samples](#samples)
-  * [Quickstart](#quickstart)
+  * [BigQuery Storage Quickstart](#bigquery-storage-quickstart)
 
 ## Before you begin
 
@@ -29,7 +29,9 @@ Before running the samples, make sure you've followed the steps outlined in
 
 
 
-### Quickstart
+### BigQuery Storage Quickstart
+
+Read data from a table via read stream.
 
 View the [source code](https://github.com/googleapis/nodejs-bigquery-storage/blob/master/samples/quickstart.js).
 
@@ -38,7 +40,7 @@ View the [source code](https://github.com/googleapis/nodejs-bigquery-storage/blo
 __Usage:__
 
 
-`node samples/quickstart.js`
+`node quickstart.js`
 
 
 

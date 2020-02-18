@@ -11,7 +11,7 @@
 
 
 
-Storage client for Node.js
+Client for the BigQuery Storage API
 
 
 
@@ -55,19 +55,20 @@ npm install @google-cloud/bigquery-storage
 ### Using the client library
 
 ```javascript
+
+  // The read stream contains blocks of Avro-encoded bytes. We use the
+  // 'avsc' library to decode these blocks. Install avsc with the following
+  // command: npm install avsc
+  const avro = require('avsc');
+
+  // See reference documentation at
+  // https://cloud.google.com/bigquery/docs/reference/storage
+  const bqStorage = require('@google-cloud/bigquery-storage').v1beta1
+    .BigQueryStorageClient;
+
+  const client = new bqStorage();
+
   async function bigqueryStorageQuickstart() {
-    // The read stream contains blocks of Avro-encoded bytes. We use the
-    // 'avsc' library to decode these blocks. Install avsc with the following
-    // command: npm install avsc
-    const avro = require('avsc');
-
-    // See reference documentation at
-    // https://cloud.google.com/bigquery/docs/reference/storage
-    const bqStorage = require('@google-cloud/bigquery-storage').v1beta1
-      .BigQueryStorageClient;
-
-    const client = new bqStorage();
-
     // Get current project ID. The read session is created in this project.
     // This project can be different from that which contains the table.
     const myProjectId = await client.getProjectId();
@@ -186,7 +187,7 @@ has instructions for running the samples.
 
 | Sample                      | Source Code                       | Try it |
 | --------------------------- | --------------------------------- | ------ |
-| Quickstart | [source code](https://github.com/googleapis/nodejs-bigquery-storage/blob/master/samples/quickstart.js) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/nodejs-bigquery-storage&page=editor&open_in_editor=samples/quickstart.js,samples/README.md) |
+| BigQuery Storage Quickstart | [source code](https://github.com/googleapis/nodejs-bigquery-storage/blob/master/samples/quickstart.js) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/nodejs-bigquery-storage&page=editor&open_in_editor=samples/quickstart.js,samples/README.md) |
 
 
 
