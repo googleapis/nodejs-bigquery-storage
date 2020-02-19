@@ -319,8 +319,8 @@ describe('v1beta1.BigQueryStorageClient', () => {
         projectId: 'bogus',
       });
       // Mock request
-      const request = { 
-        readPosition: {stream: ''}
+      const request = {
+        readPosition: {stream: ''},
       };
       // Mock response
       const expectedResponse = {};
@@ -347,7 +347,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
       });
       // Mock request
       const request = {
-        readPosition: {stream: ''}
+        readPosition: {stream: ''},
       };
       // Mock response
       const expectedResponse = {};
