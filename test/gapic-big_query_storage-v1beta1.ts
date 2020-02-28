@@ -319,9 +319,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         projectId: 'bogus',
       });
       // Mock request
-      const request = {
-        readPosition: {stream: ''},
-      };
+      const request = {};
       // Mock response
       const expectedResponse = {};
       // Mock gRPC layer
@@ -346,9 +344,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         projectId: 'bogus',
       });
       // Mock request
-      const request = {
-        readPosition: {stream: ''},
-      };
+      const request = {};
       // Mock response
       const expectedResponse = {};
       // Mock gRPC layer
