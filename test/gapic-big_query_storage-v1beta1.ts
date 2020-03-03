@@ -319,7 +319,10 @@ describe('v1beta1.BigQueryStorageClient', () => {
         projectId: 'bogus',
       });
       // Mock request
-      const request = {};
+      const request: protosTypes.google.cloud.bigquery.storage.v1beta1.IReadRowsRequest = {};
+      request.readPosition = {};
+      request.readPosition.stream = {};
+      request.readPosition.stream.name = '';
       // Mock response
       const expectedResponse = {};
       // Mock gRPC layer
@@ -344,7 +347,10 @@ describe('v1beta1.BigQueryStorageClient', () => {
         projectId: 'bogus',
       });
       // Mock request
-      const request = {};
+      const request: protosTypes.google.cloud.bigquery.storage.v1beta1.IReadRowsRequest = {};
+      request.readPosition = {};
+      request.readPosition.stream = {};
+      request.readPosition.stream.name = '';
       // Mock response
       const expectedResponse = {};
       // Mock gRPC layer
