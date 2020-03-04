@@ -16,34 +16,4 @@
 // ** https://github.com/googleapis/gapic-generator-typescript **
 // ** All changes to this file may be overwritten. **
 
-import * as v1alpha2 from './v1alpha2';
-import * as v1 from './v1';
-import * as v1beta1 from './v1beta1';
-import * as v1beta2 from './v1beta2';
-
-const BigQueryReadClient = v1.BigQueryReadClient;
-const BigQueryStorageClient = v1beta1.BigQueryStorageClient;
-const BigQueryWriteClient = v1alpha2.BigQueryWriteClient;
-
-export {
-  v1,
-  v1alpha2,
-  v1beta1,
-  v1beta2,
-  BigQueryReadClient,
-  BigQueryStorageClient,
-  BigQueryWriteClient,
-};
-// For compatibility with JavaScript libraries we need to provide this default export:
-// tslint:disable-next-line no-default-export
-export default {
-    v1,
-    v1beta1,
-    v1beta2,
-    v1alpha2,
-    BigQueryStorageClient,
-    BigQueryReadClient,
-    BigQueryWriteClient
-};
-import * as protos from '../protos/protos';
-export {protos};
+export {BigQueryWriteClient} from './big_query_write_client';
