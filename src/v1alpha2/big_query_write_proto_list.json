@@ -1,0 +1,6 @@
+[
+  "../../protos/google/cloud/bigquery/storage/v1alpha2/protobuf.proto",
+  "../../protos/google/cloud/bigquery/storage/v1alpha2/storage.proto",
+  "../../protos/google/cloud/bigquery/storage/v1alpha2/stream.proto",
+  "../../protos/google/cloud/bigquery/storage/v1alpha2/table.proto"
+]
