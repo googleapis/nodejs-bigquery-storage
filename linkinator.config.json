@@ -5,6 +5,6 @@
     "www.googleapis.com",
     "img.shields.io"
   ],
-  "silent": false,
+  "silent": true,
   "concurrency": 10
 }
