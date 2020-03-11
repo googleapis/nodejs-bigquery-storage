@@ -105,12 +105,30 @@ describe('v1alpha2.BigQueryWriteClient', () => {
     });
     assert(client);
   });
+  it('has initialize method and supports deferred initialization', async () => {
+    const client = new bigquerywriteModule.v1alpha2.BigQueryWriteClient({
+      credentials: {client_email: 'bogus', private_key: 'bogus'},
+      projectId: 'bogus',
+    });
+    assert.strictEqual(client.bigQueryWriteStub, undefined);
+    await client.initialize();
+    assert(client.bigQueryWriteStub);
+  });
+  it('has close method', () => {
+    const client = new bigquerywriteModule.v1alpha2.BigQueryWriteClient({
+      credentials: {client_email: 'bogus', private_key: 'bogus'},
+      projectId: 'bogus',
+    });
+    client.close();
+  });
   describe('createWriteStream', () => {
     it('invokes createWriteStream without error', done => {
       const client = new bigquerywriteModule.v1alpha2.BigQueryWriteClient({
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1alpha2.ICreateWriteStreamRequest = {};
       request.parent = '';
@@ -134,6 +152,8 @@ describe('v1alpha2.BigQueryWriteClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1alpha2.ICreateWriteStreamRequest = {};
       request.parent = '';
@@ -159,6 +179,8 @@ describe('v1alpha2.BigQueryWriteClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1alpha2.IGetWriteStreamRequest = {};
       request.name = '';
@@ -182,6 +204,8 @@ describe('v1alpha2.BigQueryWriteClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1alpha2.IGetWriteStreamRequest = {};
       request.name = '';
@@ -207,6 +231,8 @@ describe('v1alpha2.BigQueryWriteClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1alpha2.IFinalizeWriteStreamRequest = {};
       request.name = '';
@@ -230,6 +256,8 @@ describe('v1alpha2.BigQueryWriteClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1alpha2.IFinalizeWriteStreamRequest = {};
       request.name = '';
@@ -255,6 +283,8 @@ describe('v1alpha2.BigQueryWriteClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1alpha2.IBatchCommitWriteStreamsRequest = {};
       request.parent = '';
@@ -278,6 +308,8 @@ describe('v1alpha2.BigQueryWriteClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1alpha2.IBatchCommitWriteStreamsRequest = {};
       request.parent = '';
@@ -306,6 +338,8 @@ describe('v1alpha2.BigQueryWriteClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1alpha2.IAppendRowsRequest = {};
       request.writeStream = '';
@@ -333,6 +367,8 @@ describe('v1alpha2.BigQueryWriteClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1alpha2.IAppendRowsRequest = {};
       request.writeStream = '';

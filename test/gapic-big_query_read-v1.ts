@@ -103,12 +103,30 @@ describe('v1.BigQueryReadClient', () => {
     });
     assert(client);
   });
+  it('has initialize method and supports deferred initialization', async () => {
+    const client = new bigqueryreadModule.v1.BigQueryReadClient({
+      credentials: {client_email: 'bogus', private_key: 'bogus'},
+      projectId: 'bogus',
+    });
+    assert.strictEqual(client.bigQueryReadStub, undefined);
+    await client.initialize();
+    assert(client.bigQueryReadStub);
+  });
+  it('has close method', () => {
+    const client = new bigqueryreadModule.v1.BigQueryReadClient({
+      credentials: {client_email: 'bogus', private_key: 'bogus'},
+      projectId: 'bogus',
+    });
+    client.close();
+  });
   describe('createReadSession', () => {
     it('invokes createReadSession without error', done => {
       const client = new bigqueryreadModule.v1.BigQueryReadClient({
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest = {};
       request.readSession = {};
@@ -133,6 +151,8 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest = {};
       request.readSession = {};
@@ -159,6 +179,8 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1.ISplitReadStreamRequest = {};
       request.name = '';
@@ -182,6 +204,8 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1.ISplitReadStreamRequest = {};
       request.name = '';
@@ -207,6 +231,8 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1.IReadRowsRequest = {};
       request.readStream = '';
@@ -233,6 +259,8 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
+      // Initialize client before mocking
+      client.initialize();
       // Mock request
       const request: protosTypes.google.cloud.bigquery.storage.v1.IReadRowsRequest = {};
       request.readStream = '';

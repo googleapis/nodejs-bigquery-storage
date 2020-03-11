@@ -43,8 +43,13 @@ export class BigQueryReadClient {
   private _innerApiCalls: {[name: string]: Function};
   private _pathTemplates: {[name: string]: gax.PathTemplate};
   private _terminated = false;
+  private _opts: ClientOptions;
+  private _gaxModule: typeof gax | typeof gax.fallback;
+  private _gaxGrpc: gax.GrpcClient | gax.fallback.GrpcClient;
+  private _protos: {};
+  private _defaults: {[method: string]: gax.CallSettings};
   auth: gax.GoogleAuth;
-  bigQueryReadStub: Promise<{[name: string]: Function}>;
+  bigQueryReadStub?: Promise<{[name: string]: Function}>;
 
   /**
    * Construct an instance of BigQueryReadClient.
@@ -68,8 +73,6 @@ export class BigQueryReadClient {
    *     app is running in an environment which supports
    *     {@link https://developers.google.com/identity/protocols/application-default-credentials Application Default Credentials},
    *     your project ID will be detected automatically.
-   * @param {function} [options.promise] - Custom promise module to use instead
-   *     of native Promises.
    * @param {string} [options.apiEndpoint] - The domain name of the
    *     API remote host.
    */
@@ -99,25 +102,28 @@ export class BigQueryReadClient {
     // If we are in browser, we are already using fallback because of the
     // "browser" field in package.json.
     // But if we were explicitly requested to use fallback, let's do it now.
-    const gaxModule = !isBrowser && opts.fallback ? gax.fallback : gax;
+    this._gaxModule = !isBrowser && opts.fallback ? gax.fallback : gax;
 
     // Create a `gaxGrpc` object, with any grpc-specific options
     // sent to the client.
     opts.scopes = (this.constructor as typeof BigQueryReadClient).scopes;
-    const gaxGrpc = new gaxModule.GrpcClient(opts);
+    this._gaxGrpc = new this._gaxModule.GrpcClient(opts);
+
+    // Save options to use in initialize() method.
+    this._opts = opts;
 
     // Save the auth object to the client, for use by other methods.
-    this.auth = gaxGrpc.auth as gax.GoogleAuth;
+    this.auth = this._gaxGrpc.auth as gax.GoogleAuth;
 
     // Determine the client header string.
-    const clientHeader = [`gax/${gaxModule.version}`, `gapic/${version}`];
+    const clientHeader = [`gax/${this._gaxModule.version}`, `gapic/${version}`];
     if (typeof process !== 'undefined' && 'versions' in process) {
       clientHeader.push(`gl-node/${process.versions.node}`);
     } else {
-      clientHeader.push(`gl-web/${gaxModule.version}`);
+      clientHeader.push(`gl-web/${this._gaxModule.version}`);
     }
     if (!opts.fallback) {
-      clientHeader.push(`grpc/${gaxGrpc.grpcVersion}`);
+      clientHeader.push(`grpc/${this._gaxGrpc.grpcVersion}`);
     }
     if (opts.libName && opts.libVersion) {
       clientHeader.push(`${opts.libName}/${opts.libVersion}`);
@@ -133,7 +139,7 @@ export class BigQueryReadClient {
       'protos',
       'protos.json'
     );
-    const protos = gaxGrpc.loadProto(
+    this._protos = this._gaxGrpc.loadProto(
       opts.fallback ? require('../../protos/protos.json') : nodejsProtoPath
     );
 
@@ -141,10 +147,10 @@ export class BigQueryReadClient {
     // identifiers to uniquely identify resources within the API.
     // Create useful helper objects for these.
     this._pathTemplates = {
-      readSessionPathTemplate: new gaxModule.PathTemplate(
+      readSessionPathTemplate: new this._gaxModule.PathTemplate(
         'projects/{project}/locations/{location}/sessions/{session}'
       ),
-      readStreamPathTemplate: new gaxModule.PathTemplate(
+      readStreamPathTemplate: new this._gaxModule.PathTemplate(
         'projects/{project}/locations/{location}/sessions/{session}/streams/{stream}'
       ),
     };
@@ -152,11 +158,13 @@ export class BigQueryReadClient {
     // Some of the methods on this service provide streaming responses.
     // Provide descriptors for these.
     this._descriptors.stream = {
-      readRows: new gaxModule.StreamDescriptor(gax.StreamType.SERVER_STREAMING),
+      readRows: new this._gaxModule.StreamDescriptor(
+        gax.StreamType.SERVER_STREAMING
+      ),
     };
 
     // Put together the default options sent with requests.
-    const defaults = gaxGrpc.constructSettings(
+    this._defaults = this._gaxGrpc.constructSettings(
       'google.cloud.bigquery.storage.v1beta2.BigQueryRead',
       gapicConfig as gax.ClientConfig,
       opts.clientConfig || {},
@@ -167,17 +175,36 @@ export class BigQueryReadClient {
     // of calling the API is handled in `google-gax`, with this code
     // merely providing the destination and request information.
     this._innerApiCalls = {};
+  }
+
+  /**
+   * Initialize the client.
+   * Performs asynchronous operations (such as authentication) and prepares the client.
+   * This function will be called automatically when any class method is called for the
+   * first time, but if you need to initialize it before calling an actual method,
+   * feel free to call initialize() directly.
+   *
+   * You can await on this method if you want to make sure the client is initialized.
+   *
+   * @returns {Promise} A promise that resolves to an authenticated service stub.
+   */
+  initialize() {
+    // If the client stub promise is already initialized, return immediately.
+    if (this.bigQueryReadStub) {
+      return this.bigQueryReadStub;
+    }
 
     // Put together the "service stub" for
     // google.cloud.bigquery.storage.v1beta2.BigQueryRead.
-    this.bigQueryReadStub = gaxGrpc.createStub(
-      opts.fallback
-        ? (protos as protobuf.Root).lookupService(
+    this.bigQueryReadStub = this._gaxGrpc.createStub(
+      this._opts.fallback
+        ? (this._protos as protobuf.Root).lookupService(
             'google.cloud.bigquery.storage.v1beta2.BigQueryRead'
           )
         : // tslint:disable-next-line no-any
-          (protos as any).google.cloud.bigquery.storage.v1beta2.BigQueryRead,
-      opts
+          (this._protos as any).google.cloud.bigquery.storage.v1beta2
+            .BigQueryRead,
+      this._opts
     ) as Promise<{[method: string]: Function}>;
 
     // Iterate over each of the methods that the service provides
@@ -201,9 +228,9 @@ export class BigQueryReadClient {
         }
       );
 
-      const apiCall = gaxModule.createApiCall(
+      const apiCall = this._gaxModule.createApiCall(
         innerCallPromise,
-        defaults[methodName],
+        this._defaults[methodName],
         this._descriptors.page[methodName] ||
           this._descriptors.stream[methodName] ||
           this._descriptors.longrunning[methodName]
@@ -217,6 +244,8 @@ export class BigQueryReadClient {
         return apiCall(argument, callOptions, callback);
       };
     }
+
+    return this.bigQueryReadStub;
   }
 
   /**
@@ -381,6 +410,7 @@ export class BigQueryReadClient {
     ] = gax.routingHeader.fromParams({
       'read_session.table': request.readSession!.table || '',
     });
+    this.initialize();
     return this._innerApiCalls.createReadSession(request, options, callback);
   }
   splitReadStream(
@@ -480,6 +510,7 @@ export class BigQueryReadClient {
     ] = gax.routingHeader.fromParams({
       name: request.name || '',
     });
+    this.initialize();
     return this._innerApiCalls.splitReadStream(request, options, callback);
   }
 
@@ -518,6 +549,7 @@ export class BigQueryReadClient {
     ] = gax.routingHeader.fromParams({
       read_stream: request.readStream || '',
     });
+    this.initialize();
     return this._innerApiCalls.readRows(request, options);
   }
 
@@ -654,8 +686,9 @@ export class BigQueryReadClient {
    * The client will no longer be usable and all future behavior is undefined.
    */
   close(): Promise<void> {
+    this.initialize();
     if (!this._terminated) {
-      return this.bigQueryReadStub.then(stub => {
+      return this.bigQueryReadStub!.then(stub => {
         this._terminated = true;
         stub.close();
       });
