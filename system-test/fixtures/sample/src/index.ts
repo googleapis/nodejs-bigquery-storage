@@ -16,10 +16,10 @@
 // ** https://github.com/googleapis/gapic-generator-typescript **
 // ** All changes to this file may be overwritten. **
 
-import {BigQueryStorageClient} from '@google-cloud/bigquery-storage';
+import {BigQueryReadClient} from '@google-cloud/bigquery-storage';
 
 function main() {
-  const bigQueryStorageClient = new BigQueryStorageClient();
+  const bigQueryReadClient = new BigQueryReadClient();
 }
 
 main();

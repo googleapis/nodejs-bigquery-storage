@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.DEBUG)
 # Run the gapic generator
 gapic = gcp.GAPICMicrogenerator()
 name = 'bigquerystorage'
-versions = ['v1beta1']
+versions = ['v1beta1', 'v1']
 for version in versions:
     library = gapic.typescript_library(
         name,
