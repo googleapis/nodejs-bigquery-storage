@@ -18,393 +18,365 @@
 
 import * as protosTypes from '../protos/protos';
 import * as assert from 'assert';
-import {describe, it} from 'mocha';
+import { describe, it } from 'mocha';
+/* eslint-disable @typescript-eslint/no-var-requires */
 const bigquerystorageModule = require('../src');
 
 import {PassThrough} from 'stream';
 
+
 const FAKE_STATUS_CODE = 1;
-class FakeError {
-  name: string;
-  message: string;
-  code: number;
-  constructor(n: number) {
-    this.name = 'fakeName';
-    this.message = 'fake message';
-    this.code = n;
-  }
+class FakeError{
+    name: string;
+    message: string;
+    code: number;
+    constructor(n: number){
+        this.name = 'fakeName';
+        this.message = 'fake message';
+        this.code = n;
+    }
 }
 const error = new FakeError(FAKE_STATUS_CODE);
 export interface Callback {
-  (err: FakeError | null, response?: {} | null): void;
+  (err: FakeError|null, response?: {} | null): void;
 }
 
-export class Operation {
-  constructor() {}
-  promise() {}
+export class Operation{
+    constructor(){};
+    promise() {};
 }
-function mockSimpleGrpcMethod(
-  expectedRequest: {},
-  response: {} | null,
-  error: FakeError | null
-) {
-  return (actualRequest: {}, options: {}, callback: Callback) => {
-    assert.deepStrictEqual(actualRequest, expectedRequest);
-    if (error) {
-      callback(error);
-    } else if (response) {
-      callback(null, response);
-    } else {
-      callback(null);
-    }
-  };
-}
-function mockServerStreamingGrpcMethod(
-  expectedRequest: {},
-  response: {} | null,
-  error: FakeError | null
-) {
-  return (actualRequest: {}) => {
-    assert.deepStrictEqual(actualRequest, expectedRequest);
-    const mockStream = new PassThrough({
-      objectMode: true,
-      transform: (chunk: {}, enc: {}, callback: Callback) => {
+function mockSimpleGrpcMethod(expectedRequest: {}, response: {} | null, error: FakeError | null) {
+    return (actualRequest: {}, options: {}, callback: Callback) => {
+        assert.deepStrictEqual(actualRequest, expectedRequest);
         if (error) {
-          callback(error);
+            callback(error);
+        } else if (response) {
+            callback(null, response);
         } else {
-          callback(null, response);
+            callback(null);
         }
-      },
-    });
-    return mockStream;
-  };
+    };
+}
+function mockServerStreamingGrpcMethod(expectedRequest: {}, response: {} | null, error: FakeError | null) {
+    return (actualRequest: {}) => {
+        assert.deepStrictEqual(actualRequest, expectedRequest);
+        const mockStream = new PassThrough({
+          objectMode: true,
+          transform: (chunk: {}, enc: {}, callback: Callback) => {
+            if (error) {
+              callback(error);
+            }
+            else {
+              callback(null, response);
+            }
+          }
+        });
+        return mockStream;
+    };
 }
 describe('v1beta1.BigQueryStorageClient', () => {
-  it('has servicePath', () => {
-    const servicePath =
-      bigquerystorageModule.v1beta1.BigQueryStorageClient.servicePath;
-    assert(servicePath);
-  });
-  it('has apiEndpoint', () => {
-    const apiEndpoint =
-      bigquerystorageModule.v1beta1.BigQueryStorageClient.apiEndpoint;
-    assert(apiEndpoint);
-  });
-  it('has port', () => {
-    const port = bigquerystorageModule.v1beta1.BigQueryStorageClient.port;
-    assert(port);
-    assert(typeof port === 'number');
-  });
-  it('should create a client with no option', () => {
-    const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient();
-    assert(client);
-  });
-  it('should create a client with gRPC fallback', () => {
-    const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
-      fallback: true,
+    it('has servicePath', () => {
+        const servicePath = bigquerystorageModule.v1beta1.BigQueryStorageClient.servicePath;
+        assert(servicePath);
     });
-    assert(client);
-  });
-  it('has initialize method and supports deferred initialization', async () => {
-    const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
-      credentials: {client_email: 'bogus', private_key: 'bogus'},
-      projectId: 'bogus',
+    it('has apiEndpoint', () => {
+        const apiEndpoint = bigquerystorageModule.v1beta1.BigQueryStorageClient.apiEndpoint;
+        assert(apiEndpoint);
     });
-    assert.strictEqual(client.bigQueryStorageStub, undefined);
-    await client.initialize();
-    assert(client.bigQueryStorageStub);
-  });
-  it('has close method', () => {
-    const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
-      credentials: {client_email: 'bogus', private_key: 'bogus'},
-      projectId: 'bogus',
+    it('has port', () => {
+        const port = bigquerystorageModule.v1beta1.BigQueryStorageClient.port;
+        assert(port);
+        assert(typeof port === 'number');
     });
-    client.close();
-  });
-  describe('createReadSession', () => {
-    it('invokes createReadSession without error', done => {
-      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
-        credentials: {client_email: 'bogus', private_key: 'bogus'},
-        projectId: 'bogus',
-      });
-      // Initialize client before mocking
-      client.initialize();
-      // Mock request
-      const request: protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest = {};
-      request.tableReference = {};
-      request.tableReference.projectId = '';
-      request.tableReference = {};
-      request.tableReference.datasetId = '';
-      // Mock response
-      const expectedResponse = {};
-      // Mock gRPC layer
-      client._innerApiCalls.createReadSession = mockSimpleGrpcMethod(
-        request,
-        expectedResponse,
-        null
-      );
-      client.createReadSession(request, (err: {}, response: {}) => {
-        assert.ifError(err);
-        assert.deepStrictEqual(response, expectedResponse);
-        done();
-      });
+    it('should create a client with no option', () => {
+        const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient();
+        assert(client);
     });
+    it('should create a client with gRPC fallback', () => {
+        const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+            fallback: true,
+        });
+        assert(client);
+    });
+    it('has initialize method and supports deferred initialization', async () => {
+        const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+            credentials: { client_email: 'bogus', private_key: 'bogus' },
+            projectId: 'bogus',
+        });
+        assert.strictEqual(client.bigQueryStorageStub, undefined);
+        await client.initialize();
+        assert(client.bigQueryStorageStub);
+    });
+    it('has close method', () => {
+        const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+            credentials: { client_email: 'bogus', private_key: 'bogus' },
+            projectId: 'bogus',
+        });
+        client.close();
+    });
+    describe('createReadSession', () => {
+        it('invokes createReadSession without error', done => {
+            const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+                credentials: {client_email: 'bogus', private_key: 'bogus'},
+                projectId: 'bogus',
+            });
+            // Initialize client before mocking
+            client.initialize();
+            // Mock request
+            const request: protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest = {};
+            request.tableReference = {};
+            request.tableReference.projectId = '';
+            request.tableReference = {};
+            request.tableReference.datasetId = '';
+            // Mock response
+            const expectedResponse = {};
+            // Mock gRPC layer
+            client._innerApiCalls.createReadSession = mockSimpleGrpcMethod(
+                request,
+                expectedResponse,
+                null
+            );
+            client.createReadSession(request, (err: {}, response: {}) => {
+                assert.ifError(err);
+                assert.deepStrictEqual(response, expectedResponse);
+                done();
+            })
+        });
 
-    it('invokes createReadSession with error', done => {
-      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
-        credentials: {client_email: 'bogus', private_key: 'bogus'},
-        projectId: 'bogus',
-      });
-      // Initialize client before mocking
-      client.initialize();
-      // Mock request
-      const request: protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest = {};
-      request.tableReference = {};
-      request.tableReference.projectId = '';
-      request.tableReference = {};
-      request.tableReference.datasetId = '';
-      // Mock response
-      const expectedResponse = {};
-      // Mock gRPC layer
-      client._innerApiCalls.createReadSession = mockSimpleGrpcMethod(
-        request,
-        null,
-        error
-      );
-      client.createReadSession(request, (err: FakeError, response: {}) => {
-        assert(err instanceof FakeError);
-        assert.strictEqual(err.code, FAKE_STATUS_CODE);
-        assert(typeof response === 'undefined');
-        done();
-      });
+        it('invokes createReadSession with error', done => {
+            const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+                credentials: {client_email: 'bogus', private_key: 'bogus'},
+                projectId: 'bogus',
+            });
+            // Initialize client before mocking
+            client.initialize();
+            // Mock request
+            const request: protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest = {};
+            request.tableReference = {};
+            request.tableReference.projectId = '';
+            request.tableReference = {};
+            request.tableReference.datasetId = '';
+            // Mock gRPC layer
+            client._innerApiCalls.createReadSession = mockSimpleGrpcMethod(
+                request,
+                null,
+                error
+            );
+            client.createReadSession(request, (err: FakeError, response: {}) => {
+                assert(err instanceof FakeError);
+                assert.strictEqual(err.code, FAKE_STATUS_CODE);
+                assert(typeof response === 'undefined');
+                done();
+            })
+        });
     });
-  });
-  describe('batchCreateReadSessionStreams', () => {
-    it('invokes batchCreateReadSessionStreams without error', done => {
-      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
-        credentials: {client_email: 'bogus', private_key: 'bogus'},
-        projectId: 'bogus',
-      });
-      // Initialize client before mocking
-      client.initialize();
-      // Mock request
-      const request: protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest = {};
-      request.session = {};
-      request.session.name = '';
-      // Mock response
-      const expectedResponse = {};
-      // Mock gRPC layer
-      client._innerApiCalls.batchCreateReadSessionStreams = mockSimpleGrpcMethod(
-        request,
-        expectedResponse,
-        null
-      );
-      client.batchCreateReadSessionStreams(request, (err: {}, response: {}) => {
-        assert.ifError(err);
-        assert.deepStrictEqual(response, expectedResponse);
-        done();
-      });
-    });
+    describe('batchCreateReadSessionStreams', () => {
+        it('invokes batchCreateReadSessionStreams without error', done => {
+            const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+                credentials: {client_email: 'bogus', private_key: 'bogus'},
+                projectId: 'bogus',
+            });
+            // Initialize client before mocking
+            client.initialize();
+            // Mock request
+            const request: protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest = {};
+            request.session = {};
+            request.session.name = '';
+            // Mock response
+            const expectedResponse = {};
+            // Mock gRPC layer
+            client._innerApiCalls.batchCreateReadSessionStreams = mockSimpleGrpcMethod(
+                request,
+                expectedResponse,
+                null
+            );
+            client.batchCreateReadSessionStreams(request, (err: {}, response: {}) => {
+                assert.ifError(err);
+                assert.deepStrictEqual(response, expectedResponse);
+                done();
+            })
+        });
 
-    it('invokes batchCreateReadSessionStreams with error', done => {
-      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
-        credentials: {client_email: 'bogus', private_key: 'bogus'},
-        projectId: 'bogus',
-      });
-      // Initialize client before mocking
-      client.initialize();
-      // Mock request
-      const request: protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest = {};
-      request.session = {};
-      request.session.name = '';
-      // Mock response
-      const expectedResponse = {};
-      // Mock gRPC layer
-      client._innerApiCalls.batchCreateReadSessionStreams = mockSimpleGrpcMethod(
-        request,
-        null,
-        error
-      );
-      client.batchCreateReadSessionStreams(
-        request,
-        (err: FakeError, response: {}) => {
-          assert(err instanceof FakeError);
-          assert.strictEqual(err.code, FAKE_STATUS_CODE);
-          assert(typeof response === 'undefined');
-          done();
-        }
-      );
+        it('invokes batchCreateReadSessionStreams with error', done => {
+            const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+                credentials: {client_email: 'bogus', private_key: 'bogus'},
+                projectId: 'bogus',
+            });
+            // Initialize client before mocking
+            client.initialize();
+            // Mock request
+            const request: protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest = {};
+            request.session = {};
+            request.session.name = '';
+            // Mock gRPC layer
+            client._innerApiCalls.batchCreateReadSessionStreams = mockSimpleGrpcMethod(
+                request,
+                null,
+                error
+            );
+            client.batchCreateReadSessionStreams(request, (err: FakeError, response: {}) => {
+                assert(err instanceof FakeError);
+                assert.strictEqual(err.code, FAKE_STATUS_CODE);
+                assert(typeof response === 'undefined');
+                done();
+            })
+        });
     });
-  });
-  describe('finalizeStream', () => {
-    it('invokes finalizeStream without error', done => {
-      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
-        credentials: {client_email: 'bogus', private_key: 'bogus'},
-        projectId: 'bogus',
-      });
-      // Initialize client before mocking
-      client.initialize();
-      // Mock request
-      const request: protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest = {};
-      request.stream = {};
-      request.stream.name = '';
-      // Mock response
-      const expectedResponse = {};
-      // Mock gRPC layer
-      client._innerApiCalls.finalizeStream = mockSimpleGrpcMethod(
-        request,
-        expectedResponse,
-        null
-      );
-      client.finalizeStream(request, (err: {}, response: {}) => {
-        assert.ifError(err);
-        assert.deepStrictEqual(response, expectedResponse);
-        done();
-      });
-    });
+    describe('finalizeStream', () => {
+        it('invokes finalizeStream without error', done => {
+            const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+                credentials: {client_email: 'bogus', private_key: 'bogus'},
+                projectId: 'bogus',
+            });
+            // Initialize client before mocking
+            client.initialize();
+            // Mock request
+            const request: protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest = {};
+            request.stream = {};
+            request.stream.name = '';
+            // Mock response
+            const expectedResponse = {};
+            // Mock gRPC layer
+            client._innerApiCalls.finalizeStream = mockSimpleGrpcMethod(
+                request,
+                expectedResponse,
+                null
+            );
+            client.finalizeStream(request, (err: {}, response: {}) => {
+                assert.ifError(err);
+                assert.deepStrictEqual(response, expectedResponse);
+                done();
+            })
+        });
 
-    it('invokes finalizeStream with error', done => {
-      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
-        credentials: {client_email: 'bogus', private_key: 'bogus'},
-        projectId: 'bogus',
-      });
-      // Initialize client before mocking
-      client.initialize();
-      // Mock request
-      const request: protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest = {};
-      request.stream = {};
-      request.stream.name = '';
-      // Mock response
-      const expectedResponse = {};
-      // Mock gRPC layer
-      client._innerApiCalls.finalizeStream = mockSimpleGrpcMethod(
-        request,
-        null,
-        error
-      );
-      client.finalizeStream(request, (err: FakeError, response: {}) => {
-        assert(err instanceof FakeError);
-        assert.strictEqual(err.code, FAKE_STATUS_CODE);
-        assert(typeof response === 'undefined');
-        done();
-      });
+        it('invokes finalizeStream with error', done => {
+            const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+                credentials: {client_email: 'bogus', private_key: 'bogus'},
+                projectId: 'bogus',
+            });
+            // Initialize client before mocking
+            client.initialize();
+            // Mock request
+            const request: protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest = {};
+            request.stream = {};
+            request.stream.name = '';
+            // Mock gRPC layer
+            client._innerApiCalls.finalizeStream = mockSimpleGrpcMethod(
+                request,
+                null,
+                error
+            );
+            client.finalizeStream(request, (err: FakeError, response: {}) => {
+                assert(err instanceof FakeError);
+                assert.strictEqual(err.code, FAKE_STATUS_CODE);
+                assert(typeof response === 'undefined');
+                done();
+            })
+        });
     });
-  });
-  describe('splitReadStream', () => {
-    it('invokes splitReadStream without error', done => {
-      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
-        credentials: {client_email: 'bogus', private_key: 'bogus'},
-        projectId: 'bogus',
-      });
-      // Initialize client before mocking
-      client.initialize();
-      // Mock request
-      const request: protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest = {};
-      request.originalStream = {};
-      request.originalStream.name = '';
-      // Mock response
-      const expectedResponse = {};
-      // Mock gRPC layer
-      client._innerApiCalls.splitReadStream = mockSimpleGrpcMethod(
-        request,
-        expectedResponse,
-        null
-      );
-      client.splitReadStream(request, (err: {}, response: {}) => {
-        assert.ifError(err);
-        assert.deepStrictEqual(response, expectedResponse);
-        done();
-      });
-    });
+    describe('splitReadStream', () => {
+        it('invokes splitReadStream without error', done => {
+            const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+                credentials: {client_email: 'bogus', private_key: 'bogus'},
+                projectId: 'bogus',
+            });
+            // Initialize client before mocking
+            client.initialize();
+            // Mock request
+            const request: protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest = {};
+            request.originalStream = {};
+            request.originalStream.name = '';
+            // Mock response
+            const expectedResponse = {};
+            // Mock gRPC layer
+            client._innerApiCalls.splitReadStream = mockSimpleGrpcMethod(
+                request,
+                expectedResponse,
+                null
+            );
+            client.splitReadStream(request, (err: {}, response: {}) => {
+                assert.ifError(err);
+                assert.deepStrictEqual(response, expectedResponse);
+                done();
+            })
+        });
 
-    it('invokes splitReadStream with error', done => {
-      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
-        credentials: {client_email: 'bogus', private_key: 'bogus'},
-        projectId: 'bogus',
-      });
-      // Initialize client before mocking
-      client.initialize();
-      // Mock request
-      const request: protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest = {};
-      request.originalStream = {};
-      request.originalStream.name = '';
-      // Mock response
-      const expectedResponse = {};
-      // Mock gRPC layer
-      client._innerApiCalls.splitReadStream = mockSimpleGrpcMethod(
-        request,
-        null,
-        error
-      );
-      client.splitReadStream(request, (err: FakeError, response: {}) => {
-        assert(err instanceof FakeError);
-        assert.strictEqual(err.code, FAKE_STATUS_CODE);
-        assert(typeof response === 'undefined');
-        done();
-      });
+        it('invokes splitReadStream with error', done => {
+            const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+                credentials: {client_email: 'bogus', private_key: 'bogus'},
+                projectId: 'bogus',
+            });
+            // Initialize client before mocking
+            client.initialize();
+            // Mock request
+            const request: protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest = {};
+            request.originalStream = {};
+            request.originalStream.name = '';
+            // Mock gRPC layer
+            client._innerApiCalls.splitReadStream = mockSimpleGrpcMethod(
+                request,
+                null,
+                error
+            );
+            client.splitReadStream(request, (err: FakeError, response: {}) => {
+                assert(err instanceof FakeError);
+                assert.strictEqual(err.code, FAKE_STATUS_CODE);
+                assert(typeof response === 'undefined');
+                done();
+            })
+        });
     });
-  });
-  describe('readRows', () => {
-    it('invokes readRows without error', done => {
-      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
-        credentials: {client_email: 'bogus', private_key: 'bogus'},
-        projectId: 'bogus',
-      });
-      // Initialize client before mocking
-      client.initialize();
-      // Mock request
-      const request: protosTypes.google.cloud.bigquery.storage.v1beta1.IReadRowsRequest = {};
-      request.readPosition = {};
-      request.readPosition.stream = {};
-      request.readPosition.stream.name = '';
-      // Mock response
-      const expectedResponse = {};
-      // Mock gRPC layer
-      client._innerApiCalls.readRows = mockServerStreamingGrpcMethod(
-        request,
-        expectedResponse,
-        null
-      );
-      const stream = client.readRows(request);
-      stream.on('data', (response: {}) => {
-        assert.deepStrictEqual(response, expectedResponse);
-        done();
-      });
-      stream.on('error', (err: FakeError) => {
-        done(err);
-      });
-      stream.write();
+    describe('readRows', () => {
+        it('invokes readRows without error', done => {
+            const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+                credentials: {client_email: 'bogus', private_key: 'bogus'},
+                projectId: 'bogus',
+            });
+            // Initialize client before mocking
+            client.initialize();
+            // Mock request
+            const request: protosTypes.google.cloud.bigquery.storage.v1beta1.IReadRowsRequest = {};
+            request.readPosition = {};
+            request.readPosition.stream = {};
+            request.readPosition.stream.name = '';
+            // Mock response
+            const expectedResponse = {};
+            // Mock gRPC layer
+            client._innerApiCalls.readRows = mockServerStreamingGrpcMethod(request, expectedResponse, null);
+            const stream = client.readRows(request);
+            stream.on('data', (response: {}) =>{
+                assert.deepStrictEqual(response, expectedResponse);
+                done();
+            });
+            stream.on('error', (err: FakeError) => {
+                done(err);
+            });
+            stream.write();
+        });
+        it('invokes readRows with error', done => {
+            const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+                credentials: {client_email: 'bogus', private_key: 'bogus'},
+                projectId: 'bogus',
+            });
+            // Initialize client before mocking
+            client.initialize();
+            // Mock request
+            const request: protosTypes.google.cloud.bigquery.storage.v1beta1.IReadRowsRequest = {};
+            request.readPosition = {};
+            request.readPosition.stream = {};
+            request.readPosition.stream.name = '';
+            // Mock gRPC layer
+            client._innerApiCalls.readRows = mockServerStreamingGrpcMethod(request, null, error);
+            const stream = client.readRows(request);
+            stream.on('data', () =>{
+                assert.fail();
+            });
+            stream.on('error', (err: FakeError) => {
+                assert(err instanceof FakeError);
+                assert.strictEqual(err.code, FAKE_STATUS_CODE);
+                done();
+            });
+            stream.write();
+        });
     });
-    it('invokes readRows with error', done => {
-      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
-        credentials: {client_email: 'bogus', private_key: 'bogus'},
-        projectId: 'bogus',
-      });
-      // Initialize client before mocking
-      client.initialize();
-      // Mock request
-      const request: protosTypes.google.cloud.bigquery.storage.v1beta1.IReadRowsRequest = {};
-      request.readPosition = {};
-      request.readPosition.stream = {};
-      request.readPosition.stream.name = '';
-      // Mock response
-      const expectedResponse = {};
-      // Mock gRPC layer
-      client._innerApiCalls.readRows = mockServerStreamingGrpcMethod(
-        request,
-        null,
-        error
-      );
-      const stream = client.readRows(request);
-      stream.on('data', () => {
-        assert.fail();
-      });
-      stream.on('error', (err: FakeError) => {
-        assert(err instanceof FakeError);
-        assert.strictEqual(err.code, FAKE_STATUS_CODE);
-        done();
-      });
-      stream.write();
-    });
-  });
 });

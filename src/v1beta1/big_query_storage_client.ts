@@ -17,13 +17,7 @@
 // ** All changes to this file may be overwritten. **
 
 import * as gax from 'google-gax';
-import {
-  APICallback,
-  Callback,
-  CallOptions,
-  Descriptors,
-  ClientOptions,
-} from 'google-gax';
+import {APICallback, Callback, CallOptions, Descriptors, ClientOptions} from 'google-gax';
 import * as path from 'path';
 
 import * as protosTypes from '../../protos/protos';
@@ -39,12 +33,7 @@ const version = require('../../../package.json').version;
  * @memberof v1beta1
  */
 export class BigQueryStorageClient {
-  private _descriptors: Descriptors = {
-    page: {},
-    stream: {},
-    longrunning: {},
-    batching: {},
-  };
+  private _descriptors: Descriptors = {page: {}, stream: {}, longrunning: {}, batching: {}};
   private _innerApiCalls: {[name: string]: Function};
   private _pathTemplates: {[name: string]: gax.PathTemplate};
   private _terminated = false;
@@ -85,12 +74,10 @@ export class BigQueryStorageClient {
   constructor(opts?: ClientOptions) {
     // Ensure that options include the service address and port.
     const staticMembers = this.constructor as typeof BigQueryStorageClient;
-    const servicePath =
-      opts && opts.servicePath
-        ? opts.servicePath
-        : opts && opts.apiEndpoint
-        ? opts.apiEndpoint
-        : staticMembers.servicePath;
+    const servicePath = opts && opts.servicePath ?
+        opts.servicePath :
+        ((opts && opts.apiEndpoint) ? opts.apiEndpoint :
+                                      staticMembers.servicePath);
     const port = opts && opts.port ? opts.port : staticMembers.port;
 
     if (!opts) {
@@ -100,8 +87,8 @@ export class BigQueryStorageClient {
     opts.port = opts.port || port;
     opts.clientConfig = opts.clientConfig || {};
 
-    const isBrowser = typeof window !== 'undefined';
-    if (isBrowser) {
+    const isBrowser = (typeof window !== 'undefined');
+    if (isBrowser){
       opts.fallback = true;
     }
     // If we are in browser, we are already using fallback because of the
@@ -118,10 +105,13 @@ export class BigQueryStorageClient {
     this._opts = opts;
 
     // Save the auth object to the client, for use by other methods.
-    this.auth = this._gaxGrpc.auth as gax.GoogleAuth;
+    this.auth = (this._gaxGrpc.auth as gax.GoogleAuth);
 
     // Determine the client header string.
-    const clientHeader = [`gax/${this._gaxModule.version}`, `gapic/${version}`];
+    const clientHeader = [
+      `gax/${this._gaxModule.version}`,
+      `gapic/${version}`,
+    ];
     if (typeof process !== 'undefined' && 'versions' in process) {
       clientHeader.push(`gl-node/${process.versions.node}`);
     } else {
@@ -137,15 +127,11 @@ export class BigQueryStorageClient {
     // For Node.js, pass the path to JSON proto file.
     // For browsers, pass the JSON content.
 
-    const nodejsProtoPath = path.join(
-      __dirname,
-      '..',
-      '..',
-      'protos',
-      'protos.json'
-    );
+    const nodejsProtoPath = path.join(__dirname, '..', '..', 'protos', 'protos.json');
     this._protos = this._gaxGrpc.loadProto(
-      opts.fallback ? require('../../protos/protos.json') : nodejsProtoPath
+      opts.fallback ?
+        require("../../protos/protos.json") :
+        nodejsProtoPath
     );
 
     // This API contains "path templates"; forward-slash-separated
@@ -163,18 +149,13 @@ export class BigQueryStorageClient {
     // Some of the methods on this service provide streaming responses.
     // Provide descriptors for these.
     this._descriptors.stream = {
-      readRows: new this._gaxModule.StreamDescriptor(
-        gax.StreamType.SERVER_STREAMING
-      ),
+      readRows: new this._gaxModule.StreamDescriptor(gax.StreamType.SERVER_STREAMING)
     };
 
     // Put together the default options sent with requests.
     this._defaults = this._gaxGrpc.constructSettings(
-      'google.cloud.bigquery.storage.v1beta1.BigQueryStorage',
-      gapicConfig as gax.ClientConfig,
-      opts.clientConfig || {},
-      {'x-goog-api-client': clientHeader.join(' ')}
-    );
+        'google.cloud.bigquery.storage.v1beta1.BigQueryStorage', gapicConfig as gax.ClientConfig,
+        opts.clientConfig || {}, {'x-goog-api-client': clientHeader.join(' ')});
 
     // Set up a dictionary of "inner API calls"; the core implementation
     // of calling the API is handled in `google-gax`, with this code
@@ -202,25 +183,16 @@ export class BigQueryStorageClient {
     // Put together the "service stub" for
     // google.cloud.bigquery.storage.v1beta1.BigQueryStorage.
     this.bigQueryStorageStub = this._gaxGrpc.createStub(
-      this._opts.fallback
-        ? (this._protos as protobuf.Root).lookupService(
-            'google.cloud.bigquery.storage.v1beta1.BigQueryStorage'
-          )
-        : // tslint:disable-next-line no-any
-          (this._protos as any).google.cloud.bigquery.storage.v1beta1
-            .BigQueryStorage,
-      this._opts
-    ) as Promise<{[method: string]: Function}>;
+        this._opts.fallback ?
+          (this._protos as protobuf.Root).lookupService('google.cloud.bigquery.storage.v1beta1.BigQueryStorage') :
+          /* eslint-disable @typescript-eslint/no-explicit-any */
+          (this._protos as any).google.cloud.bigquery.storage.v1beta1.BigQueryStorage,
+        this._opts) as Promise<{[method: string]: Function}>;
 
     // Iterate over each of the methods that the service provides
     // and create an API call method for each.
-    const bigQueryStorageStubMethods = [
-      'createReadSession',
-      'readRows',
-      'batchCreateReadSessionStreams',
-      'finalizeStream',
-      'splitReadStream',
-    ];
+    const bigQueryStorageStubMethods =
+        ['createReadSession', 'readRows', 'batchCreateReadSessionStreams', 'finalizeStream', 'splitReadStream'];
 
     for (const methodName of bigQueryStorageStubMethods) {
       const innerCallPromise = this.bigQueryStorageStub.then(
@@ -231,17 +203,16 @@ export class BigQueryStorageClient {
           const func = stub[methodName];
           return func.apply(stub, args);
         },
-        (err: Error | null | undefined) => () => {
+        (err: Error|null|undefined) => () => {
           throw err;
-        }
-      );
+        });
 
       const apiCall = this._gaxModule.createApiCall(
         innerCallPromise,
         this._defaults[methodName],
         this._descriptors.page[methodName] ||
-          this._descriptors.stream[methodName] ||
-          this._descriptors.longrunning[methodName]
+            this._descriptors.stream[methodName] ||
+            this._descriptors.longrunning[methodName]
       );
 
       this._innerApiCalls[methodName] = (
@@ -286,7 +257,7 @@ export class BigQueryStorageClient {
     return [
       'https://www.googleapis.com/auth/bigquery',
       'https://www.googleapis.com/auth/bigquery.readonly',
-      'https://www.googleapis.com/auth/cloud-platform',
+      'https://www.googleapis.com/auth/cloud-platform'
     ];
   }
 
@@ -297,9 +268,8 @@ export class BigQueryStorageClient {
    * @param {function(Error, string)} callback - the callback to
    *   be called with the current project Id.
    */
-  getProjectId(
-    callback?: Callback<string, undefined, undefined>
-  ): Promise<string> | void {
+  getProjectId(callback?: Callback<string, undefined, undefined>):
+      Promise<string>|void {
     if (callback) {
       this.auth.getProjectId(callback);
       return;
@@ -311,105 +281,84 @@ export class BigQueryStorageClient {
   // -- Service calls --
   // -------------------
   createReadSession(
-    request: protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest,
-    options?: gax.CallOptions
-  ): Promise<
-    [
-      protosTypes.google.cloud.bigquery.storage.v1beta1.IReadSession,
-      (
-        | protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest
-        | undefined
-      ),
-      {} | undefined
-    ]
-  >;
+      request: protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest,
+      options?: gax.CallOptions):
+      Promise<[
+        protosTypes.google.cloud.bigquery.storage.v1beta1.IReadSession,
+        protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest|undefined, {}|undefined
+      ]>;
   createReadSession(
-    request: protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest,
-    options: gax.CallOptions,
-    callback: Callback<
-      protosTypes.google.cloud.bigquery.storage.v1beta1.IReadSession,
-      | protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest
-      | undefined,
-      {} | undefined
-    >
-  ): void;
-  /**
-   * Creates a new read session. A read session divides the contents of a
-   * BigQuery table into one or more streams, which can then be used to read
-   * data from the table. The read session also specifies properties of the
-   * data to be read, such as a list of columns or a push-down filter describing
-   * the rows to be returned.
-   *
-   * A particular row can be read by at most one stream. When the caller has
-   * reached the end of each stream in the session, then all the data in the
-   * table has been read.
-   *
-   * Read sessions automatically expire 24 hours after they are created and do
-   * not require manual clean-up by the caller.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {google.cloud.bigquery.storage.v1beta1.TableReference} request.tableReference
-   *   Required. Reference to the table to read.
-   * @param {string} request.parent
-   *   Required. String of the form `projects/{project_id}` indicating the
-   *   project this ReadSession is associated with. This is the project that will
-   *   be billed for usage.
-   * @param {google.cloud.bigquery.storage.v1beta1.TableModifiers} request.tableModifiers
-   *   Any modifiers to the Table (e.g. snapshot timestamp).
-   * @param {number} request.requestedStreams
-   *   Initial number of streams. If unset or 0, we will
-   *   provide a value of streams so as to produce reasonable throughput. Must be
-   *   non-negative. The number of streams may be lower than the requested number,
-   *   depending on the amount parallelism that is reasonable for the table and
-   *   the maximum amount of parallelism allowed by the system.
-   *
-   *   Streams must be read starting from offset 0.
-   * @param {google.cloud.bigquery.storage.v1beta1.TableReadOptions} request.readOptions
-   *   Read options for this session (e.g. column selection, filters).
-   * @param {google.cloud.bigquery.storage.v1beta1.DataFormat} request.format
-   *   Data output format. Currently default to Avro.
-   * @param {google.cloud.bigquery.storage.v1beta1.ShardingStrategy} request.shardingStrategy
-   *   The strategy to use for distributing data among multiple streams. Currently
-   *   defaults to liquid sharding.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [ReadSession]{@link google.cloud.bigquery.storage.v1beta1.ReadSession}.
-   *   The promise has a method named "cancel" which cancels the ongoing API call.
-   */
-  createReadSession(
-    request: protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest,
-    optionsOrCallback?:
-      | gax.CallOptions
-      | Callback<
+      request: protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest,
+      options: gax.CallOptions,
+      callback: Callback<
           protosTypes.google.cloud.bigquery.storage.v1beta1.IReadSession,
-          | protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest
-          | undefined,
-          {} | undefined
-        >,
-    callback?: Callback<
-      protosTypes.google.cloud.bigquery.storage.v1beta1.IReadSession,
-      | protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest
-      | undefined,
-      {} | undefined
-    >
-  ): Promise<
-    [
-      protosTypes.google.cloud.bigquery.storage.v1beta1.IReadSession,
-      (
-        | protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest
-        | undefined
-      ),
-      {} | undefined
-    ]
-  > | void {
+          protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest|undefined,
+          {}|undefined>): void;
+/**
+ * Creates a new read session. A read session divides the contents of a
+ * BigQuery table into one or more streams, which can then be used to read
+ * data from the table. The read session also specifies properties of the
+ * data to be read, such as a list of columns or a push-down filter describing
+ * the rows to be returned.
+ *
+ * A particular row can be read by at most one stream. When the caller has
+ * reached the end of each stream in the session, then all the data in the
+ * table has been read.
+ *
+ * Read sessions automatically expire 24 hours after they are created and do
+ * not require manual clean-up by the caller.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {google.cloud.bigquery.storage.v1beta1.TableReference} request.tableReference
+ *   Required. Reference to the table to read.
+ * @param {string} request.parent
+ *   Required. String of the form `projects/{project_id}` indicating the
+ *   project this ReadSession is associated with. This is the project that will
+ *   be billed for usage.
+ * @param {google.cloud.bigquery.storage.v1beta1.TableModifiers} request.tableModifiers
+ *   Any modifiers to the Table (e.g. snapshot timestamp).
+ * @param {number} request.requestedStreams
+ *   Initial number of streams. If unset or 0, we will
+ *   provide a value of streams so as to produce reasonable throughput. Must be
+ *   non-negative. The number of streams may be lower than the requested number,
+ *   depending on the amount parallelism that is reasonable for the table and
+ *   the maximum amount of parallelism allowed by the system.
+ *
+ *   Streams must be read starting from offset 0.
+ * @param {google.cloud.bigquery.storage.v1beta1.TableReadOptions} request.readOptions
+ *   Read options for this session (e.g. column selection, filters).
+ * @param {google.cloud.bigquery.storage.v1beta1.DataFormat} request.format
+ *   Data output format. Currently default to Avro.
+ * @param {google.cloud.bigquery.storage.v1beta1.ShardingStrategy} request.shardingStrategy
+ *   The strategy to use for distributing data among multiple streams. Currently
+ *   defaults to liquid sharding.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing [ReadSession]{@link google.cloud.bigquery.storage.v1beta1.ReadSession}.
+ *   The promise has a method named "cancel" which cancels the ongoing API call.
+ */
+  createReadSession(
+      request: protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest,
+      optionsOrCallback?: gax.CallOptions|Callback<
+          protosTypes.google.cloud.bigquery.storage.v1beta1.IReadSession,
+          protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest|undefined, {}|undefined>,
+      callback?: Callback<
+          protosTypes.google.cloud.bigquery.storage.v1beta1.IReadSession,
+          protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest|undefined,
+          {}|undefined>):
+      Promise<[
+        protosTypes.google.cloud.bigquery.storage.v1beta1.IReadSession,
+        protosTypes.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -425,80 +374,59 @@ export class BigQueryStorageClient {
     return this._innerApiCalls.createReadSession(request, options, callback);
   }
   batchCreateReadSessionStreams(
-    request: protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest,
-    options?: gax.CallOptions
-  ): Promise<
-    [
-      protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsResponse,
-      (
-        | protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest
-        | undefined
-      ),
-      {} | undefined
-    ]
-  >;
+      request: protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest,
+      options?: gax.CallOptions):
+      Promise<[
+        protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsResponse,
+        protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest|undefined, {}|undefined
+      ]>;
   batchCreateReadSessionStreams(
-    request: protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest,
-    options: gax.CallOptions,
-    callback: Callback<
-      protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsResponse,
-      | protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest
-      | undefined,
-      {} | undefined
-    >
-  ): void;
-  /**
-   * Creates additional streams for a ReadSession. This API can be used to
-   * dynamically adjust the parallelism of a batch processing task upwards by
-   * adding additional workers.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {google.cloud.bigquery.storage.v1beta1.ReadSession} request.session
-   *   Required. Must be a non-expired session obtained from a call to
-   *   CreateReadSession. Only the name field needs to be set.
-   * @param {number} request.requestedStreams
-   *   Required. Number of new streams requested. Must be positive.
-   *   Number of added streams may be less than this, see CreateReadSessionRequest
-   *   for more information.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [BatchCreateReadSessionStreamsResponse]{@link google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse}.
-   *   The promise has a method named "cancel" which cancels the ongoing API call.
-   */
-  batchCreateReadSessionStreams(
-    request: protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest,
-    optionsOrCallback?:
-      | gax.CallOptions
-      | Callback<
+      request: protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest,
+      options: gax.CallOptions,
+      callback: Callback<
           protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsResponse,
-          | protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest
-          | undefined,
-          {} | undefined
-        >,
-    callback?: Callback<
-      protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsResponse,
-      | protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest
-      | undefined,
-      {} | undefined
-    >
-  ): Promise<
-    [
-      protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsResponse,
-      (
-        | protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest
-        | undefined
-      ),
-      {} | undefined
-    ]
-  > | void {
+          protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest|undefined,
+          {}|undefined>): void;
+/**
+ * Creates additional streams for a ReadSession. This API can be used to
+ * dynamically adjust the parallelism of a batch processing task upwards by
+ * adding additional workers.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {google.cloud.bigquery.storage.v1beta1.ReadSession} request.session
+ *   Required. Must be a non-expired session obtained from a call to
+ *   CreateReadSession. Only the name field needs to be set.
+ * @param {number} request.requestedStreams
+ *   Required. Number of new streams requested. Must be positive.
+ *   Number of added streams may be less than this, see CreateReadSessionRequest
+ *   for more information.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing [BatchCreateReadSessionStreamsResponse]{@link google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse}.
+ *   The promise has a method named "cancel" which cancels the ongoing API call.
+ */
+  batchCreateReadSessionStreams(
+      request: protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest,
+      optionsOrCallback?: gax.CallOptions|Callback<
+          protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsResponse,
+          protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest|undefined, {}|undefined>,
+      callback?: Callback<
+          protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsResponse,
+          protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest|undefined,
+          {}|undefined>):
+      Promise<[
+        protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsResponse,
+        protosTypes.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -510,93 +438,68 @@ export class BigQueryStorageClient {
       'session.name': request.session!.name || '',
     });
     this.initialize();
-    return this._innerApiCalls.batchCreateReadSessionStreams(
-      request,
-      options,
-      callback
-    );
+    return this._innerApiCalls.batchCreateReadSessionStreams(request, options, callback);
   }
   finalizeStream(
-    request: protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest,
-    options?: gax.CallOptions
-  ): Promise<
-    [
-      protosTypes.google.protobuf.IEmpty,
-      (
-        | protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest
-        | undefined
-      ),
-      {} | undefined
-    ]
-  >;
+      request: protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest,
+      options?: gax.CallOptions):
+      Promise<[
+        protosTypes.google.protobuf.IEmpty,
+        protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest|undefined, {}|undefined
+      ]>;
   finalizeStream(
-    request: protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest,
-    options: gax.CallOptions,
-    callback: Callback<
-      protosTypes.google.protobuf.IEmpty,
-      | protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest
-      | undefined,
-      {} | undefined
-    >
-  ): void;
-  /**
-   * Triggers the graceful termination of a single stream in a ReadSession. This
-   * API can be used to dynamically adjust the parallelism of a batch processing
-   * task downwards without losing data.
-   *
-   * This API does not delete the stream -- it remains visible in the
-   * ReadSession, and any data processed by the stream is not released to other
-   * streams. However, no additional data will be assigned to the stream once
-   * this call completes. Callers must continue reading data on the stream until
-   * the end of the stream is reached so that data which has already been
-   * assigned to the stream will be processed.
-   *
-   * This method will return an error if there are no other live streams
-   * in the Session, or if SplitReadStream() has been called on the given
-   * Stream.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {google.cloud.bigquery.storage.v1beta1.Stream} request.stream
-   *   Stream to finalize.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [Empty]{@link google.protobuf.Empty}.
-   *   The promise has a method named "cancel" which cancels the ongoing API call.
-   */
-  finalizeStream(
-    request: protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest,
-    optionsOrCallback?:
-      | gax.CallOptions
-      | Callback<
+      request: protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest,
+      options: gax.CallOptions,
+      callback: Callback<
           protosTypes.google.protobuf.IEmpty,
-          | protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest
-          | undefined,
-          {} | undefined
-        >,
-    callback?: Callback<
-      protosTypes.google.protobuf.IEmpty,
-      | protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest
-      | undefined,
-      {} | undefined
-    >
-  ): Promise<
-    [
-      protosTypes.google.protobuf.IEmpty,
-      (
-        | protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest
-        | undefined
-      ),
-      {} | undefined
-    ]
-  > | void {
+          protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest|undefined,
+          {}|undefined>): void;
+/**
+ * Triggers the graceful termination of a single stream in a ReadSession. This
+ * API can be used to dynamically adjust the parallelism of a batch processing
+ * task downwards without losing data.
+ *
+ * This API does not delete the stream -- it remains visible in the
+ * ReadSession, and any data processed by the stream is not released to other
+ * streams. However, no additional data will be assigned to the stream once
+ * this call completes. Callers must continue reading data on the stream until
+ * the end of the stream is reached so that data which has already been
+ * assigned to the stream will be processed.
+ *
+ * This method will return an error if there are no other live streams
+ * in the Session, or if SplitReadStream() has been called on the given
+ * Stream.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {google.cloud.bigquery.storage.v1beta1.Stream} request.stream
+ *   Stream to finalize.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing [Empty]{@link google.protobuf.Empty}.
+ *   The promise has a method named "cancel" which cancels the ongoing API call.
+ */
+  finalizeStream(
+      request: protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest,
+      optionsOrCallback?: gax.CallOptions|Callback<
+          protosTypes.google.protobuf.IEmpty,
+          protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest|undefined, {}|undefined>,
+      callback?: Callback<
+          protosTypes.google.protobuf.IEmpty,
+          protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest|undefined,
+          {}|undefined>):
+      Promise<[
+        protosTypes.google.protobuf.IEmpty,
+        protosTypes.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -611,93 +514,72 @@ export class BigQueryStorageClient {
     return this._innerApiCalls.finalizeStream(request, options, callback);
   }
   splitReadStream(
-    request: protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest,
-    options?: gax.CallOptions
-  ): Promise<
-    [
-      protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamResponse,
-      (
-        | protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest
-        | undefined
-      ),
-      {} | undefined
-    ]
-  >;
+      request: protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest,
+      options?: gax.CallOptions):
+      Promise<[
+        protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamResponse,
+        protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest|undefined, {}|undefined
+      ]>;
   splitReadStream(
-    request: protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest,
-    options: gax.CallOptions,
-    callback: Callback<
-      protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamResponse,
-      | protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest
-      | undefined,
-      {} | undefined
-    >
-  ): void;
-  /**
-   * Splits a given read stream into two Streams. These streams are referred to
-   * as the primary and the residual of the split. The original stream can still
-   * be read from in the same manner as before. Both of the returned streams can
-   * also be read from, and the total rows return by both child streams will be
-   * the same as the rows read from the original stream.
-   *
-   * Moreover, the two child streams will be allocated back to back in the
-   * original Stream. Concretely, it is guaranteed that for streams Original,
-   * Primary, and Residual, that Original[0-j] = Primary[0-j] and
-   * Original[j-n] = Residual[0-m] once the streams have been read to
-   * completion.
-   *
-   * This method is guaranteed to be idempotent.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {google.cloud.bigquery.storage.v1beta1.Stream} request.originalStream
-   *   Stream to split.
-   * @param {number} request.fraction
-   *   A value in the range (0.0, 1.0) that specifies the fractional point at
-   *   which the original stream should be split. The actual split point is
-   *   evaluated on pre-filtered rows, so if a filter is provided, then there is
-   *   no guarantee that the division of the rows between the new child streams
-   *   will be proportional to this fractional value. Additionally, because the
-   *   server-side unit for assigning data is collections of rows, this fraction
-   *   will always map to to a data storage boundary on the server side.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [SplitReadStreamResponse]{@link google.cloud.bigquery.storage.v1beta1.SplitReadStreamResponse}.
-   *   The promise has a method named "cancel" which cancels the ongoing API call.
-   */
-  splitReadStream(
-    request: protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest,
-    optionsOrCallback?:
-      | gax.CallOptions
-      | Callback<
+      request: protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest,
+      options: gax.CallOptions,
+      callback: Callback<
           protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamResponse,
-          | protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest
-          | undefined,
-          {} | undefined
-        >,
-    callback?: Callback<
-      protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamResponse,
-      | protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest
-      | undefined,
-      {} | undefined
-    >
-  ): Promise<
-    [
-      protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamResponse,
-      (
-        | protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest
-        | undefined
-      ),
-      {} | undefined
-    ]
-  > | void {
+          protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest|undefined,
+          {}|undefined>): void;
+/**
+ * Splits a given read stream into two Streams. These streams are referred to
+ * as the primary and the residual of the split. The original stream can still
+ * be read from in the same manner as before. Both of the returned streams can
+ * also be read from, and the total rows return by both child streams will be
+ * the same as the rows read from the original stream.
+ *
+ * Moreover, the two child streams will be allocated back to back in the
+ * original Stream. Concretely, it is guaranteed that for streams Original,
+ * Primary, and Residual, that Original[0-j] = Primary[0-j] and
+ * Original[j-n] = Residual[0-m] once the streams have been read to
+ * completion.
+ *
+ * This method is guaranteed to be idempotent.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {google.cloud.bigquery.storage.v1beta1.Stream} request.originalStream
+ *   Stream to split.
+ * @param {number} request.fraction
+ *   A value in the range (0.0, 1.0) that specifies the fractional point at
+ *   which the original stream should be split. The actual split point is
+ *   evaluated on pre-filtered rows, so if a filter is provided, then there is
+ *   no guarantee that the division of the rows between the new child streams
+ *   will be proportional to this fractional value. Additionally, because the
+ *   server-side unit for assigning data is collections of rows, this fraction
+ *   will always map to to a data storage boundary on the server side.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing [SplitReadStreamResponse]{@link google.cloud.bigquery.storage.v1beta1.SplitReadStreamResponse}.
+ *   The promise has a method named "cancel" which cancels the ongoing API call.
+ */
+  splitReadStream(
+      request: protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest,
+      optionsOrCallback?: gax.CallOptions|Callback<
+          protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamResponse,
+          protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest|undefined, {}|undefined>,
+      callback?: Callback<
+          protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamResponse,
+          protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest|undefined,
+          {}|undefined>):
+      Promise<[
+        protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamResponse,
+        protosTypes.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -712,32 +594,32 @@ export class BigQueryStorageClient {
     return this._innerApiCalls.splitReadStream(request, options, callback);
   }
 
-  /**
-   * Reads rows from the table in the format prescribed by the read session.
-   * Each response contains one or more table rows, up to a maximum of 10 MiB
-   * per response; read requests which attempt to read individual rows larger
-   * than this will fail.
-   *
-   * Each request also returns a set of stream statistics reflecting the
-   * estimated total number of rows in the read stream. This number is computed
-   * based on the total table size and the number of active streams in the read
-   * session, and may change as other streams continue to read data.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {google.cloud.bigquery.storage.v1beta1.StreamPosition} request.readPosition
-   *   Required. Identifier of the position in the stream to start reading from.
-   *   The offset requested must be less than the last row read from ReadRows.
-   *   Requesting a larger offset is undefined.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Stream}
-   *   An object stream which emits [ReadRowsResponse]{@link google.cloud.bigquery.storage.v1beta1.ReadRowsResponse} on 'data' event.
-   */
+/**
+ * Reads rows from the table in the format prescribed by the read session.
+ * Each response contains one or more table rows, up to a maximum of 10 MiB
+ * per response; read requests which attempt to read individual rows larger
+ * than this will fail.
+ *
+ * Each request also returns a set of stream statistics reflecting the
+ * estimated total number of rows in the read stream. This number is computed
+ * based on the total table size and the number of active streams in the read
+ * session, and may change as other streams continue to read data.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {google.cloud.bigquery.storage.v1beta1.StreamPosition} request.readPosition
+ *   Required. Identifier of the position in the stream to start reading from.
+ *   The offset requested must be less than the last row read from ReadRows.
+ *   Requesting a larger offset is undefined.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Stream}
+ *   An object stream which emits [ReadRowsResponse]{@link google.cloud.bigquery.storage.v1beta1.ReadRowsResponse} on 'data' event.
+ */
   readRows(
-    request?: protosTypes.google.cloud.bigquery.storage.v1beta1.IReadRowsRequest,
-    options?: gax.CallOptions
-  ): gax.CancellableStream {
+      request?: protosTypes.google.cloud.bigquery.storage.v1beta1.IReadRowsRequest,
+      options?: gax.CallOptions):
+    gax.CancellableStream{
     request = request || {};
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -763,7 +645,7 @@ export class BigQueryStorageClient {
    * @param {string} session
    * @returns {string} Resource name string.
    */
-  readSessionPath(project: string, location: string, session: string) {
+  readSessionPath(project:string,location:string,session:string) {
     return this._pathTemplates.readSessionPathTemplate.render({
       project,
       location,
@@ -779,8 +661,7 @@ export class BigQueryStorageClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromReadSessionName(readSessionName: string) {
-    return this._pathTemplates.readSessionPathTemplate.match(readSessionName)
-      .project;
+    return this._pathTemplates.readSessionPathTemplate.match(readSessionName).project;
   }
 
   /**
@@ -791,8 +672,7 @@ export class BigQueryStorageClient {
    * @returns {string} A string representing the location.
    */
   matchLocationFromReadSessionName(readSessionName: string) {
-    return this._pathTemplates.readSessionPathTemplate.match(readSessionName)
-      .location;
+    return this._pathTemplates.readSessionPathTemplate.match(readSessionName).location;
   }
 
   /**
@@ -803,8 +683,7 @@ export class BigQueryStorageClient {
    * @returns {string} A string representing the session.
    */
   matchSessionFromReadSessionName(readSessionName: string) {
-    return this._pathTemplates.readSessionPathTemplate.match(readSessionName)
-      .session;
+    return this._pathTemplates.readSessionPathTemplate.match(readSessionName).session;
   }
 
   /**
@@ -815,7 +694,7 @@ export class BigQueryStorageClient {
    * @param {string} stream
    * @returns {string} Resource name string.
    */
-  streamPath(project: string, location: string, stream: string) {
+  streamPath(project:string,location:string,stream:string) {
     return this._pathTemplates.streamPathTemplate.render({
       project,
       location,
