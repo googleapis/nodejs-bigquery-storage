@@ -220,6 +220,7 @@ export class BigQueryReadClient {
           if (this._terminated) {
             return Promise.reject('The client has already been closed.');
           }
+          // eslint-disable-next-line prefer-spread
           return stub[methodName].apply(stub, args);
         },
         (err: Error | null | undefined) => () => {

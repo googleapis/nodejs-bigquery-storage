@@ -19,6 +19,7 @@
 import * as protosTypes from '../protos/protos';
 import * as assert from 'assert';
 import {describe, it} from 'mocha';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const bigqueryreadModule = require('../src');
 
 import {PassThrough} from 'stream';
