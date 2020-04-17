@@ -21,7 +21,6 @@ jobs:
       - name: coverage
         uses: codecov/codecov-action@v1
         with:
-          file: ./.coverage/lcov.info 
           name: codecov-umbrella
           fail_ci_if_error: true
   windows:
@@ -36,7 +35,6 @@ jobs:
       - name: coverage
         uses: codecov/codecov-action@v1
         with:
-          file: ./.coverage/lcov.info 
           name: codecov-umbrella
           fail_ci_if_error: true
   lint:
