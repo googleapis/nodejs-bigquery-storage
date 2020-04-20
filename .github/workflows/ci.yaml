@@ -35,7 +35,7 @@ jobs:
       - name: coverage
         uses: codecov/codecov-action@v1
         with:
-          name: actions-windows
+          name: actions windows
           fail_ci_if_error: true
   lint:
     runs-on: ubuntu-latest
