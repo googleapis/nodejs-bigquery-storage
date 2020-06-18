@@ -4,7 +4,7 @@
       "git": {
         "name": ".",
         "remote": "git@github.com:googleapis/nodejs-bigquery-storage.git",
-        "sha": "ea6ab41ee4072f694b6dd6c781cd40f24419a040"
+        "sha": "a6c5bf05da2d751dc3c656d387ac983455b24781"
       }
     },
     {
@@ -13,6 +13,33 @@
         "remote": "https://github.com/googleapis/googleapis.git",
         "sha": "eb37e688331443969eed9b969531751154a956d5",
         "internalRef": "317130948"
+      }
+    },
+    {
+      "git": {
+        "name": "synthtool",
+        "remote": "https://github.com/googleapis/synthtool.git",
+        "sha": "cd522c3b4dde821766d95c80ae5aeb43d7a41170"
+      }
+    }
+  ],
+  "destinations": [
+    {
+      "client": {
+        "source": "googleapis",
+        "apiName": "bigquerystorage",
+        "apiVersion": "v1beta1",
+        "language": "typescript",
+        "generator": "gapic-generator-typescript"
+      }
+    },
+    {
+      "client": {
+        "source": "googleapis",
+        "apiName": "bigquerystorage",
+        "apiVersion": "v1",
+        "language": "typescript",
+        "generator": "gapic-generator-typescript"
       }
     }
   ]
