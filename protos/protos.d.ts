@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import * as Long from "long";
-import * as $protobuf from "protobufjs";
+import {protobuf as $protobuf} from "google-gax";
 /** Namespace google. */
 export namespace google {
 
@@ -5223,6 +5223,9 @@ export namespace google {
 
             /** FieldDescriptorProto options */
             options?: (google.protobuf.IFieldOptions|null);
+
+            /** FieldDescriptorProto proto3Optional */
+            proto3Optional?: (boolean|null);
         }
 
         /** Represents a FieldDescriptorProto. */
@@ -5263,6 +5266,9 @@ export namespace google {
 
             /** FieldDescriptorProto options. */
             public options?: (google.protobuf.IFieldOptions|null);
+
+            /** FieldDescriptorProto proto3Optional. */
+            public proto3Optional: boolean;
 
             /**
              * Creates a new FieldDescriptorProto instance using the specified properties.
