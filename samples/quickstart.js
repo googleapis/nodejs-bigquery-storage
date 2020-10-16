@@ -107,14 +107,15 @@ async function main() {
       .readRows(readRowsRequest)
       .on('error', console.error)
       .on('data', data => {
-        try {
-          offset = 0;
+        offset = data.avroRows.serializedBinaryRows.offset;
 
+        try {
           // Decode all rows in buffer
+          let pos;
           do {
             const decodedData = avroType.decode(
               data.avroRows.serializedBinaryRows,
-              offset
+              pos
             );
 
             if (decodedData.value) {
@@ -125,8 +126,8 @@ async function main() {
               }
             }
 
-            offset = decodedData.offset;
-          } while (offset > 0);
+            pos = decodedData.offset;
+          } while (pos > 0);
         } catch (error) {
           console.log(error);
         }
