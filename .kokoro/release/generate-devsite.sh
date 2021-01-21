@@ -23,8 +23,7 @@ npm install
 npm run api-extractor
 npm run api-documenter
 
-npm i json@9.0.6 -g
-NAME=$(cat .repo-metadata.json | json name)
+NAME=$(ls temp | sed s/.api.json*//)
 
 mkdir ./_devsite
 mkdir ./_devsite/$NAME
