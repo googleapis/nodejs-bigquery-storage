@@ -18,17 +18,12 @@ import synthtool.languages.node as node
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-AUTOSYNTH_MULTIPLE_COMMITS = True
-
-# Run the gapic generator
-gapic = gcp.GAPICBazel()
-name = 'bigquery-storage'
-versions = ['v1beta1', 'v1']
-for version in versions:
-    library = gapic.node_library(name, version, proto_path=f'google/cloud/bigquery/storage/{version}')
+for library in s.get_staging_dirs():
     s.copy(library, excludes=['package.json', 'README.md', 'src/index.ts'])
+s.remove_staging_dirs()
+
 # Copy common templates
 common_templates = gcp.CommonTemplates()
 templates = common_templates.node_library(source_location='build/src')
-s.copy(templates, excludes=[])
+s.copy(templates, excludes=['src/index.ts'])
 node.postprocess_gapic_library()

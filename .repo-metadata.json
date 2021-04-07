@@ -1,14 +1,15 @@
 {
-  "name": "bigquerystorage",
   "name_pretty": "Google BigQuery Storage",
-  "product_documentation": "https://cloud.google.com/bigquery/docs/reference/storage",
-  "client_documentation": "https://googleapis.dev/nodejs/bigquerystorage/latest",
-  "issue_tracker": "https://b.corp.google.com/savedsearches/559654",
-  "release_level": "ga",
+  "codeowner_team": "@googleapis/api-bigquery",
   "language": "nodejs",
-  "repo": "googleapis/nodejs-bigquery-storage",
-  "distribution_name": "@google-cloud/bigquery-storage",
-  "api_id": "bigquerystorage.googleapis.com",
+  "issue_tracker": "https://b.corp.google.com/savedsearches/559654",
+  "client_documentation": "https://googleapis.dev/nodejs/bigquerystorage/latest",
+  "default_version": "v1",
   "requires_billing": true,
-  "codeowner_team": "@googleapis/api-bigquery"
+  "release_level": "ga",
+  "distribution_name": "@google-cloud/bigquery-storage",
+  "repo": "googleapis/nodejs-bigquery-storage",
+  "name": "bigquerystorage",
+  "product_documentation": "https://cloud.google.com/bigquery/docs/reference/storage",
+  "api_id": "bigquerystorage.googleapis.com"
 }
