@@ -1,5 +1,13 @@
 # Changelog
 
+### [2.4.1](https://www.github.com/googleapis/nodejs-bigquery-storage/compare/v2.4.0...v2.4.1) (2021-05-12)
+
+
+### Bug Fixes
+
+* **deps:** require google-gax v2.12.0 ([#158](https://www.github.com/googleapis/nodejs-bigquery-storage/issues/158)) ([3347edd](https://www.github.com/googleapis/nodejs-bigquery-storage/commit/3347edd3781d7a37ae6a50b0d6885365bc2e4b2f))
+* use require() to load JSON protos ([#161](https://www.github.com/googleapis/nodejs-bigquery-storage/issues/161)) ([a16129f](https://www.github.com/googleapis/nodejs-bigquery-storage/commit/a16129f7a56882e3070fa79f29b8b6018e7cd651))
+
 ## [2.4.0](https://www.github.com/googleapis/nodejs-bigquery-storage/compare/v2.3.0...v2.4.0) (2021-04-20)
 
 
