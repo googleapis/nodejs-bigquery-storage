@@ -16,10 +16,16 @@
 // ** https://github.com/googleapis/gapic-generator-typescript **
 // ** All changes to this file may be overwritten. **
 
-import {BigQueryReadClient} from '@google-cloud/bigquery-storage';
+import {
+  BigQueryReadClient,
+  BigQueryWriteClient,
+} from '@google-cloud/bigquery-storage';
 
 // check that the client class type name can be used
 function doStuffWithBigQueryReadClient(client: BigQueryReadClient) {
+  client.close();
+}
+function doStuffWithBigQueryWriteClient(client: BigQueryWriteClient) {
   client.close();
 }
 
@@ -27,6 +33,9 @@ function main() {
   // check that the client instance can be created
   const bigQueryReadClient = new BigQueryReadClient();
   doStuffWithBigQueryReadClient(bigQueryReadClient);
+  // check that the client instance can be created
+  const bigQueryWriteClient = new BigQueryWriteClient();
+  doStuffWithBigQueryWriteClient(bigQueryWriteClient);
 }
 
 main();
