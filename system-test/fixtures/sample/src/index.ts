@@ -25,6 +25,7 @@ import {
 function doStuffWithBigQueryReadClient(client: BigQueryReadClient) {
   client.close();
 }
+
 function doStuffWithBigQueryWriteClient(client: BigQueryWriteClient) {
   client.close();
 }
