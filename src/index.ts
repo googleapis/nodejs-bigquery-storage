@@ -24,7 +24,13 @@ const BigQueryWriteClient = v1.BigQueryWriteClient;
 type BigQueryWriteClient = v1.BigQueryWriteClient;
 const BigQueryStorageClient = v1beta1.BigQueryStorageClient;
 type BigQueryStorageClient = v1beta1.BigQueryStorageClient;
-export {v1, BigQueryReadClient, BigQueryWriteClient, v1beta1, BigQueryStorageClient};
+export {
+  v1,
+  BigQueryReadClient,
+  BigQueryWriteClient,
+  v1beta1,
+  BigQueryStorageClient,
+};
 // For compatibility with JavaScript libraries we need to provide this default export:
 // tslint:disable-next-line no-default-export
 export default {v1, BigQueryReadClient};
