@@ -1,4 +1,4 @@
-// Copyright 2021 Google LLC
+// Copyright 2022 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,12 +34,39 @@ const generateUuid = () =>
   `${GCLOUD_TESTS_PREFIX}_${uuid.v4()}`.replace(/-/gi, '_');
 
 const datasetId = generateUuid();
-const tableId = generateUuid();
 
 describe('writeClient', () => {
   let projectId;
 
   before(async () => {
+    await deleteDatasets();
+
+    await bigquery.createDataset(datasetId);
+  });
+
+  after(async () => {
+    await bigquery.dataset(datasetId).delete({force: true}).catch(console.warn);
+  });
+
+  it('should append rows', async () => {
+    const schema = [{name: 'customer_name', type: 'STRING'}];
+
+    const tableId = generateUuid();
+
+    const [table] = await bigquery
+      .dataset(datasetId)
+      .createTable(tableId, {schema});
+
+    projectId = table.metadata.tableReference.projectId;
+
+    const output = execSync(
+      `node append_rows_pending ${projectId} ${datasetId} ${tableId}`
+    );
+    assert.match(output, /Stream created:/);
+    assert.match(output, /Row count: 3/);
+  });
+
+  it('should append rows with multiple types', async () => {
     const schema = [
       {name: 'bool_col', type: 'BOOLEAN'},
       {name: 'bytes_col', type: 'BYTES'},
@@ -56,21 +83,14 @@ describe('writeClient', () => {
       {name: 'int64_list', type: 'INTEGER', mode: 'REPEATED'},
     ];
 
-    await deleteDatasets();
+    const tableId = generateUuid();
 
-    await bigquery.createDataset(datasetId);
     const [table] = await bigquery
       .dataset(datasetId)
       .createTable(tableId, {schema});
 
     projectId = table.metadata.tableReference.projectId;
-  });
 
-  after(async () => {
-    await bigquery.dataset(datasetId).delete({force: true}).catch(console.warn);
-  });
-
-  it('should append rows', async () => {
     const output = execSync(
       `node append_rows_proto2 ${projectId} ${datasetId} ${tableId}`
     );

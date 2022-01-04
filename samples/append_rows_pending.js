@@ -19,23 +19,21 @@ function main(
   datasetId = 'my_dataset',
   tableId = 'my_table'
 ) {
-  // [START bigquerystorage_append_rows_raw_proto2]
+  // [START bigquerystorage_append_rows_pending]
   const {BigQueryWriteClient} = require('@google-cloud/bigquery-storage').v1;
-  const sample_data_pb2 = require('./sample_data_pb2.js');
+  const customer_record_pb = require('./customer_record_pb.js');
 
-  const protos = require('@google-cloud/bigquery-storage').protos.google.cloud
-    .bigquery.storage.v1;
   const type = require('@google-cloud/bigquery-storage').protos.google.protobuf
     .FieldDescriptorProto.Type;
   const mode = require('@google-cloud/bigquery-storage').protos.google.cloud
     .bigquery.storage.v1.WriteStream.Type;
 
-  async function appendRowsProto2() {
+  async function appendRowsPending() {
     /**
      * If you make updates to the sample_data.proto protocol buffers definition,
      * run:
-     *   protoc --js_out=import_style=commonjs,binary:. sample_data.proto
-     * from the /samples directory to generate the sample_data_pb2 module.
+     *   protoc --js_out=import_style=commonjs,binary:. customer_record.proto
+     * from the /samples directory to generate the customer_record_pb module.
      */
 
     const writeClient = new BigQueryWriteClient();
@@ -43,73 +41,12 @@ function main(
     // So that BigQuery knows how to parse the serialized_rows, create a
     // protocol buffer representation of your message descriptor.
     const protoDescriptor = {};
-    protoDescriptor.name = 'SampleData';
+    protoDescriptor.name = 'CustomerRecord';
     protoDescriptor.field = [
       {
-        name: 'bool_col',
+        name: 'customer_name',
         number: 1,
-        type: type.TYPE_BOOL,
-      },
-      {
-        name: 'bytes_col',
-        number: 2,
-        type: type.TYPE_BYTES,
-      },
-      {
-        name: 'float64_col',
-        number: 3,
-        type: type.TYPE_FLOAT,
-      },
-      {
-        name: 'int64_col',
-        number: 4,
-        type: type.TYPE_INT64,
-      },
-      {
-        name: 'string_col',
-        number: 5,
         type: type.TYPE_STRING,
-      },
-      {
-        name: 'date_col',
-        number: 6,
-        type: type.TYPE_INT32,
-      },
-      {
-        name: 'datetime_col',
-        number: 7,
-        type: type.TYPE_STRING,
-      },
-      {
-        name: 'geography_col',
-        number: 8,
-        type: type.TYPE_STRING,
-      },
-      {
-        name: 'numeric_col',
-        number: 9,
-        type: type.TYPE_STRING,
-      },
-      {
-        name: 'bignumeric_col',
-        number: 10,
-        type: type.TYPE_STRING,
-      },
-      {
-        name: 'time_col',
-        number: 11,
-        type: type.TYPE_STRING,
-      },
-      {
-        name: 'timestamp_col',
-        number: 12,
-        type: type.TYPE_INT64,
-      },
-      {
-        name: 'int64_list',
-        number: 13,
-        type: type.TYPE_INT64,
-        label: protos.TableFieldSchema.Mode.REPEATED,
       },
     ];
 
@@ -152,7 +89,7 @@ function main(
         responses.push(response);
 
         // Close the stream when all responses have been received.
-        if (responses.length === 3) {
+        if (responses.length === 2) {
           stream.end();
         }
       });
@@ -182,43 +119,15 @@ function main(
       let serializedRows = [];
 
       // Row 1
-      let row = new sample_data_pb2.SampleData();
+      let row = new customer_record_pb.CustomerRecord();
       row.row_num = 1;
-      row.setBoolCol(true);
-      row.setBytesCol(Buffer.from('hello world'));
-      row.setFloat64Col(parseFloat('+123.45'));
-      row.setInt64Col(123);
-      row.setStringCol('omfg!');
+      row.setCustomerName('Octavia');
       serializedRows.push(row.serializeBinary());
 
       // Row 2
-      row = new sample_data_pb2.SampleData();
+      row = new customer_record_pb.CustomerRecord();
       row.row_num = 2;
-      row.setBoolCol(false);
-      serializedRows.push(row.serializeBinary());
-
-      // Row 3
-      row = new sample_data_pb2.SampleData();
-      row.row_num = 3;
-      row.setBytesCol(Buffer.from('later, gator'));
-      serializedRows.push(row.serializeBinary());
-
-      // Row 4
-      row = new sample_data_pb2.SampleData();
-      row.row_num = 4;
-      row.setFloat64Col(987.654);
-      serializedRows.push(row.serializeBinary());
-
-      // Row 5
-      row = new sample_data_pb2.SampleData();
-      row.row_num = 5;
-      row.setInt64Col(321);
-      serializedRows.push(row.serializeBinary());
-
-      // Row 6
-      row = new sample_data_pb2.SampleData();
-      row.row_num = 6;
-      row.setStringCol('octavia');
+      row.setCustomerName('Turing');
       serializedRows.push(row.serializeBinary());
 
       let protoRows = {
@@ -245,79 +154,20 @@ function main(
       // Send batch.
       stream.write(request);
 
-      // Reset rows.
       serializedRows = [];
 
-      // Row 7
-      row = new sample_data_pb2.SampleData();
-      row.row_num = 7;
-      row.setDateCol(1132896);
-      serializedRows.push(row.serializeBinary());
-
-      // Row 8
-      row = new sample_data_pb2.SampleData();
-      row.row_num = 8;
-      row.setDatetimeCol('2019-02-17 11:24:00.000');
-      serializedRows.push(row.serializeBinary());
-
-      // Row 9
-      row = new sample_data_pb2.SampleData();
-      row.row_num = 9;
-      row.setGeographyCol('POINT(5 5)');
-      serializedRows.push(row.serializeBinary());
-
-      // Row 10
-      row = new sample_data_pb2.SampleData();
-      row.row_num = 10;
-      row.setNumericCol('123456');
-      row.setBignumericCol('99999999999999999999999999999.999999999');
-      serializedRows.push(row.serializeBinary());
-
-      // Row 11
-      row = new sample_data_pb2.SampleData();
-      row.row_num = 11;
-      row.setTimeCol('18:00:00');
-      serializedRows.push(row.serializeBinary());
-
-      // Row 12
-      row = new sample_data_pb2.SampleData();
-      row.row_num = 12;
-      const timestamp = Date.now();
-      row.setTimestampCol(timestamp);
-      serializedRows.push(row.serializeBinary());
-
-      // Since this is the second request, you only need to include the row data.
-      // The name of the stream and protocol buffers DESCRIPTOR is only needed in
-      // the first request.
-      protoRows = {
-        rows: {serializedRows},
-      };
-
-      // Offset must equal the number of rows that were previously sent.
-      offsetValue = 6;
-
-      request = {
-        protoRows,
-        offset: {value: offsetValue},
-      };
-
-      // Send batch.
-      stream.write(request);
-
-      serializedRows = [];
-
-      // Row 13
-      row = new sample_data_pb2.SampleData();
-      row.row_num = 13;
-      row.addInt64List(1999);
-      row.addInt64List(2001);
+      // Row 3
+      row = new customer_record_pb.CustomerRecord();
+      row.row_num = 3;
+      row.setCustomerName('bell');
       serializedRows.push(row.serializeBinary());
 
       protoRows = {
         rows: {serializedRows},
       };
 
-      offsetValue = 12;
+      // Offset must equal the number of rows that were previously sent.
+      offsetValue = 2;
 
       request = {
         protoRows,
@@ -330,8 +180,8 @@ function main(
       console.log(err);
     }
   }
-  // [END bigquerystorage_append_rows_raw_proto2]
-  appendRowsProto2();
+  // [END bigquerystorage_append_rows_pending]
+  appendRowsPending();
 }
 process.on('unhandledRejection', err => {
   console.error(err.message);
