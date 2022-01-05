@@ -64,6 +64,18 @@ describe('writeClient', () => {
     );
     assert.match(output, /Stream created:/);
     assert.match(output, /Row count: 3/);
+    let [rows] = await table.query(
+      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
+    );
+    rows = rows.map(row => {
+      if (row.customer_name !== null) {
+        return row;
+      }
+    });
+
+    assert.deepInclude(rows, {customer_name: 'Octavia'});
+    assert.deepInclude(rows, {customer_name: 'Turing'});
+    assert.deepInclude(rows, {customer_name: 'bell'});
   });
 
   it('should append rows with multiple types', async () => {

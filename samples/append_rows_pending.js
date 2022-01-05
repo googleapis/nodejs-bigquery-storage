@@ -157,11 +157,9 @@ function main(
       serializedRows = [];
 
       // Row 3
-      row = new customer_record_pb.CustomerRecord();
       row.row_num = 3;
       row.setCustomerName('bell');
       serializedRows.push(row.serializeBinary());
-
       protoRows = {
         rows: {serializedRows},
       };
