@@ -73,6 +73,7 @@ describe('writeClient', () => {
       }
     });
 
+    assert.strictEqual(rows.length, 3);
     assert.deepInclude(rows, {customer_name: 'Octavia'});
     assert.deepInclude(rows, {customer_name: 'Turing'});
     assert.deepInclude(rows, {customer_name: 'bell'});
@@ -108,6 +109,46 @@ describe('writeClient', () => {
     );
     assert.match(output, /Stream created:/);
     assert.match(output, /Row count: 13/);
+    let [rows] = await table.query(
+      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
+    );
+
+    rows = rows.map(row => {
+      return Object.entries(row)
+        .filter(([, value]) => value !== null && value.length !== 0)
+        .map(([name, value]) => {
+          if (value.value) {
+            value = value.value;
+          }
+          if (name === 'numeric_col' || name === 'bignumeric_col') {
+            value = value.toNumber();
+          }
+          return {[name]: value};
+        });
+    });
+
+    assert.strictEqual(rows.length, 13);
+    assert.deepInclude(rows, [
+      {
+        bool_col: true,
+      },
+      {bytes_col: Buffer.from('hello world')},
+      {float64_col: 123.44999694824219},
+      {int64_col: 123},
+      {string_col: 'omfg!'},
+    ]);
+    assert.deepInclude(rows, [{bool_col: false}]);
+    assert.deepInclude(rows, [{bytes_col: Buffer.from('later, gator')}]);
+    assert.deepInclude(rows, [{float64_col: 987.6539916992188}]);
+    assert.deepInclude(rows, [{int64_col: 321}]);
+    assert.deepInclude(rows, [{string_col: 'octavia'}]);
+    assert.deepInclude(rows, [{date_col: '5071-10-07'}]);
+    assert.deepInclude(rows, [{datetime_col: '2019-02-17T11:24:00'}]);
+    assert.deepInclude(rows, [{geography_col: 'POINT(5 5)'}]);
+    assert.deepInclude(rows, [{numeric_col: 123456}, {bignumeric_col: 1e29}]);
+    assert.deepInclude(rows, [{time_col: '18:00:00'}]);
+    assert.deepInclude(rows, [{timestamp_col: '1970-01-20T00:01:40.186Z'}]);
+    assert.deepInclude(rows, [{int64_list: [1999, 2001]}]);
   });
 
   // Only delete a resource if it is older than 24 hours. That will prevent
