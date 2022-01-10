@@ -282,7 +282,7 @@ function main(
       // Row 12
       row = new sample_data_pb2.SampleData();
       row.row_num = 12;
-      const timestamp = Date.now();
+      const timestamp = 1641700186564;
       row.setTimestampCol(timestamp);
       serializedRows.push(row.serializeBinary());
 
