@@ -1,0 +1,340 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+'use strict';
+
+function main(
+  projectId = 'my_project',
+  datasetId = 'my_dataset',
+  tableId = 'my_table'
+) {
+  // [START bigquerystorage_append_rows_raw_proto2]
+  const {BigQueryWriteClient} = require('@google-cloud/bigquery-storage').v1;
+  const sample_data_pb2 = require('./sample_data_pb2.js');
+
+  const protos = require('@google-cloud/bigquery-storage').protos.google.cloud
+    .bigquery.storage.v1;
+  const type = require('@google-cloud/bigquery-storage').protos.google.protobuf
+    .FieldDescriptorProto.Type;
+  const mode = require('@google-cloud/bigquery-storage').protos.google.cloud
+    .bigquery.storage.v1.WriteStream.Type;
+
+  async function appendRowsProto2() {
+    /**
+     * If you make updates to the sample_data.proto protocol buffers definition,
+     * run:
+     *   protoc --js_out=import_style=commonjs,binary:. sample_data.proto
+     * from the /samples directory to generate the sample_data_pb2 module.
+     */
+
+    const writeClient = new BigQueryWriteClient();
+
+    // So that BigQuery knows how to parse the serialized_rows, create a
+    // protocol buffer representation of your message descriptor.
+    const protoDescriptor = {};
+    protoDescriptor.name = 'SampleData';
+    protoDescriptor.field = [
+      {
+        name: 'bool_col',
+        number: 1,
+        type: type.TYPE_BOOL,
+      },
+      {
+        name: 'bytes_col',
+        number: 2,
+        type: type.TYPE_BYTES,
+      },
+      {
+        name: 'float64_col',
+        number: 3,
+        type: type.TYPE_FLOAT,
+      },
+      {
+        name: 'int64_col',
+        number: 4,
+        type: type.TYPE_INT64,
+      },
+      {
+        name: 'string_col',
+        number: 5,
+        type: type.TYPE_STRING,
+      },
+      {
+        name: 'date_col',
+        number: 6,
+        type: type.TYPE_INT32,
+      },
+      {
+        name: 'datetime_col',
+        number: 7,
+        type: type.TYPE_STRING,
+      },
+      {
+        name: 'geography_col',
+        number: 8,
+        type: type.TYPE_STRING,
+      },
+      {
+        name: 'numeric_col',
+        number: 9,
+        type: type.TYPE_STRING,
+      },
+      {
+        name: 'bignumeric_col',
+        number: 10,
+        type: type.TYPE_STRING,
+      },
+      {
+        name: 'time_col',
+        number: 11,
+        type: type.TYPE_STRING,
+      },
+      {
+        name: 'timestamp_col',
+        number: 12,
+        type: type.TYPE_INT64,
+      },
+      {
+        name: 'int64_list',
+        number: 13,
+        type: type.TYPE_INT64,
+        label: protos.TableFieldSchema.Mode.REPEATED,
+      },
+    ];
+
+    /**
+     * TODO(developer): Uncomment the following lines before running the sample.
+     */
+    // projectId = 'my_project';
+    // datasetId = 'my_dataset';
+    // tableId = 'my_table';
+
+    const parent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
+
+    try {
+      // Create a write stream to the given table.
+      let writeStream = {type: mode.PENDING};
+
+      let request = {
+        parent,
+        writeStream,
+      };
+
+      let [response] = await writeClient.createWriteStream(request);
+
+      console.log(`Stream created: ${response.name}`);
+
+      writeStream = response.name;
+
+      // Append data to the given stream.
+      const stream = await writeClient.appendRows();
+
+      const responses = [];
+
+      stream.on('data', response => {
+        // Check for errors.
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+
+        console.log(response);
+        responses.push(response);
+
+        // Close the stream when all responses have been received.
+        if (responses.length === 3) {
+          stream.end();
+        }
+      });
+
+      stream.on('error', err => {
+        throw err;
+      });
+
+      stream.on('end', async () => {
+        // API call completed.
+        try {
+          [response] = await writeClient.finalizeWriteStream({
+            name: writeStream,
+          });
+          console.log(`Row count: ${response.rowCount}`);
+
+          [response] = await writeClient.batchCommitWriteStreams({
+            parent,
+            writeStreams: [writeStream],
+          });
+          console.log(response);
+        } catch (err) {
+          console.log(err);
+        }
+      });
+
+      let serializedRows = [];
+
+      // Row 1
+      let row = new sample_data_pb2.SampleData();
+      row.row_num = 1;
+      row.setBoolCol(true);
+      row.setBytesCol(Buffer.from('hello world'));
+      row.setFloat64Col(parseFloat('+123.45'));
+      row.setInt64Col(123);
+      row.setStringCol('omfg!');
+      serializedRows.push(row.serializeBinary());
+
+      // Row 2
+      row = new sample_data_pb2.SampleData();
+      row.row_num = 2;
+      row.setBoolCol(false);
+      serializedRows.push(row.serializeBinary());
+
+      // Row 3
+      row = new sample_data_pb2.SampleData();
+      row.row_num = 3;
+      row.setBytesCol(Buffer.from('later, gator'));
+      serializedRows.push(row.serializeBinary());
+
+      // Row 4
+      row = new sample_data_pb2.SampleData();
+      row.row_num = 4;
+      row.setFloat64Col(987.654);
+      serializedRows.push(row.serializeBinary());
+
+      // Row 5
+      row = new sample_data_pb2.SampleData();
+      row.row_num = 5;
+      row.setInt64Col(321);
+      serializedRows.push(row.serializeBinary());
+
+      // Row 6
+      row = new sample_data_pb2.SampleData();
+      row.row_num = 6;
+      row.setStringCol('octavia');
+      serializedRows.push(row.serializeBinary());
+
+      let protoRows = {
+        writerSchema: {protoDescriptor},
+        rows: {serializedRows},
+      };
+
+      // Set an offset to allow resuming this stream if the connection breaks.
+      // Keep track of which requests the server has acknowledged and resume the
+      // stream at the first non-acknowledged message. If the server has already
+      // processed a message with that offset, it will return an ALREADY_EXISTS
+      // error, which can be safely ignored.
+
+      // The first request must always have an offset of 0.
+      let offsetValue = 0;
+
+      // Construct request.
+      request = {
+        writeStream,
+        protoRows,
+        offset: {value: offsetValue},
+      };
+
+      // Send batch.
+      stream.write(request);
+
+      // Reset rows.
+      serializedRows = [];
+
+      // Row 7
+      row = new sample_data_pb2.SampleData();
+      row.row_num = 7;
+      row.setDateCol(1132896);
+      serializedRows.push(row.serializeBinary());
+
+      // Row 8
+      row = new sample_data_pb2.SampleData();
+      row.row_num = 8;
+      row.setDatetimeCol('2019-02-17 11:24:00.000');
+      serializedRows.push(row.serializeBinary());
+
+      // Row 9
+      row = new sample_data_pb2.SampleData();
+      row.row_num = 9;
+      row.setGeographyCol('POINT(5 5)');
+      serializedRows.push(row.serializeBinary());
+
+      // Row 10
+      row = new sample_data_pb2.SampleData();
+      row.row_num = 10;
+      row.setNumericCol('123456');
+      row.setBignumericCol('99999999999999999999999999999.999999999');
+      serializedRows.push(row.serializeBinary());
+
+      // Row 11
+      row = new sample_data_pb2.SampleData();
+      row.row_num = 11;
+      row.setTimeCol('18:00:00');
+      serializedRows.push(row.serializeBinary());
+
+      // Row 12
+      row = new sample_data_pb2.SampleData();
+      row.row_num = 12;
+      const timestamp = 1641700186564;
+      row.setTimestampCol(timestamp);
+      serializedRows.push(row.serializeBinary());
+
+      // Since this is the second request, you only need to include the row data.
+      // The name of the stream and protocol buffers DESCRIPTOR is only needed in
+      // the first request.
+      protoRows = {
+        rows: {serializedRows},
+      };
+
+      // Offset must equal the number of rows that were previously sent.
+      offsetValue = 6;
+
+      request = {
+        protoRows,
+        offset: {value: offsetValue},
+      };
+
+      // Send batch.
+      stream.write(request);
+
+      serializedRows = [];
+
+      // Row 13
+      row = new sample_data_pb2.SampleData();
+      row.row_num = 13;
+      row.addInt64List(1999);
+      row.addInt64List(2001);
+      serializedRows.push(row.serializeBinary());
+
+      protoRows = {
+        rows: {serializedRows},
+      };
+
+      offsetValue = 12;
+
+      request = {
+        protoRows,
+        offset: {value: offsetValue},
+      };
+
+      // Send batch.
+      stream.write(request);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  // [END bigquerystorage_append_rows_raw_proto2]
+  appendRowsProto2();
+}
+process.on('unhandledRejection', err => {
+  console.error(err.message);
+  process.exitCode = 1;
+});
+main(...process.argv.slice(2));
