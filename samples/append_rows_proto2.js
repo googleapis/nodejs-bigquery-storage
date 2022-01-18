@@ -137,8 +137,17 @@ function main(
 
       writeStream = response.name;
 
+      // This header is required so that the BigQuery Storage API
+      // knows which region to route the request to.
+      const options = {};
+      options.otherArgs = {};
+      options.otherArgs.headers = {};
+      options.otherArgs.headers[
+        'x-goog-request-params'
+      ] = `writeStream=${writeStream}`;
+
       // Append data to the given stream.
-      const stream = await writeClient.appendRows();
+      const stream = await writeClient.appendRows(options);
 
       const responses = [];
 
