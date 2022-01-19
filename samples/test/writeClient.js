@@ -34,6 +34,8 @@ const generateUuid = () =>
   `${GCLOUD_TESTS_PREFIX}_${uuid.v4()}`.replace(/-/gi, '_');
 
 const datasetId = generateUuid();
+const datasetIdEU = generateUuid();
+const nonUSLocation = 'europe-west1';
 
 describe('writeClient', () => {
   let projectId;
@@ -42,6 +44,7 @@ describe('writeClient', () => {
     await deleteDatasets();
 
     await bigquery.createDataset(datasetId);
+    await bigquery.createDataset(datasetIdEU, {location: nonUSLocation});
   });
 
   after(async () => {
@@ -62,11 +65,48 @@ describe('writeClient', () => {
     const output = execSync(
       `node append_rows_pending ${projectId} ${datasetId} ${tableId}`
     );
+
     assert.match(output, /Stream created:/);
     assert.match(output, /Row count: 3/);
+
     let [rows] = await table.query(
       `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
     );
+
+    rows = rows.map(row => {
+      if (row.customer_name !== null) {
+        return row;
+      }
+    });
+
+    assert.strictEqual(rows.length, 3);
+    assert.deepInclude(rows, {customer_name: 'Octavia'});
+    assert.deepInclude(rows, {customer_name: 'Turing'});
+    assert.deepInclude(rows, {customer_name: 'bell'});
+  });
+
+  it('should append rows in non-US regions', async () => {
+    const schema = [{name: 'customer_name', type: 'STRING'}];
+
+    const tableId = generateUuid();
+
+    const [table] = await bigquery
+      .dataset(datasetIdEU)
+      .createTable(tableId, {schema, location: nonUSLocation});
+
+    projectId = table.metadata.tableReference.projectId;
+
+    const output = execSync(
+      `node append_rows_pending ${projectId} ${datasetIdEU} ${tableId}`
+    );
+
+    assert.match(output, /Stream created:/);
+    assert.match(output, /Row count: 3/);
+
+    let [rows] = await table.query(
+      `SELECT * FROM \`${projectId}.${datasetIdEU}.${tableId}\``
+    );
+
     rows = rows.map(row => {
       if (row.customer_name !== null) {
         return row;
@@ -107,8 +147,10 @@ describe('writeClient', () => {
     const output = execSync(
       `node append_rows_proto2 ${projectId} ${datasetId} ${tableId}`
     );
+
     assert.match(output, /Stream created:/);
     assert.match(output, /Row count: 13/);
+
     let [rows] = await table.query(
       `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
     );
