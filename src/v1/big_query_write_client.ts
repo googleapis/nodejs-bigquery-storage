@@ -887,7 +887,7 @@ export class BigQueryWriteClient {
    */
   appendRows(options?: CallOptions): gax.CancellableStream {
     this.initialize();
-    return this.innerApiCalls.appendRows(options);
+    return this.innerApiCalls.appendRows(null, options);
   }
 
   // --------------------
