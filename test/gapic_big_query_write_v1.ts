@@ -738,7 +738,7 @@ describe('v1.BigQueryWriteClient', () => {
       assert(
         (client.innerApiCalls.appendRows as SinonStub)
           .getCall(0)
-          .calledWithExactly(undefined)
+          .calledWith(null)
       );
       assert.deepStrictEqual(
         ((stream as unknown as PassThrough)._transform as SinonStub).getCall(0)
@@ -783,7 +783,7 @@ describe('v1.BigQueryWriteClient', () => {
       assert(
         (client.innerApiCalls.appendRows as SinonStub)
           .getCall(0)
-          .calledWithExactly(undefined)
+          .calledWith(null)
       );
       assert.deepStrictEqual(
         ((stream as unknown as PassThrough)._transform as SinonStub).getCall(0)

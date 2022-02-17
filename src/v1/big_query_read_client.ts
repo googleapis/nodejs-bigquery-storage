@@ -297,7 +297,6 @@ export class BigQueryReadClient {
   static get scopes() {
     return [
       'https://www.googleapis.com/auth/bigquery',
-      'https://www.googleapis.com/auth/bigquery.readonly',
       'https://www.googleapis.com/auth/cloud-platform',
     ];
   }
