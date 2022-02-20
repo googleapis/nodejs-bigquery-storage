@@ -3027,6 +3027,9 @@ export namespace google {
 
                         /** ReadSession estimatedTotalBytesScanned */
                         estimatedTotalBytesScanned?: (number|Long|string|null);
+
+                        /** ReadSession traceId */
+                        traceId?: (string|null);
                     }
 
                     /** Represents a ReadSession. */
@@ -3067,6 +3070,9 @@ export namespace google {
 
                         /** ReadSession estimatedTotalBytesScanned. */
                         public estimatedTotalBytesScanned: (number|Long|string);
+
+                        /** ReadSession traceId. */
+                        public traceId: string;
 
                         /** ReadSession schema. */
                         public schema?: ("avroSchema"|"arrowSchema");
