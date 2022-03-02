@@ -6611,6 +6611,8 @@
                                     case 5:
                                     case 6:
                                     case 7:
+                                    case 8:
+                                    case 9:
                                         break;
                                     }
                                 if (message.entity != null && message.hasOwnProperty("entity"))
@@ -6666,6 +6668,14 @@
                                 case "SCHEMA_MISMATCH_EXTRA_FIELDS":
                                 case 7:
                                     message.code = 7;
+                                    break;
+                                case "OFFSET_ALREADY_EXISTS":
+                                case 8:
+                                    message.code = 8;
+                                    break;
+                                case "OFFSET_OUT_OF_RANGE":
+                                case 9:
+                                    message.code = 9;
                                     break;
                                 }
                                 if (object.entity != null)
@@ -6725,6 +6735,8 @@
                              * @property {number} INVALID_STREAM_STATE=5 INVALID_STREAM_STATE value
                              * @property {number} STREAM_FINALIZED=6 STREAM_FINALIZED value
                              * @property {number} SCHEMA_MISMATCH_EXTRA_FIELDS=7 SCHEMA_MISMATCH_EXTRA_FIELDS value
+                             * @property {number} OFFSET_ALREADY_EXISTS=8 OFFSET_ALREADY_EXISTS value
+                             * @property {number} OFFSET_OUT_OF_RANGE=9 OFFSET_OUT_OF_RANGE value
                              */
                             StorageError.StorageErrorCode = (function() {
                                 var valuesById = {}, values = Object.create(valuesById);
@@ -6736,6 +6748,8 @@
                                 values[valuesById[5] = "INVALID_STREAM_STATE"] = 5;
                                 values[valuesById[6] = "STREAM_FINALIZED"] = 6;
                                 values[valuesById[7] = "SCHEMA_MISMATCH_EXTRA_FIELDS"] = 7;
+                                values[valuesById[8] = "OFFSET_ALREADY_EXISTS"] = 8;
+                                values[valuesById[9] = "OFFSET_OUT_OF_RANGE"] = 9;
                                 return values;
                             })();
     
