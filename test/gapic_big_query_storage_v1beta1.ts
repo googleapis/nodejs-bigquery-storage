@@ -305,8 +305,6 @@ describe('v1beta1.BigQueryStorageClient', () => {
       request.tableReference.projectId = '';
       request.tableReference = {};
       request.tableReference.datasetId = '';
-      const expectedHeaderRequestParams =
-        'table_reference.project_id=&table_reference.dataset_id=';
       const expectedError = new Error('The client has already been closed.');
       client.close();
       await assert.rejects(client.createReadSession(request), expectedError);
@@ -441,7 +439,6 @@ describe('v1beta1.BigQueryStorageClient', () => {
       );
       request.session = {};
       request.session.name = '';
-      const expectedHeaderRequestParams = 'session.name=';
       const expectedError = new Error('The client has already been closed.');
       client.close();
       await assert.rejects(
@@ -575,7 +572,6 @@ describe('v1beta1.BigQueryStorageClient', () => {
       );
       request.stream = {};
       request.stream.name = '';
-      const expectedHeaderRequestParams = 'stream.name=';
       const expectedError = new Error('The client has already been closed.');
       client.close();
       await assert.rejects(client.finalizeStream(request), expectedError);
@@ -706,7 +702,6 @@ describe('v1beta1.BigQueryStorageClient', () => {
       );
       request.originalStream = {};
       request.originalStream.name = '';
-      const expectedHeaderRequestParams = 'original_stream.name=';
       const expectedError = new Error('The client has already been closed.');
       client.close();
       await assert.rejects(client.splitReadStream(request), expectedError);
@@ -817,6 +812,9 @@ describe('v1beta1.BigQueryStorageClient', () => {
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1beta1.ReadRowsRequest()
       );
+      request.readPosition = {};
+      request.readPosition.stream = {};
+      request.readPosition.stream.name = '';
       const expectedError = new Error('The client has already been closed.');
       client.close();
       const stream = client.readRows(request);

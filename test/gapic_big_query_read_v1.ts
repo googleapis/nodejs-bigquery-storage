@@ -292,7 +292,6 @@ describe('v1.BigQueryReadClient', () => {
       );
       request.readSession = {};
       request.readSession.table = '';
-      const expectedHeaderRequestParams = 'read_session.table=';
       const expectedError = new Error('The client has already been closed.');
       client.close();
       await assert.rejects(client.createReadSession(request), expectedError);
@@ -419,7 +418,6 @@ describe('v1.BigQueryReadClient', () => {
         new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest()
       );
       request.name = '';
-      const expectedHeaderRequestParams = 'name=';
       const expectedError = new Error('The client has already been closed.');
       client.close();
       await assert.rejects(client.splitReadStream(request), expectedError);
@@ -526,6 +524,7 @@ describe('v1.BigQueryReadClient', () => {
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest()
       );
+      request.readStream = '';
       const expectedError = new Error('The client has already been closed.');
       client.close();
       const stream = client.readRows(request);

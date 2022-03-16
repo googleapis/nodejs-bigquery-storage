@@ -281,7 +281,6 @@ describe('v1.BigQueryWriteClient', () => {
         new protos.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest()
       );
       request.parent = '';
-      const expectedHeaderRequestParams = 'parent=';
       const expectedError = new Error('The client has already been closed.');
       client.close();
       await assert.rejects(client.createWriteStream(request), expectedError);
@@ -408,7 +407,6 @@ describe('v1.BigQueryWriteClient', () => {
         new protos.google.cloud.bigquery.storage.v1.GetWriteStreamRequest()
       );
       request.name = '';
-      const expectedHeaderRequestParams = 'name=';
       const expectedError = new Error('The client has already been closed.');
       client.close();
       await assert.rejects(client.getWriteStream(request), expectedError);
@@ -536,7 +534,6 @@ describe('v1.BigQueryWriteClient', () => {
         new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest()
       );
       request.name = '';
-      const expectedHeaderRequestParams = 'name=';
       const expectedError = new Error('The client has already been closed.');
       client.close();
       await assert.rejects(client.finalizeWriteStream(request), expectedError);
@@ -667,7 +664,6 @@ describe('v1.BigQueryWriteClient', () => {
         new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest()
       );
       request.parent = '';
-      const expectedHeaderRequestParams = 'parent=';
       const expectedError = new Error('The client has already been closed.');
       client.close();
       await assert.rejects(
@@ -794,7 +790,6 @@ describe('v1.BigQueryWriteClient', () => {
         new protos.google.cloud.bigquery.storage.v1.FlushRowsRequest()
       );
       request.writeStream = '';
-      const expectedHeaderRequestParams = 'write_stream=';
       const expectedError = new Error('The client has already been closed.');
       client.close();
       await assert.rejects(client.flushRows(request), expectedError);
