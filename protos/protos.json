@@ -36,7 +36,10 @@
                             },
                             "rowCount": {
                               "type": "int64",
-                              "id": 2
+                              "id": 2,
+                              "options": {
+                                "deprecated": true
+                              }
                             }
                           }
                         },
@@ -73,7 +76,10 @@
                             },
                             "rowCount": {
                               "type": "int64",
-                              "id": 2
+                              "id": 2,
+                              "options": {
+                                "deprecated": true
+                              }
                             }
                           }
                         },
