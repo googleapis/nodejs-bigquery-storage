@@ -144,7 +144,7 @@ function main(
       options.otherArgs.headers = {};
       options.otherArgs.headers[
         'x-goog-request-params'
-      ] = `writeStream=${writeStream}`;
+      ] = `write_stream=${writeStream}`;
 
       // Append data to the given stream.
       const stream = await writeClient.appendRows(options);
