@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v2.8.0...v2.9.0) (2022-04-21)
+
+
+### Features
+
+* Deprecate format specific `row_count` field in Read API ([#249](https://github.com/googleapis/nodejs-bigquery-storage/issues/249)) ([fb8acf1](https://github.com/googleapis/nodejs-bigquery-storage/commit/fb8acf1f4eab7823132159bcf5927c9eda6374e2))
+
 ## [2.8.0](https://www.github.com/googleapis/nodejs-bigquery-storage/compare/v2.7.0...v2.8.0) (2021-12-30)
 
 
