@@ -747,21 +747,21 @@ export namespace google {
                     namespace BigQueryRead {
 
                         /**
-                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryRead|createReadSession}.
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryRead#createReadSession}.
                          * @param error Error, if any
                          * @param [response] ReadSession
                          */
                         type CreateReadSessionCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1.ReadSession) => void;
 
                         /**
-                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryRead|readRows}.
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryRead#readRows}.
                          * @param error Error, if any
                          * @param [response] ReadRowsResponse
                          */
                         type ReadRowsCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1.ReadRowsResponse) => void;
 
                         /**
-                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryRead|splitReadStream}.
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryRead#splitReadStream}.
                          * @param error Error, if any
                          * @param [response] SplitReadStreamResponse
                          */
@@ -876,42 +876,42 @@ export namespace google {
                     namespace BigQueryWrite {
 
                         /**
-                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryWrite|createWriteStream}.
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryWrite#createWriteStream}.
                          * @param error Error, if any
                          * @param [response] WriteStream
                          */
                         type CreateWriteStreamCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1.WriteStream) => void;
 
                         /**
-                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryWrite|appendRows}.
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryWrite#appendRows}.
                          * @param error Error, if any
                          * @param [response] AppendRowsResponse
                          */
                         type AppendRowsCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1.AppendRowsResponse) => void;
 
                         /**
-                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryWrite|getWriteStream}.
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryWrite#getWriteStream}.
                          * @param error Error, if any
                          * @param [response] WriteStream
                          */
                         type GetWriteStreamCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1.WriteStream) => void;
 
                         /**
-                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryWrite|finalizeWriteStream}.
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryWrite#finalizeWriteStream}.
                          * @param error Error, if any
                          * @param [response] FinalizeWriteStreamResponse
                          */
                         type FinalizeWriteStreamCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1.FinalizeWriteStreamResponse) => void;
 
                         /**
-                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryWrite|batchCommitWriteStreams}.
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryWrite#batchCommitWriteStreams}.
                          * @param error Error, if any
                          * @param [response] BatchCommitWriteStreamsResponse
                          */
                         type BatchCommitWriteStreamsCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsResponse) => void;
 
                         /**
-                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryWrite|flushRows}.
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1.BigQueryWrite#flushRows}.
                          * @param error Error, if any
                          * @param [response] FlushRowsResponse
                          */
@@ -4394,35 +4394,35 @@ export namespace google {
                     namespace BigQueryStorage {
 
                         /**
-                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta1.BigQueryStorage|createReadSession}.
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta1.BigQueryStorage#createReadSession}.
                          * @param error Error, if any
                          * @param [response] ReadSession
                          */
                         type CreateReadSessionCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1beta1.ReadSession) => void;
 
                         /**
-                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta1.BigQueryStorage|readRows}.
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta1.BigQueryStorage#readRows}.
                          * @param error Error, if any
                          * @param [response] ReadRowsResponse
                          */
                         type ReadRowsCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1beta1.ReadRowsResponse) => void;
 
                         /**
-                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta1.BigQueryStorage|batchCreateReadSessionStreams}.
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta1.BigQueryStorage#batchCreateReadSessionStreams}.
                          * @param error Error, if any
                          * @param [response] BatchCreateReadSessionStreamsResponse
                          */
                         type BatchCreateReadSessionStreamsCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse) => void;
 
                         /**
-                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta1.BigQueryStorage|finalizeStream}.
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta1.BigQueryStorage#finalizeStream}.
                          * @param error Error, if any
                          * @param [response] Empty
                          */
                         type FinalizeStreamCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
 
                         /**
-                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta1.BigQueryStorage|splitReadStream}.
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta1.BigQueryStorage#splitReadStream}.
                          * @param error Error, if any
                          * @param [response] SplitReadStreamResponse
                          */
@@ -7909,9 +7909,6 @@ export namespace google {
             /** FieldOptions lazy */
             lazy?: (boolean|null);
 
-            /** FieldOptions unverifiedLazy */
-            unverifiedLazy?: (boolean|null);
-
             /** FieldOptions deprecated */
             deprecated?: (boolean|null);
 
@@ -7948,9 +7945,6 @@ export namespace google {
 
             /** FieldOptions lazy. */
             public lazy: boolean;
-
-            /** FieldOptions unverifiedLazy. */
-            public unverifiedLazy: boolean;
 
             /** FieldOptions deprecated. */
             public deprecated: boolean;
