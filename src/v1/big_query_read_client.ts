@@ -370,11 +370,13 @@ export class BigQueryReadClient {
    *   Max initial number of streams. If unset or zero, the server will
    *   provide a value of streams so as to produce reasonable throughput. Must be
    *   non-negative. The number of streams may be lower than the requested number,
-   *   depending on the amount parallelism that is reasonable for the table. Error
-   *   will be returned if the max count is greater than the current system
-   *   max limit of 1,000.
+   *   depending on the amount parallelism that is reasonable for the table.
+   *   There is a default system max limit of 1,000.
    *
-   *   Streams must be read starting from offset 0.
+   *   This must be greater than or equal to preferred_min_stream_count.
+   *   Typically, clients should either leave this unset to let the system to
+   *   determine an upper bound OR set this a size for the maximum "units of work"
+   *   it can gracefully handle.
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.
