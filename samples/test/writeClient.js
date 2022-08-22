@@ -134,12 +134,17 @@ describe('writeClient', () => {
       {name: 'time_col', type: 'TIME'},
       {name: 'timestamp_col', type: 'TIMESTAMP'},
       {name: 'int64_list', type: 'INTEGER', mode: 'REPEATED'},
-      {name: 'struct_col', type: 'RECORD', fields: [
-        {name: 'sub_int_col', type: 'INTEGER'},
-      ]},
-      {name: 'struct_list', type: 'RECORD', mode: 'REPEATED', fields: [
-        {name: 'sub_int_col', type: 'INTEGER'},
-      ]},
+      {
+        name: 'struct_col',
+        type: 'RECORD',
+        fields: [{name: 'sub_int_col', type: 'INTEGER'}],
+      },
+      {
+        name: 'struct_list',
+        type: 'RECORD',
+        mode: 'REPEATED',
+        fields: [{name: 'sub_int_col', type: 'INTEGER'}],
+      },
       {name: 'row_num', type: 'INTEGER', mode: 'REQUIRED'},
     ];
 
@@ -188,12 +193,18 @@ describe('writeClient', () => {
       {row_num: 1},
     ]);
     assert.deepInclude(rows, [{bool_col: false}, {row_num: 2}]);
-    assert.deepInclude(rows, [{bytes_col: Buffer.from('later, gator')}, {row_num: 3}]);
-    assert.deepInclude(rows, [{float64_col: 987.6539916992188},{row_num: 4}]);
+    assert.deepInclude(rows, [
+      {bytes_col: Buffer.from('later, gator')},
+      {row_num: 3},
+    ]);
+    assert.deepInclude(rows, [{float64_col: 987.6539916992188}, {row_num: 4}]);
     assert.deepInclude(rows, [{int64_col: 321}, {row_num: 5}]);
     assert.deepInclude(rows, [{string_col: 'octavia'}, {row_num: 6}]);
     assert.deepInclude(rows, [{date_col: '5071-10-07'}, {row_num: 7}]);
-    assert.deepInclude(rows, [{datetime_col: '2019-02-17T11:24:00'}, {row_num: 8}]);
+    assert.deepInclude(rows, [
+      {datetime_col: '2019-02-17T11:24:00'},
+      {row_num: 8},
+    ]);
     assert.deepInclude(rows, [{geography_col: 'POINT(5 5)'}, {row_num: 9}]);
     assert.deepInclude(rows, [{numeric_col: 123456}, {bignumeric_col: 1e29}, {row_num: 10}]);
     assert.deepInclude(rows, [{time_col: '18:00:00'}, {row_num: 11}]);
