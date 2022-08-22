@@ -116,7 +116,7 @@ function main(
         number: 14,
         typeName: 'SampleStruct',
         type: type.TYPE_MESSAGE,
-      },   
+      },
       {
         name: 'struct_list',
         number: 15,
@@ -129,7 +129,7 @@ function main(
         number: 16,
         type: type.TYPE_INT64,
         label: protos.TableFieldSchema.Mode.REQUIRED,
-      }
+      },
     ];
     protoDescriptor.nestedType = [
       {
@@ -140,9 +140,9 @@ function main(
             number: 1,
             type: type.TYPE_INT64,
           },
-        ]
-      }
-    ]
+        ],
+      },
+    ];
 
     /**
      * TODO(developer): Uncomment the following lines before running the sample.
@@ -361,7 +361,6 @@ function main(
       row.setStructCol(sampleStruct);
       serializedRows.push(row.serializeBinary());
 
-      
       // Row 15
       row = new sample_data_pb.SampleData();
       sampleStruct = new sample_data_pb.SampleData.SampleStruct();
