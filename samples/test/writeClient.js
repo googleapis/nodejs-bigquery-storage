@@ -134,6 +134,13 @@ describe('writeClient', () => {
       {name: 'time_col', type: 'TIME'},
       {name: 'timestamp_col', type: 'TIMESTAMP'},
       {name: 'int64_list', type: 'INTEGER', mode: 'REPEATED'},
+      {name: 'struct_col', type: 'RECORD', fields: [
+        {name: 'sub_int_col', type: 'INTEGER'},
+      ]},
+      {name: 'struct_list', type: 'RECORD', mode: 'REPEATED', fields: [
+        {name: 'sub_int_col', type: 'INTEGER'},
+      ]},
+      {name: 'row_num', type: 'INTEGER', mode: 'REQUIRED'},
     ];
 
     const tableId = generateUuid();
@@ -149,7 +156,7 @@ describe('writeClient', () => {
     );
 
     assert.match(output, /Stream created:/);
-    assert.match(output, /Row count: 13/);
+    assert.match(output, /Row count: 15/);
 
     let [rows] = await table.query(
       `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
@@ -169,7 +176,7 @@ describe('writeClient', () => {
         });
     });
 
-    assert.strictEqual(rows.length, 13);
+    assert.strictEqual(rows.length, 15);
     assert.deepInclude(rows, [
       {
         bool_col: true,
@@ -178,19 +185,22 @@ describe('writeClient', () => {
       {float64_col: 123.44999694824219},
       {int64_col: 123},
       {string_col: 'omfg!'},
+      {row_num: 1},
     ]);
-    assert.deepInclude(rows, [{bool_col: false}]);
-    assert.deepInclude(rows, [{bytes_col: Buffer.from('later, gator')}]);
-    assert.deepInclude(rows, [{float64_col: 987.6539916992188}]);
-    assert.deepInclude(rows, [{int64_col: 321}]);
-    assert.deepInclude(rows, [{string_col: 'octavia'}]);
-    assert.deepInclude(rows, [{date_col: '5071-10-07'}]);
-    assert.deepInclude(rows, [{datetime_col: '2019-02-17T11:24:00'}]);
-    assert.deepInclude(rows, [{geography_col: 'POINT(5 5)'}]);
-    assert.deepInclude(rows, [{numeric_col: 123456}, {bignumeric_col: 1e29}]);
-    assert.deepInclude(rows, [{time_col: '18:00:00'}]);
-    assert.deepInclude(rows, [{timestamp_col: '1970-01-20T00:01:40.186Z'}]);
-    assert.deepInclude(rows, [{int64_list: [1999, 2001]}]);
+    assert.deepInclude(rows, [{bool_col: false}, {row_num: 2}]);
+    assert.deepInclude(rows, [{bytes_col: Buffer.from('later, gator')}, {row_num: 3}]);
+    assert.deepInclude(rows, [{float64_col: 987.6539916992188},{row_num: 4}]);
+    assert.deepInclude(rows, [{int64_col: 321}, {row_num: 5}]);
+    assert.deepInclude(rows, [{string_col: 'octavia'}, {row_num: 6}]);
+    assert.deepInclude(rows, [{date_col: '5071-10-07'}, {row_num: 7}]);
+    assert.deepInclude(rows, [{datetime_col: '2019-02-17T11:24:00'}, {row_num: 8}]);
+    assert.deepInclude(rows, [{geography_col: 'POINT(5 5)'}, {row_num: 9}]);
+    assert.deepInclude(rows, [{numeric_col: 123456}, {bignumeric_col: 1e29}, {row_num: 10}]);
+    assert.deepInclude(rows, [{time_col: '18:00:00'}, {row_num: 11}]);
+    assert.deepInclude(rows, [{timestamp_col: '1970-01-20T00:01:40.186Z'}, {row_num: 12}]);
+    assert.deepInclude(rows, [{int64_list: [1999, 2001]}, {row_num: 13}]);
+    assert.deepInclude(rows, [{struct_col: {sub_int_col: 99}}, {row_num: 14}]);
+    assert.deepInclude(rows, [{struct_list: [{sub_int_col: 100}, {sub_int_col: 101}]}, {row_num: 15}]);
   });
 
   // Only delete a resource if it is older than 24 hours. That will prevent
