@@ -352,7 +352,7 @@ function main(
       row.addInt64List(1999);
       row.addInt64List(2001);
       serializedRows.push(row.serializeBinary());
-      
+
       // Row 14
       row = new sample_data_pb.SampleData();
       let sampleStruct = new sample_data_pb.SampleData.SampleStruct();
@@ -365,7 +365,7 @@ function main(
       row = new sample_data_pb.SampleData();
       sampleStruct = new sample_data_pb.SampleData.SampleStruct();
       sampleStruct.setSubIntCol(100);
-      let sampleStruct2 = new sample_data_pb.SampleData.SampleStruct();
+      const sampleStruct2 = new sample_data_pb.SampleData.SampleStruct();
       sampleStruct2.setSubIntCol(101);
       row.setRowNum(15);
       row.addStructList(sampleStruct);

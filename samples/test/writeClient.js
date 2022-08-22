@@ -206,12 +206,22 @@ describe('writeClient', () => {
       {row_num: 8},
     ]);
     assert.deepInclude(rows, [{geography_col: 'POINT(5 5)'}, {row_num: 9}]);
-    assert.deepInclude(rows, [{numeric_col: 123456}, {bignumeric_col: 1e29}, {row_num: 10}]);
+    assert.deepInclude(rows, [
+      {numeric_col: 123456},
+      {bignumeric_col: 1e29},
+      {row_num: 10},
+    ]);
     assert.deepInclude(rows, [{time_col: '18:00:00'}, {row_num: 11}]);
-    assert.deepInclude(rows, [{timestamp_col: '1970-01-20T00:01:40.186Z'}, {row_num: 12}]);
+    assert.deepInclude(rows, [
+      {timestamp_col: '1970-01-20T00:01:40.186Z'},
+      {row_num: 12},
+    ]);
     assert.deepInclude(rows, [{int64_list: [1999, 2001]}, {row_num: 13}]);
     assert.deepInclude(rows, [{struct_col: {sub_int_col: 99}}, {row_num: 14}]);
-    assert.deepInclude(rows, [{struct_list: [{sub_int_col: 100}, {sub_int_col: 101}]}, {row_num: 15}]);
+    assert.deepInclude(rows, [
+      {struct_list: [{sub_int_col: 100}, {sub_int_col: 101}]},
+      {row_num: 15},
+    ]);
   });
 
   // Only delete a resource if it is older than 24 hours. That will prevent
