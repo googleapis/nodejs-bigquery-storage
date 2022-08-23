@@ -51,7 +51,11 @@ message SampleData {
   // Use a repeated field to represent a BigQuery ARRAY value.
   repeated int64 int64_list = 13;
 
+  // Use a nested message to encode STRUCT and ARRAY<STRUCT> values.
+  optional SampleStruct struct_col = 14;
+  repeated SampleStruct struct_list = 15;
+
   // Use the required keyword for client-side validation of required fields.
-  required int64 row_num = 14;
+  required int64 row_num = 16;
 }
 // [END bigquerystorage_append_rows_raw_proto2_definition]

@@ -65,7 +65,7 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<number>}
  * @const
  */
-proto.SampleData.repeatedFields_ = [13];
+proto.SampleData.repeatedFields_ = [13,15];
 
 
 
@@ -111,7 +111,10 @@ proto.SampleData.toObject = function(includeInstance, msg) {
     timeCol: (f = jspb.Message.getField(msg, 11)) == null ? undefined : f,
     timestampCol: (f = jspb.Message.getField(msg, 12)) == null ? undefined : f,
     int64ListList: (f = jspb.Message.getRepeatedField(msg, 13)) == null ? undefined : f,
-    rowNum: (f = jspb.Message.getField(msg, 14)) == null ? undefined : f
+    structCol: (f = msg.getStructCol()) && proto.SampleData.SampleStruct.toObject(includeInstance, f),
+    structListList: jspb.Message.toObjectList(msg.getStructListList(),
+    proto.SampleData.SampleStruct.toObject, includeInstance),
+    rowNum: (f = jspb.Message.getField(msg, 16)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -203,6 +206,16 @@ proto.SampleData.deserializeBinaryFromReader = function(msg, reader) {
       }
       break;
     case 14:
+      var value = new proto.SampleData.SampleStruct;
+      reader.readMessage(value,proto.SampleData.SampleStruct.deserializeBinaryFromReader);
+      msg.setStructCol(value);
+      break;
+    case 15:
+      var value = new proto.SampleData.SampleStruct;
+      reader.readMessage(value,proto.SampleData.SampleStruct.deserializeBinaryFromReader);
+      msg.addStructList(value);
+      break;
+    case 16:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setRowNum(value);
       break;
@@ -326,10 +339,26 @@ proto.SampleData.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = /** @type {number} */ (jspb.Message.getField(message, 14));
+  f = message.getStructCol();
+  if (f != null) {
+    writer.writeMessage(
+      14,
+      f,
+      proto.SampleData.SampleStruct.serializeBinaryToWriter
+    );
+  }
+  f = message.getStructListList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      15,
+      f,
+      proto.SampleData.SampleStruct.serializeBinaryToWriter
+    );
+  }
+  f = /** @type {number} */ (jspb.Message.getField(message, 16));
   if (f != null) {
     writer.writeInt64(
-      14,
+      16,
       f
     );
   }
@@ -978,11 +1007,86 @@ proto.SampleData.prototype.clearInt64ListList = function() {
 
 
 /**
- * required int64 row_num = 14;
+ * optional SampleStruct struct_col = 14;
+ * @return {?proto.SampleData.SampleStruct}
+ */
+proto.SampleData.prototype.getStructCol = function() {
+  return /** @type{?proto.SampleData.SampleStruct} */ (
+    jspb.Message.getWrapperField(this, proto.SampleData.SampleStruct, 14));
+};
+
+
+/**
+ * @param {?proto.SampleData.SampleStruct|undefined} value
+ * @return {!proto.SampleData} returns this
+*/
+proto.SampleData.prototype.setStructCol = function(value) {
+  return jspb.Message.setWrapperField(this, 14, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.SampleData} returns this
+ */
+proto.SampleData.prototype.clearStructCol = function() {
+  return this.setStructCol(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.SampleData.prototype.hasStructCol = function() {
+  return jspb.Message.getField(this, 14) != null;
+};
+
+
+/**
+ * repeated SampleStruct struct_list = 15;
+ * @return {!Array<!proto.SampleData.SampleStruct>}
+ */
+proto.SampleData.prototype.getStructListList = function() {
+  return /** @type{!Array<!proto.SampleData.SampleStruct>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.SampleData.SampleStruct, 15));
+};
+
+
+/**
+ * @param {!Array<!proto.SampleData.SampleStruct>} value
+ * @return {!proto.SampleData} returns this
+*/
+proto.SampleData.prototype.setStructListList = function(value) {
+  return jspb.Message.setRepeatedWrapperField(this, 15, value);
+};
+
+
+/**
+ * @param {!proto.SampleData.SampleStruct=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.SampleData.SampleStruct}
+ */
+proto.SampleData.prototype.addStructList = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 15, opt_value, proto.SampleData.SampleStruct, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.SampleData} returns this
+ */
+proto.SampleData.prototype.clearStructListList = function() {
+  return this.setStructListList([]);
+};
+
+
+/**
+ * required int64 row_num = 16;
  * @return {number}
  */
 proto.SampleData.prototype.getRowNum = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 14, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 16, 0));
 };
 
 
@@ -991,7 +1095,7 @@ proto.SampleData.prototype.getRowNum = function() {
  * @return {!proto.SampleData} returns this
  */
 proto.SampleData.prototype.setRowNum = function(value) {
-  return jspb.Message.setField(this, 14, value);
+  return jspb.Message.setField(this, 16, value);
 };
 
 
@@ -1000,7 +1104,7 @@ proto.SampleData.prototype.setRowNum = function(value) {
  * @return {!proto.SampleData} returns this
  */
 proto.SampleData.prototype.clearRowNum = function() {
-  return jspb.Message.setField(this, 14, undefined);
+  return jspb.Message.setField(this, 16, undefined);
 };
 
 
@@ -1009,7 +1113,7 @@ proto.SampleData.prototype.clearRowNum = function() {
  * @return {boolean}
  */
 proto.SampleData.prototype.hasRowNum = function() {
-  return jspb.Message.getField(this, 14) != null;
+  return jspb.Message.getField(this, 16) != null;
 };
 
 
