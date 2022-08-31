@@ -60,7 +60,102 @@ export class WriterClient extends BigQueryWriteClient{
         const something: string = "something";
     }
     
-    async appendRowsPending(writerSchema: string[], serializedRows: string[], parent: string[]) {
+    createWriterSchema(json: any) {
+        // json object to basic Proto Message
+        // return writerSchema;
+    }
+
+    createParent(projectId: string, datasetId: string, tableId: string): string {
+        const parent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
+        return parent;
+    }
+
+    createSerializedRows(rowData: any) {
+      let serializedRows = []
+      rowData.forEach(entry => {
+        let row = // new Row() instance;
+        row.prop = "value";
+        row.setValue = "value";
+        serializedRows.push(row.serializeBinary())
+      })
+      return serializedRows;
+    }
+
+    setClientOptions(writeStream: any, clientOptions: ClientOptions) {
+        const options: ClientOptions = {};
+        options.otherArgs = {};
+        options.otherArgs.headers = {};
+        options.otherArgs.headers[
+            'x-goog-request-params'
+        ] = `write_stream=${writeStream}`;
+        return options;
+    }
+    
+    async createStream(parent: string, clientOptions: ClientOptions) {
+        const writer = new BigQueryWriteClient();
+            let writeStream = {type: mode.PENDING};
+
+            let request = {
+                parent,
+                writeStream,
+            };
+
+            let [response] = await writer.createWriteStream(request);
+
+            console.log(`Stream created: ${response.name}`);
+
+            writeStream = response.name;
+            // prepare message for sending with headers
+            const options = this.setClientOptions(writeStream, clientOptions);
+      
+            // Append data to the given stream.
+            const stream = await writer.appendRows(options);
+            return stream;
+    }
+
+    async streamOnResponse(stream: any, streamResponse: any, writeStream: any, writer: any, allRows: number) {
+        let [response] = streamResponse;
+        const responses = [];
+      
+        stream.on('data', response => {
+              // Check for errors.
+              if (response.error) {
+                throw new Error(response.error.message);
+              }
+      
+              console.log(response);
+              responses.push(response);
+      
+              // Close the stream when all responses have been received.
+              if (responses.length == allRows) {
+                stream.end();
+              }
+        });
+      
+        stream.on('error', err => {
+              throw err;
+        });
+      
+        stream.on('end', async () => {
+              // API call completed.
+              try {
+                [response] = await writer.finalizeWriteStream({
+                  name: writeStream,
+                });
+                console.log(`Row count: ${response.rowCount}`);
+      
+                [response] = await writer.batchCommitWriteStreams({
+                  parent,
+                  writeStreams: [writeStream],
+                });
+                console.log(response);
+              } catch (err) {
+                console.log(err);
+              }
+        });
+        return responses;
+    }
+    /*async roughcreateStream(writerSchema: any, serializedRows: any, parent: any) {
         try {
             // create stream
             const writer = new BigQueryWriteClient();
@@ -86,6 +181,7 @@ export class WriterClient extends BigQueryWriteClient{
       
             // Append data to the given stream.
             const stream = await writer.appendRows(options);
+            // break logic?
       
             const responses = [];
       
@@ -126,60 +222,87 @@ export class WriterClient extends BigQueryWriteClient{
               }
             });
       
-        // maybe abstract into a different method
-            // send message and receive responses
-        let offsetValue = 0;
-        
-        // create request
-            request = {
-                writeStream,
-                protoRows: {value: serializedRows},
-                offset: {value: offsetValue},
-              };
-            //send batch
-            stream.write(request);
+            this.sendRowBatch(0, serializedRows, writeStream, stream);
         // close stream logic in on 'end' callback above
         } catch (err) {
             console.log(err)
         }
-    }
+    }*/
 
-    createWriterSchema() {
-        // json object to basic Proto Message
-        // return writerSchema;
-    }
-
-    createParent(projectId: string, datasetId: string, tableId: string): string {
-        const parent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
-        return parent;
-    }
-
-    createSerializedRows(rowData) {
-      let serializedRows = []
-      rowData.forEach(entry => {
-        let row = // new Row() instance;
-        row.prop = "value";
-        row.setValue = "value";
-        serializedRows.push(row.serializeBinary())
-      })
-      return serializedRows;
+    async sendRowBatch(offsetValue: number, serializedRows: any, writeStream: any, stream: any) {
+        // create request
+        let request = {
+            writeStream,
+            protoRows: {value: serializedRows},
+            offset: {value: offsetValue},
+          };
+        //send batch
+        stream.write(request);
     }
 
 }
 
+export class WriterClientController extends WriterClient{
+    projectId: string;
+    datasetId: string;
+    tableId: string;
+
+    constructor(projectId: string, datasetId: string, tableId: string) {
+        super()
+        this.projectId = projectId;
+        this.datasetId = datasetId;
+        this.tableId = tableId;
+    }
+
+    // operationalizes WriterClient methods given raw JSON data using Promises
+    appendRowsPending(rowData: any) {
+        const writerSchema = this.createSerializedRows(json);
+        const parent = this.createParent(this.projectId, this.datasetId, this.tableId);
+        // the issue here is this is maybe an array of arrays actually.
+        const serializedRows = this.createSerializedRows(rowData);
+        const totalResponses = serializedRows.length;
+
+        try {
+            // create stream
+            this.createStream(writerSchema, parent);
+            // set onResponse
+            this.streamOnResponse(writeStream, writer, totalResponses);
+            // send batches
+            // for every batch of serialized rows
+                let offSetValue = 0;
+                this.sendRowBatch(offsetValue, writeStream, serializedRows);
+                // change offsetValue
+            // explicitly set stream end? directly invoke? currently logic is in streamOnResponse
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    createBatchDaemon(rowData: any) {
+        // operationalizes WriterClient methods using worker_threads
+        // worker 1: create stream and get ack
+        // worker 2: serialize raw data into batches
+        // worker 3: abstract writerSchema from raw data
+        // worker 4: send batches and receive ack and responses
+        // worker 5: finalize stream and close
+        // worker1 + worker2 + worker3 -> worker4 -> worker5
+    }
+}
+
 // Example
 /*
-const writer = new WriterClient()
+const rowData = "my-rows";
 
-const projectId = "my-project";
-const datasetId = "my-dataset";
-const tableId = "my-table";
-const parent = writer.createParent(projectId, datasetId, tableId);
+const writer = new WriterClientController({
+    projectId: "my-project",
+    datasetId: "my-dataset",
+    tableId: "my-table"
+});
 
-const serializedRows = writer.createSerializedRows([]);
-const writerSchema = writer.createWriterSchema(args);
-
-writer.appendRowsPending(writerSchema, serializedRows, parent);
+writer.appendRowsPending(rowData);
+// OR
+// more performant (???) but depends on more recent version of Node
+writer.createBatchDaemon(rowData);
 */
 
 // APPENDIX
@@ -381,6 +504,8 @@ process.on('unhandledRejection', err => {
   process.exitCode = 1;
 });
 main(...process.argv.slice(2));
+
+// Relevant protos
 
 // Request message for `AppendRows`.
 //
