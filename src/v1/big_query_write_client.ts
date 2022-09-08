@@ -472,6 +472,9 @@ export class BigQueryWriteClient {
    * @param {string} request.name
    *   Required. Name of the stream to get, in the form of
    *   `projects/{project}/datasets/{dataset}/tables/{table}/streams/{stream}`.
+   * @param {google.cloud.bigquery.storage.v1.WriteStreamView} request.view
+   *   Indicates whether to get full or partial view of the WriteStream. If
+   *   not set, view returned will be basic.
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.

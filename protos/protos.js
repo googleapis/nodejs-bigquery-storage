@@ -5631,6 +5631,7 @@
                              * @memberof google.cloud.bigquery.storage.v1
                              * @interface IGetWriteStreamRequest
                              * @property {string|null} [name] GetWriteStreamRequest name
+                             * @property {google.cloud.bigquery.storage.v1.WriteStreamView|null} [view] GetWriteStreamRequest view
                              */
     
                             /**
@@ -5655,6 +5656,14 @@
                              * @instance
                              */
                             GetWriteStreamRequest.prototype.name = "";
+    
+                            /**
+                             * GetWriteStreamRequest view.
+                             * @member {google.cloud.bigquery.storage.v1.WriteStreamView} view
+                             * @memberof google.cloud.bigquery.storage.v1.GetWriteStreamRequest
+                             * @instance
+                             */
+                            GetWriteStreamRequest.prototype.view = 0;
     
                             /**
                              * Creates a new GetWriteStreamRequest instance using the specified properties.
@@ -5682,6 +5691,8 @@
                                     writer = $Writer.create();
                                 if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+                                if (message.view != null && Object.hasOwnProperty.call(message, "view"))
+                                    writer.uint32(/* id 3, wireType 0 =*/24).int32(message.view);
                                 return writer;
                             };
     
@@ -5718,6 +5729,10 @@
                                     switch (tag >>> 3) {
                                     case 1: {
                                             message.name = reader.string();
+                                            break;
+                                        }
+                                    case 3: {
+                                            message.view = reader.int32();
                                             break;
                                         }
                                     default:
@@ -5758,6 +5773,15 @@
                                 if (message.name != null && message.hasOwnProperty("name"))
                                     if (!$util.isString(message.name))
                                         return "name: string expected";
+                                if (message.view != null && message.hasOwnProperty("view"))
+                                    switch (message.view) {
+                                    default:
+                                        return "view: enum value expected";
+                                    case 0:
+                                    case 1:
+                                    case 2:
+                                        break;
+                                    }
                                 return null;
                             };
     
@@ -5775,6 +5799,20 @@
                                 var message = new $root.google.cloud.bigquery.storage.v1.GetWriteStreamRequest();
                                 if (object.name != null)
                                     message.name = String(object.name);
+                                switch (object.view) {
+                                case "WRITE_STREAM_VIEW_UNSPECIFIED":
+                                case 0:
+                                    message.view = 0;
+                                    break;
+                                case "BASIC":
+                                case 1:
+                                    message.view = 1;
+                                    break;
+                                case "FULL":
+                                case 2:
+                                    message.view = 2;
+                                    break;
+                                }
                                 return message;
                             };
     
@@ -5791,10 +5829,14 @@
                                 if (!options)
                                     options = {};
                                 var object = {};
-                                if (options.defaults)
+                                if (options.defaults) {
                                     object.name = "";
+                                    object.view = options.enums === String ? "WRITE_STREAM_VIEW_UNSPECIFIED" : 0;
+                                }
                                 if (message.name != null && message.hasOwnProperty("name"))
                                     object.name = message.name;
+                                if (message.view != null && message.hasOwnProperty("view"))
+                                    object.view = options.enums === String ? $root.google.cloud.bigquery.storage.v1.WriteStreamView[message.view] : message.view;
                                 return object;
                             };
     
@@ -9109,6 +9151,22 @@
                             return ReadStream;
                         })();
     
+                        /**
+                         * WriteStreamView enum.
+                         * @name google.cloud.bigquery.storage.v1.WriteStreamView
+                         * @enum {number}
+                         * @property {number} WRITE_STREAM_VIEW_UNSPECIFIED=0 WRITE_STREAM_VIEW_UNSPECIFIED value
+                         * @property {number} BASIC=1 BASIC value
+                         * @property {number} FULL=2 FULL value
+                         */
+                        v1.WriteStreamView = (function() {
+                            var valuesById = {}, values = Object.create(valuesById);
+                            values[valuesById[0] = "WRITE_STREAM_VIEW_UNSPECIFIED"] = 0;
+                            values[valuesById[1] = "BASIC"] = 1;
+                            values[valuesById[2] = "FULL"] = 2;
+                            return values;
+                        })();
+    
                         v1.WriteStream = (function() {
     
                             /**
@@ -9121,6 +9179,7 @@
                              * @property {google.protobuf.ITimestamp|null} [commitTime] WriteStream commitTime
                              * @property {google.cloud.bigquery.storage.v1.ITableSchema|null} [tableSchema] WriteStream tableSchema
                              * @property {google.cloud.bigquery.storage.v1.WriteStream.WriteMode|null} [writeMode] WriteStream writeMode
+                             * @property {string|null} [location] WriteStream location
                              */
     
                             /**
@@ -9187,6 +9246,14 @@
                             WriteStream.prototype.writeMode = 0;
     
                             /**
+                             * WriteStream location.
+                             * @member {string} location
+                             * @memberof google.cloud.bigquery.storage.v1.WriteStream
+                             * @instance
+                             */
+                            WriteStream.prototype.location = "";
+    
+                            /**
                              * Creates a new WriteStream instance using the specified properties.
                              * @function create
                              * @memberof google.cloud.bigquery.storage.v1.WriteStream
@@ -9222,6 +9289,8 @@
                                     $root.google.cloud.bigquery.storage.v1.TableSchema.encode(message.tableSchema, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                                 if (message.writeMode != null && Object.hasOwnProperty.call(message, "writeMode"))
                                     writer.uint32(/* id 7, wireType 0 =*/56).int32(message.writeMode);
+                                if (message.location != null && Object.hasOwnProperty.call(message, "location"))
+                                    writer.uint32(/* id 8, wireType 2 =*/66).string(message.location);
                                 return writer;
                             };
     
@@ -9278,6 +9347,10 @@
                                         }
                                     case 7: {
                                             message.writeMode = reader.int32();
+                                            break;
+                                        }
+                                    case 8: {
+                                            message.location = reader.string();
                                             break;
                                         }
                                     default:
@@ -9351,6 +9424,9 @@
                                     case 1:
                                         break;
                                     }
+                                if (message.location != null && message.hasOwnProperty("location"))
+                                    if (!$util.isString(message.location))
+                                        return "location: string expected";
                                 return null;
                             };
     
@@ -9411,6 +9487,8 @@
                                     message.writeMode = 1;
                                     break;
                                 }
+                                if (object.location != null)
+                                    message.location = String(object.location);
                                 return message;
                             };
     
@@ -9434,6 +9512,7 @@
                                     object.commitTime = null;
                                     object.tableSchema = null;
                                     object.writeMode = options.enums === String ? "WRITE_MODE_UNSPECIFIED" : 0;
+                                    object.location = "";
                                 }
                                 if (message.name != null && message.hasOwnProperty("name"))
                                     object.name = message.name;
@@ -9447,6 +9526,8 @@
                                     object.tableSchema = $root.google.cloud.bigquery.storage.v1.TableSchema.toObject(message.tableSchema, options);
                                 if (message.writeMode != null && message.hasOwnProperty("writeMode"))
                                     object.writeMode = options.enums === String ? $root.google.cloud.bigquery.storage.v1.WriteStream.WriteMode[message.writeMode] : message.writeMode;
+                                if (message.location != null && message.hasOwnProperty("location"))
+                                    object.location = message.location;
                                 return object;
                             };
     

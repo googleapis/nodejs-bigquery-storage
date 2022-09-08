@@ -566,6 +566,10 @@
                                 "(google.api.field_behavior)": "REQUIRED",
                                 "(google.api.resource_reference).type": "bigquerystorage.googleapis.com/WriteStream"
                               }
+                            },
+                            "view": {
+                              "type": "WriteStreamView",
+                              "id": 3
                             }
                           }
                         },
@@ -864,6 +868,13 @@
                             }
                           }
                         },
+                        "WriteStreamView": {
+                          "values": {
+                            "WRITE_STREAM_VIEW_UNSPECIFIED": 0,
+                            "BASIC": 1,
+                            "FULL": 2
+                          }
+                        },
                         "WriteStream": {
                           "options": {
                             "(google.api.resource).type": "bigquerystorage.googleapis.com/WriteStream",
@@ -908,6 +919,13 @@
                             "writeMode": {
                               "type": "WriteMode",
                               "id": 7,
+                              "options": {
+                                "(google.api.field_behavior)": "IMMUTABLE"
+                              }
+                            },
+                            "location": {
+                              "type": "string",
+                              "id": 8,
                               "options": {
                                 "(google.api.field_behavior)": "IMMUTABLE"
                               }
