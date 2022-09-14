@@ -430,7 +430,7 @@ export class BigQueryReadClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'read_session.table': request.readSession!.table || '',
+      'read_session.table': request.readSession!.table ?? '',
     });
     this.initialize();
     return this.innerApiCalls.createReadSession(request, options, callback);
@@ -520,7 +520,7 @@ export class BigQueryReadClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'name': request.name || '',
+      'name': request.name ?? '',
     });
     this.initialize();
     return this.innerApiCalls.splitReadStream(request, options, callback);
@@ -564,7 +564,7 @@ export class BigQueryReadClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'read_stream': request.readStream || '',
+      'read_stream': request.readStream ?? '',
     });
     this.initialize();
     return this.innerApiCalls.readRows(request, options);
