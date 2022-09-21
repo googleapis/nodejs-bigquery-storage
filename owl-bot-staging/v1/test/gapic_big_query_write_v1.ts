@@ -170,7 +170,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('CreateWriteStreamRequest', ['parent']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest', ['parent']);
             request.parent = defaultValue1;
             const expectedHeaderRequestParams = `parent=${defaultValue1}`;
             const expectedResponse = generateSampleMessage(
@@ -197,7 +197,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('CreateWriteStreamRequest', ['parent']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest', ['parent']);
             request.parent = defaultValue1;
             const expectedHeaderRequestParams = `parent=${defaultValue1}`;
             const expectedResponse = generateSampleMessage(
@@ -235,7 +235,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('CreateWriteStreamRequest', ['parent']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest', ['parent']);
             request.parent = defaultValue1;
             const expectedHeaderRequestParams = `parent=${defaultValue1}`;
             const expectedError = new Error('expected');
@@ -259,7 +259,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('CreateWriteStreamRequest', ['parent']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest', ['parent']);
             request.parent = defaultValue1;
             const expectedError = new Error('The client has already been closed.');
             client.close();
@@ -278,7 +278,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.GetWriteStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('GetWriteStreamRequest', ['name']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.GetWriteStreamRequest', ['name']);
             request.name = defaultValue1;
             const expectedHeaderRequestParams = `name=${defaultValue1}`;
             const expectedResponse = generateSampleMessage(
@@ -305,7 +305,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.GetWriteStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('GetWriteStreamRequest', ['name']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.GetWriteStreamRequest', ['name']);
             request.name = defaultValue1;
             const expectedHeaderRequestParams = `name=${defaultValue1}`;
             const expectedResponse = generateSampleMessage(
@@ -343,7 +343,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.GetWriteStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('GetWriteStreamRequest', ['name']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.GetWriteStreamRequest', ['name']);
             request.name = defaultValue1;
             const expectedHeaderRequestParams = `name=${defaultValue1}`;
             const expectedError = new Error('expected');
@@ -367,7 +367,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.GetWriteStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('GetWriteStreamRequest', ['name']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.GetWriteStreamRequest', ['name']);
             request.name = defaultValue1;
             const expectedError = new Error('The client has already been closed.');
             client.close();
@@ -386,7 +386,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('FinalizeWriteStreamRequest', ['name']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest', ['name']);
             request.name = defaultValue1;
             const expectedHeaderRequestParams = `name=${defaultValue1}`;
             const expectedResponse = generateSampleMessage(
@@ -413,7 +413,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('FinalizeWriteStreamRequest', ['name']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest', ['name']);
             request.name = defaultValue1;
             const expectedHeaderRequestParams = `name=${defaultValue1}`;
             const expectedResponse = generateSampleMessage(
@@ -451,7 +451,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('FinalizeWriteStreamRequest', ['name']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest', ['name']);
             request.name = defaultValue1;
             const expectedHeaderRequestParams = `name=${defaultValue1}`;
             const expectedError = new Error('expected');
@@ -475,7 +475,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('FinalizeWriteStreamRequest', ['name']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest', ['name']);
             request.name = defaultValue1;
             const expectedError = new Error('The client has already been closed.');
             client.close();
@@ -494,7 +494,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('BatchCommitWriteStreamsRequest', ['parent']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest', ['parent']);
             request.parent = defaultValue1;
             const expectedHeaderRequestParams = `parent=${defaultValue1}`;
             const expectedResponse = generateSampleMessage(
@@ -521,7 +521,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('BatchCommitWriteStreamsRequest', ['parent']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest', ['parent']);
             request.parent = defaultValue1;
             const expectedHeaderRequestParams = `parent=${defaultValue1}`;
             const expectedResponse = generateSampleMessage(
@@ -559,7 +559,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('BatchCommitWriteStreamsRequest', ['parent']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest', ['parent']);
             request.parent = defaultValue1;
             const expectedHeaderRequestParams = `parent=${defaultValue1}`;
             const expectedError = new Error('expected');
@@ -583,7 +583,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('BatchCommitWriteStreamsRequest', ['parent']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest', ['parent']);
             request.parent = defaultValue1;
             const expectedError = new Error('The client has already been closed.');
             client.close();
@@ -602,7 +602,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.FlushRowsRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('FlushRowsRequest', ['writeStream']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.FlushRowsRequest', ['writeStream']);
             request.writeStream = defaultValue1;
             const expectedHeaderRequestParams = `write_stream=${defaultValue1}`;
             const expectedResponse = generateSampleMessage(
@@ -629,7 +629,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.FlushRowsRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('FlushRowsRequest', ['writeStream']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.FlushRowsRequest', ['writeStream']);
             request.writeStream = defaultValue1;
             const expectedHeaderRequestParams = `write_stream=${defaultValue1}`;
             const expectedResponse = generateSampleMessage(
@@ -667,7 +667,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.FlushRowsRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('FlushRowsRequest', ['writeStream']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.FlushRowsRequest', ['writeStream']);
             request.writeStream = defaultValue1;
             const expectedHeaderRequestParams = `write_stream=${defaultValue1}`;
             const expectedError = new Error('expected');
@@ -691,7 +691,7 @@ describe('v1.BigQueryWriteClient', () => {
               new protos.google.cloud.bigquery.storage.v1.FlushRowsRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('FlushRowsRequest', ['writeStream']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.FlushRowsRequest', ['writeStream']);
             request.writeStream = defaultValue1;
             const expectedError = new Error('The client has already been closed.');
             client.close();

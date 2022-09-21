@@ -174,7 +174,7 @@ describe('v1.BigQueryReadClient', () => {
             );
             request.readSession ??= {};
             const defaultValue1 =
-              getTypeDefaultValue('CreateReadSessionRequest', ['readSession', 'table']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.CreateReadSessionRequest', ['readSession', 'table']);
             request.readSession.table = defaultValue1;
             const expectedHeaderRequestParams = `read_session.table=${defaultValue1}`;
             const expectedResponse = generateSampleMessage(
@@ -202,7 +202,7 @@ describe('v1.BigQueryReadClient', () => {
             );
             request.readSession ??= {};
             const defaultValue1 =
-              getTypeDefaultValue('CreateReadSessionRequest', ['readSession', 'table']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.CreateReadSessionRequest', ['readSession', 'table']);
             request.readSession.table = defaultValue1;
             const expectedHeaderRequestParams = `read_session.table=${defaultValue1}`;
             const expectedResponse = generateSampleMessage(
@@ -241,7 +241,7 @@ describe('v1.BigQueryReadClient', () => {
             );
             request.readSession ??= {};
             const defaultValue1 =
-              getTypeDefaultValue('CreateReadSessionRequest', ['readSession', 'table']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.CreateReadSessionRequest', ['readSession', 'table']);
             request.readSession.table = defaultValue1;
             const expectedHeaderRequestParams = `read_session.table=${defaultValue1}`;
             const expectedError = new Error('expected');
@@ -266,7 +266,7 @@ describe('v1.BigQueryReadClient', () => {
             );
             request.readSession ??= {};
             const defaultValue1 =
-              getTypeDefaultValue('CreateReadSessionRequest', ['readSession', 'table']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.CreateReadSessionRequest', ['readSession', 'table']);
             request.readSession.table = defaultValue1;
             const expectedError = new Error('The client has already been closed.');
             client.close();
@@ -285,7 +285,7 @@ describe('v1.BigQueryReadClient', () => {
               new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('SplitReadStreamRequest', ['name']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.SplitReadStreamRequest', ['name']);
             request.name = defaultValue1;
             const expectedHeaderRequestParams = `name=${defaultValue1}`;
             const expectedResponse = generateSampleMessage(
@@ -312,7 +312,7 @@ describe('v1.BigQueryReadClient', () => {
               new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('SplitReadStreamRequest', ['name']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.SplitReadStreamRequest', ['name']);
             request.name = defaultValue1;
             const expectedHeaderRequestParams = `name=${defaultValue1}`;
             const expectedResponse = generateSampleMessage(
@@ -350,7 +350,7 @@ describe('v1.BigQueryReadClient', () => {
               new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('SplitReadStreamRequest', ['name']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.SplitReadStreamRequest', ['name']);
             request.name = defaultValue1;
             const expectedHeaderRequestParams = `name=${defaultValue1}`;
             const expectedError = new Error('expected');
@@ -374,7 +374,7 @@ describe('v1.BigQueryReadClient', () => {
               new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('SplitReadStreamRequest', ['name']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.SplitReadStreamRequest', ['name']);
             request.name = defaultValue1;
             const expectedError = new Error('The client has already been closed.');
             client.close();
@@ -393,7 +393,7 @@ describe('v1.BigQueryReadClient', () => {
               new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('ReadRowsRequest', ['readStream']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.ReadRowsRequest', ['readStream']);
             request.readStream = defaultValue1;
             const expectedHeaderRequestParams = `read_stream=${defaultValue1}`;
             const expectedResponse = generateSampleMessage(
@@ -429,7 +429,7 @@ describe('v1.BigQueryReadClient', () => {
               new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('ReadRowsRequest', ['readStream']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.ReadRowsRequest', ['readStream']);
             request.readStream = defaultValue1;
             const expectedHeaderRequestParams = `read_stream=${defaultValue1}`;
             const expectedError = new Error('expected');
@@ -462,7 +462,7 @@ describe('v1.BigQueryReadClient', () => {
               new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest()
             );
             const defaultValue1 =
-              getTypeDefaultValue('ReadRowsRequest', ['readStream']);
+              getTypeDefaultValue('.google.cloud.bigquery.storage.v1.ReadRowsRequest', ['readStream']);
             request.readStream = defaultValue1;
             const expectedError = new Error('The client has already been closed.');
             client.close();
