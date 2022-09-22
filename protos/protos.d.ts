@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import Long = require("long");
 import type {protobuf as $protobuf} from "google-gax";
+import Long = require("long");
 /** Namespace google. */
 export namespace google {
 
@@ -8681,6 +8681,9 @@ export namespace google {
 
             /** FieldOptions uninterpretedOption */
             uninterpretedOption?: (google.protobuf.IUninterpretedOption[]|null);
+
+            /** FieldOptions .google.cloud.bigquery.storage.v1.columnName */
+            ".google.cloud.bigquery.storage.v1.columnName"?: (string|null);
 
             /** FieldOptions .google.api.fieldBehavior */
             ".google.api.fieldBehavior"?: (google.api.FieldBehavior[]|null);

@@ -459,7 +459,7 @@ export class BigQueryWriteClient {
     options.otherArgs.headers = options.otherArgs.headers || {};
     options.otherArgs.headers['x-goog-request-params'] =
       this._gaxModule.routingHeader.fromParams({
-        parent: request.parent || '',
+        parent: request.parent ?? '',
       });
     this.initialize();
     return this.innerApiCalls.createWriteStream(request, options, callback);
@@ -560,7 +560,7 @@ export class BigQueryWriteClient {
     options.otherArgs.headers = options.otherArgs.headers || {};
     options.otherArgs.headers['x-goog-request-params'] =
       this._gaxModule.routingHeader.fromParams({
-        name: request.name || '',
+        name: request.name ?? '',
       });
     this.initialize();
     return this.innerApiCalls.getWriteStream(request, options, callback);
@@ -659,7 +659,7 @@ export class BigQueryWriteClient {
     options.otherArgs.headers = options.otherArgs.headers || {};
     options.otherArgs.headers['x-goog-request-params'] =
       this._gaxModule.routingHeader.fromParams({
-        name: request.name || '',
+        name: request.name ?? '',
       });
     this.initialize();
     return this.innerApiCalls.finalizeWriteStream(request, options, callback);
@@ -764,7 +764,7 @@ export class BigQueryWriteClient {
     options.otherArgs.headers = options.otherArgs.headers || {};
     options.otherArgs.headers['x-goog-request-params'] =
       this._gaxModule.routingHeader.fromParams({
-        parent: request.parent || '',
+        parent: request.parent ?? '',
       });
     this.initialize();
     return this.innerApiCalls.batchCommitWriteStreams(
@@ -869,7 +869,7 @@ export class BigQueryWriteClient {
     options.otherArgs.headers = options.otherArgs.headers || {};
     options.otherArgs.headers['x-goog-request-params'] =
       this._gaxModule.routingHeader.fromParams({
-        write_stream: request.writeStream || '',
+        write_stream: request.writeStream ?? '',
       });
     this.initialize();
     return this.innerApiCalls.flushRows(request, options, callback);
