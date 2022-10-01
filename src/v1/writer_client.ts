@@ -18,114 +18,151 @@
 
 /* global window */
 
-// import * as gax from 'google-gax';
-import {
-    Callback,
-    CallOptions,
-    Descriptors,
-    ClientOptions,
-    GoogleError,
-  } from 'google-gax';
-  
-  import {PassThrough} from 'stream';
-  import * as protos from '../../protos/protos';
-  import jsonProtos = require('../../protos/protos.json');
-  /**
-   * Client JSON configuration object, loaded from
-   * `src/v1/big_query_write_client_config.json`.
-   * This file defines retry strategy and timeouts for all API methods in this library.
-   */
-  import * as gapicConfig from './big_query_write_client_config.json';
-  
-  //import version = require('../../../package.json').version;
-  import {BigQueryWriteClient} from "../v1";
-  import { createParent, createSerializedRows } from './helpers_sandbox';
+import {CallOptions, GoogleError, CancellableStream} from 'google-gax';
 
-  /**
-   *  BigQuery Write API.
-   *
-   *  The Write API can be used to write data to BigQuery.
-   *
-   *  For supplementary information about the Write API, see:
-   *  https://cloud.google.com/bigquery/docs/write-api
-   * @class
-   * @memberof v1
-   */
-     
-  
-  enum StreamType {
-      Type_Unspecified = "TYPE_UNSPECIFIED",
-      Committed = "COMMITTED",
-      Pending = "PENDING",
-      Buffered = "BUFFERED"
+import * as protos from '../../protos/protos';
+/**
+ * Client JSON configuration object, loaded from
+ * `src/v1/big_query_write_client_config.json`.
+ * This file defines retry strategy and timeouts for all API methods in this library.
+ */
+//import * as gapicConfig from './big_query_write_client_config.json';
+
+//import version = require('../../../package.json').version;
+import {BigQueryWriteClient} from '../v1';
+import {createParent, createSerializedRows} from './helpers_sandbox';
+
+/**
+ *  BigQuery Write API.
+ *
+ *  The Write API can be used to write data to BigQuery.
+ *
+ *  For supplementary information about the Write API, see:
+ *  https://cloud.google.com/bigquery/docs/write-api
+ * @class
+ * @memberof v1
+ */
+
+enum StreamType {
+  Type_Unspecified = 'TYPE_UNSPECIFIED',
+  Committed = 'COMMITTED',
+  Pending = 'PENDING',
+  Buffered = 'BUFFERED',
+}
+
+type WriteStream = {
+  name?: string | null | undefined;
+  type: StreamType;
+  create_time?: protos.google.protobuf.Timestamp;
+  commit_time?: protos.google.protobuf.Timestamp;
+  table_schema?: protos.google.cloud.bigquery.storage.v1.TableSchema;
+};
+type AppendRowResponse =
+  protos.google.cloud.bigquery.storage.v1.AppendRowsResponse;
+
+export class WriterClient {
+  public projectId = 'my-project';
+  public datasetId = 'my-dataset';
+  public tableId = 'my-table';
+
+  public constructor(fields?: {
+    projectId?: string;
+    datasetId?: string;
+    tableId?: string;
+  }) {
+    if (fields) {
+      this.projectId = fields.projectId || this.projectId;
+      this.datasetId = fields.datasetId || this.datasetId;
+      this.tableId = fields.tableId || this.tableId;
+    }
   }
-  
-  
-  type WriteStream = {
-      name?: string | null | undefined,
-      type: StreamType,
-      create_time?: protos.google.protobuf.Timestamp,
-      commit_time?: protos.google.protobuf.Timestamp,
-      table_schema?: protos.google.cloud.bigquery.storage.v1.TableSchema
+
+  async initializeWriteStream(
+    clientOptions?: CallOptions,
+    streamType?: StreamType
+  ): Promise<CancellableStream> {
+    const writer: BigQueryWriteClient = new BigQueryWriteClient();
+    let writeStream: WriteStream;
+    if (streamType) {
+      writeStream = {type: streamType};
+    }
+    writeStream = {type: StreamType.Type_Unspecified};
+    try {
+      const parent = createParent(this.projectId, this.datasetId, this.tableId);
+      const request = {
+        parent,
+        writeStream,
+      };
+      const [response] = await writer.createWriteStream(request);
+      if (![response]) {
+        throw new GoogleError(`${response}`);
+      }
+      console.log(`Stream created: ${response.name}`);
+
+      return writer.appendRows(clientOptions);
+    } catch (err) {
+      throw err;
+    }
   }
-  type AppendRowResponse = protos.google.cloud.bigquery.storage.v1.AppendRowsResponse;
-  
-  
-  export class WriterClient extends BigQueryWriteClient {
-      
-      async createStream(parent: string, clientOptions?: ClientOptions) {
-          const writer = new BigQueryWriteClient();
-          let writeStream: WriteStream = {type: StreamType.Committed};
-  
-          let request = {
-              parent,
-              writeStream,
-          };
-  
-          let [response] = await writer.createWriteStream(request);
-  
-          console.log(`Stream created: ${response.name}`);
-  
-          const stream = await writer.appendRows(clientOptions);
-          return stream;
+
+  async appendRowsToStream(
+    stream: CancellableStream,
+    writeStream: WriteStream,
+    serializedRows: Uint8Array[],
+    offsetValue: number
+  ): Promise<AppendRowResponse[]> {
+    const responses: AppendRowResponse[] = [];
+    stream.on('data', (response: any) => {
+      // Check for errors.
+      if (response.error) {
+        throw new Error(response.error.message);
       }
-  
-      async appendRowsCommitted(stream: BigQueryWriteClient, writeStream: WriteStream, serializedRows: Uint8Array[], offsetValue: number): Promise<AppendRowResponse[]> {
-          const responses: AppendRowResponse[] = [];        
-  
-          let request = {
-              writeStream,
-              protoRows: {value: serializedRows},
-              offset: {value: offsetValue},
-          };
-          let result = await stream.appendRows(request);
-          
-          result.forEach((appendResult: AppendRowResponse) => {
-              responses.push(appendResult);
-          })
-          return responses;
+
+      console.log(response);
+      responses.push(response);
+
+      // Close the stream when all responses have been received.
+      if (responses.length === serializedRows.length) {
+        stream.end();
       }
-  
-      closeStream(stream: BigQueryWriteClient, writeStream: WriteStream) {
-              // API call completed.
-              try {
-                const finalResponse = await stream.finalizeWriteStream({
-                  name: writeStream.name,
-                });
-               // console.log(`Row count: ${finalResponse.rowCount}`);
-               // temporary check, above needs to be tinkered with to create an instance of the response object that can parse the result of the promise.
-               console.log(`Row count: ${finalResponse.toString()}`);
-              } catch (err) {
-                console.log(err);
-              }
-      }
-  
-  // Example
-  
-  const rowData = createSerializedRows(["my-rows"]);
-  
-  const writer = new WriterClient(); // add ids to constructor
-  const parent = createParent(projectId, datasetId, tableId);
-  const writeStream = Promise.resolve(writer.createStream(parent));
-  writer.appendRowsCommitted(writer, writeStream, rowData, 0)
-  writer.closeStream(writer, writeStream)
+    });
+
+    stream.on('error', err => {
+      throw err;
+    });
+
+    const request = {
+      writeStream,
+      protoRows: {value: serializedRows},
+      offset: {value: offsetValue},
+    };
+    stream.write(request);
+
+    return responses;
+  }
+  closeStream(
+    writer: BigQueryWriteClient,
+    writeStream: WriteStream,
+    parent: string
+  ) {
+    // API call completed.
+    try {
+      writer
+        .finalizeWriteStream({
+          name: writeStream.name,
+        })
+        .then(result => {
+          if (!result.includes(undefined)) {
+            const [validResponse] = result;
+            console.log(`Row count: ${validResponse.rowCount}`);
+          }
+        });
+      writer.batchCommitWriteStreams({
+        parent,
+        writeStreams: [writeStream],
+      });
+    } catch (err) {
+      throw err;
+    }
+  }
+}
