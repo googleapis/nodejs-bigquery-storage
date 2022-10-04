@@ -18,3 +18,4 @@
 
 export {BigQueryReadClient} from './big_query_read_client';
 export {BigQueryWriteClient} from './big_query_write_client';
+export {WriterClient} from './writer_client';

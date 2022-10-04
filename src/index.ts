@@ -22,6 +22,8 @@ const BigQueryReadClient = v1.BigQueryReadClient;
 type BigQueryReadClient = v1.BigQueryReadClient;
 const BigQueryWriteClient = v1.BigQueryWriteClient;
 type BigQueryWriteClient = v1.BigQueryWriteClient;
+const WriterClient = v1.WriterClient;
+type WriterClient = v1.WriterClient;
 const BigQueryStorageClient = v1beta1.BigQueryStorageClient;
 type BigQueryStorageClient = v1beta1.BigQueryStorageClient;
 export {
@@ -30,9 +32,10 @@ export {
   v1beta1,
   BigQueryStorageClient,
   BigQueryWriteClient,
+  WriterClient,
 };
 // For compatibility with JavaScript libraries we need to provide this default export:
 // tslint:disable-next-line no-default-export
-export default {v1, BigQueryReadClient, BigQueryWriteClient};
+export default {v1, BigQueryReadClient, BigQueryWriteClient, WriterClient};
 import * as protos from '../protos/protos';
 export {protos};

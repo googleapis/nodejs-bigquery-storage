@@ -18,6 +18,7 @@
 
 /* global window */
 
+//import { write } from 'fs';
 import {CallOptions, GoogleError, CancellableStream} from 'google-gax';
 
 import * as protos from '../../protos/protos';
@@ -28,9 +29,9 @@ import * as protos from '../../protos/protos';
  */
 //import * as gapicConfig from './big_query_write_client_config.json';
 
-//import version = require('../../../package.json').version;
-import {BigQueryWriteClient} from '../v1';
-import {createParent, createSerializedRows} from './helpers_sandbox';
+//import version = require('../../package.json').version;
+import {BigQueryWriteClient} from '.';
+import {createParent, writeStreams} from './helpers_sandbox';
 
 /**
  *  BigQuery Write API.
@@ -50,32 +51,57 @@ enum StreamType {
   Buffered = 'BUFFERED',
 }
 
-type WriteStream = {
-  name?: string | null | undefined;
-  type: StreamType;
-  create_time?: protos.google.protobuf.Timestamp;
-  commit_time?: protos.google.protobuf.Timestamp;
-  table_schema?: protos.google.cloud.bigquery.storage.v1.TableSchema;
-};
+type WriteStream = protos.google.cloud.bigquery.storage.v1.IWriteStream;
 type AppendRowResponse =
   protos.google.cloud.bigquery.storage.v1.AppendRowsResponse;
 
-export class WriterClient {
-  public projectId = 'my-project';
-  public datasetId = 'my-dataset';
-  public tableId = 'my-table';
-
-  public constructor(fields?: {
+export class WriterClient extends BigQueryWriteClient {
+  /*private fields?: {
     projectId?: string;
     datasetId?: string;
     tableId?: string;
-  }) {
-    if (fields) {
-      this.projectId = fields.projectId || this.projectId;
-      this.datasetId = fields.datasetId || this.datasetId;
-      this.tableId = fields.tableId || this.tableId;
-    }
+  }*/
+  /*private projectId?: string = "my-project-id";
+  private datasetId?: string = "my-dataset-id";
+  private tableId?: string = "my-table-id";*/
+  private parent: string = "my-parent-string";
+
+  /*
+  @param {object} [fields]
+  */
+  constructor(parent?: string) {
+    super();
+    this.parent = parent || this.parent;
   }
+
+  setParent = (
+    projectId: string,
+    datasetId: string,
+    tableId: string
+  ): void => {
+    const parent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
+    this.parent = parent;
+  };
+
+  createSerializedRows = (rowData: any[]) => {
+    const serializedRows: any = [];
+    rowData.forEach(entry => {
+      serializedRows.push(entry.serializeBinary());
+    });
+    return serializedRows;
+  };
+
+  writeStreams = (
+    writeStream: WriteStream
+  ): undefined | null | string[] => {
+    if (writeStream === undefined || writeStream.name === undefined) {
+      return undefined;
+    }
+    if (writeStream.name === null) {
+      return null;
+    }
+    return new Array(writeStream.name);
+  };
 
   async initializeWriteStream(
     clientOptions?: CallOptions,
@@ -157,9 +183,10 @@ export class WriterClient {
             console.log(`Row count: ${validResponse.rowCount}`);
           }
         });
+
       writer.batchCommitWriteStreams({
         parent,
-        writeStreams: [writeStream],
+        writeStreams: writeStreams(writeStream),
       });
     } catch (err) {
       throw err;
