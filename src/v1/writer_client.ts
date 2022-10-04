@@ -18,7 +18,6 @@
 
 /* global window */
 
-//import { write } from 'fs';
 import {CallOptions, GoogleError, CancellableStream} from 'google-gax';
 
 import * as protos from '../../protos/protos';
@@ -29,7 +28,6 @@ import * as protos from '../../protos/protos';
  */
 //import * as gapicConfig from './big_query_write_client_config.json';
 
-//import version = require('../../package.json').version;
 import {BigQueryWriteClient} from '.';
 import {createParent, writeStreams} from './helpers_sandbox';
 
@@ -56,15 +54,7 @@ type AppendRowResponse =
   protos.google.cloud.bigquery.storage.v1.AppendRowsResponse;
 
 export class WriterClient extends BigQueryWriteClient {
-  /*private fields?: {
-    projectId?: string;
-    datasetId?: string;
-    tableId?: string;
-  }*/
-  /*private projectId?: string = "my-project-id";
-  private datasetId?: string = "my-dataset-id";
-  private tableId?: string = "my-table-id";*/
-  private parent: string = "my-parent-string";
+  private parent = 'projects/myProjectId/datasets/myDatasetId/tables/myTableId';
 
   /*
   @param {object} [fields]
@@ -74,11 +64,7 @@ export class WriterClient extends BigQueryWriteClient {
     this.parent = parent || this.parent;
   }
 
-  setParent = (
-    projectId: string,
-    datasetId: string,
-    tableId: string
-  ): void => {
+  setParent = (projectId: string, datasetId: string, tableId: string): void => {
     const parent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
     this.parent = parent;
   };
@@ -91,9 +77,7 @@ export class WriterClient extends BigQueryWriteClient {
     return serializedRows;
   };
 
-  writeStreams = (
-    writeStream: WriteStream
-  ): undefined | null | string[] => {
+  getWriteStreams = (writeStream: WriteStream): undefined | null | string[] => {
     if (writeStream === undefined || writeStream.name === undefined) {
       return undefined;
     }
@@ -113,22 +97,17 @@ export class WriterClient extends BigQueryWriteClient {
       writeStream = {type: streamType};
     }
     writeStream = {type: StreamType.Type_Unspecified};
-    try {
-      const parent = createParent(this.projectId, this.datasetId, this.tableId);
-      const request = {
-        parent,
-        writeStream,
-      };
-      const [response] = await writer.createWriteStream(request);
-      if (![response]) {
-        throw new GoogleError(`${response}`);
-      }
-      console.log(`Stream created: ${response.name}`);
-
-      return writer.appendRows(clientOptions);
-    } catch (err) {
-      throw err;
+    const request = {
+      parent: this.parent,
+      writeStream: writeStream,
+    };
+    const [response] = await writer.createWriteStream(request);
+    if (![response]) {
+      throw new GoogleError(`${response}`);
     }
+    console.log(`Stream created: ${response.name}`);
+
+    return writer.appendRows(clientOptions);
   }
 
   async appendRowsToStream(
@@ -172,24 +151,20 @@ export class WriterClient extends BigQueryWriteClient {
     parent: string
   ) {
     // API call completed.
-    try {
-      writer
-        .finalizeWriteStream({
-          name: writeStream.name,
-        })
-        .then(result => {
-          if (!result.includes(undefined)) {
-            const [validResponse] = result;
-            console.log(`Row count: ${validResponse.rowCount}`);
-          }
-        });
-
-      writer.batchCommitWriteStreams({
-        parent,
-        writeStreams: writeStreams(writeStream),
+    writer
+      .finalizeWriteStream({
+        name: writeStream.name,
+      })
+      .then(result => {
+        if (!result.includes(undefined)) {
+          const [validResponse] = result;
+          console.log(`Row count: ${validResponse.rowCount}`);
+        }
       });
-    } catch (err) {
-      throw err;
-    }
+
+    writer.batchCommitWriteStreams({
+      parent,
+      writeStreams: this.getWriteStreams(writeStream),
+    });
   }
 }
