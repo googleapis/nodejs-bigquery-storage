@@ -33,7 +33,7 @@ import jsonProtos = require('../../protos/protos.json');
  * This file defines retry strategy and timeouts for all API methods in this library.
  */
 import * as gapicConfig from './big_query_write_client_config.json';
-const version = require('../../../package.json').version;
+const version = require('../../package.json').version;
 
 /**
  *  BigQuery Write API.

@@ -17,19 +17,27 @@
 // ** All changes to this file may be overwritten. **
 
 /* global window */
-
-import {CallOptions, GoogleError, CancellableStream} from 'google-gax';
-
+import * as gax from 'google-gax';
+import type {
+  Callback,
+  CallOptions,
+  Descriptors,
+  ClientOptions,
+} from 'google-gax';
+import {PassThrough} from 'stream';
 import * as protos from '../../protos/protos';
+import jsonProtos = require('../../protos/protos.json');
 /**
  * Client JSON configuration object, loaded from
  * `src/v1/big_query_write_client_config.json`.
  * This file defines retry strategy and timeouts for all API methods in this library.
  */
-//import * as gapicConfig from './big_query_write_client_config.json';
+import * as gapicConfig from './big_query_write_client_config.json';
+const version = require('../../package.json').version;
+
 
 import {BigQueryWriteClient} from '.';
-import {createParent, writeStreams} from './helpers_sandbox';
+//import {createParent, writeStreams} from './helpers_sandbox';
 
 /**
  *  BigQuery Write API.
@@ -53,21 +61,291 @@ type WriteStream = protos.google.cloud.bigquery.storage.v1.IWriteStream;
 type AppendRowResponse =
   protos.google.cloud.bigquery.storage.v1.AppendRowsResponse;
 
-export class WriterClient extends BigQueryWriteClient {
-  private parent = 'projects/myProjectId/datasets/myDatasetId/tables/myTableId';
+export class WriterClient {
+  private _terminated = false;
+  private _opts: ClientOptions;
+  private _providedCustomServicePath: boolean;
+  private _gaxModule: typeof gax | typeof gax.fallback;
+  private _gaxGrpc: gax.GrpcClient | gax.fallback.GrpcClient;
+  private _protos: {};
+  private _defaults: {[method: string]: gax.CallSettings};
+  auth: gax.GoogleAuth;
+  descriptors: Descriptors = {
+    page: {},
+    stream: {},
+    longrunning: {},
+    batching: {},
+  };
+  warn: (code: string, message: string, warnType?: string) => void;
+  innerApiCalls: {[name: string]: Function};
+  pathTemplates: {[name: string]: gax.PathTemplate};
+  private _parent = 'projects/myProjectId/datasets/myDatasetId/tables/myTableId';
+  writerStub?: Promise<{[name: string]: Function}>;
+  bigQueryClient: BigQueryWriteClient
 
-  /*
-  @param {object} [fields]
-  */
-  constructor(parent?: string) {
-    super();
-    this.parent = parent || this.parent;
+  constructor(parent?: string, opts?: ClientOptions, gaxInstance?: typeof gax | typeof gax.fallback
+    ) {
+    this._parent = parent || this._parent;
+    this.bigQueryClient = new BigQueryWriteClient();
+    // Ensure that options include all the required fields.
+    const staticMembers = this.constructor as typeof WriterClient;
+    const servicePath =
+      opts?.servicePath || opts?.apiEndpoint || staticMembers.servicePath;
+    this._providedCustomServicePath = !!(
+      opts?.servicePath || opts?.apiEndpoint
+    );
+    const port = opts?.port || staticMembers.port;
+    const clientConfig = opts?.clientConfig ?? {};
+    const fallback =
+      opts?.fallback ??
+      (typeof window !== 'undefined' && typeof window?.fetch === 'function');
+    opts = Object.assign({servicePath, port, clientConfig, fallback}, opts);
+
+    // If scopes are unset in options and we're connecting to a non-default endpoint, set scopes just in case.
+    if (servicePath !== staticMembers.servicePath && !('scopes' in opts)) {
+      opts['scopes'] = staticMembers.scopes;
+    }
+
+    // Load google-gax module synchronously if needed
+    if (!gaxInstance) {
+      gaxInstance = require('google-gax') as typeof gax;
+    }
+
+    // Choose either gRPC or proto-over-HTTP implementation of google-gax.
+    this._gaxModule = opts.fallback ? gaxInstance.fallback : gaxInstance;
+
+    // Create a `gaxGrpc` object, with any grpc-specific options sent to the client.
+    this._gaxGrpc = new this._gaxModule.GrpcClient(opts);
+
+    // Save options to use in initialize() method.
+    this._opts = opts;
+
+    // Save the auth object to the client, for use by other methods.
+    this.auth = this._gaxGrpc.auth as gax.GoogleAuth;
+
+    // Set useJWTAccessWithScope on the auth object.
+    this.auth.useJWTAccessWithScope = true;
+
+    // Set defaultServicePath on the auth object.
+    this.auth.defaultServicePath = staticMembers.servicePath;
+
+    // Set the default scopes in auth client if needed.
+    if (servicePath === staticMembers.servicePath) {
+      this.auth.defaultScopes = staticMembers.scopes;
+    }
+
+    // Determine the client header string.
+    const clientHeader = [`gax/${this._gaxModule.version}`, `gapic/${version}`];
+    if (typeof process !== 'undefined' && 'versions' in process) {
+      clientHeader.push(`gl-node/${process.versions.node}`);
+    } else {
+      clientHeader.push(`gl-web/${this._gaxModule.version}`);
+    }
+    if (!opts.fallback) {
+      clientHeader.push(`grpc/${this._gaxGrpc.grpcVersion}`);
+    } else if (opts.fallback === 'rest') {
+      clientHeader.push(`rest/${this._gaxGrpc.grpcVersion}`);
+    }
+    if (opts.libName && opts.libVersion) {
+      clientHeader.push(`${opts.libName}/${opts.libVersion}`);
+    }
+    // Load the applicable protos.
+    this._protos = this._gaxGrpc.loadProtoJSON(jsonProtos);
+
+    // This API contains "path templates"; forward-slash-separated
+    // identifiers to uniquely identify resources within the API.
+    // Create useful helper objects for these.
+    this.pathTemplates = {
+      projectPathTemplate: new this._gaxModule.PathTemplate(
+        'projects/{project}'
+      ),
+      readSessionPathTemplate: new this._gaxModule.PathTemplate(
+        'projects/{project}/locations/{location}/sessions/{session}'
+      ),
+      readStreamPathTemplate: new this._gaxModule.PathTemplate(
+        'projects/{project}/locations/{location}/sessions/{session}/streams/{stream}'
+      ),
+      tablePathTemplate: new this._gaxModule.PathTemplate(
+        'projects/{project}/datasets/{dataset}/tables/{table}'
+      ),
+      writeStreamPathTemplate: new this._gaxModule.PathTemplate(
+        'projects/{project}/datasets/{dataset}/tables/{table}/streams/{stream}'
+      ),
+    };
+
+    // Some of the methods on this service provide streaming responses.
+    // Provide descriptors for these.
+    this.descriptors.stream = {
+      appendRows: new this._gaxModule.StreamDescriptor(
+        this._gaxModule.StreamType.BIDI_STREAMING,
+        opts.fallback === 'rest'
+      ),
+    };
+
+    // Put together the default options sent with requests.
+    this._defaults = this._gaxGrpc.constructSettings(
+      'google.cloud.bigquery.storage.v1.BigQueryWrite',
+      gapicConfig as gax.ClientConfig,
+      opts.clientConfig || {},
+      {'x-goog-api-client': clientHeader.join(' ')}
+    );
+
+    // Set up a dictionary of "inner API calls"; the core implementation
+    // of calling the API is handled in `google-gax`, with this code
+    // merely providing the destination and request information.
+    this.innerApiCalls = {};
+
+    // Add a warn function to the client constructor so it can be easily tested.
+    this.warn = this._gaxModule.warn;
+  
+  }
+
+  /**
+   * Initialize the client.
+   * Performs asynchronous operations (such as authentication) and prepares the client.
+   * This function will be called automatically when any class method is called for the
+   * first time, but if you need to initialize it before calling an actual method,
+   * feel free to call initialize() directly.
+   *
+   * You can await on this method if you want to make sure the client is initialized.
+   *
+   * @returns {Promise} A promise that resolves to an authenticated service stub.
+   */
+  initialize() {
+    // If the client stub promise is already initialized, return immediately.
+    if (this.writerStub) {
+      return this.writerStub;
+    }
+
+    // Put together the "service stub" for
+    // google.cloud.bigquery.storage.v1.BigQueryWrite.
+    this.writerStub = this._gaxGrpc.createStub(
+      this._opts.fallback
+        ? (this._protos as protobuf.Root).lookupService(
+            'google.cloud.bigquery.storage.v1.BigQueryWrite'
+          )
+        : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (this._protos as any).google.cloud.bigquery.storage.v1.WriterClient,
+      this._opts,
+      this._providedCustomServicePath
+    ) as Promise<{[method: string]: Function}>;
+
+    // Iterate over each of the methods that the service provides
+    // and create an API call method for each.
+    const writerStubMethods = [
+      //update
+      'setParent',
+      'getParent',
+      'createSerializedRows',
+      'getWriteStreams',
+      'setWriteStream',
+      'initializeWriteStream',
+      'appendRowsToStream',
+      'closeStream'
+    ];
+    for (const methodName of writerStubMethods) {
+      const callPromise = this.writerStub.then(
+        stub =>
+          (...args: Array<{}>) => {
+            if (this._terminated) {
+              if (methodName in this.descriptors.stream) {
+                const stream = new PassThrough();
+                setImmediate(() => {
+                  stream.emit(
+                    'error',
+                    new this._gaxModule.GoogleError(
+                      'The client has already been closed.'
+                    )
+                  );
+                });
+                return stream;
+              }
+              return Promise.reject('The client has already been closed.');
+            }
+            const func = stub[methodName];
+            return func.apply(stub, args);
+          },
+        (err: Error | null | undefined) => () => {
+          throw err;
+        }
+      );
+
+      const descriptor = this.descriptors.stream[methodName] || undefined;
+      const apiCall = this._gaxModule.createApiCall(
+        callPromise,
+        this._defaults[methodName],
+        descriptor,
+        this._opts.fallback
+      );
+
+      this.innerApiCalls[methodName] = apiCall;
+    }
+
+    return this.writerStub;
+  }
+  
+  /**
+   * The DNS address for this API service.
+   * @returns {string} The DNS address for this service.
+   */
+   static get servicePath() {
+    return 'bigquerystorage.googleapis.com';
+  }
+
+  /**
+   * The DNS address for this API service - same as servicePath(),
+   * exists for compatibility reasons.
+   * @returns {string} The DNS address for this service.
+   */
+  static get apiEndpoint() {
+    return 'bigquerystorage.googleapis.com';
+  }
+
+  /**
+   * The port for this API service.
+   * @returns {number} The default port for this service.
+   */
+  static get port() {
+    return 443;
+  }
+
+  /**
+   * The scopes needed to make gRPC calls for every method defined
+   * in this service.
+   * @returns {string[]} List of default scopes.
+   */
+  static get scopes() {
+    return [
+      'https://www.googleapis.com/auth/bigquery',
+      'https://www.googleapis.com/auth/bigquery.insertdata',
+      'https://www.googleapis.com/auth/cloud-platform',
+    ];
+  }
+
+  getProjectId(): Promise<string>;
+  getProjectId(callback: Callback<string, undefined, undefined>): void;
+  /**
+   * Return the project ID used by this class.
+   * @returns {Promise} A promise that resolves to string containing the project ID.
+   */
+  getProjectId(
+    callback?: Callback<string, undefined, undefined>
+  ): Promise<string> | void {
+    if (callback) {
+      this.auth.getProjectId(callback);
+      return;
+    }
+    return this.auth.getProjectId();
   }
 
   setParent = (projectId: string, datasetId: string, tableId: string): void => {
     const parent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
-    this.parent = parent;
+    this._parent = parent;
   };
+  
+  getParent = (): string =>{
+    return this._parent
+  }
 
   createSerializedRows = (rowData: any[]) => {
     const serializedRows: any = [];
@@ -87,31 +365,34 @@ export class WriterClient extends BigQueryWriteClient {
     return new Array(writeStream.name);
   };
 
-  async initializeWriteStream(
-    clientOptions?: CallOptions,
-    streamType?: StreamType
-  ): Promise<CancellableStream> {
-    const writer: BigQueryWriteClient = new BigQueryWriteClient();
+  setWriteStream(streamType?: StreamType): WriteStream {
     let writeStream: WriteStream;
     if (streamType) {
       writeStream = {type: streamType};
     }
     writeStream = {type: StreamType.Type_Unspecified};
+    return writeStream;
+  }
+
+  async initializeWriteStream(
+    clientOptions?: CallOptions,
+  ): Promise<gax.CancellableStream> {
+    const bqWriteClient: BigQueryWriteClient = this.bigQueryClient;
     const request = {
-      parent: this.parent,
-      writeStream: writeStream,
+      parent: this._parent,
+      writeStream: this.setWriteStream(),
     };
-    const [response] = await writer.createWriteStream(request);
+    const [response] = await bqWriteClient.createWriteStream(request);
     if (![response]) {
-      throw new GoogleError(`${response}`);
+      throw new gax.GoogleError(`${response}`);
     }
     console.log(`Stream created: ${response.name}`);
 
-    return writer.appendRows(clientOptions);
+    return bqWriteClient.appendRows(clientOptions);
   }
 
   async appendRowsToStream(
-    stream: CancellableStream,
+    stream: gax.CancellableStream,
     writeStream: WriteStream,
     serializedRows: Uint8Array[],
     offsetValue: number
@@ -145,11 +426,12 @@ export class WriterClient extends BigQueryWriteClient {
 
     return responses;
   }
+  
   closeStream(
-    writer: BigQueryWriteClient,
     writeStream: WriteStream,
     parent: string
   ) {
+    const writer: BigQueryWriteClient = this.bigQueryClient;
     // API call completed.
     writer
       .finalizeWriteStream({
@@ -168,3 +450,43 @@ export class WriterClient extends BigQueryWriteClient {
     });
   }
 }
+
+//Example
+const customer_record_pb = require('./../../samples/customer_record_pb.js');
+const projectId = 'my-project';
+const datasetId = 'my-dataset';
+const tableId = 'my-table';
+const writer = new WriterClient();
+writer.setParent(projectId, datasetId, tableId);
+console.log(writer.getParent());
+console.log(writer.getProjectId());
+const writeStream = writer.setWriteStream(StreamType.Pending);
+const options: CallOptions = {};
+     options.otherArgs = {};
+     options.otherArgs.headers = {};
+     options.otherArgs.headers[
+       'x-goog-request-params'
+     ] = `write_stream=${writeStream}`;
+
+
+
+// Row 1
+let row1 = new customer_record_pb.CustomerRecord();
+row1.row_num = 1;
+row1.setCustomerName('Octavia');
+console.log(row1);
+
+// Row 2
+let row2 = new customer_record_pb.CustomerRecord();
+row2.row_num = 2;
+row2.setCustomerName('Turing');
+console.log(row2);
+
+const rowData = [row1, row2]
+console.log(rowData);
+     
+const serializedRowData = writer.createSerializedRows(rowData)
+Promise.resolve(writer.initializeWriteStream(options)).then(res => {
+  writer.appendRowsToStream(res, writeStream, serializedRowData, 0);
+});
+writer.closeStream(writeStream, writer.getParent());
