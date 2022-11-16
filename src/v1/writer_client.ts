@@ -86,7 +86,7 @@ export class WriterClient {
   constructor(parent?: string, opts?: ClientOptions, gaxInstance?: typeof gax | typeof gax.fallback
     ) {
     this._parent = parent || this._parent;
-    this.bigQueryClient = new BigQueryWriteClient();
+    this.bigQueryClient = new BigQueryWriteClient(opts);
     // Ensure that options include all the required fields.
     const staticMembers = this.constructor as typeof WriterClient;
     const servicePath =
@@ -233,7 +233,6 @@ export class WriterClient {
     // Iterate over each of the methods that the service provides
     // and create an API call method for each.
     const writerStubMethods = [
-      //update
       'setParent',
       'getParent',
       'createSerializedRows',
