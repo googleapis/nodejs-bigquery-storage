@@ -34,12 +34,9 @@ import jsonProtos = require('../../protos/protos.json');
  * This file defines retry strategy and timeouts for all API methods in this library.
  */
 import * as gapicConfig from './big_query_write_client_config.json';
-const version = require('../../package.json').version;
-
+const version = require('../../../package.json').version;
 
 import {BigQueryWriteClient} from '.';
-import { write } from 'fs';
-//import {createParent, writeStreams} from './helpers_sandbox';
 
 /**
  *  BigQuery Write API.
@@ -52,14 +49,14 @@ import { write } from 'fs';
  * @memberof v1
  */
 
-
-// type StreamType = protos.google.cloud.bigquery.storage.v1.WriteStream;
 type WriteStream = protos.google.cloud.bigquery.storage.v1.IWriteStream;
 type AppendRowResponse =
   protos.google.cloud.bigquery.storage.v1.AppendRowsResponse;
-type AppendRowRequest = protos.google.cloud.bigquery.storage.v1.IAppendRowsRequest;
+type AppendRowRequest =
+  protos.google.cloud.bigquery.storage.v1.IAppendRowsRequest;
 type IInt64Value = protos.google.protobuf.IInt64Value;
-type ProtoData = protos.google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData;
+type ProtoData =
+  protos.google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData;
 type ProtoRows = protos.google.cloud.bigquery.storage.v1.IProtoRows;
 type ProtoSchema = protos.google.cloud.bigquery.storage.v1.IProtoSchema;
 type ProtoDescriptor = protos.google.protobuf.IDescriptorProto;
@@ -84,20 +81,18 @@ export class WriterClient {
   innerApiCalls: {[name: string]: Function};
   pathTemplates: {[name: string]: gax.PathTemplate};
   private _parent: string;
-  private _projectId: string = "Please specify project_id";
-  private _datasetId: string = "Please specify dataset_id";
-  //change hardcoding
-  private _writeStream: WriteStream = {type: "PENDING"};
+  private _writeStream: WriteStream = {type: 'PENDING'};
   private _streamId: string;
-  // private _parent = 'projects/myProjectId/datasets/myDatasetId/tables/myTableId';
   writerStub?: Promise<{[name: string]: Function}>;
-  bigQueryClient: BigQueryWriteClient
+  bigQueryClient: BigQueryWriteClient;
 
-  constructor(parent: string, opts: ClientOptions, writeStream?: WriteStream, gaxInstance?: typeof gax | typeof gax.fallback
-    ) {
+  constructor(
+    parent: string,
+    opts: ClientOptions,
+    writeStream?: WriteStream,
+    gaxInstance?: typeof gax | typeof gax.fallback
+  ) {
     this._parent = parent;
-    this._projectId = opts.projectId || projectId;
-    this._datasetId = datasetId;
     this.bigQueryClient = new BigQueryWriteClient(opts);
     this._writeStream = writeStream || this._writeStream;
     this._streamId = 'Please open a connection to set connection name';
@@ -198,7 +193,7 @@ export class WriterClient {
 
     // Put together the default options sent with requests.
     this._defaults = this._gaxGrpc.constructSettings(
-      'google.cloud.bigquery.storage.v1.BigQueryWrite',
+      'google.cloud.bigquery.storage.v1.WriterClient',
       gapicConfig as gax.ClientConfig,
       opts.clientConfig || {},
       {'x-goog-api-client': clientHeader.join(' ')}
@@ -211,7 +206,6 @@ export class WriterClient {
 
     // Add a warn function to the client constructor so it can be easily tested.
     this.warn = this._gaxModule.warn;
-  
   }
 
   /**
@@ -232,7 +226,7 @@ export class WriterClient {
     }
 
     // Put together the "service stub" for
-    // google.cloud.bigquery.storage.v1.BigQueryWrite.
+    // google.cloud.bigquery.storage.v1.WriterClient.
     this.writerStub = this._gaxGrpc.createStub(
       this._opts.fallback
         ? (this._protos as protobuf.Root).lookupService(
@@ -254,7 +248,7 @@ export class WriterClient {
       'setWriteStream',
       'initializeWriteStream',
       'appendRowsToStream',
-      'closeStream'
+      'closeStream',
     ];
     for (const methodName of writerStubMethods) {
       const callPromise = this.writerStub.then(
@@ -296,12 +290,12 @@ export class WriterClient {
 
     return this.writerStub;
   }
-  
+
   /**
    * The DNS address for this API service.
    * @returns {string} The DNS address for this service.
    */
-   static get servicePath() {
+  static get servicePath() {
     return 'bigquerystorage.googleapis.com';
   }
 
@@ -355,59 +349,35 @@ export class WriterClient {
     const parent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
     this._parent = parent;
   };
-  
-  getParent = (): string =>{
-    return this._parent
-  }
 
-  setDatasetId = (datasetId: string): void => {
-    this._datasetId = datasetId;
-  }
-
-  getDatasetId = (): string => {
-    return this._datasetId;
-  }
+  getParent = (): string => {
+    return this._parent;
+  };
 
   getStreamId = (): string => {
     return this._streamId;
-  }
+  };
 
-  createSerializedRows = (rowData: Message[], schema?: ProtoSchema): ProtoData => {
+  createSerializedRows = (
+    rowData: Message[],
+    schema?: ProtoSchema
+  ): ProtoData => {
     const serializedRows: ProtoRows = {
-      serializedRows: []
+      serializedRows: [],
     };
-    const convertedRows: Uint8Array[] = []
+    const convertedRows: Uint8Array[] = [];
     rowData.forEach(entry => {
       convertedRows.push(protobufjs.Message.encode(entry).finish());
-    })
-      /*let message = new protobufjs.Message({
-        properties: entry
-      });*/
-      /*let entryMessage: gax.protobuf.Message;
-
-      if (entry != undefined) {
-        entryMessage = protobufjs.Message.create(entry);
-        const errorMessage = "Invalid: row must be a valid object"
-        const err: string | null = protobufjs.Message.verify(entryMessage);
-        if (err) {
-          throw new Error(errorMessage);
-         } else {
-          convertedRows.push(protobufjs.Message.encode(entryMessage).finish());
-        }
-      } else {
-        throw new Error('Rows cannot be undefined')
-      }
-    });*/
+    });
     serializedRows.serializedRows = convertedRows;
-    //fix writerSchema thing
-    const protoDescriptor: ProtoDescriptor = {}
+    const protoDescriptor: ProtoDescriptor = {};
     const writerSchema: ProtoSchema = schema || {
-      protoDescriptor: protoDescriptor
-    }
+      protoDescriptor: protoDescriptor,
+    };
     const serializedRowData: ProtoData = {
       rows: serializedRows,
-      writerSchema: writerSchema
-    }
+      writerSchema: writerSchema,
+    };
     return serializedRowData;
   };
 
@@ -422,30 +392,24 @@ export class WriterClient {
   };
 
   setWriteStream(streamType: WriteStream): void {
-    /**let writeStream: WriteStream;
-    if (streamType) {
-      writeStream = {type: streamType.type};
-    }
-    writeStream = {type: "TYPE_UNSPECIFIED"};
-    return writeStream;**/
     this._writeStream = {type: streamType.type};
   }
 
   getWriteStream(): WriteStream {
-    return this._writeStream
+    return this._writeStream;
   }
 
   async initializeStreamConnection(
-    clientOptions?: CallOptions,
+    clientOptions?: CallOptions
   ): Promise<gax.CancellableStream> {
     const bqWriteClient: BigQueryWriteClient = this.bigQueryClient;
-    const request: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest = {
-      parent: this.getParent(),
-      writeStream: this.getWriteStream(),
-    };
+    const request: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest =
+      {
+        parent: this.getParent(),
+        writeStream: this.getWriteStream(),
+      };
     console.log(`This is the initializeStreamConnection request: ${request}`);
     const [response] = await bqWriteClient.createWriteStream(request);
-    // console.log([response]);
     if (![response]) {
       throw new gax.GoogleError(`${response}`);
     }
@@ -453,12 +417,12 @@ export class WriterClient {
     try {
       if (response.name) {
         this._streamId = response.name;
-        console.log("This is the response name and what was set as streamId")
+        console.log('This is the response name and what was set as streamId');
         console.log(response.name);
-        console.log(this._streamId)
+        console.log(this._streamId);
       }
     } catch {
-      throw new Error('Stream connection failed')
+      throw new Error('Stream connection failed');
     }
     if (clientOptions) {
       return this.bigQueryClient.appendRows(clientOptions);
@@ -467,13 +431,11 @@ export class WriterClient {
   }
 
   async appendRowsToStream(
-  // set streamId correctly, write_stream for the API is a string. Options are what was set in the initializing of the connection or _default.
     connection: gax.CancellableStream,
     serializedRows: ProtoData,
-    offsetValue: IInt64Value,
+    offsetValue: IInt64Value
   ): Promise<AppendRowResponse[]> {
     const responses: AppendRowResponse[] | null = [];
-    //get connection name
     const writeStream: string = this.getStreamId();
     console.log(`This is the write_stream string we're using: ${writeStream}`);
 
@@ -482,77 +444,80 @@ export class WriterClient {
       protoRows: serializedRows,
       offset: offsetValue,
     };
-    
-      connection.write(request, () => {
-        console.log("Write complete!")
-        connection.on('data', (response) => {
-          // Check for errors.
-          if (response.error) {
-            throw new Error(response.error.message);
-          }
-    
-          console.log(`This is the response we're getting over the wire from an appendRows request: ${response}`);
-          responses.push(response);
-          console.log(...responses);
-          console.log(responses.length);
 
-          if (responses.length === 1) {
-            connection.end(() => {
-              console.log(...responses)
-              this.closeStream();
-              console.log("The connection has ended.");
-            });
-          }
-        })
-          // Close the stream when all responses have been received.
-        
-        
-        
-        
-      
-          
-    
-        connection.on('error', err => {
-          throw err;
-        });
-        })
-        return responses;
-    } 
-    
-  
+    connection.write(request, () => {
+      console.log('Write complete!');
+      connection.on('data', response => {
+        // Check for errors.
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+
+        console.log(
+          `This is the response we're getting over the wire from an appendRows request: ${response}`
+        );
+        responses.push(response);
+        console.log(...responses);
+        console.log(responses.length);
+
+        if (responses.length === 1) {
+          connection.end(() => {
+            console.log(...responses);
+            this.closeStream();
+            console.log('The connection has ended.');
+          });
+        }
+      });
+
+      connection.on('error', err => {
+        throw err;
+      });
+    });
+    return responses;
+  }
+
   async closeStream(): Promise<void> {
     const writer: BigQueryWriteClient = this.bigQueryClient;
     // API call completed.
     const writeStream = this._streamId;
-    console.log(`This is the writeStream we've stored and will be committing ${writeStream}`);
+    console.log(
+      `This is the writeStream we've stored and will be committing ${writeStream}`
+    );
     const writeStreams: string[] | null = [];
     writeStreams.push(writeStream);
-    console.log(`This is the array of writeStreams we're committing ${writeStreams}`);
+    console.log(
+      `This is the array of writeStreams we're committing ${writeStreams}`
+    );
 
-    const finalizeStreamReq: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest = {
-      name: writeStream,
-    }
-    console.log(`This is the FinalizeWriteStreamRequest object: ${finalizeStreamReq}`);
+    const finalizeStreamReq: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest =
+      {
+        name: writeStream,
+      };
+    console.log(
+      `This is the FinalizeWriteStreamRequest object: ${finalizeStreamReq}`
+    );
+    writer.finalizeWriteStream(finalizeStreamReq).then(result => {
+      if (!result.includes(undefined)) {
+        const [validResponse] = result;
+        console.log(`Row count: ${validResponse.rowCount}`);
+      }
+    });
+    const batchCommitWriteStreamsReq: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest =
+      {
+        parent: this._parent,
+        writeStreams: writeStreams,
+      };
+    console.log(
+      `This is the BatchCommitWriteStreamsRequest object we're sending: ${batchCommitWriteStreamsReq}`
+    );
     writer
-      .finalizeWriteStream(finalizeStreamReq)
-      .then(result => {
-        if (!result.includes(undefined)) {
-          const [validResponse] = result;
-          console.log(`Row count: ${validResponse.rowCount}`);
-        }
-      });
-    const batchCommitWriteStreamsReq: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest = {
-      parent: this._parent,
-      writeStreams: writeStreams
-    };
-    console.log(`This is the BatchCommitWriteStreamsRequest object we're sending: ${batchCommitWriteStreamsReq}`)
-    writer.batchCommitWriteStreams(batchCommitWriteStreamsReq).then(result => console.log(result));
+      .batchCommitWriteStreams(batchCommitWriteStreamsReq)
+      .then(result => console.log(result));
   }
 }
 
 //Example
-// console.log(WriterClient);
-const type = protos.google.protobuf.FieldDescriptorProto.Type;
+/*const type = protos.google.protobuf.FieldDescriptorProto.Type;
 const customer_record_pb = require('./../../samples/customer_record_pb.js');
 const projectId = 'your-project';
 const datasetId = 'your-dataset';
@@ -562,25 +527,11 @@ const exOpts: ClientOptions = {
 }
 const exParent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`
 const writer = new WriterClient(exParent, exOpts);
-//writer.setParent(projectId, datasetId, tableId);
-writer.setDatasetId(datasetId);
-// console.log(writer.getParent());
-// console.log(writer.getDatasetId());
 const streamType: WriteStream = {
   type: "PENDING"
 };
 writer.setWriteStream(streamType);
-// console.log(writer.getWriteStream);
 const writeStreamConnection: Promise<gax.CancellableStream> = writer.initializeStreamConnection();
-//console.log(writer.getStreamId());
-//console.log(writeStreamConnection);
-/* const options: CallOptions = {};
-     options.otherArgs = {};
-     options.otherArgs.headers = {};
-     options.otherArgs.headers[
-       'x-goog-request-params'
-     ] = `write_stream=${writeStream}`;*/
-// options not needed for veneer
 
 const protoDescriptorEx: ProtoDescriptor = {};
 protoDescriptorEx.name = 'CustomerRecord';
@@ -597,62 +548,15 @@ protoDescriptorEx.field = [
   }
     ];
 
-/*type CustomerRecord = {
-  row_num?: IInt64Value,
-  customer_name?: string
-}*/
 // Row 1
 let row1Message = new customer_record_pb.CustomerRecord();
 row1Message.row_num = 1
 row1Message.setCustomerName("Octavia")
-/*let row1: CustomerRecord = {
-  row_num: {
-    value: 1
-  },
-  customer_name: "Octavia"
-};*/
-// console.log(row1);
-// row1Message = protobufjs.Message.fromObject(row1);
-// console.log(row1Message);
-/*let row1 = protobufjs.Message.create({
-  "row_num": {
-    "value": 1
-  },
-  "customer_name": "Octavia"
-})
-console.log(row1)*/
 
 // Row 2
 let row2Message = new customer_record_pb.CustomerRecord();
 row2Message.row_num = 2;
 row2Message.setCustomerName("Turing");
-/*let row2: CustomerRecord = {
-  row_num: {
-    value: 2
-  },
-  customer_name: "Turing"
-}
-console.log(row2);
-let row2Message = protobufjs.Message.fromObject(row2);*/
-// console.log(row2Message);
-/*let row2 = protobufjs.Message.create({
-  "row_num": {
-    "value": 2
-  },
-  "customer_name": "Turing"
-})
-console.log(row2)*/
-
-/*
-const protoDescriptor: ProtoDescriptor = {}
-    const writerSchema: ProtoSchema = schema || {
-      protoDescriptor: protoDescriptor
-    }
-    const serializedRowData: ProtoData = {
-      rows: serializedRows,
-      writerSchema: writerSchema
-    }
-  */
 
 const writerSchemaEx: ProtoSchema = {
   protoDescriptor: protoDescriptorEx
@@ -667,11 +571,6 @@ const rowData: ProtoData = {
 }
 console.log(`This is the length of the rows: ${rowData.rows?.serializedRows?.length}`)
 
-//const rowData = [row1Message.serializeBinary(), row2Message.serializeBinary()]
-// console.log(rowData);
-     
-// const serializedRowData = writer.createSerializedRows(rowData)
-// console.log(serializedRowData)
 const offset: IInt64Value = {
   value: 0
 }
@@ -679,9 +578,8 @@ writeStreamConnection.then(res => {
   writer.appendRowsToStream(res, rowData, offset).then(res => {
     console.log(`AppendRowsToStream has resolved: ${res}`);
   });
-})/*.then(() => {
+}).then(() => {
   writer.closeStream().then(res => {
     console.log(`Close stream has been resolved: ${res}`)
   })
 });*/
-//WILO: 'Invalid BigQuery dataset name . Non empty project_id and dataset_id are required',
