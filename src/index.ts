@@ -18,12 +18,11 @@
 
 import * as v1 from './v1';
 import * as v1beta1 from './v1beta1';
+import { WriterClient } from './writer_client';
 const BigQueryReadClient = v1.BigQueryReadClient;
 type BigQueryReadClient = v1.BigQueryReadClient;
 const BigQueryWriteClient = v1.BigQueryWriteClient;
 type BigQueryWriteClient = v1.BigQueryWriteClient;
-const WriterClient = v1.WriterClient;
-type WriterClient = v1.WriterClient;
 const BigQueryStorageClient = v1beta1.BigQueryStorageClient;
 type BigQueryStorageClient = v1beta1.BigQueryStorageClient;
 export {

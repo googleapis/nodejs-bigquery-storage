@@ -26,17 +26,17 @@ import type {
   ClientOptions,
 } from 'google-gax';
 import {PassThrough} from 'stream';
-import * as protos from '../../protos/protos';
-import jsonProtos = require('../../protos/protos.json');
+import * as protos from '../protos/protos';
+import jsonProtos = require('../protos/protos.json');
 /**
  * Client JSON configuration object, loaded from
  * `src/v1/big_query_write_client_config.json`.
  * This file defines retry strategy and timeouts for all API methods in this library.
  */
-import * as gapicConfig from './big_query_write_client_config.json';
-const version = require('../../../package.json').version;
+import * as gapicConfig from './v1/big_query_write_client_config.json';
+const version = require('../../package.json').version;
 
-import {BigQueryWriteClient} from '.';
+import {BigQueryWriteClient} from './v1';
 
 /**
  *  BigQuery Write API.
@@ -46,7 +46,7 @@ import {BigQueryWriteClient} from '.';
  *  For supplementary information about the Write API, see:
  *  https://cloud.google.com/bigquery/docs/write-api
  * @class
- * @memberof v1
+ * @memberof storage
  */
 
 type WriteStream = protos.google.cloud.bigquery.storage.v1.IWriteStream;
@@ -193,7 +193,7 @@ export class WriterClient {
 
     // Put together the default options sent with requests.
     this._defaults = this._gaxGrpc.constructSettings(
-      'google.cloud.bigquery.storage.v1.WriterClient',
+      'google.cloud.bigquery.storage.WriterClient',
       gapicConfig as gax.ClientConfig,
       opts.clientConfig || {},
       {'x-goog-api-client': clientHeader.join(' ')}
@@ -226,14 +226,14 @@ export class WriterClient {
     }
 
     // Put together the "service stub" for
-    // google.cloud.bigquery.storage.v1.WriterClient.
+    // google.cloud.bigquery.storage.WriterClient.
     this.writerStub = this._gaxGrpc.createStub(
       this._opts.fallback
         ? (this._protos as protobuf.Root).lookupService(
-            'google.cloud.bigquery.storage.v1.WriterClient'
+            'google.cloud.bigquery.storage.WriterClient'
           )
         : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (this._protos as any).google.cloud.bigquery.storage.v1.WriterClient,
+          (this._protos as any).google.cloud.bigquery.storage.WriterClient,
       this._opts,
       this._providedCustomServicePath
     ) as Promise<{[method: string]: Function}>;

@@ -15,9 +15,9 @@
 'use strict';
 
 function main(
-  projectId = 'my_project',
-  datasetId = 'my_dataset',
-  tableId = 'my_table'
+  projectId = 'my-project',
+  datasetId = 'my-dataset',
+  tableId = 'my-table'
 ) {
   // [START bigquerystorage_append_rows_pending_sandbox]
   const {WriterClient} = require('@google-cloud/bigquery-storage').v1;
@@ -27,39 +27,76 @@ function main(
     /**
      * TODO(developer): Uncomment the following lines before running the sample.
      */
-    // projectId = 'your-project-id';
-    // datasetId = 'your-dataset-id';
-    // tableId = 'your-table-id';
+    projectId = 'loferris-sandbox';
+    datasetId = 'writer-dataset-sandbox';
+    tableId = 'writer-table-sandbox';
 
-    // Row 1
-    const row1 = new customer_record_pb.CustomerRecord();
-    row1.row_num = 1;
-    row1.setCustomerName('Octavia');
-    console.log(row1);
+    const parent = `project/${projectId}/datasets/${datasetId}/tables/${tableId}`
+    const clientOpts = {
+      projectId: projectId
+    }
+    
+    const writer = new WriterClient(parent, clientOpts);
+    const streamType = {
+      type: "PENDING"
+    };
+    writer.setWriteStream(streamType);
 
-    // Row 2
-    const row2 = new customer_record_pb.CustomerRecord();
-    row2.row_num = 2;
-    row2.setCustomerName('Turing');
-    console.log(row2);
+const type = protos.google.protobuf.FieldDescriptorProto.Type;
+const customer_record_pb = require('./../../samples/customer_record_pb.js');
 
-    const rowData = [row1, row2];
-    console.log(rowData);
-    const writer = new WriterClient();
-    const writeStream = writer.createWriteStream('PENDING');
+const writeStreamConnection = writer.initializeStreamConnection();
 
-    const options = {};
-    options.otherArgs = {};
-    options.otherArgs.headers = {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = `write_stream=${writeStream}`;
+const protoDescriptorEx = {};
+protoDescriptorEx.name = 'CustomerRecord';
+protoDescriptorEx.field = [
+  {
+    name: 'customer_name',
+    number: 1,
+    type: type.TYPE_STRING,
+  },
+  {
+    name: 'row_num',
+    number: 2,
+    type: type.TYPE_INT64
+  }
+    ];
 
-    writer.setParent(projectId, datasetId, tableId);
-    const serializedRowData = writer.createSerializedRows(rowData);
-    const stream = writer.initializeWriteStream(options, writeStream);
-    writer.appendRowsToStream(stream, writeStream, serializedRowData, 0);
-    writer.closeStream(writer, writeStream, writer.parent);
+// Row 1
+let row1Message = new customer_record_pb.CustomerRecord();
+row1Message.row_num = 1
+row1Message.setCustomerName("Octavia")
+
+// Row 2
+let row2Message = new customer_record_pb.CustomerRecord();
+row2Message.row_num = 2;
+row2Message.setCustomerName("Turing");
+
+const writerSchemaEx = {
+  protoDescriptor: protoDescriptorEx
+}
+const serializedRowsEx = {
+  serializedRows: [row1Message.serializeBinary(), row2Message.serializeBinary()]
+}
+
+const rowData = {
+  rows: serializedRowsEx,
+  writerSchema: writerSchemaEx
+}
+console.log(`This is the length of the rows: ${rowData.rows?.serializedRows?.length}`);
+
+const offset = {
+  value: 0
+}
+writeStreamConnection.then(res => {
+  writer.appendRowsToStream(res, rowData, offset).then(res => {
+    console.log(`AppendRowsToStream has resolved: ${res}`);
+  });
+}).then(() => {
+  writer.closeStream().then(res => {
+    console.log(`Close stream has been resolved: ${res}`)
+  })
+});
   }
   // [END bigquerystorage_append_rows_pending_sandbox]
   appendRowsPending();
