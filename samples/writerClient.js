@@ -20,10 +20,12 @@ function main(
   tableId = 'my-table'
 ) {
   // [START bigquerystorage_append_rows_pending_sandbox]
-  const {WriterClient} = require('@google-cloud/bigquery-storage').v1;
-  const customer_record_pb = require('./customer_record_pb.js');
+  const {WriterClient} = require('../src/managedwriter/writer_client.ts');
+  const type = require('@google-cloud/bigquery-storage').protos.google
+      .protobuf.FieldDescriptorProto.Type;
+  console.log(WriterClient);
 
-  async function appendRowsPending() {
+  async function appendRowsPending(WriterClient, type) {
     /**
      * TODO(developer): Uncomment the following lines before running the sample.
      */
@@ -31,72 +33,78 @@ function main(
     datasetId = 'writer-dataset-sandbox';
     tableId = 'writer-table-sandbox';
 
-    const parent = `project/${projectId}/datasets/${datasetId}/tables/${tableId}`
+    const parent = `project/${projectId}/datasets/${datasetId}/tables/${tableId}`;
     const clientOpts = {
-      projectId: projectId
-    }
-    
+      projectId: projectId,
+    };
+
     const writer = new WriterClient(parent, clientOpts);
     const streamType = {
-      type: "PENDING"
+      type: 'PENDING',
     };
     writer.setWriteStream(streamType);
 
-const type = protos.google.protobuf.FieldDescriptorProto.Type;
-const customer_record_pb = require('./../../samples/customer_record_pb.js');
+    const customer_record_pb = require('./customer_record_pb.js');
 
-const writeStreamConnection = writer.initializeStreamConnection();
+    const writeStreamConnection = writer.initializeStreamConnection();
 
-const protoDescriptorEx = {};
-protoDescriptorEx.name = 'CustomerRecord';
-protoDescriptorEx.field = [
-  {
-    name: 'customer_name',
-    number: 1,
-    type: type.TYPE_STRING,
-  },
-  {
-    name: 'row_num',
-    number: 2,
-    type: type.TYPE_INT64
-  }
+    const protoDescriptorEx = {};
+    protoDescriptorEx.name = 'CustomerRecord';
+    protoDescriptorEx.field = [
+      {
+        name: 'customer_name',
+        number: 1,
+        type: type.TYPE_STRING,
+      },
+      {
+        name: 'row_num',
+        number: 2,
+        type: type.TYPE_INT64,
+      },
     ];
 
-// Row 1
-let row1Message = new customer_record_pb.CustomerRecord();
-row1Message.row_num = 1
-row1Message.setCustomerName("Octavia")
+    // Row 1
+    const row1Message = new customer_record_pb.CustomerRecord();
+    row1Message.row_num = 1;
+    row1Message.setCustomerName('Octavia');
 
-// Row 2
-let row2Message = new customer_record_pb.CustomerRecord();
-row2Message.row_num = 2;
-row2Message.setCustomerName("Turing");
+    // Row 2
+    const row2Message = new customer_record_pb.CustomerRecord();
+    row2Message.row_num = 2;
+    row2Message.setCustomerName('Turing');
 
-const writerSchemaEx = {
-  protoDescriptor: protoDescriptorEx
-}
-const serializedRowsEx = {
-  serializedRows: [row1Message.serializeBinary(), row2Message.serializeBinary()]
-}
+    const writerSchemaEx = {
+      protoDescriptor: protoDescriptorEx,
+    };
+    const serializedRowsEx = {
+      serializedRows: [
+        row1Message.serializeBinary(),
+        row2Message.serializeBinary(),
+      ],
+    };
 
-const rowData = {
-  rows: serializedRowsEx,
-  writerSchema: writerSchemaEx
-}
-console.log(`This is the length of the rows: ${rowData.rows?.serializedRows?.length}`);
+    const rowData = {
+      rows: serializedRowsEx,
+      writerSchema: writerSchemaEx,
+    };
+    console.log(
+      `This is the length of the rows: ${rowData.rows.serializedRows.length}`
+    );
 
-const offset = {
-  value: 0
-}
-writeStreamConnection.then(res => {
-  writer.appendRowsToStream(res, rowData, offset).then(res => {
-    console.log(`AppendRowsToStream has resolved: ${res}`);
-  });
-}).then(() => {
-  writer.closeStream().then(res => {
-    console.log(`Close stream has been resolved: ${res}`)
-  })
-});
+    const offset = {
+      value: 0,
+    };
+    writeStreamConnection
+      .then(res => {
+        writer.appendRowsToStream(res, rowData, offset).then(res => {
+          console.log(`AppendRowsToStream has resolved: ${res}`);
+        });
+      })
+      .then(() => {
+        writer.closeStream().then(res => {
+          console.log(`Close stream has been resolved: ${res}`);
+        });
+      });
   }
   // [END bigquerystorage_append_rows_pending_sandbox]
   appendRowsPending();
