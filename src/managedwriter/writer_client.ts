@@ -249,16 +249,16 @@ export class WriterClient {
 }
 
 //Example
-/*const type = protos.google.protobuf.FieldDescriptorProto.Type;
-const customer_record_pb = require('./../../samples/customer_record_pb.js');
-const projectId = 'your-project';
-const datasetId = 'your-dataset';
-const tableId = 'your-table';
+const type = protos.google.protobuf.FieldDescriptorProto.Type;
+const customer_record_pb = require('../../samples/customer_record_pb.js');
+const projectId = 'loferris-sandbox';
+const datasetId = 'writer_dataset_sandbox';
+const tableId = 'writer_table_sandbox';
 const exOpts: ClientOptions = {
   projectId: projectId,
 }
 const exParent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`
-const writer = new WriterClient(exParent, exOpts);
+const writer = new WriterClient(exParent, undefined, exOpts);
 const streamType: WriteStream = {
   type: "PENDING"
 };
@@ -314,4 +314,4 @@ writeStreamConnection.then(res => {
   writer.closeStream().then(res => {
     console.log(`Close stream has been resolved: ${res}`)
   })
-});*/
+});
