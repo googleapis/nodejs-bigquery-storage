@@ -84,6 +84,10 @@ export class WriterClient {
     return this._streamId;
   };
 
+  setStreamId = (streamId: string): void => {
+    this._streamId = streamId;
+  }
+
   getClient = (): BigQueryWriteClient => {
     return this._client;
   };
@@ -149,7 +153,7 @@ export class WriterClient {
     console.log(`Stream connection created: ${response.name}`);
     try {
       if (response.name) {
-        this._streamId = response.name;
+        this.setStreamId(response.name);
         console.log('This is the response name and what was set as streamId');
         console.log(response.name);
         console.log(this._streamId);
@@ -160,6 +164,7 @@ export class WriterClient {
     if (clientOptions) {
       return this._client.appendRows(clientOptions);
     }
+    console.log(this._client.appendRows());
     return this._client.appendRows();
   }
 
@@ -265,7 +270,7 @@ const streamType: WriteStream = {
 writer.setWriteStream(streamType);
 const writeStreamConnection: Promise<gax.CancellableStream> = writer.initializeStreamConnection();
 
-const protoDescriptorEx: ProtoDescriptor = {};
+/*const protoDescriptorEx: ProtoDescriptor = {};
 protoDescriptorEx.name = 'CustomerRecord';
 protoDescriptorEx.field = [
   {
@@ -314,4 +319,4 @@ writeStreamConnection.then(res => {
   writer.closeStream().then(res => {
     console.log(`Close stream has been resolved: ${res}`)
   })
-});
+});*/

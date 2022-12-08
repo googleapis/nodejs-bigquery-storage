@@ -16,12 +16,15 @@
 // ** https://github.com/googleapis/gapic-generator-typescript **
 // ** All changes to this file may be overwritten. **
 
+import * as gax from 'google-gax';
 import * as protos from '../../protos/protos';
 import * as assert from 'assert';
 import * as sinon from 'sinon';
 import {SinonStub} from 'sinon';
 import {describe, it} from 'mocha';
-import {managedwriter} from '../../src';
+// import {managedwriter} from '../../src';
+import * as bigquerywriterModule from '../../src';
+
 
 import {PassThrough} from 'stream';
 
@@ -33,18 +36,151 @@ const root = protobuf.Root.fromJSON(
   require('../../protos/protos.json')
 ).resolveAll();
 
+type WriteStream = protos.google.cloud.bigquery.storage.v1.IWriteStream;
+type ProtoData =
+  protos.google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData;
+// type ProtoRows = protos.google.cloud.bigquery.storage.v1.IProtoRows;
+type ProtoSchema = protos.google.cloud.bigquery.storage.v1.IProtoSchema;
+type ProtoDescriptor = protos.google.protobuf.IDescriptorProto;
+type Message = gax.protobuf.Message;
+const type = protos.google.protobuf.FieldDescriptorProto.Type;
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-describe('v1.WriterClient', () => {
+describe('managedwriter.WriterClient', () => {
   describe('Common methods', () => {
-    it('should create a client with the required arguments', () => {
+    it('should create a client with required arguments: parent and clientOptions', () => {
       const parent =
         'project/fake-project-id/dataset/fake-dataset-id/table/fake-table-id';
       const options: ClientOptions = {
         projectId: 'fake-project-id',
       };
-      const client = new managedwriter.WriterClient(parent, undefined, options);
+      const client = new bigquerywriterModule.managedwriter.WriterClient(parent, undefined, options);
       assert(client);
     });
+
+    it('should create a client with required and optional arguments: parent, client, writeStream', () => {
+      //test
+    });
+
+    // simple getters and setters! "has method()"
   });
-});
+
+  describe('createSerializedRows', () => {
+    it('should invoke createSerializedRows without error', () => {
+      const customer_record_pb = require('../../samples/customer_record_pb.js');
+      const parent =
+        'project/fake-project-id/dataset/fake-dataset-id/table/fake-table-id';
+      const options: ClientOptions = {
+        projectId: 'fake-project-id',
+      };
+      const client = new bigquerywriterModule.managedwriter.WriterClient(parent, undefined, options);
+      // rewrite with protobufjs
+      const protoDescriptor: ProtoDescriptor = {};
+      protoDescriptor.name = 'CustomerRecord';
+      protoDescriptor.field = [
+        {
+          name: 'customer_name',
+          number: 1,
+          type: type.TYPE_STRING,
+        },
+        {
+          name: 'row_num',
+          number: 2,
+          type: type.TYPE_INT64
+        }
+      ];
+
+      // Row 1
+      let row1Message = new customer_record_pb.CustomerRecord();
+      row1Message.row_num = 1
+      row1Message.setCustomerName("Octavia")
+
+      // Row 2
+      let row2Message = new customer_record_pb.CustomerRecord();
+      row2Message.row_num = 2;
+      row2Message.setCustomerName("Turing");
+
+      const schema: ProtoSchema = {
+        protoDescriptor: protoDescriptor
+      }
+      const rowData: Message[] = new Array(row1Message, row2Message);
+
+      const serializedRows = client.createSerializedRows(rowData, schema);
+    });
+
+    it('should invoke createSerializedRows with errors', () => {
+      //test
+    });
+
+    it('should invoke createSerializedRows with closed stream and connection', () => {
+      //test
+    });
+  })
+
+  describe('initializeStreamConnection', () => {
+    it('should invoke initalizeStreamConnection with or without clientOptions without errors', () => {
+      const parent =
+        'project/fake-project-id/dataset/fake-dataset-id/table/fake-table-id';
+      const bqWriteClient: bigquerywriterModule.BigQueryWriteClient = new bigquerywriterModule.BigQueryWriteClient({credentials: {client_email: 'fake-client@email.com', private_key: 'fake-private-key'},
+      projectId: 'fake-project-id',});
+      bqWriteClient.initialize();
+      const options: ClientOptions = {
+        projectId: 'fake-project-id',
+      };
+      const writeStream: WriteStream = {
+        type: "PENDING"
+      };
+      const client = new bigquerywriterModule.managedwriter.WriterClient(parent, bqWriteClient, options, writeStream);
+      const callOptions: gax.CallOptions = {}
+      const streamConnection: gax.CancellableStream = {}
+      const initializeStreamConnectionResult = sinon.stub(client, "initializeStreamConnection").resolves(streamConnection);
+      const initializeStreamConnectionWithOptionsResult = sinon.stub(client, "initializeStreamConnection").withArgs(callOptions).resolves(streamConnection);
+      const streamId = 'fake-stream-id';
+      const streamIdResult = sinon.replace(client, "getStreamId", sinon.fake.returns(streamId));
+      assert(streamConnection);
+      assert.strictEqual(streamIdResult, streamId);
+      assert.strictEqual(initializeStreamConnectionResult, streamConnection);
+      assert.strictEqual(initializeStreamConnectionWithOptionsResult, streamConnection);
+    })
+
+    it('should invoke initalizeStreamConnection with errors', () => {
+
+    })
+    it('should invoke initalizeStreamConnection with closed client', () => {
+
+    })
+  })
+
+  describe('appendRowsToStream', () => {
+    it('should invoke appendRowsToStream without errors', () => {
+      const parent =
+        'project/fake-project-id/dataset/fake-dataset-id/table/fake-table-id';
+      const bqWriteClient: bigquerywriterModule.BigQueryWriteClient = new bigquerywriterModule.BigQueryWriteClient({credentials: {client_email: 'fake-client@email.com', private_key: 'fake-private-key'},
+      projectId: 'fake-project-id',});
+      bqWriteClient.initialize();
+      const options: ClientOptions = {
+        projectId: 'fake-project-id',
+      };
+      const writeStream: WriteStream = {
+        type: "PENDING"
+      };
+      const client = new bigquerywriterModule.managedwriter.WriterClient(parent, bqWriteClient, options, writeStream);
+      const connection: gax.CancellableStream;
+      const serializedRows: ProtoData;
+      const offsetValue: IInt64Value;
+      const appendRowsResponses: bigquerywriterModule.BigQueryWriteClient.AppendRowResponse[];
+      const appendRowsToStreamResult = sinon.stub(client, "appendRowsToStream").withArgs(connection, serializedRows, offsetValue).resolves(appendRowsResponses);
+      assert.strictEqual(appendRowsToStreamResult, appendRowsResponses)
+    })
+
+    it('should invoke appendRowsToStream with errors', () => {
+
+    })
+
+    it('should invoke appendRowsToStream with closed client', () => {
+
+    })
+  })
+    
+  });
