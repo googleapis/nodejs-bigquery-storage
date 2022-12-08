@@ -49,21 +49,49 @@ const type = protos.google.protobuf.FieldDescriptorProto.Type;
 
 describe('managedwriter.WriterClient', () => {
   describe('Common methods', () => {
-    it('should create a client with required arguments: parent and clientOptions', () => {
+    it('should create a client without arguments', () => {
+      const projectId: string = "fake-project-id";
+      const datasetId: string = "fake-dataset-id";
+      const tableId: string = "fake-table-id";
       const parent =
         'project/fake-project-id/dataset/fake-dataset-id/table/fake-table-id';
-      const options: ClientOptions = {
+      /*const options: ClientOptions = {
+        projectId: 'fake-project-id',
+      };*/
+      const client = new bigquerywriterModule.managedwriter.WriterClient();
+      client.setParent(projectId, datasetId, tableId);
+      assert(client);
+      assert.strictEqual(client.getParent(), parent);
+      assert(client.getClient());
+      assert(client.getWriteStream().type === 'TYPE_UNSPECIFIED');
+    });
+
+    it('should create a client with arguments: parent, client, opts, writeStream', () => {
+      // const datasetId: string = "fake-dataset-id";
+      // const tableId: string = "fake-table-id";
+      const parent: string =
+        'project/fake-project-id/dataset/fake-dataset-id/table/fake-table-id';
+        const bqWriteClient: bigquerywriterModule.BigQueryWriteClient = new bigquerywriterModule.BigQueryWriteClient({credentials: {client_email: 'fake-client@email.com', private_key: 'fake-private-key'},
+        projectId: 'fake-project-id',});  
+        // figure out what to do with options      
+        const options: ClientOptions = {
         projectId: 'fake-project-id',
       };
-      const client = new bigquerywriterModule.managedwriter.WriterClient(parent, undefined, options);
+      const writeStream: WriteStream = {
+        type: 'PENDING'
+      }
+      const projectId = sinon.stub(bqWriteClient, 'getProjectId').resolves('fake-project-id');
+      const client = new bigquerywriterModule.managedwriter.WriterClient(parent, bqWriteClient, options, writeStream);
+      
       assert(client);
+      assert.strictEqual(client.getParent(), parent);
+      // make real
+      assert(Promise.resolve(client.getClient().getProjectId()).then(res => {
+        typeof projectId === 'string' ? res === projectId : console.error();   
+      }));
+      assert(client.getWriteStream().type === 'PENDING');
     });
 
-    it('should create a client with required and optional arguments: parent, client, writeStream', () => {
-      //test
-    });
-
-    // simple getters and setters! "has method()"
   });
 
   describe('createSerializedRows', () => {
@@ -180,6 +208,20 @@ describe('managedwriter.WriterClient', () => {
 
     it('should invoke appendRowsToStream with closed client', () => {
 
+    })
+  })
+
+  describe('closeStream', () => {
+    it('should invoke closeStream without errors', () => {
+
+    })
+
+    it('should invoke closeStream with errors', () => {
+      
+    })
+
+    it('should invoke closeStream with closed client', () => {
+      
     })
   })
     

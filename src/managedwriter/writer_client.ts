@@ -53,17 +53,17 @@ type Message = gax.protobuf.Message;
 export class WriterClient {
   private _opts: ClientOptions | undefined;
   private _parent: string;
-  private _writeStream: WriteStream = {type: 'PENDING'};
+  private _writeStream: WriteStream = {type: 'TYPE_UNSPECIFIED'};
   private _streamId: string;
   private _client: BigQueryWriteClient;
 
   constructor(
-    parent: string,
+    parent?: string,
     client?: BigQueryWriteClient,
     opts?: ClientOptions,
     writeStream?: WriteStream
   ) {
-    this._parent = parent;
+    this._parent = 'Please set a parent path' || parent;
     this._client = new BigQueryWriteClient(opts) || client;
     this._writeStream = writeStream || this._writeStream;
     this._streamId = 'Please open a connection to set connection name';
