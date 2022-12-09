@@ -24,23 +24,22 @@ import {describe, it} from 'mocha';
 import * as protobufjs from 'protobufjs';
 // import {managedwriter} from '../../src';
 import * as bigquerywriterModule from '../../src';
-// const customer_record_pb = require('./customer_record_pb.js');
+import {CustomerRecordMessage} from '../managedwriter/test_protos';
+import * as customer_record from './test_protos/proto';
+// import {PassThrough} from 'stream';
 
-import {PassThrough} from 'stream';
-
-import {ClientOptions, protobuf} from 'google-gax';
-import { Type } from 'typescript';
+import {ClientOptions} from 'google-gax';
 
 // Dynamically loaded proto JSON is needed to get the type information
 // to fill in default values for request objects
-const root = protobuf.Root.fromJSON(
+/*const root = protobuf.Root.fromJSON(
   require('../../protos/protos.json')
-).resolveAll();
+).resolveAll();*/
 
 type WriteStream = protos.google.cloud.bigquery.storage.v1.IWriteStream;
 type ProtoData =
   protos.google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData;
-type ProtoRows = protos.google.cloud.bigquery.storage.v1.IProtoRows;
+// type ProtoRows = protos.google.cloud.bigquery.storage.v1.IProtoRows;
 type ProtoSchema = protos.google.cloud.bigquery.storage.v1.IProtoSchema;
 type ProtoDescriptor = protos.google.protobuf.IDescriptorProto;
 type IInt64Value = protos.google.protobuf.IInt64Value;
@@ -113,10 +112,7 @@ describe('managedwriter.WriterClient', () => {
         undefined
       );
 
-      type CustomerRecord = {
-        customer_name: string;
-        row_num: IInt64Value;
-      }
+      type CustomerRecord = customer_record.customer_record.ICustomerRecord;
       const protoDescriptor: ProtoDescriptor = {};
       protoDescriptor.name = 'CustomerRecord';
       protoDescriptor.field = [
@@ -134,23 +130,23 @@ describe('managedwriter.WriterClient', () => {
 
       // Row 1
       const row1: CustomerRecord = {
-        customer_name: 'Lovelace',
-        row_num: { value: 1 },
+        customerName: 'Lovelace',
+        rowNum: 1,
       };
-      const row1Message = protobufjs.Message.create({
-        customer_name: 'Lovelace',
-        row_num: { value: 1 }
-      });
+      const row1Message = new CustomerRecordMessage(
+        row1.rowNum,
+        row1.customerName
+      ).createCustomerRecord();
 
       // Row 2
       const row2: CustomerRecord = {
-        customer_name: 'Turing',
-        row_num: {value: 2},
+        customerName: 'Turing',
+        rowNum: 2,
       };
-      const row2Message = protobufjs.Message.create({
-        customer_name: 'Turing',
-        row_num: {value: 2},
-      });
+      const row2Message = new CustomerRecordMessage(
+        row2.rowNum,
+        row2.customerName
+      ).createCustomerRecord();
 
       const schema: ProtoSchema = {
         protoDescriptor: protoDescriptor,
@@ -265,6 +261,7 @@ describe('managedwriter.WriterClient', () => {
       const streamId = 'fake-stream-id';
 
       /* serialized rowData to be appended to stream */
+      type CustomerRecord = customer_record.customer_record.ICustomerRecord;
       const protoDescriptor: ProtoDescriptor = {};
       protoDescriptor.name = 'CustomerRecord';
       protoDescriptor.field = [
@@ -281,18 +278,24 @@ describe('managedwriter.WriterClient', () => {
       ];
 
       // Row 1
-      const row1 = {
-        row_num: 1,
-        customer_name: 'Lovelace',
+      const row1: CustomerRecord = {
+        customerName: 'Lovelace',
+        rowNum: 1,
       };
-      const row1Message = protobufjs.Message.fromObject(row1);
+      const row1Message = new CustomerRecordMessage(
+        row1.rowNum,
+        row1.customerName
+      ).createCustomerRecord();
 
       // Row 2
-      const row2 = {
-        row_num: 2,
-        customer_name: 'Turing',
+      const row2: CustomerRecord = {
+        customerName: 'Turing',
+        rowNum: 2,
       };
-      const row2Message = protobufjs.Message.fromObject(row2);
+      const row2Message = new CustomerRecordMessage(
+        row2.rowNum,
+        row2.customerName
+      ).createCustomerRecord();
 
       const schema: ProtoSchema = {
         protoDescriptor: protoDescriptor,
