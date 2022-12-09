@@ -286,9 +286,9 @@ export class WriterClient {
 //Example
 /*const type = protos.google.protobuf.FieldDescriptorProto.Type;
 const customer_record_pb = require('../../samples/customer_record_pb.js');
-const projectId = 'loferris-sandbox';
-const datasetId = 'writer_dataset_sandbox';
-const tableId = 'writer_table_sandbox';
+const projectId = 'your-project';
+const datasetId = 'your_dataset_';
+const tableId = 'your_table';
 const exOpts: ClientOptions = {
   projectId: projectId,
 };
@@ -352,8 +352,8 @@ writer
   .then(() =>
     writer
       .appendRowsToStream(writer.getStreamId(), rowData, offset)
-      .then(() => {
-        console.log('AppendRowsToStream has resolved');
+      .then(appendRowsResponses => {
+        console.log(`AppendRowsToStream has resolved: ${appendRowsResponses}`);
       })
   )
   .then(() => {

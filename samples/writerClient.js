@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-'use strict';
+/*'use strict';
 
 function main(
   projectId = 'my-project',
@@ -21,15 +21,15 @@ function main(
 ) {
   // [START bigquerystorage_append_rows_pending_sandbox]
   const {WriterClient} = require('../src/managedwriter/writer_client.ts');
-  const type = require('@google-cloud/bigquery-storage').protos.google
-      .protobuf.FieldDescriptorProto.Type;
-  console.log(WriterClient);
+  const type = require('@google-cloud/bigquery-storage').protos.google.protobuf
+    .FieldDescriptorProto.Type;
+  console.log(WriterClient);*/
 
-  async function appendRowsPending(WriterClient, type) {
-    /**
-     * TODO(developer): Uncomment the following lines before running the sample.
-     */
-    projectId = 'loferris-sandbox';
+// async function appendRowsPending(WriterClient, type) {
+/**
+ * TODO(developer): Uncomment the following lines before running the sample.
+ */
+/*projectId = 'loferris-sandbox';
     datasetId = 'writer-dataset-sandbox';
     tableId = 'writer-table-sandbox';
 
@@ -113,4 +113,4 @@ process.on('unhandledRejection', err => {
   console.error(err.message);
   process.exitCode = 1;
 });
-main(...process.argv.slice(2));
+main(...process.argv.slice(2));*/

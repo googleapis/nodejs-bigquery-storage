@@ -20,14 +20,16 @@ import * as gax from 'google-gax';
 import * as protos from '../../protos/protos';
 import * as assert from 'assert';
 import * as sinon from 'sinon';
-import {SinonStub} from 'sinon';
 import {describe, it} from 'mocha';
+import * as protobufjs from 'protobufjs';
 // import {managedwriter} from '../../src';
 import * as bigquerywriterModule from '../../src';
+// const customer_record_pb = require('./customer_record_pb.js');
 
 import {PassThrough} from 'stream';
 
 import {ClientOptions, protobuf} from 'google-gax';
+import { Type } from 'typescript';
 
 // Dynamically loaded proto JSON is needed to get the type information
 // to fill in default values for request objects
@@ -38,10 +40,13 @@ const root = protobuf.Root.fromJSON(
 type WriteStream = protos.google.cloud.bigquery.storage.v1.IWriteStream;
 type ProtoData =
   protos.google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData;
-// type ProtoRows = protos.google.cloud.bigquery.storage.v1.IProtoRows;
+type ProtoRows = protos.google.cloud.bigquery.storage.v1.IProtoRows;
 type ProtoSchema = protos.google.cloud.bigquery.storage.v1.IProtoSchema;
 type ProtoDescriptor = protos.google.protobuf.IDescriptorProto;
+type IInt64Value = protos.google.protobuf.IInt64Value;
 type Message = gax.protobuf.Message;
+type AppendRowsResponse =
+  protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse;
 const type = protos.google.protobuf.FieldDescriptorProto.Type;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -93,16 +98,25 @@ describe('managedwriter.WriterClient', () => {
     });
   });
 
-  /* describe('createSerializedRows', () => {
+  describe('createSerializedRows', () => {
     it('should invoke createSerializedRows without error', () => {
-      const customer_record_pb = require('../../samples/customer_record_pb.js');
+      // const customer_record_pb = require('../../samples/customer_record_pb.js');
       const parent =
         'projects/fake-project-id/dataset/fake-dataset-id/table/fake-table-id';
       const options: ClientOptions = {
         projectId: 'fake-project-id',
       };
-      const client = new bigquerywriterModule.managedwriter.WriterClient(parent, undefined, undefined, undefined);
-      // rewrite with protobufjs
+      const client = new bigquerywriterModule.managedwriter.WriterClient(
+        parent,
+        undefined,
+        options,
+        undefined
+      );
+
+      type CustomerRecord = {
+        customer_name: string;
+        row_num: IInt64Value;
+      }
       const protoDescriptor: ProtoDescriptor = {};
       protoDescriptor.name = 'CustomerRecord';
       protoDescriptor.field = [
@@ -114,37 +128,56 @@ describe('managedwriter.WriterClient', () => {
         {
           name: 'row_num',
           number: 2,
-          type: type.TYPE_INT64
-        }
+          type: type.TYPE_INT64,
+        },
       ];
 
       // Row 1
-      let row1Message = new customer_record_pb.CustomerRecord();
-      row1Message.row_num = 1
-      row1Message.setCustomerName("Octavia")
+      const row1: CustomerRecord = {
+        customer_name: 'Lovelace',
+        row_num: { value: 1 },
+      };
+      const row1Message = protobufjs.Message.create({
+        customer_name: 'Lovelace',
+        row_num: { value: 1 }
+      });
 
       // Row 2
-      let row2Message = new customer_record_pb.CustomerRecord();
-      row2Message.row_num = 2;
-      row2Message.setCustomerName("Turing");
+      const row2: CustomerRecord = {
+        customer_name: 'Turing',
+        row_num: {value: 2},
+      };
+      const row2Message = protobufjs.Message.create({
+        customer_name: 'Turing',
+        row_num: {value: 2},
+      });
 
       const schema: ProtoSchema = {
-        protoDescriptor: protoDescriptor
-      }
-      const rowData: Message[] = new Array(row1Message, row2Message);
+        protoDescriptor: protoDescriptor,
+      };
+      const rowData: Message[] = [row1Message, row2Message];
+      const serializedRowData: ProtoData = {
+        rows: {
+          serializedRows: rowData.map(row =>
+            protobufjs.Message.encode(row).finish()
+          ),
+        },
+        writerSchema: schema,
+      };
 
       const serializedRows = client.createSerializedRows(rowData, schema);
+      assert.strictEqual(serializedRows, serializedRowData);
     });
 
-    it('should invoke createSerializedRows with errors', () => {
+    /*it('should invoke createSerializedRows with errors', () => {
       //test
-    });*
+    });*/
 
-    it('should invoke createSerializedRows with closed stream and connection', () => {
+    /*it('should invoke createSerializedRows with closed stream and connection', () => {
       //test
       // "Stream" is finalized. Entity: projects/loferris-sandbox/datasets/writer_dataset_sandbox/tables/writer_table_sandbox/streams/CiQ2NDJiYmM0NS0wMDAwLTIyMjMtYWEyOC05NGViMmMxMzdhYmU"
-    });
-  })*/
+    });*/
+  });
 
   describe('initializeStreamConnection', () => {
     it('should invoke initalizeStreamConnection with or without clientOptions without errors', () => {
@@ -208,36 +241,103 @@ describe('managedwriter.WriterClient', () => {
     })*/
   });
 
-  /*describe('appendRowsToStream', () => {
+  describe('appendRowsToStream', () => {
     it('should invoke appendRowsToStream without errors', () => {
       const parent =
         'project/fake-project-id/dataset/fake-dataset-id/table/fake-table-id';
-      const bqWriteClient: bigquerywriterModule.BigQueryWriteClient = new bigquerywriterModule.BigQueryWriteClient({credentials: {client_email: 'fake-client@email.com', private_key: 'fake-private-key'},
-      projectId: 'fake-project-id',});
+      const bqWriteClient: bigquerywriterModule.BigQueryWriteClient =
+        new bigquerywriterModule.BigQueryWriteClient({
+          credentials: {
+            client_email: 'fake-client@email.com',
+            private_key: 'fake-private-key',
+          },
+          projectId: 'fake-project-id',
+        });
       bqWriteClient.initialize();
-      const options: ClientOptions = {
-        projectId: 'fake-project-id',
+      const writeStreamType: WriteStream['type'] = 'PENDING';
+      const client = new bigquerywriterModule.managedwriter.WriterClient(
+        parent,
+        bqWriteClient,
+        undefined,
+        writeStreamType
+      );
+
+      const streamId = 'fake-stream-id';
+
+      /* serialized rowData to be appended to stream */
+      const protoDescriptor: ProtoDescriptor = {};
+      protoDescriptor.name = 'CustomerRecord';
+      protoDescriptor.field = [
+        {
+          name: 'customer_name',
+          number: 1,
+          type: type.TYPE_STRING,
+        },
+        {
+          name: 'row_num',
+          number: 2,
+          type: type.TYPE_INT64,
+        },
+      ];
+
+      // Row 1
+      const row1 = {
+        row_num: 1,
+        customer_name: 'Lovelace',
       };
-      const writeStream: WriteStream = {
-        type: "PENDING"
+      const row1Message = protobufjs.Message.fromObject(row1);
+
+      // Row 2
+      const row2 = {
+        row_num: 2,
+        customer_name: 'Turing',
       };
-      const client = new bigquerywriterModule.managedwriter.WriterClient(parent, bqWriteClient, options, writeStream);
-      const connection: gax.CancellableStream;
-      const serializedRows: ProtoData;
-      const offsetValue: IInt64Value;
-      const appendRowsResponses: bigquerywriterModule.BigQueryWriteClient.AppendRowResponse[];
-      const appendRowsToStreamResult = sinon.stub(client, "appendRowsToStream").withArgs(connection, serializedRows, offsetValue).resolves(appendRowsResponses);
-      assert.strictEqual(appendRowsToStreamResult, appendRowsResponses)
-    })
+      const row2Message = protobufjs.Message.fromObject(row2);
 
-    it('should invoke appendRowsToStream with errors', () => {
+      const schema: ProtoSchema = {
+        protoDescriptor: protoDescriptor,
+      };
+      const rowData: Message[] = [row1Message, row2Message];
+      const serializedRowData: ProtoData = {
+        rows: {
+          serializedRows: rowData.map(row =>
+            protobufjs.Message.encode(row).finish()
+          ),
+        },
+        writerSchema: schema,
+      };
 
-    })
+      const offset: IInt64Value = {
+        value: 0,
+      };
 
-    it('should invoke appendRowsToStream with closed client', () => {
+      const appendRowsResponsesResult: AppendRowsResponse[] = [
+        {
+          appendResult: {
+            offset: offset,
+          },
+          writeStream: streamId,
+        },
+      ];
+      client
+        .initializeStreamConnection()
+        .then(() => {
+          client.appendRowsToStream(streamId, serializedRowData, offset);
+        })
+        .then(appendRowResponses => {
+          assert.strictEqual(appendRowsResponsesResult, appendRowResponses);
+          // assertions
+        });
+    });
 
-    })
-  })*/
+    /*it('should invoke appendRowsToStream with errors', () => {
+
+    })*/
+
+    /*it('should invoke appendRowsToStream with closed client', () => {
+
+    })*/
+  });
 
   /* describe('closeStream', () => {
     it('should invoke closeStream without errors', () => {
