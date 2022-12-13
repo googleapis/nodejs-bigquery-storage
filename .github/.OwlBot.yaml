@@ -1,4 +1,4 @@
-# Copyright 2020 Google LLC
+# Copyright 2021 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,10 +11,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""This script is used to synthesize generated parts of this library."""
-import synthtool.languages.node as node
+docker:
+  image: gcr.io/cloud-devrel-public-resources/owlbot-nodejs:latest
 
-node.owlbot_main(
-    staging_excludes=['package.json', 'README.md', 'src/index.ts'],
-    templates_excludes=['src/index.ts']
-)
+deep-preserve-regex:
+  - /owl-bot-staging/v1alpha2
+  - /owl-bot-staging/v1beta2
+
+
+deep-remove-regex:
+  - /owl-bot-staging
+
+deep-copy-regex:
+  - source: /google/cloud/bigquery/storage/(v.*)/.*-nodejs/(.*)
+    dest: /owl-bot-staging/$1/$2
+
+begin-after-commit-hash: e0ea8b51f30e2ff6104abd1e4c8d1eb67078c86a
+
