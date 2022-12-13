@@ -17,8 +17,8 @@
 // ** All changes to this file may be overwritten. **
 
 import {Root, Message} from 'protobufjs'; // respectively "./node_modules/protobufjs"
-import * as CustomerRecord from './proto';
-const customerRecordProtoJson = require('./proto.json');
+import * as CustomerRecord from './customer_record';
+import customerRecordProtoJson = require('../../managedwriter/test_protos/customer_record.json');
 
 export class CustomerRecordMessage extends Message<CustomerRecordMessage> {
   private _customer_name: string | null | undefined =
@@ -65,6 +65,7 @@ export class CustomerRecordMessage extends Message<CustomerRecordMessage> {
     }
 
     const customerRecordMsg = CustomerRecordProto.create(newCustomerRecord);
+    console.log(customerRecordMsg);
     return customerRecordMsg;
   }
 }
