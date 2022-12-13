@@ -55,14 +55,11 @@ type ProtoData =
 export class WriterClient {
   private _opts: ClientOptions | undefined;
   private _parent: string;
-  private _writeStream: WriteStream = {
-    name: undefined,
-    type: 'TYPE_UNSPECIFIED',
-  };
   private _writeStreamType: WriteStream['type'] = 'TYPE_UNSPECIFIED';
   private _streamId: string;
   private _client: BigQueryWriteClient;
   private _connections: StreamConnections;
+  private _client_closed: boolean;
 
   constructor(
     parent?: string,
@@ -78,6 +75,7 @@ export class WriterClient {
       connections: {},
     };
     this._streamId = 'Please open a connection to set connection name';
+    this._client_closed = false;
   }
 
   setParent = (projectId: string, datasetId: string, tableId: string): void => {
@@ -127,7 +125,14 @@ export class WriterClient {
     return this._connections;
   }
 
+  getClientClosedStatus(): boolean {
+    return this._client_closed;
+  }
+
   async initializeStreamConnection(clientOptions?: CallOptions): Promise<void> {
+    if (this._client_closed) {
+      this._client_closed = false;
+    }
     const request: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest =
       {
         parent: this.getParent(),
@@ -154,10 +159,6 @@ export class WriterClient {
         this._connections.connection_list.push(stream_connection);
         this._connections.connections[`${write_stream.name}`] =
           stream_connection.connection;
-        // console.log('This is the response name and what was set as streamId');
-        // console.log(response.name);
-        // console.log(this._streamId);
-        // console.log(this._connections);
       }
     } catch {
       throw new Error('Stream connection failed');
@@ -170,9 +171,6 @@ export class WriterClient {
     offsetValue: IInt64Value
   ): Promise<AppendRowResponse[]> {
     const responses: AppendRowResponse[] | null = [];
-    /*console.log(
-      `This is the write_stream string we're using: ${streamConnection}`
-    );*/
     const connection: gax.CancellableStream =
       this._connections.connections[`${streamConnection}`];
     const request: AppendRowRequest = {
@@ -182,25 +180,16 @@ export class WriterClient {
     };
 
     connection.write(request, () => {
-      // console.log('Write complete!');
       connection.on('data', response => {
-        // Check for errors.
         if (response.error) {
           throw new Error(response.error.message);
         }
 
-        /*console.log(
-          `This is the response we're getting over the wire from an appendRows request: ${response}`
-        );*/
         responses.push(response);
-        // console.log(...responses);
-        // console.log(responses.length);
 
         if (responses.length === 1) {
           connection.end(() => {
-            // console.log(...responses);
             this.closeStream();
-            // console.log('The connection has ended.');
           });
         }
       });
@@ -215,26 +204,17 @@ export class WriterClient {
   async closeStream(): Promise<void> {
     // API call completed.
     const writeStream = this._streamId;
-    /*console.log(
-      `This is the writeStream we've stored and will be committing ${writeStream}`
-    );*/
     const writeStreams: string[] | null = [];
     writeStreams.push(writeStream);
-    /*console.log(
-      `This is the array of writeStreams we're committing ${writeStreams}`
-    );*/
 
     const finalizeStreamReq: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest =
       {
         name: writeStream,
       };
-    /*console.log(
-      `This is the FinalizeWriteStreamRequest object: ${finalizeStreamReq}`
-    );*/
+
     this._client.finalizeWriteStream(finalizeStreamReq).then(result => {
       if (!result.includes(undefined)) {
         const [validResponse] = result;
-        // console.log(`Row count: ${validResponse.rowCount}`);
       }
     });
     const batchCommitWriteStreamsReq: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest =
@@ -242,12 +222,12 @@ export class WriterClient {
         parent: this._parent,
         writeStreams: writeStreams,
       };
-    /*console.log(
-      `This is the BatchCommitWriteStreamsRequest object we're sending: ${batchCommitWriteStreamsReq}`
-    );*/
+
     this._client
       .batchCommitWriteStreams(batchCommitWriteStreamsReq)
       .then(result => console.log(result));
+
+    this._client_closed = true;
   }
 }
 

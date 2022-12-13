@@ -33,11 +33,9 @@ import {ClientOptions} from 'google-gax';
 type WriteStream = protos.google.cloud.bigquery.storage.v1.IWriteStream;
 type ProtoData =
   protos.google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData;
-// type ProtoRows = protos.google.cloud.bigquery.storage.v1.IProtoRows;
 type ProtoSchema = protos.google.cloud.bigquery.storage.v1.IProtoSchema;
 type ProtoDescriptor = protos.google.protobuf.IDescriptorProto;
 type IInt64Value = protos.google.protobuf.IInt64Value;
-// type Message = gax.protobuf.Message;
 type AppendRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse;
 const type = protos.google.protobuf.FieldDescriptorProto.Type;
@@ -175,7 +173,6 @@ describe('managedwriter.WriterClient', () => {
 
       const streamId = 'fake-stream-id';
 
-      /* serialized rowData to be appended to stream */
       type CustomerRecord = customer_record.customer_record.ICustomerRecord;
       const protoDescriptor: ProtoDescriptor = {};
       protoDescriptor.name = 'CustomerRecord';
@@ -269,17 +266,122 @@ describe('managedwriter.WriterClient', () => {
     })*/
   });
 
-  /* describe('closeStream', () => {
+  describe('closeStream', () => {
     it('should invoke closeStream without errors', () => {
+      const parent =
+        'project/fake-project-id/dataset/fake-dataset-id/table/fake-table-id';
+      const bqWriteClient: bigquerywriterModule.BigQueryWriteClient =
+        new bigquerywriterModule.BigQueryWriteClient({
+          credentials: {
+            client_email: 'fake-client@email.com',
+            private_key: 'fake-private-key',
+          },
+          projectId: 'fake-project-id',
+        });
+      bqWriteClient.initialize();
+      const writeStreamType: WriteStream['type'] = 'PENDING';
+      const client = new bigquerywriterModule.managedwriter.WriterClient(
+        parent,
+        bqWriteClient,
+        undefined,
+        writeStreamType
+      );
 
-    })
+      const streamId = 'fake-stream-id';
 
-    it('should invoke closeStream with errors', () => {
+      type CustomerRecord = customer_record.customer_record.ICustomerRecord;
+      const protoDescriptor: ProtoDescriptor = {};
+      protoDescriptor.name = 'CustomerRecord';
+      protoDescriptor.field = [
+        {
+          name: 'customer_name',
+          number: 1,
+          type: type.TYPE_STRING,
+        },
+        {
+          name: 'row_num',
+          number: 2,
+          type: type.TYPE_INT64,
+        },
+      ];
 
-    })
+      const schema: ProtoSchema = {
+        protoDescriptor: protoDescriptor,
+      };
 
-    it('should invoke closeStream with closed client', () => {
+      const root = protobufjs.Root.fromJSON(customerRecordProtoJson);
+      if (!root) {
+        throw Error('Proto must not be undefined');
+      }
 
-    })
-  })*/
+      const CustomerRecordProto = root.lookupType(
+        'customer_record.CustomerRecord'
+      );
+      // Row 1
+      const row1: CustomerRecord = {
+        customerName: 'Lovelace',
+        rowNum: 1,
+      };
+      const row1Message = new CustomerRecordMessage(
+        row1.rowNum,
+        row1.customerName
+      ).createCustomerRecord();
+
+      const serializedRow1Message: Uint8Array =
+        CustomerRecordProto.encode(row1Message).finish();
+
+      // Row 2
+      const row2: CustomerRecord = {
+        customerName: 'Turing',
+        rowNum: 2,
+      };
+      const row2Message = new CustomerRecordMessage(
+        row2.rowNum,
+        row2.customerName
+      ).createCustomerRecord();
+
+      const serializedRow2Message: Uint8Array =
+        CustomerRecordProto.encode(row2Message).finish();
+      console.log(serializedRow1Message);
+      console.log(typeof serializedRow2Message);
+      const serializedRowData: ProtoData = {
+        writerSchema: schema,
+        rows: {
+          serializedRows: [serializedRow1Message, serializedRow2Message],
+        },
+      };
+
+      const offset: IInt64Value = {
+        value: 0,
+      };
+
+      const appendRowsResponsesResult: AppendRowsResponse[] = [
+        {
+          appendResult: {
+            offset: offset,
+          },
+          writeStream: streamId,
+        },
+      ];
+      client
+        .initializeStreamConnection()
+        .then(() => {
+          client.appendRowsToStream(streamId, serializedRowData, offset);
+        })
+        .then(() => {
+          client.closeStream();
+        })
+        .finally(() => {
+          assert.strictEqual(client.getClientClosedStatus, true);
+        });
+    });
+
+    /*it('should invoke closeStream with errors', () => {
+
+    })*/
+
+    /*it('should invoke closeStream with closed client', () => {
+
+    })*/
+  });
 });
