@@ -18,21 +18,9 @@ set -eo pipefail
 
 export NPM_CONFIG_PREFIX=${HOME}/.npm-global
 
-# Setup service account credentials.
-export GOOGLE_APPLICATION_CREDENTIALS=${KOKORO_GFILE_DIR}/service-account.json
-export GCLOUD_PROJECT=long-door-651
-
 cd $(dirname $0)/..
 
-# Run a pre-test hook, if a pre-system-test.sh is in the project
-if [ -f .kokoro/pre-system-test.sh ]; then
-    set +x
-    . .kokoro/pre-system-test.sh
-    set -x
-fi
-
 npm install
-
 # If tests are running against main branch, configure flakybot
 # to open issues on failures:
 if [[ $KOKORO_BUILD_ARTIFACTS_SUBDIR = *"continuous"* ]] || [[ $KOKORO_BUILD_ARTIFACTS_SUBDIR = *"nightly"* ]]; then
@@ -44,8 +32,10 @@ if [[ $KOKORO_BUILD_ARTIFACTS_SUBDIR = *"continuous"* ]] || [[ $KOKORO_BUILD_ART
   }
   trap cleanup EXIT HUP
 fi
-
-npm run system-test
+# Unit tests exercise the entire API surface, which may include
+# deprecation warnings:
+export MOCHA_THROW_DEPRECATION=false
+npm test
 
 # codecov combines coverage across integration and unit tests. Include
 # the logic below for any environment you wish to collect coverage for:
