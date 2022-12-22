@@ -510,6 +510,11 @@
                             "traceId": {
                               "type": "string",
                               "id": 6
+                            },
+                            "missingValueInterpretations": {
+                              "keyType": "string",
+                              "type": "MissingValueInterpretation",
+                              "id": 7
                             }
                           },
                           "nested": {
@@ -523,6 +528,13 @@
                                   "type": "ProtoRows",
                                   "id": 2
                                 }
+                              }
+                            },
+                            "MissingValueInterpretation": {
+                              "values": {
+                                "MISSING_VALUE_INTERPRETATION_UNSPECIFIED": 0,
+                                "NULL_VALUE": 1,
+                                "DEFAULT_VALUE": 2
                               }
                             }
                           }
@@ -808,6 +820,13 @@
                             "estimatedTotalBytesScanned": {
                               "type": "int64",
                               "id": 12,
+                              "options": {
+                                "(google.api.field_behavior)": "OUTPUT_ONLY"
+                              }
+                            },
+                            "estimatedRowCount": {
+                              "type": "int64",
+                              "id": 14,
                               "options": {
                                 "(google.api.field_behavior)": "OUTPUT_ONLY"
                               }

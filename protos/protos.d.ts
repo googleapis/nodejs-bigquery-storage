@@ -2044,6 +2044,9 @@ export namespace google {
 
                         /** AppendRowsRequest traceId */
                         traceId?: (string|null);
+
+                        /** AppendRowsRequest missingValueInterpretations */
+                        missingValueInterpretations?: ({ [k: string]: google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation }|null);
                     }
 
                     /** Represents an AppendRowsRequest. */
@@ -2066,6 +2069,9 @@ export namespace google {
 
                         /** AppendRowsRequest traceId. */
                         public traceId: string;
+
+                        /** AppendRowsRequest missingValueInterpretations. */
+                        public missingValueInterpretations: { [k: string]: google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation };
 
                         /** AppendRowsRequest rows. */
                         public rows?: "protoRows";
@@ -2251,6 +2257,13 @@ export namespace google {
                              * @returns The default type url
                              */
                             public static getTypeUrl(typeUrlPrefix?: string): string;
+                        }
+
+                        /** MissingValueInterpretation enum. */
+                        enum MissingValueInterpretation {
+                            MISSING_VALUE_INTERPRETATION_UNSPECIFIED = 0,
+                            NULL_VALUE = 1,
+                            DEFAULT_VALUE = 2
                         }
                     }
 
@@ -3465,6 +3478,9 @@ export namespace google {
                         /** ReadSession estimatedTotalBytesScanned */
                         estimatedTotalBytesScanned?: (number|Long|string|null);
 
+                        /** ReadSession estimatedRowCount */
+                        estimatedRowCount?: (number|Long|string|null);
+
                         /** ReadSession traceId */
                         traceId?: (string|null);
                     }
@@ -3507,6 +3523,9 @@ export namespace google {
 
                         /** ReadSession estimatedTotalBytesScanned. */
                         public estimatedTotalBytesScanned: (number|Long|string);
+
+                        /** ReadSession estimatedRowCount. */
+                        public estimatedRowCount: (number|Long|string);
 
                         /** ReadSession traceId. */
                         public traceId: string;
