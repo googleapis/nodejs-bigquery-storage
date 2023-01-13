@@ -43,13 +43,42 @@ const type = protos.google.protobuf.FieldDescriptorProto.Type;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 describe('managedwriter.WriterClient', () => {
+  let sandbox: sinon.SinonSandbox;
+  let projectId: string;
+  let datasetId: string;
+  let tableId: string;
+  let parent: string;
+  let bqWriteClient: bigquerywriterModule.BigQueryWriteClient;
+  let clientOptions: ClientOptions;
+  let writeStreamType: WriteStream['type'];
+  beforeEach(async () => {
+    sandbox = sinon.createSandbox();
+    projectId = 'fake-project-id';
+    datasetId = 'fake-dataset-id';
+    tableId = 'fake-table-id';
+    parent =
+        'projects/fake-project-id/datasets/fake-dataset-id/tables/fake-table-id';
+    bqWriteClient =
+        await new bigquerywriterModule.BigQueryWriteClient({
+          credentials: {
+            client_email: 'fake-client@email.com',
+            private_key: 'fake-private-key',
+          },
+          projectId: projectId,
+        });
+    clientOptions = {
+          projectId: projectId,
+        };
+    writeStreamType = 'TYPE_UNSPECIFIED';
+
+    
+  })
+  afterEach(async () => {
+    sandbox.restore();
+    await bqWriteClient.close();
+  })
   describe('Common methods', () => {
     it('should create a client without arguments', () => {
-      const projectId = 'fake-project-id';
-      const datasetId = 'fake-dataset-id';
-      const tableId = 'fake-table-id';
-      const parent =
-        'projects/fake-project-id/datasets/fake-dataset-id/tables/fake-table-id';
       const client = new bigquerywriterModule.managedwriter.WriterClient();
       client.setParent(projectId, datasetId, tableId);
       assert(client);
@@ -58,51 +87,26 @@ describe('managedwriter.WriterClient', () => {
       assert.strictEqual(client.getWriteStreamType(), 'TYPE_UNSPECIFIED');
     });
 
-    it('should create a client with arguments: parent, client, opts, writeStream', () => {
-      const parent =
-        'projects/fake-project-id/datasets/fake-dataset-id/tables/fake-table-id';
-      const bqWriteClient: bigquerywriterModule.BigQueryWriteClient =
-        new bigquerywriterModule.BigQueryWriteClient({
-          credentials: {
-            client_email: 'fake-client@email.com',
-            private_key: 'fake-private-key',
-          },
-          projectId: 'fake-project-id',
-        });
-      const options: ClientOptions = {
-        projectId: 'fake-project-id',
-      };
-      const writeStreamType: WriteStream['type'] = 'TYPE_UNSPECIFIED';
+    it('should create a client with arguments: parent, client, opts, writeStream', async () => {
       const client = new bigquerywriterModule.managedwriter.WriterClient(
         parent,
         bqWriteClient,
-        options,
+        clientOptions,
         writeStreamType
       );
       assert(client);
       assert.strictEqual(client.getParent(), parent);
       assert(client.getClient());
-      Promise.resolve(client.getClient().getProjectId()).then(clientId => {
-        assert.strictEqual(clientId, options.projectId);
-      });
+      const clientId = await client.getClient().getProjectId()
+      assert.strictEqual(clientId, clientOptions.projectId);
       assert.strictEqual(client.getWriteStreamType(), 'TYPE_UNSPECIFIED');
     });
   });
 
   describe('initializeStreamConnection', () => {
-    it('should invoke initalizeStreamConnection with or without clientOptions without errors', () => {
-      const parent =
-        'project/fake-project-id/dataset/fake-dataset-id/table/fake-table-id';
-      const bqWriteClient: bigquerywriterModule.BigQueryWriteClient =
-        new bigquerywriterModule.BigQueryWriteClient({
-          credentials: {
-            client_email: 'fake-client@email.com',
-            private_key: 'fake-private-key',
-          },
-          projectId: 'fake-project-id',
-        });
-      bqWriteClient.initialize();
-      const writeStreamType: WriteStream['type'] = 'PENDING';
+    it('should invoke initalizeStreamConnection with or without clientOptions without errors', async () => {
+      await bqWriteClient.initialize();
+      writeStreamType = 'PENDING';
       const client = new bigquerywriterModule.managedwriter.WriterClient(
         parent,
         bqWriteClient,
@@ -152,16 +156,6 @@ describe('managedwriter.WriterClient', () => {
 
   describe('appendRowsToStream', () => {
     it('should invoke appendRowsToStream without errors', () => {
-      const parent =
-        'project/fake-project-id/dataset/fake-dataset-id/table/fake-table-id';
-      const bqWriteClient: bigquerywriterModule.BigQueryWriteClient =
-        new bigquerywriterModule.BigQueryWriteClient({
-          credentials: {
-            client_email: 'fake-client@email.com',
-            private_key: 'fake-private-key',
-          },
-          projectId: 'fake-project-id',
-        });
       bqWriteClient.initialize();
       const writeStreamType: WriteStream['type'] = 'PENDING';
       const client = new bigquerywriterModule.managedwriter.WriterClient(
@@ -268,16 +262,6 @@ describe('managedwriter.WriterClient', () => {
 
   describe('closeStream', () => {
     it('should invoke closeStream without errors', () => {
-      const parent =
-        'project/fake-project-id/dataset/fake-dataset-id/table/fake-table-id';
-      const bqWriteClient: bigquerywriterModule.BigQueryWriteClient =
-        new bigquerywriterModule.BigQueryWriteClient({
-          credentials: {
-            client_email: 'fake-client@email.com',
-            private_key: 'fake-private-key',
-          },
-          projectId: 'fake-project-id',
-        });
       bqWriteClient.initialize();
       const writeStreamType: WriteStream['type'] = 'PENDING';
       const client = new bigquerywriterModule.managedwriter.WriterClient(
