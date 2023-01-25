@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.1](https://github.com/googleapis/nodejs-bigquery-storage/compare/v3.2.0...v3.2.1) (2023-01-11)
+
+
+### Bug Fixes
+
+* Manual update from nodejs postprocessor ([#316](https://github.com/googleapis/nodejs-bigquery-storage/issues/316)) ([3861cf6](https://github.com/googleapis/nodejs-bigquery-storage/commit/3861cf625aa01511eb6bdcf99e372dbd5bec6fa9))
+
 ## [3.2.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v3.1.1...v3.2.0) (2022-11-11)
 
 
