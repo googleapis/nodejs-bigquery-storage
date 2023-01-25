@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,8 +29,8 @@ function main(parent, writeStreams) {
    * TODO(developer): Uncomment these variables before running the sample.
    */
   /**
-   *  Required. Parent table that all the streams should belong to, in the form of
-   *  `projects/{project}/datasets/{dataset}/tables/{table}`.
+   *  Required. Parent table that all the streams should belong to, in the form
+   *  of `projects/{project}/datasets/{dataset}/tables/{table}`.
    */
   // const parent = 'abc123'
   /**

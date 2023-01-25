@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -675,8 +675,8 @@ export class BigQueryWriteClient {
    * @param {Object} request
    *   The request object that will be sent.
    * @param {string} request.parent
-   *   Required. Parent table that all the streams should belong to, in the form of
-   *   `projects/{project}/datasets/{dataset}/tables/{table}`.
+   *   Required. Parent table that all the streams should belong to, in the form
+   *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
    * @param {string[]} request.writeStreams
    *   Required. The group of streams that will be committed atomically.
    * @param {object} [options]
@@ -907,13 +907,6 @@ export class BigQueryWriteClient {
    * * For PENDING streams, data is not made visible until the stream itself is
    * finalized (via the `FinalizeWriteStream` rpc), and the stream is explicitly
    * committed via the `BatchCommitWriteStreams` rpc.
-   *
-   * Note: For users coding against the gRPC api directly, it may be
-   * necessary to supply the x-goog-request-params system parameter
-   * with `write_stream=<full_write_stream_name>`.
-   *
-   * More information about system parameters:
-   * https://cloud.google.com/apis/docs/system-parameters
    *
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.

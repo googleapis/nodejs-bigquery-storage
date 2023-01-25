@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.2.1](https://github.com/googleapis/nodejs-bigquery-storage/compare/v3.2.0...v3.2.1) (2023-01-11)
+
+
+### Bug Fixes
+
+* Manual update from nodejs postprocessor ([#316](https://github.com/googleapis/nodejs-bigquery-storage/issues/316)) ([3861cf6](https://github.com/googleapis/nodejs-bigquery-storage/commit/3861cf625aa01511eb6bdcf99e372dbd5bec6fa9))
+
+## [3.2.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v3.1.1...v3.2.0) (2022-11-11)
+
+
+### Features
+
+* Add location to WriteStream and add WriteStreamView support ([#295](https://github.com/googleapis/nodejs-bigquery-storage/issues/295)) ([ba3c5ef](https://github.com/googleapis/nodejs-bigquery-storage/commit/ba3c5ef05366b1e9a542b9b13fc0c7a25118b2a3))
+
 ## [3.1.1](https://github.com/googleapis/nodejs-bigquery-storage/compare/v3.1.0...v3.1.1) (2022-09-01)
 
 

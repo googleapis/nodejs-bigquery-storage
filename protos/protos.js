@@ -4532,6 +4532,7 @@
                              * @property {google.protobuf.IInt64Value|null} [offset] AppendRowsRequest offset
                              * @property {google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData|null} [protoRows] AppendRowsRequest protoRows
                              * @property {string|null} [traceId] AppendRowsRequest traceId
+                             * @property {Object.<string,google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation>|null} [missingValueInterpretations] AppendRowsRequest missingValueInterpretations
                              */
     
                             /**
@@ -4543,6 +4544,7 @@
                              * @param {google.cloud.bigquery.storage.v1.IAppendRowsRequest=} [properties] Properties to set
                              */
                             function AppendRowsRequest(properties) {
+                                this.missingValueInterpretations = {};
                                 if (properties)
                                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                                         if (properties[keys[i]] != null)
@@ -4580,6 +4582,14 @@
                              * @instance
                              */
                             AppendRowsRequest.prototype.traceId = "";
+    
+                            /**
+                             * AppendRowsRequest missingValueInterpretations.
+                             * @member {Object.<string,google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation>} missingValueInterpretations
+                             * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest
+                             * @instance
+                             */
+                            AppendRowsRequest.prototype.missingValueInterpretations = $util.emptyObject;
     
                             // OneOf field names bound to virtual getters and setters
                             var $oneOfFields;
@@ -4627,6 +4637,9 @@
                                     $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.ProtoData.encode(message.protoRows, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
                                 if (message.traceId != null && Object.hasOwnProperty.call(message, "traceId"))
                                     writer.uint32(/* id 6, wireType 2 =*/50).string(message.traceId);
+                                if (message.missingValueInterpretations != null && Object.hasOwnProperty.call(message, "missingValueInterpretations"))
+                                    for (var keys = Object.keys(message.missingValueInterpretations), i = 0; i < keys.length; ++i)
+                                        writer.uint32(/* id 7, wireType 2 =*/58).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 0 =*/16).int32(message.missingValueInterpretations[keys[i]]).ldelim();
                                 return writer;
                             };
     
@@ -4657,7 +4670,7 @@
                             AppendRowsRequest.decode = function decode(reader, length) {
                                 if (!(reader instanceof $Reader))
                                     reader = $Reader.create(reader);
-                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1.AppendRowsRequest();
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1.AppendRowsRequest(), key, value;
                                 while (reader.pos < end) {
                                     var tag = reader.uint32();
                                     switch (tag >>> 3) {
@@ -4675,6 +4688,29 @@
                                         }
                                     case 6: {
                                             message.traceId = reader.string();
+                                            break;
+                                        }
+                                    case 7: {
+                                            if (message.missingValueInterpretations === $util.emptyObject)
+                                                message.missingValueInterpretations = {};
+                                            var end2 = reader.uint32() + reader.pos;
+                                            key = "";
+                                            value = 0;
+                                            while (reader.pos < end2) {
+                                                var tag2 = reader.uint32();
+                                                switch (tag2 >>> 3) {
+                                                case 1:
+                                                    key = reader.string();
+                                                    break;
+                                                case 2:
+                                                    value = reader.int32();
+                                                    break;
+                                                default:
+                                                    reader.skipType(tag2 & 7);
+                                                    break;
+                                                }
+                                            }
+                                            message.missingValueInterpretations[key] = value;
                                             break;
                                         }
                                     default:
@@ -4732,6 +4768,20 @@
                                 if (message.traceId != null && message.hasOwnProperty("traceId"))
                                     if (!$util.isString(message.traceId))
                                         return "traceId: string expected";
+                                if (message.missingValueInterpretations != null && message.hasOwnProperty("missingValueInterpretations")) {
+                                    if (!$util.isObject(message.missingValueInterpretations))
+                                        return "missingValueInterpretations: object expected";
+                                    var key = Object.keys(message.missingValueInterpretations);
+                                    for (var i = 0; i < key.length; ++i)
+                                        switch (message.missingValueInterpretations[key[i]]) {
+                                        default:
+                                            return "missingValueInterpretations: enum value{k:string} expected";
+                                        case 0:
+                                        case 1:
+                                        case 2:
+                                            break;
+                                        }
+                                }
                                 return null;
                             };
     
@@ -4761,6 +4811,32 @@
                                 }
                                 if (object.traceId != null)
                                     message.traceId = String(object.traceId);
+                                if (object.missingValueInterpretations) {
+                                    if (typeof object.missingValueInterpretations !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1.AppendRowsRequest.missingValueInterpretations: object expected");
+                                    message.missingValueInterpretations = {};
+                                    for (var keys = Object.keys(object.missingValueInterpretations), i = 0; i < keys.length; ++i)
+                                        switch (object.missingValueInterpretations[keys[i]]) {
+                                        default:
+                                            if (typeof object.missingValueInterpretations[keys[i]] === "number") {
+                                                message.missingValueInterpretations[keys[i]] = object.missingValueInterpretations[keys[i]];
+                                                break;
+                                            }
+                                            break;
+                                        case "MISSING_VALUE_INTERPRETATION_UNSPECIFIED":
+                                        case 0:
+                                            message.missingValueInterpretations[keys[i]] = 0;
+                                            break;
+                                        case "NULL_VALUE":
+                                        case 1:
+                                            message.missingValueInterpretations[keys[i]] = 1;
+                                            break;
+                                        case "DEFAULT_VALUE":
+                                        case 2:
+                                            message.missingValueInterpretations[keys[i]] = 2;
+                                            break;
+                                        }
+                                }
                                 return message;
                             };
     
@@ -4777,6 +4853,8 @@
                                 if (!options)
                                     options = {};
                                 var object = {};
+                                if (options.objects || options.defaults)
+                                    object.missingValueInterpretations = {};
                                 if (options.defaults) {
                                     object.writeStream = "";
                                     object.offset = null;
@@ -4793,6 +4871,12 @@
                                 }
                                 if (message.traceId != null && message.hasOwnProperty("traceId"))
                                     object.traceId = message.traceId;
+                                var keys2;
+                                if (message.missingValueInterpretations && (keys2 = Object.keys(message.missingValueInterpretations)).length) {
+                                    object.missingValueInterpretations = {};
+                                    for (var j = 0; j < keys2.length; ++j)
+                                        object.missingValueInterpretations[keys2[j]] = options.enums === String ? $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation[message.missingValueInterpretations[keys2[j]]] === undefined ? message.missingValueInterpretations[keys2[j]] : $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation[message.missingValueInterpretations[keys2[j]]] : message.missingValueInterpretations[keys2[j]];
+                                }
                                 return object;
                             };
     
@@ -5057,6 +5141,22 @@
                                 };
     
                                 return ProtoData;
+                            })();
+    
+                            /**
+                             * MissingValueInterpretation enum.
+                             * @name google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation
+                             * @enum {number}
+                             * @property {number} MISSING_VALUE_INTERPRETATION_UNSPECIFIED=0 MISSING_VALUE_INTERPRETATION_UNSPECIFIED value
+                             * @property {number} NULL_VALUE=1 NULL_VALUE value
+                             * @property {number} DEFAULT_VALUE=2 DEFAULT_VALUE value
+                             */
+                            AppendRowsRequest.MissingValueInterpretation = (function() {
+                                var valuesById = {}, values = Object.create(valuesById);
+                                values[valuesById[0] = "MISSING_VALUE_INTERPRETATION_UNSPECIFIED"] = 0;
+                                values[valuesById[1] = "NULL_VALUE"] = 1;
+                                values[valuesById[2] = "DEFAULT_VALUE"] = 2;
+                                return values;
                             })();
     
                             return AppendRowsRequest;
@@ -7914,6 +8014,7 @@
                              * @property {google.cloud.bigquery.storage.v1.ReadSession.ITableReadOptions|null} [readOptions] ReadSession readOptions
                              * @property {Array.<google.cloud.bigquery.storage.v1.IReadStream>|null} [streams] ReadSession streams
                              * @property {number|Long|null} [estimatedTotalBytesScanned] ReadSession estimatedTotalBytesScanned
+                             * @property {number|Long|null} [estimatedRowCount] ReadSession estimatedRowCount
                              * @property {string|null} [traceId] ReadSession traceId
                              */
     
@@ -8014,6 +8115,14 @@
                             ReadSession.prototype.estimatedTotalBytesScanned = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
     
                             /**
+                             * ReadSession estimatedRowCount.
+                             * @member {number|Long} estimatedRowCount
+                             * @memberof google.cloud.bigquery.storage.v1.ReadSession
+                             * @instance
+                             */
+                            ReadSession.prototype.estimatedRowCount = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    
+                            /**
                              * ReadSession traceId.
                              * @member {string} traceId
                              * @memberof google.cloud.bigquery.storage.v1.ReadSession
@@ -8082,6 +8191,8 @@
                                     writer.uint32(/* id 12, wireType 0 =*/96).int64(message.estimatedTotalBytesScanned);
                                 if (message.traceId != null && Object.hasOwnProperty.call(message, "traceId"))
                                     writer.uint32(/* id 13, wireType 2 =*/106).string(message.traceId);
+                                if (message.estimatedRowCount != null && Object.hasOwnProperty.call(message, "estimatedRowCount"))
+                                    writer.uint32(/* id 14, wireType 0 =*/112).int64(message.estimatedRowCount);
                                 return writer;
                             };
     
@@ -8156,6 +8267,10 @@
                                         }
                                     case 12: {
                                             message.estimatedTotalBytesScanned = reader.int64();
+                                            break;
+                                        }
+                                    case 14: {
+                                            message.estimatedRowCount = reader.int64();
                                             break;
                                         }
                                     case 13: {
@@ -8258,6 +8373,9 @@
                                 if (message.estimatedTotalBytesScanned != null && message.hasOwnProperty("estimatedTotalBytesScanned"))
                                     if (!$util.isInteger(message.estimatedTotalBytesScanned) && !(message.estimatedTotalBytesScanned && $util.isInteger(message.estimatedTotalBytesScanned.low) && $util.isInteger(message.estimatedTotalBytesScanned.high)))
                                         return "estimatedTotalBytesScanned: integer|Long expected";
+                                if (message.estimatedRowCount != null && message.hasOwnProperty("estimatedRowCount"))
+                                    if (!$util.isInteger(message.estimatedRowCount) && !(message.estimatedRowCount && $util.isInteger(message.estimatedRowCount.low) && $util.isInteger(message.estimatedRowCount.high)))
+                                        return "estimatedRowCount: integer|Long expected";
                                 if (message.traceId != null && message.hasOwnProperty("traceId"))
                                     if (!$util.isString(message.traceId))
                                         return "traceId: string expected";
@@ -8344,6 +8462,15 @@
                                         message.estimatedTotalBytesScanned = object.estimatedTotalBytesScanned;
                                     else if (typeof object.estimatedTotalBytesScanned === "object")
                                         message.estimatedTotalBytesScanned = new $util.LongBits(object.estimatedTotalBytesScanned.low >>> 0, object.estimatedTotalBytesScanned.high >>> 0).toNumber();
+                                if (object.estimatedRowCount != null)
+                                    if ($util.Long)
+                                        (message.estimatedRowCount = $util.Long.fromValue(object.estimatedRowCount)).unsigned = false;
+                                    else if (typeof object.estimatedRowCount === "string")
+                                        message.estimatedRowCount = parseInt(object.estimatedRowCount, 10);
+                                    else if (typeof object.estimatedRowCount === "number")
+                                        message.estimatedRowCount = object.estimatedRowCount;
+                                    else if (typeof object.estimatedRowCount === "object")
+                                        message.estimatedRowCount = new $util.LongBits(object.estimatedRowCount.low >>> 0, object.estimatedRowCount.high >>> 0).toNumber();
                                 if (object.traceId != null)
                                     message.traceId = String(object.traceId);
                                 return message;
@@ -8377,6 +8504,11 @@
                                     } else
                                         object.estimatedTotalBytesScanned = options.longs === String ? "0" : 0;
                                     object.traceId = "";
+                                    if ($util.Long) {
+                                        var long = new $util.Long(0, 0, false);
+                                        object.estimatedRowCount = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                                    } else
+                                        object.estimatedRowCount = options.longs === String ? "0" : 0;
                                 }
                                 if (message.name != null && message.hasOwnProperty("name"))
                                     object.name = message.name;
@@ -8412,6 +8544,11 @@
                                         object.estimatedTotalBytesScanned = options.longs === String ? $util.Long.prototype.toString.call(message.estimatedTotalBytesScanned) : options.longs === Number ? new $util.LongBits(message.estimatedTotalBytesScanned.low >>> 0, message.estimatedTotalBytesScanned.high >>> 0).toNumber() : message.estimatedTotalBytesScanned;
                                 if (message.traceId != null && message.hasOwnProperty("traceId"))
                                     object.traceId = message.traceId;
+                                if (message.estimatedRowCount != null && message.hasOwnProperty("estimatedRowCount"))
+                                    if (typeof message.estimatedRowCount === "number")
+                                        object.estimatedRowCount = options.longs === String ? String(message.estimatedRowCount) : message.estimatedRowCount;
+                                    else
+                                        object.estimatedRowCount = options.longs === String ? $util.Long.prototype.toString.call(message.estimatedRowCount) : options.longs === Number ? new $util.LongBits(message.estimatedRowCount.low >>> 0, message.estimatedRowCount.high >>> 0).toNumber() : message.estimatedRowCount;
                                 return object;
                             };
     
