@@ -38,25 +38,31 @@ type StreamConnection = {
   write_stream: WriteStream;
   connection: gax.CancellableStream;
 };
-type streamConnectionsMap = Record<string, gax.CancellableStream>;
+type streamConnectionsMap = Record<string, ManagedStream>;
 type StreamConnections = {
-  connection_list: StreamConnection[];
+  connectionList: ManagedStream[];
   connections: streamConnectionsMap;
 };
 type WriteStream = protos.google.cloud.bigquery.storage.v1.IWriteStream;
-type AppendRowResponse =
-  protos.google.cloud.bigquery.storage.v1.AppendRowsResponse;
+type WriteStreamType = WriteStream['type'] | 'DEFAULT';
+type AppendRowsResponse =
+  protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse;
 type AppendRowRequest =
   protos.google.cloud.bigquery.storage.v1.IAppendRowsRequest;
+type BatchCommitWriteStreamsRequest =
+  protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest;
+type BatchCommitWriteStreamsResponse =
+  protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse;
 type IInt64Value = protos.google.protobuf.IInt64Value;
 type ProtoData =
   protos.google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData;
+type DescriptorProto = protos.google.protobuf.IDescriptorProto;
 
+export const DefaultStream = 'DEFAULT';
 export class WriterClient {
   private _opts: ClientOptions | undefined;
   private _parent: string;
-  private _writeStreamType: WriteStream['type'] = 'TYPE_UNSPECIFIED';
-  private _streamId: string;
+  private _writeStreamType: WriteStreamType = 'TYPE_UNSPECIFIED';
   private _client: BigQueryWriteClient;
   private _connections: StreamConnections;
   private _client_closed: boolean;
@@ -65,16 +71,15 @@ export class WriterClient {
     parent?: string,
     client?: BigQueryWriteClient,
     bqWriteClientOpts?: ClientOptions,
-    writeStreamType?: WriteStream['type']
+    writeStreamType?: WriteStreamType
   ) {
     this._parent = parent ? parent : 'Please set a parent path';
     this._client = new BigQueryWriteClient(bqWriteClientOpts) || client;
     this._writeStreamType = writeStreamType || this._writeStreamType;
     this._connections = {
-      connection_list: [],
+      connectionList: [],
       connections: {},
     };
-    this._streamId = 'Please open a connection to set connection name';
     this._client_closed = false;
   }
 
@@ -85,14 +90,6 @@ export class WriterClient {
 
   getParent = (): string => {
     return this._parent;
-  };
-
-  getStreamId = (): string => {
-    return this._streamId;
-  };
-
-  setStreamId = (streamId: string): void => {
-    this._streamId = streamId;
   };
 
   getClient = (): BigQueryWriteClient => {
@@ -117,7 +114,7 @@ export class WriterClient {
     this._writeStreamType = streamType;
   }
 
-  getWriteStreamType(): WriteStream['type'] {
+  getWriteStreamType(): WriteStreamType {
     return this._writeStreamType;
   }
 
@@ -129,183 +126,238 @@ export class WriterClient {
     return this._client_closed;
   }
 
-  async initializeStreamConnection(clientOptions?: CallOptions): Promise<void> {
+  private resolveStreamId(streamId: string): string {
+    if (streamId === DefaultStream) {
+      const parent = this.getParent();
+      return `${parent}/streams/_default`;
+    }
+    return streamId;
+  }
+
+  async createWriteStream(): Promise<string> {
     if (this._client_closed) {
       this._client_closed = false;
     }
+    const streamType = this.getWriteStreamType();
     const request: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest =
       {
         parent: this.getParent(),
-        writeStream: {type: this.getWriteStreamType()},
+        writeStream: {
+          type: streamTypeToEnum(streamType),
+        },
       };
     const [response] = await this._client.createWriteStream(request);
     if (typeof [response] === undefined) {
       throw new gax.GoogleError(`${response}`);
     }
-    console.log(`Stream connection created: ${response.name}`);
     try {
       if (response.name) {
-        this.setStreamId(response.name);
-        const write_stream: WriteStream = {
-          name: response.name,
-          type: this.getWriteStreamType(),
-        };
-        const stream_connection: StreamConnection = {
-          write_stream: write_stream,
-          connection: clientOptions
-            ? this._client.appendRows(clientOptions)
-            : this._client.appendRows(),
-        };
-        this._connections.connection_list.push(stream_connection);
-        this._connections.connections[`${write_stream.name}`] =
-          stream_connection.connection;
+        const streamId = response.name;
+        return streamId;
       }
+      return '';
     } catch {
       throw new Error('Stream connection failed');
     }
   }
 
-  async appendRowsToStream(
-    streamConnection: WriteStream['name'],
-    serializedRows: ProtoData,
-    offsetValue: IInt64Value
-  ): Promise<AppendRowResponse[]> {
-    const responses: AppendRowResponse[] | null = [];
-    const connection: gax.CancellableStream =
-      this._connections.connections[`${streamConnection}`];
-    const request: AppendRowRequest = {
-      writeStream: streamConnection,
-      protoRows: serializedRows,
-      offset: offsetValue,
-    };
-
-    connection.write(request, () => {
-      connection.on('data', response => {
-        if (response.error) {
-          throw new Error(response.error.message);
-        }
-
-        responses.push(response);
-
-        if (responses.length === 1) {
-          connection.end(() => {
-            this.closeStream();
-          });
-        }
-      });
-
-      connection.on('error', err => {
-        throw err;
-      });
-    });
-    return responses;
+  async createManagedStream(
+    streamId: string,
+    protoDescriptor: protos.google.protobuf.IDescriptorProto,
+    clientOptions?: CallOptions
+  ): Promise<ManagedStream> {
+    if (this._client_closed) {
+      this._client_closed = false;
+    }
+    const streamType = this.getWriteStreamType();
+    try {
+      const fullStreamId = this.resolveStreamId(streamId);
+      const writeStream: WriteStream = {
+        name: fullStreamId,
+        type: streamTypeToEnum(streamType),
+      };
+      const streamConnection: StreamConnection = {
+        write_stream: writeStream,
+        connection: clientOptions
+          ? this._client.appendRows(clientOptions)
+          : this._client.appendRows(),
+      };
+      const managedStream = new ManagedStream(
+        fullStreamId,
+        streamConnection,
+        streamType,
+        protoDescriptor,
+        this
+      );
+      this._connections.connectionList.push(managedStream);
+      this._connections.connections[`${streamId}`] = managedStream;
+      return managedStream;
+    } catch {
+      throw new Error('Stream connection failed');
+    }
   }
 
-  async closeStream(): Promise<void> {
-    // API call completed.
-    const writeStream = this._streamId;
-    const writeStreams: string[] | null = [];
-    writeStreams.push(writeStream);
+  async batchCommitWriteStream(
+    req: BatchCommitWriteStreamsRequest
+  ): Promise<BatchCommitWriteStreamsResponse> {
+    const [res] = await this._client.batchCommitWriteStreams(req);
+    return res;
+  }
 
-    const finalizeStreamReq: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest =
-      {
-        name: writeStream,
-      };
-
-    this._client.finalizeWriteStream(finalizeStreamReq).then(result => {
-      if (!result.includes(undefined)) {
-        const [validResponse] = result;
-      }
+  async close() {
+    this._connections.connectionList.map(ms => {
+      return ms.close();
     });
-    const batchCommitWriteStreamsReq: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest =
-      {
-        parent: this._parent,
-        writeStreams: writeStreams,
-      };
+  }
 
-    this._client
-      .batchCommitWriteStreams(batchCommitWriteStreamsReq)
-      .then(result => console.log(result));
+  async finalize(): Promise<
+    protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse['rowCount']
+  > {
+    const rowCounts = await Promise.all(
+      this._connections.connectionList.map(ms => {
+        return ms.finalize();
+      })
+    );
 
-    this._client_closed = true;
+    return rowCounts.reduce((total: number, rowCount) => {
+      const rowCountNum = Number.parseInt(`${rowCount}`, 10);
+      return total + rowCountNum;
+    }, 0);
   }
 }
 
-//Example
-/*const type = protos.google.protobuf.FieldDescriptorProto.Type;
-const customer_record_pb = require('../../samples/customer_record_pb.js');
-const projectId = 'your-project';
-const datasetId = 'your_dataset_';
-const tableId = 'your_table';
-const exOpts: ClientOptions = {
-  projectId: projectId,
-};
-//const exParent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`
-const writer = new WriterClient(undefined, undefined, exOpts);
-const streamType: WriteStream['type'] = 'PENDING';
-writer.setWriteStreamType(streamType);
-writer.setParent(projectId, datasetId, tableId);
-writer.initializeStreamConnection().then(() => 'Stream initialized');
+class PendingWrite {
+  private result?: AppendRowsResponse;
+  private promise: Promise<AppendRowsResponse>;
+  private resolveFunc?: (response: AppendRowsResponse) => void;
+  private rejectFunc?: (reason?: any) => void;
 
-const protoDescriptorEx: ProtoDescriptor = {};
-protoDescriptorEx.name = 'CustomerRecord';
-protoDescriptorEx.field = [
-  {
-    name: 'customer_name',
-    number: 1,
-    type: type.TYPE_STRING,
-  },
-  {
-    name: 'row_num',
-    number: 2,
-    type: type.TYPE_INT64,
-  },
-];
-
-// Row 1
-const row1Message = new customer_record_pb.CustomerRecord();
-row1Message.row_num = 1;
-row1Message.setCustomerName('Octavia');
-
-// Row 2
-const row2Message = new customer_record_pb.CustomerRecord();
-row2Message.row_num = 2;
-row2Message.setCustomerName('Turing');
-
-const writerSchemaEx: ProtoSchema = {
-  protoDescriptor: protoDescriptorEx,
-};
-const serializedRowsEx: ProtoRows = {
-  serializedRows: [
-    row1Message.serializeBinary(),
-    row2Message.serializeBinary(),
-  ],
-};
-
-const rowData: ProtoData = {
-  rows: serializedRowsEx,
-  writerSchema: writerSchemaEx,
-};
-console.log(
-  `This is the length of the rows: ${rowData.rows?.serializedRows?.length}`
-);
-
-const offset: IInt64Value = {
-  value: 0,
-};
-
-writer
-  .initializeStreamConnection()
-  .then(() => 'Stream initialized')
-  .then(() =>
-    writer
-      .appendRowsToStream(writer.getStreamId(), rowData, offset)
-      .then(appendRowsResponses => {
-        console.log(`AppendRowsToStream has resolved: ${appendRowsResponses}`);
-      })
-  )
-  .then(() => {
-    writer.closeStream().then(res => {
-      console.log(`Close stream has been resolved: ${res}`);
+  constructor() {
+    this.promise = new Promise((resolve, reject) => {
+      this.resolveFunc = resolve;
+      this.rejectFunc = reject;
     });
-  });*/
+  }
+
+  _setResult(result: AppendRowsResponse) {
+    this.result = result;
+  }
+
+  _markDone() {
+    if (this.result) {
+      if (this.result.error) {
+        this.rejectFunc && this.rejectFunc(this.result.error);
+      }
+      this.resolveFunc && this.resolveFunc(this.result);
+    }
+    this.rejectFunc && this.rejectFunc(new Error('ended with no status'));
+  }
+
+  getResult(): Promise<AppendRowsResponse> {
+    return this.promise;
+  }
+}
+
+export class ManagedStream {
+  private _writeStreamType?: WriteStreamType = 'TYPE_UNSPECIFIED';
+  private _streamId: string;
+  private _protoDescriptor: protos.google.protobuf.IDescriptorProto;
+  private _writeClient: WriterClient;
+  private _streamConnection: StreamConnection;
+  private _pendingWrites: PendingWrite[];
+
+  constructor(
+    streamId: string,
+    streamConnection: StreamConnection,
+    writeStreamType: WriteStreamType,
+    protoDescriptor: DescriptorProto,
+    writeClient: WriterClient
+  ) {
+    this._streamId = streamId;
+    this._protoDescriptor = protoDescriptor;
+    this._writeClient = writeClient;
+    this._streamConnection = streamConnection;
+    this._writeStreamType = writeStreamType;
+    this._pendingWrites = [];
+    streamConnection.connection.on('data', this._handleData);
+    streamConnection.connection.on('error', err => {
+      console.log('error:', err);
+    });
+    streamConnection.connection.on('end', () => {
+      console.log('conn ended for stream:', streamId);
+    });
+  }
+
+  _handleData = (response: AppendRowsResponse) => {
+    const pw = this._pendingWrites.pop();
+    if (!pw) {
+      console.log('data arrived with no pending write available', response);
+      return;
+    }
+
+    pw._setResult(response);
+    pw._markDone();
+  };
+
+  getStreamId = (): string => {
+    return this._streamId;
+  };
+
+  setStreamId = (streamId: string): void => {
+    this._streamId = streamId;
+  };
+
+  async appendRows(
+    rows: ProtoData['rows'],
+    offsetValue?: IInt64Value
+  ): Promise<PendingWrite> {
+    const request: AppendRowRequest = {
+      writeStream: this._streamId,
+      protoRows: {
+        rows,
+        writerSchema: {
+          protoDescriptor: this._protoDescriptor,
+        },
+      },
+      offset: offsetValue,
+    };
+
+    const pw = new PendingWrite();
+    this._streamConnection.connection.write(request, () => {
+      this._pendingWrites.unshift(pw);
+    });
+    return pw;
+  }
+
+  async close() {
+    this._streamConnection.connection.end();
+  }
+
+  async finalize(): Promise<
+    protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse['rowCount']
+  > {
+    this.close();
+    if (this._writeStreamType === DefaultStream) {
+      return;
+    }
+    const finalizeStreamReq: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest =
+      {
+        name: this._streamId,
+      };
+
+    return this._writeClient
+      .getClient()
+      .finalizeWriteStream(finalizeStreamReq)
+      .then(result => {
+        if (!result.includes(undefined)) {
+          const [validResponse] = result;
+          return validResponse.rowCount;
+        }
+        return null;
+      });
+  }
+}
+
+function streamTypeToEnum(streamType: WriteStreamType): WriteStream['type'] {
+  return streamType === DefaultStream ? 'TYPE_UNSPECIFIED' : streamType;
+}
