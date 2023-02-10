@@ -10009,6 +10009,7 @@
                              * @property {number|Long|null} [maxLength] TableFieldSchema maxLength
                              * @property {number|Long|null} [precision] TableFieldSchema precision
                              * @property {number|Long|null} [scale] TableFieldSchema scale
+                             * @property {string|null} [defaultValueExpression] TableFieldSchema defaultValueExpression
                              */
     
                             /**
@@ -10092,6 +10093,14 @@
                             TableFieldSchema.prototype.scale = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
     
                             /**
+                             * TableFieldSchema defaultValueExpression.
+                             * @member {string} defaultValueExpression
+                             * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema
+                             * @instance
+                             */
+                            TableFieldSchema.prototype.defaultValueExpression = "";
+    
+                            /**
                              * Creates a new TableFieldSchema instance using the specified properties.
                              * @function create
                              * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema
@@ -10132,6 +10141,8 @@
                                     writer.uint32(/* id 8, wireType 0 =*/64).int64(message.precision);
                                 if (message.scale != null && Object.hasOwnProperty.call(message, "scale"))
                                     writer.uint32(/* id 9, wireType 0 =*/72).int64(message.scale);
+                                if (message.defaultValueExpression != null && Object.hasOwnProperty.call(message, "defaultValueExpression"))
+                                    writer.uint32(/* id 10, wireType 2 =*/82).string(message.defaultValueExpression);
                                 return writer;
                             };
     
@@ -10198,6 +10209,10 @@
                                         }
                                     case 9: {
                                             message.scale = reader.int64();
+                                            break;
+                                        }
+                                    case 10: {
+                                            message.defaultValueExpression = reader.string();
                                             break;
                                         }
                                     default:
@@ -10291,6 +10306,9 @@
                                 if (message.scale != null && message.hasOwnProperty("scale"))
                                     if (!$util.isInteger(message.scale) && !(message.scale && $util.isInteger(message.scale.low) && $util.isInteger(message.scale.high)))
                                         return "scale: integer|Long expected";
+                                if (message.defaultValueExpression != null && message.hasOwnProperty("defaultValueExpression"))
+                                    if (!$util.isString(message.defaultValueExpression))
+                                        return "defaultValueExpression: string expected";
                                 return null;
                             };
     
@@ -10443,6 +10461,8 @@
                                         message.scale = object.scale;
                                     else if (typeof object.scale === "object")
                                         message.scale = new $util.LongBits(object.scale.low >>> 0, object.scale.high >>> 0).toNumber();
+                                if (object.defaultValueExpression != null)
+                                    message.defaultValueExpression = String(object.defaultValueExpression);
                                 return message;
                             };
     
@@ -10481,6 +10501,7 @@
                                         object.scale = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                                     } else
                                         object.scale = options.longs === String ? "0" : 0;
+                                    object.defaultValueExpression = "";
                                 }
                                 if (message.name != null && message.hasOwnProperty("name"))
                                     object.name = message.name;
@@ -10510,6 +10531,8 @@
                                         object.scale = options.longs === String ? String(message.scale) : message.scale;
                                     else
                                         object.scale = options.longs === String ? $util.Long.prototype.toString.call(message.scale) : options.longs === Number ? new $util.LongBits(message.scale.low >>> 0, message.scale.high >>> 0).toNumber() : message.scale;
+                                if (message.defaultValueExpression != null && message.hasOwnProperty("defaultValueExpression"))
+                                    object.defaultValueExpression = message.defaultValueExpression;
                                 return object;
                             };
     
