@@ -170,7 +170,6 @@ export class WriterClient {
     serializedRows: ProtoData,
     offsetValue: IInt64Value
   ): Promise<AppendRowResponse[]> {
-    const responses: AppendRowResponse[] | null = [];
     const connection: gax.CancellableStream =
       this._connections.connections[`${streamConnection}`];
     const request: AppendRowRequest = {
@@ -178,27 +177,36 @@ export class WriterClient {
       protoRows: serializedRows,
       offset: offsetValue,
     };
+    const responses: AppendRowResponse[] = [];
 
-    connection.write(request, () => {
-      connection.on('data', response => {
-        if (response.error) {
-          throw new Error(response.error.message);
-        }
+    connection.write(request);
 
-        responses.push(response);
-
-        if (responses.length === 1) {
-          connection.end(() => {
-            this.closeStream();
-          });
-        }
-      });
-
-      connection.on('error', err => {
-        throw err;
-      });
+    connection.on('error', err => {
+      throw err;
     });
-    return responses;
+
+    connection.on('data', response => {
+      if (response.error) {
+        throw new Error(response.error.message);
+      }
+
+      if (response === undefined) {
+        throw new Error(`Response is undefined: ${response}`);
+      }
+      responses.push(response);
+
+      if (responses.length === 1) {
+        connection.end(() => {
+          this.closeStream();
+        });
+      }
+    });
+
+    try {
+      return responses;
+    } catch {
+      throw new Error('Response is undefined - something has gone wrong');
+    }
   }
 
   async closeStream(): Promise<void> {
