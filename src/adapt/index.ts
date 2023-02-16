@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import {protobuf} from 'google-gax';
-import * as descriptor from 'protobufjs/ext/descriptor';
 import * as protos from '../../protos/protos';
 type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type TableFieldSchema =
@@ -30,24 +29,6 @@ type TableFieldSchemaMode =
   protos.google.cloud.bigquery.storage.v1.TableFieldSchema['mode'];
 type FieldDescriptorProtoLabel =
   protos.google.protobuf.FieldDescriptorProto.Label;
-
-type IFieldType =
-  | 'double'
-  | 'float'
-  | 'int32'
-  | 'uint32'
-  | 'sint32'
-  | 'fixed32'
-  | 'sfixed32'
-  | 'int64'
-  | 'uint64'
-  | 'sint64'
-  | 'fixed64'
-  | 'sfixed64'
-  | 'string'
-  | 'bool'
-  | 'bytes'
-  | object;
 type IFieldRule = 'optional' | 'required' | 'repeated' | undefined;
 
 const TableFieldSchema =
@@ -70,20 +51,20 @@ const labelToFieldRuleMap: Record<
 };
 
 const packedTypes: FieldDescriptorProtoType[] = [
-	FieldDescriptorProto.Type.TYPE_INT32,
-	FieldDescriptorProto.Type.TYPE_INT64,
-	FieldDescriptorProto.Type.TYPE_UINT32,
-	FieldDescriptorProto.Type.TYPE_UINT64,
-	FieldDescriptorProto.Type.TYPE_SINT32,
-	FieldDescriptorProto.Type.TYPE_SINT64,
-	FieldDescriptorProto.Type.TYPE_FIXED32,
-	FieldDescriptorProto.Type.TYPE_FIXED64,
-	FieldDescriptorProto.Type.TYPE_SFIXED32,
-	FieldDescriptorProto.Type.TYPE_SFIXED64,
-	FieldDescriptorProto.Type.TYPE_FLOAT,
-	FieldDescriptorProto.Type.TYPE_DOUBLE,
-	FieldDescriptorProto.Type.TYPE_BOOL,
-	FieldDescriptorProto.Type.TYPE_ENUM,
+  FieldDescriptorProto.Type.TYPE_INT32,
+  FieldDescriptorProto.Type.TYPE_INT64,
+  FieldDescriptorProto.Type.TYPE_UINT32,
+  FieldDescriptorProto.Type.TYPE_UINT64,
+  FieldDescriptorProto.Type.TYPE_SINT32,
+  FieldDescriptorProto.Type.TYPE_SINT64,
+  FieldDescriptorProto.Type.TYPE_FIXED32,
+  FieldDescriptorProto.Type.TYPE_FIXED64,
+  FieldDescriptorProto.Type.TYPE_SFIXED32,
+  FieldDescriptorProto.Type.TYPE_SFIXED64,
+  FieldDescriptorProto.Type.TYPE_FLOAT,
+  FieldDescriptorProto.Type.TYPE_DOUBLE,
+  FieldDescriptorProto.Type.TYPE_BOOL,
+  FieldDescriptorProto.Type.TYPE_ENUM,
 ];
 
 const bqTypeToFieldTypeMap: Record<
@@ -221,7 +202,7 @@ function convertStorageSchemaToFileDescriptorInternal(
   for (const field of schema.fields || []) {
     fNumber += 1;
     const currentScope = `${scope}_${field.name}`;
-    if (field.type == TableFieldSchema.Type.STRUCT) {
+    if (field.type === TableFieldSchema.Type.STRUCT) {
       const subSchema: TableSchema = {
         fields: field.fields,
       };
@@ -356,7 +337,7 @@ function convertTableFieldSchemaToFieldDescriptorProto(
       label: label,
       number: fNumber,
       options: {
-        packed: shouldPackType(pType, label, useProto3)
+        packed: shouldPackType(pType, label, useProto3),
       },
       proto3Optional: isProto3Optional(label, useProto3),
     });
@@ -364,7 +345,11 @@ function convertTableFieldSchemaToFieldDescriptorProto(
   return fdp;
 }
 
-function shouldPackType(t: FieldDescriptorProtoType, label: FieldDescriptorProtoLabel | null, useProto3: boolean): boolean {
+function shouldPackType(
+  t: FieldDescriptorProtoType,
+  label: FieldDescriptorProtoLabel | null,
+  useProto3: boolean
+): boolean {
   if (useProto3) {
     return false;
   }
@@ -374,7 +359,10 @@ function shouldPackType(t: FieldDescriptorProtoType, label: FieldDescriptorProto
   return packedTypes.includes(t);
 }
 
-function isProto3Optional(label: FieldDescriptorProtoLabel | null, useProto3: boolean): boolean | null {
+function isProto3Optional(
+  label: FieldDescriptorProtoLabel | null,
+  useProto3: boolean
+): boolean | null {
   if (!useProto3) {
     return null;
   }
