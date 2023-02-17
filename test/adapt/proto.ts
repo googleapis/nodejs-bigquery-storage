@@ -49,16 +49,16 @@ describe('AdaptProto', () => {
       };
       const storageSchema =
         adaptModule.convertBigQuerySchemaToStorageTableSchema(schema);
-      const protoDescriptor =
+      const fileDescriptorSet =
         adaptModule.convertStorageSchemaToProto2Descriptor(
           storageSchema,
           'Test'
         );
-      assert.notEqual(protoDescriptor, null);
-      if (!protoDescriptor) {
-        throw Error('null proto descriptor set');
+      assert.notEqual(fileDescriptorSet, null);
+      if (!fileDescriptorSet) {
+        throw Error('null file descriptor set');
       }
-      assert.deepEqual(JSON.parse(JSON.stringify(protoDescriptor)), {
+      assert.deepEqual(JSON.parse(JSON.stringify(fileDescriptorSet)), {
         file: [
           {
             name: 'Test.proto',
@@ -101,7 +101,12 @@ describe('AdaptProto', () => {
           },
         ],
       });
-      const json = adaptModule.fileDescriptorSetToNamespace(protoDescriptor);
+      const protoDescriptor = adaptModule.normalizeDescriptor(fileDescriptorSet);
+      assert.notEqual(protoDescriptor, null);
+      if (!protoDescriptor) {
+        throw Error('null proto descriptor set');
+      }
+      const json = adaptModule.protoDescriptorToNamespace(protoDescriptor);
       const root = Root.fromJSON(json);
       const TestProto = root.lookupType('Test');
       const raw = {
@@ -144,16 +149,15 @@ describe('AdaptProto', () => {
       };
       const storageSchema =
         adaptModule.convertBigQuerySchemaToStorageTableSchema(schema);
-      const protoDescriptor =
+      const fileDescriptorSet =
         adaptModule.convertStorageSchemaToProto2Descriptor(
           storageSchema,
           'Nested'
         );
-      assert.notEqual(protoDescriptor, null);
-      if (!protoDescriptor) {
-        throw Error('null proto descriptor set');
-      }
-      assert.deepEqual(JSON.parse(JSON.stringify(protoDescriptor)), {
+      if (!fileDescriptorSet) {
+        throw Error('null file descriptor set');
+      }      
+      assert.deepEqual(JSON.parse(JSON.stringify(fileDescriptorSet)), {
         file: [
           {
             name: 'Nested.proto',
@@ -207,7 +211,12 @@ describe('AdaptProto', () => {
           },
         ],
       });
-      const json = adaptModule.fileDescriptorSetToNamespace(protoDescriptor);
+      const protoDescriptor = adaptModule.normalizeDescriptor(fileDescriptorSet);
+      assert.notEqual(protoDescriptor, null);
+      if (!protoDescriptor) {
+        throw Error('null proto descriptor set');
+      }
+      const json = adaptModule.protoDescriptorToNamespace(protoDescriptor);
       const root = Root.fromJSON(json);
       const NestedProto = root.lookupType('Nested');
       const raw = {

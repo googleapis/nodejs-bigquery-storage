@@ -20,7 +20,8 @@ type TableFieldSchema =
 type FieldDescriptorProto = protos.google.protobuf.IFieldDescriptorProto;
 type FileDescriptorProto = protos.google.protobuf.IFileDescriptorProto;
 type FileDescriptorSet = protos.google.protobuf.FileDescriptorSet;
-type Namespace = protobuf.INamespace;
+//type Namespace = protobuf.INamespace;
+type DescriptorProto = protos.google.protobuf.IDescriptorProto;
 type FieldDescriptorProtoType =
   protos.google.protobuf.FieldDescriptorProto['type'];
 type TableFieldSchemaType =
@@ -30,6 +31,16 @@ type TableFieldSchemaMode =
 type FieldDescriptorProtoLabel =
   protos.google.protobuf.FieldDescriptorProto.Label;
 type IFieldRule = 'optional' | 'required' | 'repeated' | undefined;
+
+type Namespace = {
+  nested: {
+    [k: string]: {
+      fields: {
+        [k: string]: protobuf.IField;
+      };
+    };
+  };
+};
 
 const TableFieldSchema =
   protos.google.cloud.bigquery.storage.v1.TableFieldSchema;
@@ -254,6 +265,38 @@ function convertStorageSchemaToFileDescriptorInternal(
   return fds;
 }
 
+// normalizeDescriptor builds a self-contained DescriptorProto suitable for communicating schema
+// information with the BigQuery Storage write API.  It's primarily used for cases where users are
+// interested in sending data using a predefined protocol buffer message.
+export function normalizeDescriptor(fds: FileDescriptorSet): DescriptorProto {
+  //let dp = new DescriptorProto();
+  let dp: DescriptorProto | null = null;
+  let fdpName;
+  if (fds.file.length > 0) {
+    const fdp = fds.file[0];
+    fdpName = fdp.name;
+    if (fdp.messageType && fdp.messageType.length > 0) {
+      dp = { ...fdp.messageType[0] };
+    }
+  }
+  if (!dp) {
+    throw Error('root descriptor not found');
+  }
+  for (const fdp of fds.file) {
+    if (fdp.name === fdpName) {
+      continue;
+    }
+    if (!dp.nestedType) {
+      dp.nestedType = [];
+    }
+    if (!fdp.messageType) {
+      continue;
+    }
+    dp.nestedType.push(...fdp.messageType);
+  }
+  return dp;
+}
+
 export function fileDescriptorSetToNamespace(
   fds: FileDescriptorSet
 ): Namespace {
@@ -265,16 +308,37 @@ export function fileDescriptorSetToNamespace(
       if (!ns.nested) {
         ns.nested = {};
       }
-      const fields: {[k: string]: protobuf.IField} = {};
-      for (const f of dp.field || []) {
-        fields[`${f.name}`] = descriptorProtoFieldToField(f);
+      const data = protoDescriptorToNamespace(dp);
+      for (const key of Object.keys(data.nested)) {
+        ns.nested[`${key}`] = data.nested[key];
       }
-      ns.nested[`${dp.name}`] = {
-        fields,
-      };
     }
   }
   return ns;
+}
+
+export function protoDescriptorToNamespace(dp: DescriptorProto): Namespace {
+  const fields: {[k: string]: protobuf.IField} = {};
+  for (const f of dp.field || []) {
+    fields[`${f.name}`] = descriptorProtoFieldToField(f);
+  }
+  let result = {
+    nested: {
+      [`${dp.name}`]: {
+        fields,
+      },
+    }
+  };
+  for (const nested of dp.nestedType || []) {
+    const nestedData = protoDescriptorToNamespace(nested);
+    for (const key of Object.keys(nestedData.nested)) {
+      const data = nestedData.nested[key];
+      if (data) {
+        result.nested[key] = data;
+      }
+    }
+  }
+  return result;
 }
 
 function descriptorProtoFieldToField(

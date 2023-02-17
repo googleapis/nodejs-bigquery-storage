@@ -50,6 +50,7 @@ const fieldTypeMap: Record<string, StorageTableFieldType> = {
   RECORD: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.STRUCT,
   STRUCT: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.STRUCT,
   JSON: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.JSON,
+  GEOGRAPHY: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.GEOGRAPHY,
 };
 
 const modeMap: Record<string, StorageTableField['mode']> = {

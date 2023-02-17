@@ -16,6 +16,8 @@ export {
   convertStorageSchemaToProto2Descriptor,
   convertStorageSchemaToProto3Descriptor,
   fileDescriptorSetToNamespace,
+  protoDescriptorToNamespace,
+  normalizeDescriptor,
 } from './proto';
 
 export {convertBigQuerySchemaToStorageTableSchema} from './schema';
