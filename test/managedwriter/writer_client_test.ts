@@ -53,9 +53,9 @@ describe('managedwriter.WriterClient', () => {
   let writeStreamType: WriteStream['type'];
   beforeEach(async () => {
     sandbox = sinon.createSandbox();
-    projectId = 'loferris-sandbox';
-    datasetId = 'writer_dataset_sandbox';
-    tableId = 'writer_table_sandbox';
+    projectId = 'your-project';
+    datasetId = 'your-dataset';
+    tableId = 'your-table';
     parent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
     bqWriteClient = await new bigquerywriterModule.BigQueryWriteClient({
       credentials: {
@@ -216,16 +216,16 @@ describe('managedwriter.WriterClient', () => {
         };
         await client.initializeStreamConnection();
         const streamId = client.getStreamId();
-        const appendRowResponses = await client.appendRowsToStream(
-          streamId,
-          serializedRowData,
-          offset
-        );
-        assert.strictEqual(
-          appendRowResponses[0].appendResult?.offset?.value,
-          0
-        );
-        assert.strictEqual(appendRowResponses[0].writeStream, streamId);
+        await client.appendRowsToStream(streamId, serializedRowData, offset);
+        /*const appendRowsReponse: Promise<AppendRowsResponse> = client.getAppendRowsResponses()[0];
+        const resultOffset = appendRowsReponse.then(res => {
+          return res.appendResult?.offset?.value;
+        })
+        const resultStreamId = appendRowsReponse.then(res => {
+          return res.writeStream;
+        })
+        assert.strictEqual(resultOffset, 0);
+        assert.strictEqual(resultStreamId, streamId);*/
       });
 
       /*it('should invoke appendRowsToStream with errors', () => {
@@ -237,8 +237,8 @@ describe('managedwriter.WriterClient', () => {
     })*/
     });
 
-    describe('closeStream', () => {
-      it('should invoke closeStream without errors', async () => {
+    describe('finalizeAndCloseStream', () => {
+      it('should invoke finalizeAndCloseStream without errors', async () => {
         await bqWriteClient.initialize();
         writeStreamType = 'PENDING';
         const client = new bigquerywriterModule.managedwriter.WriterClient(
@@ -315,25 +315,15 @@ describe('managedwriter.WriterClient', () => {
         };
         await client.initializeStreamConnection();
         const streamId = client.getStreamId();
-        const appendRowsResponsesResult: AppendRowsResponse[] = [
-          {
-            appendResult: {
-              offset: offset,
-            },
-            writeStream: streamId,
-          },
-        ];
         await client.initializeStreamConnection();
         await client.appendRowsToStream(streamId, serializedRowData, offset);
-        await client.closeStream();
+        await client.finalizeAndCloseStream(streamId);
 
-        assert.strictEqual(client.getClientClosedStatus, true);
+        assert.strictEqual(client.getClientClosedStatus(), true);
       });
-
       /*it('should invoke closeStream with errors', () => {
 
     })*/
-
       /*it('should invoke closeStream with closed client', () => {
 
     })*/

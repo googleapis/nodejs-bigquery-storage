@@ -44,22 +44,23 @@ type StreamConnections = {
   connections: streamConnectionsMap;
 };
 type WriteStream = protos.google.cloud.bigquery.storage.v1.IWriteStream;
-type AppendRowResponse =
+type AppendRowsResponse =
   protos.google.cloud.bigquery.storage.v1.AppendRowsResponse;
-type AppendRowRequest =
+type AppendRowsRequest =
   protos.google.cloud.bigquery.storage.v1.IAppendRowsRequest;
 type IInt64Value = protos.google.protobuf.IInt64Value;
 type ProtoData =
   protos.google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData;
 
 export class WriterClient {
-  private _opts: ClientOptions | undefined;
+  //private _opts: ClientOptions | undefined;
   private _parent: string;
   private _writeStreamType: WriteStream['type'] = 'TYPE_UNSPECIFIED';
   private _streamId: string;
   private _client: BigQueryWriteClient;
   private _connections: StreamConnections;
   private _client_closed: boolean;
+  private _appendRowsResponses: Promise<AppendRowsResponse>[];
 
   constructor(
     parent?: string,
@@ -68,13 +69,16 @@ export class WriterClient {
     writeStreamType?: WriteStream['type']
   ) {
     this._parent = parent ? parent : 'Please set a parent path';
-    this._client = new BigQueryWriteClient(bqWriteClientOpts) || client;
+    this._client = bqWriteClientOpts
+      ? new BigQueryWriteClient(bqWriteClientOpts)
+      : new BigQueryWriteClient() || client;
     this._writeStreamType = writeStreamType || this._writeStreamType;
     this._connections = {
       connection_list: [],
       connections: {},
     };
     this._streamId = 'Please open a connection to set connection name';
+    this._appendRowsResponses = [];
     this._client_closed = false;
   }
 
@@ -129,6 +133,10 @@ export class WriterClient {
     return this._client_closed;
   }
 
+  getAppendRowsResponses(): Promise<AppendRowsResponse>[] {
+    return this._appendRowsResponses;
+  }
+
   async initializeStreamConnection(clientOptions?: CallOptions): Promise<void> {
     if (this._client_closed) {
       this._client_closed = false;
@@ -169,15 +177,16 @@ export class WriterClient {
     streamConnection: WriteStream['name'],
     serializedRows: ProtoData,
     offsetValue: IInt64Value
-  ): Promise<AppendRowResponse[]> {
+  ): Promise<void> {
     const connection: gax.CancellableStream =
       this._connections.connections[`${streamConnection}`];
-    const request: AppendRowRequest = {
+    const request: AppendRowsRequest = {
       writeStream: streamConnection,
       protoRows: serializedRows,
       offset: offsetValue,
     };
-    const responses: AppendRowResponse[] = [];
+
+    const response: PendingAppendRowsResponse = new PendingAppendRowsResponse();
 
     connection.write(request);
 
@@ -185,35 +194,21 @@ export class WriterClient {
       throw err;
     });
 
-    connection.on('data', response => {
-      if (response.error) {
-        throw new Error(response.error.message);
-      }
-
-      if (response === undefined) {
-        throw new Error(`Response is undefined: ${response}`);
-      }
-      responses.push(response);
-
-      if (responses.length === 1) {
-        connection.end(() => {
-          this.closeStream();
-        });
-      }
+    connection.on('data', async res => {
+      await response._handleAppendRowsResponseData(res);
+      this._appendRowsResponses.push(response._getAppendRowsResponse());
     });
-
-    try {
-      return responses;
-    } catch {
-      throw new Error('Response is undefined - something has gone wrong');
-    }
   }
 
-  async closeStream(): Promise<void> {
+  async finalizeAndCloseStream(
+    streamConnection: WriteStream['name']
+  ): Promise<void> {
     // API call completed.
     const writeStream = this._streamId;
     const writeStreams: string[] | null = [];
     writeStreams.push(writeStream);
+    const connection: gax.CancellableStream =
+      this._connections.connections[`${streamConnection}`];
 
     const finalizeStreamReq: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest =
       {
@@ -235,85 +230,119 @@ export class WriterClient {
       .batchCommitWriteStreams(batchCommitWriteStreamsReq)
       .then(result => console.log(result));
 
+    connection.end();
+    this._client.close();
     this._client_closed = true;
   }
 }
 
-//Example
-/*const type = protos.google.protobuf.FieldDescriptorProto.Type;
-const customer_record_pb = require('../../samples/customer_record_pb.js');
-const projectId = 'your-project';
-const datasetId = 'your_dataset_';
-const tableId = 'your_table';
-const exOpts: ClientOptions = {
-  projectId: projectId,
-};
-//const exParent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`
-const writer = new WriterClient(undefined, undefined, exOpts);
-const streamType: WriteStream['type'] = 'PENDING';
-writer.setWriteStreamType(streamType);
-writer.setParent(projectId, datasetId, tableId);
-writer.initializeStreamConnection().then(() => 'Stream initialized');
+class PendingAppendRowsResponse {
+  private _AppendRowsResponse: AppendRowsResponse | undefined;
 
-const protoDescriptorEx: ProtoDescriptor = {};
-protoDescriptorEx.name = 'CustomerRecord';
-protoDescriptorEx.field = [
-  {
-    name: 'customer_name',
-    number: 1,
-    type: type.TYPE_STRING,
-  },
-  {
-    name: 'row_num',
-    number: 2,
-    type: type.TYPE_INT64,
-  },
-];
+  constructor() {
+    this._AppendRowsResponse = undefined;
+  }
 
-// Row 1
-const row1Message = new customer_record_pb.CustomerRecord();
-row1Message.row_num = 1;
-row1Message.setCustomerName('Octavia');
-
-// Row 2
-const row2Message = new customer_record_pb.CustomerRecord();
-row2Message.row_num = 2;
-row2Message.setCustomerName('Turing');
-
-const writerSchemaEx: ProtoSchema = {
-  protoDescriptor: protoDescriptorEx,
-};
-const serializedRowsEx: ProtoRows = {
-  serializedRows: [
-    row1Message.serializeBinary(),
-    row2Message.serializeBinary(),
-  ],
-};
-
-const rowData: ProtoData = {
-  rows: serializedRowsEx,
-  writerSchema: writerSchemaEx,
-};
-console.log(
-  `This is the length of the rows: ${rowData.rows?.serializedRows?.length}`
-);
-
-const offset: IInt64Value = {
-  value: 0,
-};
-
-writer
-  .initializeStreamConnection()
-  .then(() => 'Stream initialized')
-  .then(() =>
-    writer
-      .appendRowsToStream(writer.getStreamId(), rowData, offset)
-      .then(appendRowsResponses => {
-        console.log(`AppendRowsToStream has resolved: ${appendRowsResponses}`);
-      })
-  )
-  .then(() => {
-    writer.closeStream().then(res => {
-      console.log(`Close stream has been resolved: ${res}`);
+  async _handleAppendRowsResponseData(response: Promise<any>): Promise<void> {
+    response.then(res => {
+      try {
+        this._AppendRowsResponse = res;
+      } catch {
+        if (res.error) {
+          throw new Error(res.error.meessage);
+        } else {
+          throw new Error(
+            `Response to AppendRowsRequest cannot be undefined. Actual received response: ${res}`
+          );
+        }
+      }
     });
-  });*/
+  }
+  async _getAppendRowsResponse(): Promise<AppendRowsResponse> {
+    const response: AppendRowsResponse | undefined = this._AppendRowsResponse;
+
+    return new Promise(resolve => {
+      if (response != undefined) {
+        return resolve;
+      } else {
+        throw new Error('Response cannot return undefined.');
+      }
+    });
+  }
+}
+
+//Example
+/*async () => {
+  const writeStreamType = 'PENDING';
+  const client = new WriterClient();
+  client.setWriteStreamType(writeStreamType);
+
+  type CustomerRecord = customer_record.customer_record.ICustomerRecord;
+  const protoDescriptor: ProtoDescriptor = {};
+  protoDescriptor.name = 'CustomerRecord';
+  protoDescriptor.field = [
+    {
+      name: 'customer_name',
+      number: 1,
+      type: type.TYPE_STRING,
+    },
+    {
+      name: 'row_num',
+      number: 2,
+      type: type.TYPE_INT64,
+    },
+  ];
+
+  const schema: ProtoSchema = {
+    protoDescriptor: protoDescriptor,
+  };
+
+  const root = protobufjs.Root.fromJSON(customerRecordProtoJson);
+  if (!root) {
+    throw Error('Proto must not be undefined');
+  }
+
+  const CustomerRecordProto = root.lookupType('customer_record.CustomerRecord');
+  // Row 1
+  const row1: CustomerRecord = {
+    customerName: 'Lovelace',
+    rowNum: 1,
+  };
+  const row1Message = new CustomerRecordMessage(
+    row1.rowNum,
+    row1.customerName
+  ).createCustomerRecord();
+
+  const serializedRow1Message: Uint8Array =
+    CustomerRecordProto.encode(row1Message).finish();
+
+  // Row 2
+  const row2: CustomerRecord = {
+    customerName: 'Turing',
+    rowNum: 2,
+  };
+  const row2Message = new CustomerRecordMessage(
+    row2.rowNum,
+    row2.customerName
+  ).createCustomerRecord();
+
+  const serializedRow2Message: Uint8Array =
+    CustomerRecordProto.encode(row2Message).finish();
+  console.log(serializedRow1Message);
+  console.log(typeof serializedRow2Message);
+  const serializedRowData: ProtoData = {
+    writerSchema: schema,
+    rows: {
+      serializedRows: [serializedRow1Message, serializedRow2Message],
+    },
+  };
+
+  const offset: IInt64Value = {
+    value: 0,
+  };
+  await client.initializeStreamConnection();
+  const streamId = client.getStreamId();
+  await client.initializeStreamConnection();
+  await client.appendRowsToStream(streamId, serializedRowData, offset);
+  await client.finalizeAndCloseStream(streamId);
+};*/
