@@ -281,6 +281,7 @@ export function normalizeDescriptor(fds: FileDescriptorSet): DescriptorProto {
   if (!dp) {
     throw Error('root descriptor not found');
   }
+  dp.name = normalizeName(dp.name);
   for (const fdp of fds.file) {
     if (fdp.name === fdpName) {
       continue;
@@ -294,6 +295,10 @@ export function normalizeDescriptor(fds: FileDescriptorSet): DescriptorProto {
     dp.nestedType.push(...fdp.messageType);
   }
   return dp;
+}
+
+function normalizeName(name?: string | null): string {
+  return `${name}`.replace(/\./, '_');
 }
 
 export function fileDescriptorSetToNamespace(
@@ -321,7 +326,7 @@ export function protoDescriptorToNamespace(dp: DescriptorProto): Namespace {
   for (const f of dp.field || []) {
     fields[`${f.name}`] = descriptorProtoFieldToField(f);
   }
-  let result = {
+  const result = {
     nested: {
       [`${dp.name}`]: {
         fields,
