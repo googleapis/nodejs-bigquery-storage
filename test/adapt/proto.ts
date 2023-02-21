@@ -101,7 +101,8 @@ describe('AdaptProto', () => {
           },
         ],
       });
-      const protoDescriptor = adaptModule.normalizeDescriptor(fileDescriptorSet);
+      const protoDescriptor =
+        adaptModule.normalizeDescriptor(fileDescriptorSet);
       assert.notEqual(protoDescriptor, null);
       if (!protoDescriptor) {
         throw Error('null proto descriptor set');
@@ -156,7 +157,7 @@ describe('AdaptProto', () => {
         );
       if (!fileDescriptorSet) {
         throw Error('null file descriptor set');
-      }      
+      }
       assert.deepEqual(JSON.parse(JSON.stringify(fileDescriptorSet)), {
         file: [
           {
@@ -211,7 +212,8 @@ describe('AdaptProto', () => {
           },
         ],
       });
-      const protoDescriptor = adaptModule.normalizeDescriptor(fileDescriptorSet);
+      const protoDescriptor =
+        adaptModule.normalizeDescriptor(fileDescriptorSet);
       assert.notEqual(protoDescriptor, null);
       if (!protoDescriptor) {
         throw Error('null proto descriptor set');

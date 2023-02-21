@@ -20,7 +20,6 @@ type TableFieldSchema =
 type FieldDescriptorProto = protos.google.protobuf.IFieldDescriptorProto;
 type FileDescriptorProto = protos.google.protobuf.IFileDescriptorProto;
 type FileDescriptorSet = protos.google.protobuf.FileDescriptorSet;
-//type Namespace = protobuf.INamespace;
 type DescriptorProto = protos.google.protobuf.IDescriptorProto;
 type FieldDescriptorProtoType =
   protos.google.protobuf.FieldDescriptorProto['type'];
@@ -276,7 +275,7 @@ export function normalizeDescriptor(fds: FileDescriptorSet): DescriptorProto {
     const fdp = fds.file[0];
     fdpName = fdp.name;
     if (fdp.messageType && fdp.messageType.length > 0) {
-      dp = { ...fdp.messageType[0] };
+      dp = {...fdp.messageType[0]};
     }
   }
   if (!dp) {
@@ -327,7 +326,7 @@ export function protoDescriptorToNamespace(dp: DescriptorProto): Namespace {
       [`${dp.name}`]: {
         fields,
       },
-    }
+    },
   };
   for (const nested of dp.nestedType || []) {
     const nestedData = protoDescriptorToNamespace(nested);
