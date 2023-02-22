@@ -119,7 +119,17 @@ describe('writeClient', () => {
     assert.deepInclude(rows, {customer_name: 'bell'});
   });
 
-  it('should append rows with multiple types', async () => {
+  describe('should append rows with multiple types', async () => {
+    it('protofile generated stub', async () => {
+      return testAppendRowsMultipleType('append_rows_proto2');
+    });
+
+    it('BQ Schema to Proto adapt', async () => {
+      return testAppendRowsMultipleType('append_rows_adapt_proto2');
+    });
+  });
+
+  async function testAppendRowsMultipleType(testFile) {
     const schema = [
       {name: 'bool_col', type: 'BOOLEAN'},
       {name: 'bytes_col', type: 'BYTES'},
@@ -157,7 +167,7 @@ describe('writeClient', () => {
     projectId = table.metadata.tableReference.projectId;
 
     const output = execSync(
-      `node append_rows_proto2 ${projectId} ${datasetId} ${tableId}`
+      `node ${testFile} ${projectId} ${datasetId} ${tableId}`
     );
 
     assert.match(output, /Stream created:/);
@@ -222,7 +232,7 @@ describe('writeClient', () => {
       {struct_list: [{sub_int_col: 100}, {sub_int_col: 101}]},
       {row_num: 15},
     ]);
-  });
+  }
 
   // Only delete a resource if it is older than 24 hours. That will prevent
   // collisions with parallel CI test runs.
