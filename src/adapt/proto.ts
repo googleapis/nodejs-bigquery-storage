@@ -20,7 +20,7 @@ type TableFieldSchema =
 type FieldDescriptorProto = protos.google.protobuf.IFieldDescriptorProto;
 type FileDescriptorProto = protos.google.protobuf.IFileDescriptorProto;
 type FileDescriptorSet = protos.google.protobuf.FileDescriptorSet;
-type DescriptorProto = protos.google.protobuf.IDescriptorProto;
+type DescriptorProto = protos.google.protobuf.DescriptorProto;
 type FieldDescriptorProtoType =
   protos.google.protobuf.FieldDescriptorProto['type'];
 type TableFieldSchemaType =
@@ -77,34 +77,35 @@ const packedTypes: FieldDescriptorProtoType[] = [
   FieldDescriptorProto.Type.TYPE_ENUM,
 ];
 
+// Reference https://cloud.google.com/bigquery/docs/write-api#data_type_conversions
 const bqTypeToFieldTypeMap: Record<
   TableFieldSchemaType,
   FieldDescriptorProtoType | null
 > = {
-  [TableFieldSchema.Type.BIGNUMERIC]: FieldDescriptorProto.Type.TYPE_BYTES,
-  BIGNUMERIC: FieldDescriptorProto.Type.TYPE_BYTES,
+  [TableFieldSchema.Type.BIGNUMERIC]: FieldDescriptorProto.Type.TYPE_STRING,
+  BIGNUMERIC: FieldDescriptorProto.Type.TYPE_STRING,
   [TableFieldSchema.Type.BOOL]: FieldDescriptorProto.Type.TYPE_BOOL,
   BOOL: FieldDescriptorProto.Type.TYPE_BOOL,
   [TableFieldSchema.Type.BYTES]: FieldDescriptorProto.Type.TYPE_BYTES,
   BYTES: FieldDescriptorProto.Type.TYPE_BYTES,
   [TableFieldSchema.Type.DATE]: FieldDescriptorProto.Type.TYPE_INT32,
   DATE: FieldDescriptorProto.Type.TYPE_INT32,
-  [TableFieldSchema.Type.DATETIME]: FieldDescriptorProto.Type.TYPE_INT64,
-  DATETIME: FieldDescriptorProto.Type.TYPE_INT64,
+  [TableFieldSchema.Type.DATETIME]: FieldDescriptorProto.Type.TYPE_STRING,
+  DATETIME: FieldDescriptorProto.Type.TYPE_STRING,
   [TableFieldSchema.Type.DOUBLE]: FieldDescriptorProto.Type.TYPE_DOUBLE,
   DOUBLE: FieldDescriptorProto.Type.TYPE_DOUBLE,
   [TableFieldSchema.Type.GEOGRAPHY]: FieldDescriptorProto.Type.TYPE_STRING,
   GEOGRAPHY: FieldDescriptorProto.Type.TYPE_STRING,
   [TableFieldSchema.Type.INT64]: FieldDescriptorProto.Type.TYPE_INT64,
   INT64: FieldDescriptorProto.Type.TYPE_INT64,
-  [TableFieldSchema.Type.NUMERIC]: FieldDescriptorProto.Type.TYPE_BYTES,
-  NUMERIC: FieldDescriptorProto.Type.TYPE_BYTES,
+  [TableFieldSchema.Type.NUMERIC]: FieldDescriptorProto.Type.TYPE_STRING,
+  NUMERIC: FieldDescriptorProto.Type.TYPE_STRING,
   [TableFieldSchema.Type.STRING]: FieldDescriptorProto.Type.TYPE_STRING,
   STRING: FieldDescriptorProto.Type.TYPE_STRING,
   [TableFieldSchema.Type.STRUCT]: FieldDescriptorProto.Type.TYPE_MESSAGE,
   STRUCT: FieldDescriptorProto.Type.TYPE_MESSAGE,
-  [TableFieldSchema.Type.TIME]: FieldDescriptorProto.Type.TYPE_INT64,
-  TIME: FieldDescriptorProto.Type.TYPE_INT64,
+  [TableFieldSchema.Type.TIME]: FieldDescriptorProto.Type.TYPE_STRING,
+  TIME: FieldDescriptorProto.Type.TYPE_STRING,
   [TableFieldSchema.Type.TIMESTAMP]: FieldDescriptorProto.Type.TYPE_INT64,
   TIMESTAMP: FieldDescriptorProto.Type.TYPE_INT64,
   [TableFieldSchema.Type.JSON]: FieldDescriptorProto.Type.TYPE_STRING,
@@ -250,10 +251,11 @@ function convertStorageSchemaToFileDescriptorInternal(
   });
 
   const depsNames: string[] = Object.keys(deps);
+  const syntax = useProto3 ? 'proto3' : 'proto2';
   const fdp = new FileDescriptorProto({
     messageType: [dp],
     name: `${scope}.proto`,
-    syntax: useProto3 ? 'proto3' : 'proto2',
+    syntax,
     dependency: depsNames,
   });
 
@@ -272,16 +274,16 @@ export function normalizeDescriptor(fds: FileDescriptorSet): DescriptorProto {
   let dp: DescriptorProto | null = null;
   let fdpName;
   if (fds.file.length > 0) {
+    // search root descriptor
     const fdp = fds.file[0];
     fdpName = fdp.name;
     if (fdp.messageType && fdp.messageType.length > 0) {
-      dp = {...fdp.messageType[0]};
+      dp = new DescriptorProto(fdp.messageType[0]);
     }
   }
   if (!dp) {
     throw Error('root descriptor not found');
   }
-  dp.name = normalizeName(dp.name);
   for (const fdp of fds.file) {
     if (fdp.name === fdpName) {
       continue;
@@ -292,13 +294,30 @@ export function normalizeDescriptor(fds: FileDescriptorSet): DescriptorProto {
     if (!fdp.messageType) {
       continue;
     }
-    dp.nestedType.push(...fdp.messageType);
+    for (const nestedDP of fdp.messageType) {
+      dp.nestedType.push(
+        normalizeDescriptorProto(new DescriptorProto(nestedDP))
+      );
+    }
+  }
+  return normalizeDescriptorProto(dp);
+}
+
+function normalizeDescriptorProto(dp: DescriptorProto): DescriptorProto {
+  dp.name = normalizeName(dp.name);
+  for (const f of dp.field) {
+    if (f.proto3Optional) {
+      f.proto3Optional = null;
+    }
+    if (f.oneofIndex) {
+      f.oneofIndex = null;
+    }
   }
   return dp;
 }
 
-function normalizeName(name?: string | null): string {
-  return `${name}`.replace(/\./, '_');
+function normalizeName(name: string): string {
+  return name.replace(/\./, '_');
 }
 
 export function fileDescriptorSetToNamespace(
@@ -312,7 +331,7 @@ export function fileDescriptorSetToNamespace(
       if (!ns.nested) {
         ns.nested = {};
       }
-      const data = protoDescriptorToNamespace(dp);
+      const data = protoDescriptorToNamespace(new DescriptorProto(dp));
       for (const key of Object.keys(data.nested)) {
         ns.nested[`${key}`] = data.nested[key];
       }
@@ -334,7 +353,7 @@ export function protoDescriptorToNamespace(dp: DescriptorProto): Namespace {
     },
   };
   for (const nested of dp.nestedType || []) {
-    const nestedData = protoDescriptorToNamespace(nested);
+    const nestedData = protoDescriptorToNamespace(new DescriptorProto(nested));
     for (const key of Object.keys(nestedData.nested)) {
       const data = nestedData.nested[key];
       if (data) {
@@ -360,6 +379,7 @@ function descriptorProtoFieldToField(
     id: field.number || -1,
     type: type,
     rule: labelToFieldRule(field.label),
+    options: optionToFieldOption(field.options),
   };
 }
 
@@ -370,13 +390,24 @@ function labelToFieldRule(label?: FieldDescriptorProto['label']): IFieldRule {
   return labelToFieldRuleMap[label];
 }
 
+function optionToFieldOption(
+  options: FieldDescriptorProto['options']
+): protobuf.IField['options'] {
+  if (!options) {
+    return {};
+  }
+  return {
+    ...options,
+  };
+}
+
 function convertTableFieldSchemaToFieldDescriptorProto(
   field: TableFieldSchema,
   fNumber: number,
   scope: string,
   useProto3: boolean
 ): FieldDescriptorProto {
-  const name = field.name;
+  const name = `${field.name}`.toLowerCase();
   const type = field.type;
   if (!type) {
     throw Error(`table field ${name} missing type`);
@@ -387,6 +418,7 @@ function convertTableFieldSchemaToFieldDescriptorProto(
     fdp = new FieldDescriptorProto({
       name: name,
       number: fNumber,
+      type: FieldDescriptorProto.Type.TYPE_MESSAGE,
       typeName: scope,
       label: label,
     });
@@ -397,9 +429,9 @@ function convertTableFieldSchemaToFieldDescriptorProto(
     }
     fdp = new FieldDescriptorProto({
       name: field.name,
+      number: fNumber,
       type: pType,
       label: label,
-      number: fNumber,
       options: {
         packed: shouldPackType(pType, label, useProto3),
       },
@@ -426,9 +458,9 @@ function shouldPackType(
 function isProto3Optional(
   label: FieldDescriptorProtoLabel | null,
   useProto3: boolean
-): boolean | null {
+): boolean | undefined {
   if (!useProto3) {
-    return null;
+    return undefined;
   }
   return label === FieldDescriptorProto.Label.LABEL_OPTIONAL;
 }

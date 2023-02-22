@@ -107,8 +107,8 @@ describe('AdaptProto', () => {
       if (!protoDescriptor) {
         throw Error('null proto descriptor set');
       }
-      const json = adaptModule.protoDescriptorToNamespace(protoDescriptor);
-      const root = Root.fromJSON(json);
+      const namespace = adaptModule.protoDescriptorToNamespace(protoDescriptor);
+      const root = Root.fromJSON(namespace);
       const TestProto = root.lookupType('Test');
       const raw = {
         foo: 'name',
@@ -146,6 +146,23 @@ describe('AdaptProto', () => {
               },
             ],
           },
+          {
+            name: 'metadata',
+            type: 'STRUCT',
+            mode: 'NULLABLE',
+            fields: [
+              {
+                name: 'createdAt',
+                type: 'TIMESTAMP',
+                mode: 'REQUIRED',
+              },
+              {
+                name: 'updatedAt',
+                type: 'TIMESTAMP',
+                mode: 'NULLABLE',
+              },
+            ],
+          },
         ],
       };
       const storageSchema =
@@ -162,7 +179,7 @@ describe('AdaptProto', () => {
         file: [
           {
             name: 'Nested.proto',
-            dependency: ['Nested_details.proto'],
+            dependency: ['Nested_details.proto', 'Nested_metadata.proto'],
             messageType: [
               {
                 name: 'Nested',
@@ -178,7 +195,15 @@ describe('AdaptProto', () => {
                     name: 'details',
                     number: 2,
                     label: 'LABEL_REPEATED',
+                    type: 'TYPE_MESSAGE',
                     typeName: 'Nested_details',
+                  },
+                  {
+                    name: 'metadata',
+                    number: 3,
+                    label: 'LABEL_OPTIONAL',
+                    type: 'TYPE_MESSAGE',
+                    typeName: 'Nested_metadata',
                   },
                 ],
               },
@@ -210,6 +235,31 @@ describe('AdaptProto', () => {
             ],
             syntax: 'proto2',
           },
+          {
+            name: 'Nested_metadata.proto',
+            messageType: [
+              {
+                name: 'Nested_metadata',
+                field: [
+                  {
+                    name: 'createdAt',
+                    number: 1,
+                    label: 'LABEL_REQUIRED',
+                    type: 'TYPE_INT64',
+                    options: {packed: false},
+                  },
+                  {
+                    name: 'updatedAt',
+                    number: 2,
+                    label: 'LABEL_OPTIONAL',
+                    type: 'TYPE_INT64',
+                    options: {packed: false},
+                  },
+                ],
+              },
+            ],
+            syntax: 'proto2',
+          },
         ],
       });
       const protoDescriptor =
@@ -218,8 +268,74 @@ describe('AdaptProto', () => {
       if (!protoDescriptor) {
         throw Error('null proto descriptor set');
       }
-      const json = adaptModule.protoDescriptorToNamespace(protoDescriptor);
-      const root = Root.fromJSON(json);
+      assert.deepEqual(JSON.parse(JSON.stringify(protoDescriptor)), {
+        name: 'Nested',
+        field: [
+          {
+            name: 'record_id',
+            number: 1,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_INT64',
+            options: {packed: false},
+          },
+          {
+            name: 'details',
+            number: 2,
+            label: 'LABEL_REPEATED',
+            type: 'TYPE_MESSAGE',
+            typeName: 'Nested_details',
+          },
+          {
+            name: 'metadata',
+            number: 3,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_MESSAGE',
+            typeName: 'Nested_metadata',
+          },
+        ],
+        nestedType: [
+          {
+            name: 'Nested_details',
+            field: [
+              {
+                name: 'key',
+                number: 1,
+                label: 'LABEL_REQUIRED',
+                type: 'TYPE_STRING',
+                options: {packed: false},
+              },
+              {
+                name: 'value',
+                number: 2,
+                label: 'LABEL_OPTIONAL',
+                type: 'TYPE_STRING',
+                options: {packed: false},
+              },
+            ],
+          },
+          {
+            name: 'Nested_metadata',
+            field: [
+              {
+                name: 'createdAt',
+                number: 1,
+                label: 'LABEL_REQUIRED',
+                type: 'TYPE_INT64',
+                options: {packed: false},
+              },
+              {
+                name: 'updatedAt',
+                number: 2,
+                label: 'LABEL_OPTIONAL',
+                type: 'TYPE_INT64',
+                options: {packed: false},
+              },
+            ],
+          },
+        ],
+      });
+      const namespace = adaptModule.protoDescriptorToNamespace(protoDescriptor);
+      const root = Root.fromJSON(namespace);
       const NestedProto = root.lookupType('Nested');
       const raw = {
         record_id: '12345',
@@ -227,6 +343,10 @@ describe('AdaptProto', () => {
           {key: 'name', value: 'jimmy'},
           {key: 'title', value: 'clown'},
         ],
+        metadata: {
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+        },
       };
       const serialized = NestedProto.encode(raw).finish();
       const decoded = NestedProto.decode(serialized).toJSON();
