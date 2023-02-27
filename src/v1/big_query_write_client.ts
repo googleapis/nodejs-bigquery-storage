@@ -377,7 +377,7 @@ export class BigQueryWriteClient {
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [WriteStream]{@link google.cloud.bigquery.storage.v1.WriteStream}.
+   *   The first element of the array is an object representing {@link google.cloud.bigquery.storage.v1.WriteStream | WriteStream}.
    *   Please see the
    *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods)
    *   for more details and examples.
@@ -478,7 +478,7 @@ export class BigQueryWriteClient {
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [WriteStream]{@link google.cloud.bigquery.storage.v1.WriteStream}.
+   *   The first element of the array is an object representing {@link google.cloud.bigquery.storage.v1.WriteStream | WriteStream}.
    *   Please see the
    *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods)
    *   for more details and examples.
@@ -577,7 +577,7 @@ export class BigQueryWriteClient {
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [FinalizeWriteStreamResponse]{@link google.cloud.bigquery.storage.v1.FinalizeWriteStreamResponse}.
+   *   The first element of the array is an object representing {@link google.cloud.bigquery.storage.v1.FinalizeWriteStreamResponse | FinalizeWriteStreamResponse}.
    *   Please see the
    *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods)
    *   for more details and examples.
@@ -682,7 +682,7 @@ export class BigQueryWriteClient {
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [BatchCommitWriteStreamsResponse]{@link google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsResponse}.
+   *   The first element of the array is an object representing {@link google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsResponse | BatchCommitWriteStreamsResponse}.
    *   Please see the
    *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods)
    *   for more details and examples.
@@ -793,7 +793,7 @@ export class BigQueryWriteClient {
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [FlushRowsResponse]{@link google.cloud.bigquery.storage.v1.FlushRowsResponse}.
+   *   The first element of the array is an object representing {@link google.cloud.bigquery.storage.v1.FlushRowsResponse | FlushRowsResponse}.
    *   Please see the
    *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods)
    *   for more details and examples.
@@ -912,8 +912,8 @@ export class BigQueryWriteClient {
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Stream}
    *   An object stream which is both readable and writable. It accepts objects
-   *   representing [AppendRowsRequest]{@link google.cloud.bigquery.storage.v1.AppendRowsRequest} for write() method, and
-   *   will emit objects representing [AppendRowsResponse]{@link google.cloud.bigquery.storage.v1.AppendRowsResponse} on 'data' event asynchronously.
+   *   representing {@link google.cloud.bigquery.storage.v1.AppendRowsRequest | AppendRowsRequest} for write() method, and
+   *   will emit objects representing {@link google.cloud.bigquery.storage.v1.AppendRowsResponse | AppendRowsResponse} on 'data' event asynchronously.
    *   Please see the
    *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#bi-directional-streaming)
    *   for more details and examples.

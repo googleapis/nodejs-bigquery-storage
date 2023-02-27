@@ -4206,6 +4206,9 @@ export namespace google {
 
                         /** TableFieldSchema scale */
                         scale?: (number|Long|string|null);
+
+                        /** TableFieldSchema defaultValueExpression */
+                        defaultValueExpression?: (string|null);
                     }
 
                     /** Represents a TableFieldSchema. */
@@ -4240,6 +4243,9 @@ export namespace google {
 
                         /** TableFieldSchema scale. */
                         public scale: (number|Long|string);
+
+                        /** TableFieldSchema defaultValueExpression. */
+                        public defaultValueExpression: string;
 
                         /**
                          * Creates a new TableFieldSchema instance using the specified properties.

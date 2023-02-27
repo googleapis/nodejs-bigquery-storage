@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v3.2.1...v3.3.0) (2023-01-25)
+
+
+### Features
+
+* Added SuggestConversationSummary RPC ([#318](https://github.com/googleapis/nodejs-bigquery-storage/issues/318)) ([60d2ed1](https://github.com/googleapis/nodejs-bigquery-storage/commit/60d2ed1bed62611e342e41a45f831307704a5834))
+
 ## [3.2.1](https://github.com/googleapis/nodejs-bigquery-storage/compare/v3.2.0...v3.2.1) (2023-01-11)
 
 
