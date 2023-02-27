@@ -2,7 +2,7 @@
 **/node_modules
 .coverage
 coverage
-.editorconfig
+samples/coverage
 .nyc_output
 docs/
 out/
