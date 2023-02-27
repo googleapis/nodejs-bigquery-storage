@@ -230,7 +230,7 @@ class PendingWrite {
   private result?: AppendRowsResponse;
   private promise: Promise<AppendRowsResponse>;
   private resolveFunc?: (response: AppendRowsResponse) => void;
-  private rejectFunc?: (reason?: any) => void;
+  private rejectFunc?: (reason?: protos.google.rpc.IStatus) => void;
 
   constructor() {
     this.promise = new Promise((resolve, reject) => {
