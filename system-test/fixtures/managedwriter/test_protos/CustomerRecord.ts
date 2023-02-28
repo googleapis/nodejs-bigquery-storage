@@ -18,7 +18,7 @@
 
 import {Root, Message} from 'protobufjs'; // respectively "./node_modules/protobufjs"
 import * as CustomerRecord from './customer_record';
-import customerRecordProtoJson = require('../../managedwriter/test_protos/customer_record.json');
+import customerRecordProtoJson = require('./customer_record.json');
 
 export class CustomerRecordMessage extends Message<CustomerRecordMessage> {
   private _customer_name: string | null | undefined =

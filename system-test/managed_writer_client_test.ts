@@ -16,11 +16,11 @@ import * as assert from 'assert';
 import {describe, it} from 'mocha';
 import * as uuid from 'uuid';
 import {BigQuery} from '@google-cloud/bigquery';
-import * as protos from '../../protos/protos';
-import * as bigquerywriterModule from '../../src';
+import * as protos from '../protos/protos';
+import * as bigquerywriterModule from '../src';
 import {ClientOptions, protobuf} from 'google-gax';
-import * as customerprotos from './test_protos/customer_record';
-import * as customerRecordProtoJson from './test_protos/customer_record.json';
+import * as customerprotos from './fixtures/managedwriter/test_protos/customer_record';
+import * as customerRecordProtoJson from './fixtures/managedwriter/test_protos/customer_record.json';
 
 type WriteStream = protos.google.cloud.bigquery.storage.v1.IWriteStream;
 type ProtoDescriptor = protos.google.protobuf.IDescriptorProto;
