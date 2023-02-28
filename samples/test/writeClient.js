@@ -159,7 +159,6 @@ describe('writeClient', () => {
     const output = execSync(
       `node append_rows_proto2 ${projectId} ${datasetId} ${tableId}`
     );
-
     assert.match(output, /Stream created:/);
     assert.match(output, /Row count: 15/);
 

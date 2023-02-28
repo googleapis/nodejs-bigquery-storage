@@ -213,18 +213,15 @@ describe('managedwriter.WriterClient', () => {
       const serializedRow2Message: Uint8Array =
         CustomerRecord.encode(row2Message).finish();
 
-      console.log(serializedRow1Message);
-      console.log(typeof serializedRow2Message);
-
-      const offset: IInt64Value = {
-        value: '0',
-      };
+      const offset: IInt64Value['value'] = '0';
 
       const streamName = await client.createWriteStream();
       const appendRowsResponsesResult: AppendRowsResponse[] = [
         {
           appendResult: {
-            offset: offset,
+            offset: {
+              value: offset,
+            },
           },
           writeStream: streamName,
         },
@@ -234,7 +231,7 @@ describe('managedwriter.WriterClient', () => {
           streamName,
           protoDescriptor
         );
-        const pw = await managedStream.appendRows(
+        const pw = managedStream.appendRows(
           {
             serializedRows: [serializedRow1Message, serializedRow2Message],
           },
@@ -307,9 +304,6 @@ describe('managedwriter.WriterClient', () => {
       const row2Message = CustomerRecord.create(row2);
       const serializedRow2Message: Uint8Array =
         CustomerRecord.encode(row2Message).finish();
-
-      console.log(serializedRow1Message);
-      console.log(typeof serializedRow2Message);
 
       const appendRowsResponsesResult: AppendRowsResponse[] = [
         {
@@ -406,12 +400,7 @@ describe('managedwriter.WriterClient', () => {
       const serializedRow2Message: Uint8Array =
         CustomerRecord.encode(row2Message).finish();
 
-      console.log(serializedRow1Message);
-      console.log(typeof serializedRow2Message);
-
-      const offset: IInt64Value = {
-        value: 0,
-      };
+      const offset: number = 0;
 
       client
         .createWriteStream()

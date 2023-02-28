@@ -65,7 +65,6 @@ export class CustomerRecordMessage extends Message<CustomerRecordMessage> {
     }
 
     const customerRecordMsg = CustomerRecordProto.create(newCustomerRecord);
-    console.log(customerRecordMsg);
     return customerRecordMsg;
   }
 }

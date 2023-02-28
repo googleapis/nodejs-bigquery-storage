@@ -69,7 +69,7 @@ export class WriterClient {
     writeStreamType?: WriteStreamType
   ) {
     this._parent = parent ? parent : 'Please set a parent path';
-    this._client = new BigQueryWriteClient(bqWriteClientOpts) || client;
+    this._client = client || new BigQueryWriteClient(bqWriteClientOpts);
     this._writeStreamType = writeStreamType || this._writeStreamType;
     this._connections = {
       connectionList: [],
@@ -77,6 +77,21 @@ export class WriterClient {
     };
     this._client_closed = false;
   }
+
+  /**
+   * Initialize the client.
+   * Performs asynchronous operations (such as authentication) and prepares the client.
+   * This function will be called automatically when any class method is called for the
+   * first time, but if you need to initialize it before calling an actual method,
+   * feel free to call initialize() directly.
+   *
+   * You can await on this method if you want to make sure the client is initialized.
+   *
+   * @returns {Promise} A promise that resolves when auth is complete.
+   */
+  initialize = async (): Promise<void> => {
+    await this._client.initialize();
+  };
 
   setParent = (projectId: string, datasetId: string, tableId: string): void => {
     const parent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
@@ -133,6 +148,7 @@ export class WriterClient {
     if (this._client_closed) {
       this._client_closed = false;
     }
+    await this.initialize();
     const streamType = this.getWriteStreamType();
     const request: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest =
       {
@@ -164,6 +180,7 @@ export class WriterClient {
     if (this._client_closed) {
       this._client_closed = false;
     }
+    await this.initialize();
     const streamType = this.getWriteStreamType();
     try {
       const fullStreamId = this.resolveStreamId(streamId);
@@ -195,6 +212,7 @@ export class WriterClient {
   async batchCommitWriteStream(
     req: BatchCommitWriteStreamsRequest
   ): Promise<BatchCommitWriteStreamsResponse> {
+    await this.initialize();
     const [res] = await this._client.batchCommitWriteStreams(req);
     return res;
   }
@@ -260,6 +278,7 @@ export class ManagedStream {
   private _writeClient: WriterClient;
   private _streamConnection: StreamConnection;
   private _pendingWrites: PendingWrite[];
+  private _open: boolean;
 
   constructor(
     streamId: string,
@@ -274,12 +293,13 @@ export class ManagedStream {
     this._streamConnection = streamConnection;
     this._writeStreamType = writeStreamType;
     this._pendingWrites = [];
+    this._open = true;
     streamConnection.connection.on('data', this._handleData);
     streamConnection.connection.on('error', err => {
       console.log('error:', err);
     });
     streamConnection.connection.on('end', () => {
-      console.log('conn ended for stream:', streamId);
+      this._open  = false;
     });
   }
 
@@ -302,10 +322,16 @@ export class ManagedStream {
     this._streamId = streamId;
   };
 
-  async appendRows(
+  appendRows(
     rows: ProtoData['rows'],
-    offsetValue?: IInt64Value
-  ): Promise<PendingWrite> {
+    offsetValue?: IInt64Value['value']
+  ): PendingWrite {
+    let offset: AppendRowRequest['offset'];
+    if (offsetValue) {
+      offset = {
+        value: offsetValue,
+      };
+    }
     const request: AppendRowRequest = {
       writeStream: this._streamId,
       protoRows: {
@@ -314,7 +340,7 @@ export class ManagedStream {
           protoDescriptor: this._protoDescriptor,
         },
       },
-      offset: offsetValue,
+      offset,
     };
 
     const pw = new PendingWrite();
@@ -322,6 +348,10 @@ export class ManagedStream {
       this._pendingWrites.unshift(pw);
     });
     return pw;
+  }
+
+  isOpen(): boolean {
+    return this._open;
   }
 
   async close() {
