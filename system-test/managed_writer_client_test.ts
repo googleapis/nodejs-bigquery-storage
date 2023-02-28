@@ -400,7 +400,7 @@ describe('managedwriter.WriterClient', () => {
       const serializedRow2Message: Uint8Array =
         CustomerRecord.encode(row2Message).finish();
 
-      const offset: number = 0;
+      const offset = 0;
 
       client
         .createWriteStream()

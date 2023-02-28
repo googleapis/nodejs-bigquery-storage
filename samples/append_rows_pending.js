@@ -62,13 +62,12 @@ function main(
       parent,
       null,
       {
-        projectId
+        projectId,
       },
       mode.PENDING
     );
     try {
-      let streamName = await writeClient.createWriteStream();
-
+      const streamName = await writeClient.createWriteStream();
       console.log(`Stream created: ${streamName}`);
 
       // Append data to the given stream.
@@ -78,7 +77,7 @@ function main(
       );
 
       let serializedRows = [];
-      let pendingWrites = [];
+      const pendingWrites = [];
 
       // Row 1
       let row = new customer_record_pb.CustomerRecord();

@@ -173,7 +173,7 @@ function main(
       );
 
       let serializedRows = [];
-      let pendingWrites = [];
+      const pendingWrites = [];
 
       // Row 1
       let row = new sample_data_pb.SampleData();

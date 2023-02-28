@@ -299,7 +299,7 @@ export class ManagedStream {
       console.log('error:', err);
     });
     streamConnection.connection.on('end', () => {
-      this._open  = false;
+      this._open = false;
     });
   }
 
