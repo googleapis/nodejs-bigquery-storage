@@ -56,25 +56,21 @@ function main(
     // datasetId = 'my_dataset';
     // tableId = 'my_table';
 
-    const parent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
-
-    const writeClient = new WriterClient(
-      parent,
-      null,
-      {
-        projectId,
-      },
-      mode.PENDING
-    );
+    const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
+    const streamType = mode.PENDING;
+    const writeClient = new WriterClient({projectId});
     try {
-      const streamName = await writeClient.createWriteStream();
-      console.log(`Stream created: ${streamName}`);
+      const streamId = await writeClient.createWriteStream({
+        streamType,
+        destinationTable,
+      });
+      console.log(`Stream created: ${streamId}`);
 
       // Append data to the given stream.
-      const managedStream = await writeClient.createManagedStream(
-        streamName,
-        protoDescriptor
-      );
+      const managedStream = await writeClient.createManagedStream({
+        streamId,
+        protoDescriptor,
+      });
 
       let serializedRows = [];
       const pendingWrites = [];
@@ -127,8 +123,8 @@ function main(
       console.log(`Row count: ${rowCount}`);
 
       const response = await writeClient.batchCommitWriteStream({
-        parent,
-        writeStreams: [streamName],
+        parent: destinationTable,
+        writeStreams: [streamId],
       });
 
       console.log(response);

@@ -17,10 +17,12 @@ import {describe, it} from 'mocha';
 import * as uuid from 'uuid';
 import {BigQuery} from '@google-cloud/bigquery';
 import * as protos from '../protos/protos';
-import * as bigquerywriterModule from '../src';
+import * as bigquerywriter from '../src';
 import {ClientOptions, protobuf} from 'google-gax';
 import * as customerprotos from './fixtures/managedwriter/test_protos/customer_record';
 import * as customerRecordProtoJson from './fixtures/managedwriter/test_protos/customer_record.json';
+
+const {managedwriter} = bigquerywriter;
 
 type WriteStream = protos.google.cloud.bigquery.storage.v1.IWriteStream;
 type ProtoDescriptor = protos.google.protobuf.IDescriptorProto;
@@ -48,9 +50,8 @@ const CustomerRecord = root.lookupType('customer_record.CustomerRecord');
 describe('managedwriter.WriterClient', () => {
   let projectId: string;
   let parent: string;
-  let bqWriteClient: bigquerywriterModule.BigQueryWriteClient;
+  let bqWriteClient: bigquerywriter.BigQueryWriteClient;
   let clientOptions: ClientOptions;
-  let writeStreamType: WriteStream['type'];
 
   before(async () => {
     await bigquery.createDataset(datasetId);
@@ -79,8 +80,7 @@ describe('managedwriter.WriterClient', () => {
   });
 
   beforeEach(async () => {
-    writeStreamType = 'TYPE_UNSPECIFIED';
-    bqWriteClient = new bigquerywriterModule.BigQueryWriteClient({
+    bqWriteClient = new bigquerywriter.BigQueryWriteClient({
       projectId: projectId,
     });
     clientOptions = {
@@ -94,35 +94,23 @@ describe('managedwriter.WriterClient', () => {
 
   describe('Common methods', () => {
     it('should create a client without arguments', () => {
-      const client = new bigquerywriterModule.managedwriter.WriterClient();
-      client.setParent(projectId, datasetId, tableId);
-      assert(client);
-      assert.strictEqual(client.getParent(), parent);
+      const client = new managedwriter.WriterClient();
       assert(client.getClient());
-      assert.strictEqual(client.getWriteStreamType(), 'TYPE_UNSPECIFIED');
     });
 
     it('should create a client with arguments: parent, client, opts, writeStream', async () => {
-      const client = new bigquerywriterModule.managedwriter.WriterClient(
-        parent,
-        bqWriteClient,
-        clientOptions,
-        writeStreamType
-      );
-      assert(client);
-      assert.strictEqual(client.getParent(), parent);
+      const client = new managedwriter.WriterClient(clientOptions);
       assert(client.getClient());
       const clientId = await client.getClient().getProjectId();
       assert.strictEqual(clientId, clientOptions.projectId);
-      assert.strictEqual(client.getWriteStreamType(), 'TYPE_UNSPECIFIED');
     });
   });
 
   /*describe('initializeStreamConnection', () => {
     it('should invoke initalizeStreamConnection with or without clientOptions without errors', async () => {
       await bqWriteClient.initialize();
-      writeStreamType = 'PENDING';
-      const client = new bigquerywriterModule.managedwriter.WriterClient(
+      writeStreamType = managedwriter.PendingStream;
+      const client = new managedwriter.WriterClient(
         parent,
         bqWriteClient,
         undefined,
@@ -172,13 +160,9 @@ describe('managedwriter.WriterClient', () => {
   describe('appendRowsToStream', () => {
     it('should invoke appendRowsToStream without errors', async () => {
       bqWriteClient.initialize();
-      const writeStreamType: WriteStream['type'] = 'PENDING';
-      const client = new bigquerywriterModule.managedwriter.WriterClient(
-        parent,
-        bqWriteClient,
-        undefined,
-        writeStreamType
-      );
+      const streamType: WriteStream['type'] = managedwriter.PendingStream;
+      const client = new managedwriter.WriterClient();
+      client.setClient(bqWriteClient);
 
       const protoDescriptor: ProtoDescriptor = {};
       protoDescriptor.name = 'CustomerRecord';
@@ -215,7 +199,10 @@ describe('managedwriter.WriterClient', () => {
 
       const offset: IInt64Value['value'] = '0';
 
-      const streamName = await client.createWriteStream();
+      const streamId = await client.createWriteStream({
+        streamType,
+        destinationTable: parent,
+      });
       const appendRowsResponsesResult: AppendRowsResponse[] = [
         {
           appendResult: {
@@ -223,14 +210,14 @@ describe('managedwriter.WriterClient', () => {
               value: offset,
             },
           },
-          writeStream: streamName,
+          writeStream: streamId,
         },
       ];
       try {
-        const managedStream = await client.createManagedStream(
-          streamName,
-          protoDescriptor
-        );
+        const managedStream = await client.createManagedStream({
+          streamId,
+          protoDescriptor,
+        });
         const pw = managedStream.appendRows(
           {
             serializedRows: [serializedRow1Message, serializedRow2Message],
@@ -252,8 +239,8 @@ describe('managedwriter.WriterClient', () => {
         assert.equal(rowCount, 2);
 
         const commitResponse = await client.batchCommitWriteStream({
-          parent: client.getParent(),
-          writeStreams: [streamName],
+          parent,
+          writeStreams: [streamId],
         });
         assert.equal(commitResponse.streamErrors?.length, 0);
       } finally {
@@ -265,12 +252,8 @@ describe('managedwriter.WriterClient', () => {
 
     it('should invoke appendRows to default stream without errors', async () => {
       bqWriteClient.initialize();
-      const client = new bigquerywriterModule.managedwriter.WriterClient(
-        parent,
-        bqWriteClient,
-        undefined,
-        'COMMITTED'
-      );
+      const client = new managedwriter.WriterClient();
+      client.setClient(bqWriteClient);
 
       const protoDescriptor: ProtoDescriptor = {};
       protoDescriptor.name = 'CustomerRecord';
@@ -320,10 +303,11 @@ describe('managedwriter.WriterClient', () => {
         },
       ];
       try {
-        const managedStream = await client.createManagedStream(
-          bigquerywriterModule.managedwriter.DefaultStream,
-          protoDescriptor
-        );
+        const managedStream = await client.createManagedStream({
+          streamId: managedwriter.DefaultStream,
+          destinationTable: parent,
+          protoDescriptor,
+        });
         const pw1 = await managedStream.appendRows({
           serializedRows: [serializedRow1Message, serializedRow2Message],
         });
@@ -347,6 +331,100 @@ describe('managedwriter.WriterClient', () => {
       return Promise.resolve();
     });
 
+    it('should invoke createWriteStream when streamType and destination table informed to createManagedStream', async () => {
+      bqWriteClient.initialize();
+      const streamType: WriteStream['type'] = managedwriter.PendingStream;
+      const client = new managedwriter.WriterClient();
+      client.setClient(bqWriteClient);
+
+      const protoDescriptor: ProtoDescriptor = {};
+      protoDescriptor.name = 'CustomerRecord';
+      protoDescriptor.field = [
+        {
+          name: 'customer_name',
+          number: 1,
+          type: FieldDescriptorProtoType.TYPE_STRING,
+        },
+        {
+          name: 'row_num',
+          number: 2,
+          type: FieldDescriptorProtoType.TYPE_INT64,
+        },
+      ];
+
+      // Row 1
+      const row1: CustomerRecord = {
+        customerName: 'Lovelace',
+        rowNum: 1,
+      };
+      const row1Message = CustomerRecord.create(row1);
+      const serializedRow1Message: Uint8Array =
+        CustomerRecord.encode(row1Message).finish();
+
+      // Row 2
+      const row2: CustomerRecord = {
+        customerName: 'Turing',
+        rowNum: 2,
+      };
+      const row2Message = CustomerRecord.create(row2);
+      const serializedRow2Message: Uint8Array =
+        CustomerRecord.encode(row2Message).finish();
+
+      try {
+        const managedStream = await client.createManagedStream({
+          streamType,
+          destinationTable: parent,
+          protoDescriptor,
+        });
+        const pw1 = await managedStream.appendRows({
+          serializedRows: [serializedRow1Message, serializedRow2Message],
+        });
+        const pw2 = await managedStream.appendRows({
+          serializedRows: [serializedRow1Message, serializedRow2Message],
+        });
+        const results = await Promise.all([pw1.getResult(), pw2.getResult()]);
+        const responses: AppendRowsResponse[] = results.map(result => ({
+          appendResult: result.appendResult,
+          writeStream: result.writeStream,
+        }));
+
+        const streamId = managedStream.getStreamId();
+        const appendRowsResponsesResult: AppendRowsResponse[] = [
+          {
+            appendResult: {
+              offset: {
+                value: '0',
+              },
+            },
+            writeStream: streamId,
+          },
+          {
+            appendResult: {
+              offset: {
+                value: '2',
+              },
+            },
+            writeStream: streamId,
+          },
+        ];
+        assert.deepEqual(appendRowsResponsesResult, responses);
+
+        const rowCount = await managedStream.finalize();
+        managedStream.close();
+        assert.equal(rowCount, 4);
+
+        const commitResponse = await client.batchCommitWriteStream({
+          parent,
+          writeStreams: [streamId],
+        });
+        assert.equal(commitResponse.streamErrors?.length, 0);
+      } finally {
+        client.close();
+      }
+
+      return Promise.resolve();
+    });
+
     /*it('should invoke appendRowsToStream with errors', () => {
 
     })*/
@@ -359,13 +437,9 @@ describe('managedwriter.WriterClient', () => {
   describe('closeStream', () => {
     it('should invoke closeStream without errors', () => {
       bqWriteClient.initialize();
-      const writeStreamType: WriteStream['type'] = 'PENDING';
-      const client = new bigquerywriterModule.managedwriter.WriterClient(
-        parent,
-        bqWriteClient,
-        undefined,
-        writeStreamType
-      );
+      const streamType: WriteStream['type'] = managedwriter.PendingStream;
+      const client = new managedwriter.WriterClient();
+      client.setClient(bqWriteClient);
 
       const protoDescriptor: ProtoDescriptor = {};
       protoDescriptor.name = 'CustomerRecord';
@@ -403,9 +477,9 @@ describe('managedwriter.WriterClient', () => {
       const offset = 0;
 
       client
-        .createWriteStream()
-        .then(streamName => {
-          return client.createManagedStream(streamName, protoDescriptor);
+        .createWriteStream({streamType, destinationTable: parent})
+        .then(streamId => {
+          return client.createManagedStream({streamId, protoDescriptor});
         })
         .then(ms => {
           return ms.appendRows(

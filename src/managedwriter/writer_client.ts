@@ -53,24 +53,36 @@ type ProtoData =
   protos.google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData;
 type DescriptorProto = protos.google.protobuf.IDescriptorProto;
 
+const WriteStreamType =
+  protos.google.cloud.bigquery.storage.v1.WriteStream.Type;
+
+// DefaultStream most closely mimics the legacy bigquery
+// tabledata.insertAll semantics. Successful inserts are
+// committed immediately, and there's no tracking offsets as
+// all writes go into a "default" stream that always exists
+// for a table.
 export const DefaultStream = 'DEFAULT';
+
+// CommittedStream appends data immediately, but creates a
+// discrete stream for the work so that offset tracking can
+// be used to track writes.
+export const CommittedStream = 'COMMITTED';
+
+// BufferedStream is a form of checkpointed stream, that allows
+// you to advance the offset of visible rows via Flush operations.
+export const BufferedStream = 'BUFFERED';
+
+// PendingStream is a stream in which no data is made visible to
+// readers until the stream is finalized and committed explicitly.
+export const PendingStream = 'PENDING';
+
 export class WriterClient {
-  private _opts: ClientOptions | undefined;
-  private _parent: string;
-  private _writeStreamType: WriteStreamType = 'TYPE_UNSPECIFIED';
   private _client: BigQueryWriteClient;
   private _connections: StreamConnections;
   private _client_closed: boolean;
 
-  constructor(
-    parent?: string,
-    client?: BigQueryWriteClient,
-    bqWriteClientOpts?: ClientOptions,
-    writeStreamType?: WriteStreamType
-  ) {
-    this._parent = parent ? parent : 'Please set a parent path';
-    this._client = client || new BigQueryWriteClient(bqWriteClientOpts);
-    this._writeStreamType = writeStreamType || this._writeStreamType;
+  constructor(opts?: ClientOptions) {
+    this._client = new BigQueryWriteClient(opts);
     this._connections = {
       connectionList: [],
       connections: {},
@@ -93,15 +105,6 @@ export class WriterClient {
     await this._client.initialize();
   };
 
-  setParent = (projectId: string, datasetId: string, tableId: string): void => {
-    const parent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
-    this._parent = parent;
-  };
-
-  getParent = (): string => {
-    return this._parent;
-  };
-
   getClient = (): BigQueryWriteClient => {
     return this._client;
   };
@@ -120,14 +123,6 @@ export class WriterClient {
     return new Array(writeStream.name);
   };
 
-  setWriteStreamType(streamType: WriteStream['type']): void {
-    this._writeStreamType = streamType;
-  }
-
-  getWriteStreamType(): WriteStreamType {
-    return this._writeStreamType;
-  }
-
   getConnections(): StreamConnections {
     return this._connections;
   }
@@ -136,23 +131,18 @@ export class WriterClient {
     return this._client_closed;
   }
 
-  private resolveStreamId(streamId: string): string {
-    if (streamId === DefaultStream) {
-      const parent = this.getParent();
-      return `${parent}/streams/_default`;
-    }
-    return streamId;
-  }
-
-  async createWriteStream(): Promise<string> {
+  async createWriteStream(req: {
+    streamType: WriteStreamType;
+    destinationTable: string;
+  }): Promise<string> {
     if (this._client_closed) {
       this._client_closed = false;
     }
     await this.initialize();
-    const streamType = this.getWriteStreamType();
+    const {streamType, destinationTable} = req;
     const request: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest =
       {
-        parent: this.getParent(),
+        parent: destinationTable,
         writeStream: {
           type: streamTypeToEnum(streamType),
         },
@@ -173,17 +163,25 @@ export class WriterClient {
   }
 
   async createManagedStream(
-    streamId: string,
-    protoDescriptor: protos.google.protobuf.IDescriptorProto,
+    req: {
+      streamId?: string;
+      destinationTable?: string;
+      streamType?: WriteStreamType;
+      protoDescriptor: protos.google.protobuf.IDescriptorProto;
+    },
     clientOptions?: CallOptions
   ): Promise<ManagedStream> {
     if (this._client_closed) {
       this._client_closed = false;
     }
     await this.initialize();
-    const streamType = this.getWriteStreamType();
+    const {streamId, streamType, destinationTable, protoDescriptor} = req;
     try {
-      const fullStreamId = this.resolveStreamId(streamId);
+      const fullStreamId = await this.resolveStreamId(
+        streamId,
+        streamType,
+        destinationTable
+      );
       const writeStream: WriteStream = {
         name: fullStreamId,
         type: streamTypeToEnum(streamType),
@@ -204,9 +202,33 @@ export class WriterClient {
       this._connections.connectionList.push(managedStream);
       this._connections.connections[`${streamId}`] = managedStream;
       return managedStream;
-    } catch {
-      throw new Error('Stream connection failed');
+    } catch (err) {
+      throw new Error('managed stream connection failed:' + err);
     }
+  }
+
+  private async resolveStreamId(
+    streamId?: string,
+    streamType?: WriteStreamType,
+    destinationTable?: string
+  ): Promise<string> {
+    if (streamId && streamId !== '') {
+      if (streamId === DefaultStream) {
+        if (destinationTable !== '') {
+          return `${destinationTable}/streams/_default`;
+        } else {
+          throw new Error('destinationTable needed if DefaultStream informed');
+        }
+      }
+      return streamId;
+    }
+    if (streamType && destinationTable) {
+      streamId = await this.createWriteStream({streamType, destinationTable});
+      return streamId;
+    }
+    throw new Error(
+      'streamType and destinationTable required to create write stream'
+    );
   }
 
   async batchCommitWriteStream(
@@ -318,10 +340,6 @@ export class ManagedStream {
     return this._streamId;
   };
 
-  setStreamId = (streamId: string): void => {
-    this._streamId = streamId;
-  };
-
   appendRows(
     rows: ProtoData['rows'],
     offsetValue?: IInt64Value['value']
@@ -384,5 +402,17 @@ export class ManagedStream {
 }
 
 function streamTypeToEnum(streamType: WriteStreamType): WriteStream['type'] {
-  return streamType === DefaultStream ? 'TYPE_UNSPECIFIED' : streamType;
+  switch (streamType) {
+    case WriteStreamType.BUFFERED:
+    case BufferedStream:
+      return WriteStreamType.BUFFERED;
+    case WriteStreamType.COMMITTED:
+    case CommittedStream:
+      return WriteStreamType.COMMITTED;
+    case WriteStreamType.PENDING:
+    case PendingStream:
+      return WriteStreamType.PENDING;
+    default:
+      return WriteStreamType.TYPE_UNSPECIFIED;
+  }
 }
