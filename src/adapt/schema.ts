@@ -65,8 +65,12 @@ const modeMap: Record<string, StorageTableField['mode']> = {
     .MODE_UNSPECIFIED,
 };
 
-// Converts a bigquery Schema into the protobuf-based TableSchema used
-// by the BigQuery Storage WriteClient.
+/**
+ * Converts a bigquery Schema into the protobuf-based TableSchema used
+ * by the BigQuery Storage WriteClient.
+ * @param schema - a BigQuery TableSchema
+ * @return StorageTableSchema
+ */
 export function convertBigQuerySchemaToStorageTableSchema(
   schema: bigquery.TableSchema
 ): StorageTableSchema {

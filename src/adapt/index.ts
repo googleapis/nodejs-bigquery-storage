@@ -14,7 +14,6 @@
 
 export {
   convertStorageSchemaToProto2Descriptor,
-  convertStorageSchemaToProto3Descriptor,
   fileDescriptorSetToNamespace,
   protoDescriptorToNamespace,
   normalizeDescriptor,

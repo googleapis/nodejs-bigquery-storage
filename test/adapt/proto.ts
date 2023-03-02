@@ -15,12 +15,12 @@
 import * as assert from 'assert';
 import {describe, it} from 'mocha';
 import {protobuf} from 'google-gax';
-import * as adaptModule from '../../src/adapt';
+import * as adapt from '../../src/adapt';
 import {TableSchema} from '@google-cloud/bigquery';
 
 const {Root} = protobuf;
 
-describe('AdaptProto', () => {
+describe('Adapt Protos', () => {
   describe('Schema to Proto Descriptor conversion', () => {
     it('basic', () => {
       const schema: TableSchema = {
@@ -48,12 +48,11 @@ describe('AdaptProto', () => {
         ],
       };
       const storageSchema =
-        adaptModule.convertBigQuerySchemaToStorageTableSchema(schema);
-      const fileDescriptorSet =
-        adaptModule.convertStorageSchemaToProto2Descriptor(
-          storageSchema,
-          'Test'
-        );
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const fileDescriptorSet = adapt.convertStorageSchemaToProto2Descriptor(
+        storageSchema,
+        'Test'
+      );
       assert.notEqual(fileDescriptorSet, null);
       if (!fileDescriptorSet) {
         throw Error('null file descriptor set');
@@ -101,13 +100,12 @@ describe('AdaptProto', () => {
           },
         ],
       });
-      const protoDescriptor =
-        adaptModule.normalizeDescriptor(fileDescriptorSet);
+      const protoDescriptor = adapt.normalizeDescriptor(fileDescriptorSet);
       assert.notEqual(protoDescriptor, null);
       if (!protoDescriptor) {
         throw Error('null proto descriptor set');
       }
-      const namespace = adaptModule.protoDescriptorToNamespace(protoDescriptor);
+      const namespace = adapt.protoDescriptorToNamespace(protoDescriptor);
       const root = Root.fromJSON(namespace);
       const TestProto = root.lookupType('Test');
       const raw = {
@@ -166,12 +164,11 @@ describe('AdaptProto', () => {
         ],
       };
       const storageSchema =
-        adaptModule.convertBigQuerySchemaToStorageTableSchema(schema);
-      const fileDescriptorSet =
-        adaptModule.convertStorageSchemaToProto2Descriptor(
-          storageSchema,
-          'Nested'
-        );
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const fileDescriptorSet = adapt.convertStorageSchemaToProto2Descriptor(
+        storageSchema,
+        'Nested'
+      );
       if (!fileDescriptorSet) {
         throw Error('null file descriptor set');
       }
@@ -262,8 +259,7 @@ describe('AdaptProto', () => {
           },
         ],
       });
-      const protoDescriptor =
-        adaptModule.normalizeDescriptor(fileDescriptorSet);
+      const protoDescriptor = adapt.normalizeDescriptor(fileDescriptorSet);
       assert.notEqual(protoDescriptor, null);
       if (!protoDescriptor) {
         throw Error('null proto descriptor set');
@@ -334,7 +330,7 @@ describe('AdaptProto', () => {
           },
         ],
       });
-      const namespace = adaptModule.protoDescriptorToNamespace(protoDescriptor);
+      const namespace = adapt.protoDescriptorToNamespace(protoDescriptor);
       const root = Root.fromJSON(namespace);
       const NestedProto = root.lookupType('Nested');
       const raw = {

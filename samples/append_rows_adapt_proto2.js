@@ -20,13 +20,13 @@ function main(
   tableId = 'my_table'
 ) {
   // [START bigquerystorage_write_pending_complexschema]
-  const {BigQueryWriteClient} = require('@google-cloud/bigquery-storage').v1;
+  const {v1, adapt} = require('@google-cloud/bigquery-storage');
+  const {BigQueryWriteClient} = v1;
   const {BigQuery} = require('@google-cloud/bigquery');
 
   const {protobuf} = require('google-gax');
   const {Root} = protobuf;
 
-  const adapt = require('@google-cloud/bigquery-storage').adapt;
   const mode = require('@google-cloud/bigquery-storage').protos.google.cloud
     .bigquery.storage.v1.WriteStream.Type;
 

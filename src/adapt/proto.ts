@@ -186,7 +186,11 @@ const bqModeToFieldLabelMapProto3: Record<
   MODE_UNSPECIFIED: null,
 };
 
-// convertStorageSchemaToProto2Descriptor builds a FileDescriptorSet for a given table schema using proto2 syntax.
+/** Builds a FileDescriptorSet for a given table schema using proto2 syntax.
+ * @param schema - a BigQuery Storage TableSchema.
+ * @param scope - scope to namespace protobuf structs.
+ * @returns FileDescriptorSet | null
+ */
 export function convertStorageSchemaToProto2Descriptor(
   schema: TableSchema,
   scope: string
@@ -194,7 +198,11 @@ export function convertStorageSchemaToProto2Descriptor(
   return convertStorageSchemaToFileDescriptorInternal(schema, scope, false);
 }
 
-// convertStorageSchemaToProto3Descriptor builds a FileDescriptorSet for a given table schema using proto3 syntax.
+/** Builds a FileDescriptorSet for a given table schema using proto3 syntax.
+ * @param schema - a Bigquery TableSchema.
+ * @param scope - scope to namespace protobuf structs.
+ * @returns FileDescriptorSet | null
+ */
 export function convertStorageSchemaToProto3Descriptor(
   schema: TableSchema,
   scope: string
@@ -266,11 +274,14 @@ function convertStorageSchemaToFileDescriptorInternal(
   return fds;
 }
 
-// normalizeDescriptor builds a self-contained DescriptorProto suitable for communicating schema
-// information with the BigQuery Storage write API.  It's primarily used for cases where users are
-// interested in sending data using a predefined protocol buffer message.
+/**
+ * Builds a self-contained DescriptorProto suitable for communicating schema
+ * information with the BigQuery Storage write API.  It's primarily used for cases where users are
+ * interested in sending data using a predefined protocol buffer message.
+ * @param fds - FileDescriptorSet to be bundled.
+ * @return DescriptorProto
+ */
 export function normalizeDescriptor(fds: FileDescriptorSet): DescriptorProto {
-  //let dp = new DescriptorProto();
   let dp: DescriptorProto | null = null;
   let fdpName;
   if (fds.file.length > 0) {
@@ -320,6 +331,11 @@ function normalizeName(name: string): string {
   return name.replace(/\./, '_');
 }
 
+/** Builds a namespace descriptor in JSON format from a FileDescriptorSet.
+ * This can be used to on protobufjs.Root.fromJSON to load protobuf structs.
+ * @param fds - a FileDescriptorSet
+ * @returns Namespace
+ */
 export function fileDescriptorSetToNamespace(
   fds: FileDescriptorSet
 ): Namespace {
@@ -340,6 +356,11 @@ export function fileDescriptorSetToNamespace(
   return ns;
 }
 
+/** Builds a namespace descriptor in JSON format from a DescriptorProto.
+ * This can be used to on protobufjs.Root.fromJSON to load protobuf structs.
+ * @param dp - a DescriptorProto
+ * @returns Namespace
+ */
 export function protoDescriptorToNamespace(dp: DescriptorProto): Namespace {
   const fields: {[k: string]: protobuf.IField} = {};
   for (const f of dp.field || []) {

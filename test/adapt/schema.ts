@@ -16,11 +16,11 @@ import {google} from '../../protos/protos';
 import * as assert from 'assert';
 import {describe, it} from 'mocha';
 import * as bigquery from '@google-cloud/bigquery';
-import * as adaptModule from '../../src/adapt';
+import * as adapt from '../../src/adapt';
 
 const TableFieldSchema = google.cloud.bigquery.storage.v1.TableFieldSchema;
 
-describe('AdaptSchema', () => {
+describe('Adapt Schemas', () => {
   describe('BigQuery Schema to Storage Schema', () => {
     it('basic schema', () => {
       const schema: bigquery.TableSchema = {
@@ -31,7 +31,7 @@ describe('AdaptSchema', () => {
         ],
       };
       const storageSchema =
-        adaptModule.convertBigQuerySchemaToStorageTableSchema(schema);
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
       assert.notEqual(storageSchema, null);
       if (!storageSchema) {
         throw Error('null storage schema');
@@ -77,7 +77,7 @@ describe('AdaptSchema', () => {
         ],
       };
       const storageSchema =
-        adaptModule.convertBigQuerySchemaToStorageTableSchema(schema);
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
       assert.notEqual(storageSchema, null);
       if (!storageSchema) {
         throw Error('null storage schema');
@@ -119,7 +119,7 @@ describe('AdaptSchema', () => {
         ],
       };
       const storageSchema =
-        adaptModule.convertBigQuerySchemaToStorageTableSchema(schema);
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
       assert.notEqual(storageSchema, null);
       if (!storageSchema) {
         throw Error('null storage schema');
