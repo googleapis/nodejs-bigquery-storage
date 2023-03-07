@@ -1,0 +1,88 @@
+{
+  "nested": {
+    "SampleData": {
+      "fields": {
+        "bool_col": {
+          "type": "bool",
+          "id": 1
+        },
+        "bytes_col": {
+          "type": "bytes",
+          "id": 2
+        },
+        "float64_col": {
+          "type": "float",
+          "id": 3
+        },
+        "int64_col": {
+          "type": "int64",
+          "id": 4
+        },
+        "string_col": {
+          "type": "string",
+          "id": 5
+        },
+        "date_col": {
+          "type": "int64",
+          "id": 6
+        },
+        "datetime_col": {
+          "type": "string",
+          "id": 7
+        },
+        "geography_col": {
+          "type": "string",
+          "id": 8
+        },
+        "numeric_col": {
+          "type": "string",
+          "id": 9
+        },
+        "bignumeric_col": {
+          "type": "string",
+          "id": 10
+        },
+        "time_col": {
+          "type": "string",
+          "id": 11
+        },
+        "timestamp_col": {
+          "type": "int64",
+          "id": 12
+        },
+        "int64_list": {
+          "rule": "repeated",
+          "type": "int64",
+          "id": 13,
+          "options": {
+            "packed": false
+          }
+        },
+        "struct_col": {
+          "type": "SampleStruct",
+          "id": 14
+        },
+        "struct_list": {
+          "rule": "repeated",
+          "type": "SampleStruct",
+          "id": 15
+        },
+        "row_num": {
+          "rule": "required",
+          "type": "int64",
+          "id": 16
+        }
+      },
+      "nested": {
+        "SampleStruct": {
+          "fields": {
+            "sub_int_col": {
+              "type": "int64",
+              "id": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

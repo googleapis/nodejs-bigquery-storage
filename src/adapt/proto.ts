@@ -14,6 +14,13 @@
 
 import {protobuf} from 'google-gax';
 import * as protos from '../../protos/protos';
+import {
+  bqTypeToFieldTypeMap,
+  labelToFieldRuleMap,
+  convertModeToLabel,
+  fieldTypeLabelMap,
+} from './proto_mappings';
+
 type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type TableFieldSchema =
   protos.google.cloud.bigquery.storage.v1.ITableFieldSchema;
@@ -22,13 +29,9 @@ type FileDescriptorProto = protos.google.protobuf.IFileDescriptorProto;
 type FileDescriptorSet = protos.google.protobuf.FileDescriptorSet;
 type DescriptorProto = protos.google.protobuf.DescriptorProto;
 type FieldDescriptorProtoType =
-  protos.google.protobuf.FieldDescriptorProto['type'];
-type TableFieldSchemaType =
-  protos.google.cloud.bigquery.storage.v1.TableFieldSchema['type'];
-type TableFieldSchemaMode =
-  protos.google.cloud.bigquery.storage.v1.TableFieldSchema['mode'];
+  protos.google.protobuf.IFieldDescriptorProto['type'];
 type FieldDescriptorProtoLabel =
-  protos.google.protobuf.FieldDescriptorProto.Label;
+  protos.google.protobuf.IFieldDescriptorProto['label'];
 type IFieldRule = 'optional' | 'required' | 'repeated' | undefined;
 
 type Namespace = {
@@ -48,18 +51,6 @@ const FieldDescriptorProto = protos.google.protobuf.FieldDescriptorProto;
 const FileDescriptorProto = protos.google.protobuf.FileDescriptorProto;
 const FileDescriptorSet = protos.google.protobuf.FileDescriptorSet;
 
-const labelToFieldRuleMap: Record<
-  protos.google.protobuf.FieldDescriptorProto['label'],
-  IFieldRule
-> = {
-  LABEL_OPTIONAL: 'optional',
-  '1': 'optional',
-  LABEL_REQUIRED: 'required',
-  '2': 'required',
-  LABEL_REPEATED: 'repeated',
-  '3': 'repeated',
-};
-
 const packedTypes: FieldDescriptorProtoType[] = [
   FieldDescriptorProto.Type.TYPE_INT32,
   FieldDescriptorProto.Type.TYPE_INT64,
@@ -77,137 +68,36 @@ const packedTypes: FieldDescriptorProtoType[] = [
   FieldDescriptorProto.Type.TYPE_ENUM,
 ];
 
-// Reference https://cloud.google.com/bigquery/docs/write-api#data_type_conversions
-const bqTypeToFieldTypeMap: Record<
-  TableFieldSchemaType,
-  FieldDescriptorProtoType | null
-> = {
-  [TableFieldSchema.Type.BIGNUMERIC]: FieldDescriptorProto.Type.TYPE_STRING,
-  BIGNUMERIC: FieldDescriptorProto.Type.TYPE_STRING,
-  [TableFieldSchema.Type.BOOL]: FieldDescriptorProto.Type.TYPE_BOOL,
-  BOOL: FieldDescriptorProto.Type.TYPE_BOOL,
-  [TableFieldSchema.Type.BYTES]: FieldDescriptorProto.Type.TYPE_BYTES,
-  BYTES: FieldDescriptorProto.Type.TYPE_BYTES,
-  [TableFieldSchema.Type.DATE]: FieldDescriptorProto.Type.TYPE_INT32,
-  DATE: FieldDescriptorProto.Type.TYPE_INT32,
-  [TableFieldSchema.Type.DATETIME]: FieldDescriptorProto.Type.TYPE_STRING,
-  DATETIME: FieldDescriptorProto.Type.TYPE_STRING,
-  [TableFieldSchema.Type.DOUBLE]: FieldDescriptorProto.Type.TYPE_DOUBLE,
-  DOUBLE: FieldDescriptorProto.Type.TYPE_DOUBLE,
-  [TableFieldSchema.Type.GEOGRAPHY]: FieldDescriptorProto.Type.TYPE_STRING,
-  GEOGRAPHY: FieldDescriptorProto.Type.TYPE_STRING,
-  [TableFieldSchema.Type.INT64]: FieldDescriptorProto.Type.TYPE_INT64,
-  INT64: FieldDescriptorProto.Type.TYPE_INT64,
-  [TableFieldSchema.Type.NUMERIC]: FieldDescriptorProto.Type.TYPE_STRING,
-  NUMERIC: FieldDescriptorProto.Type.TYPE_STRING,
-  [TableFieldSchema.Type.STRING]: FieldDescriptorProto.Type.TYPE_STRING,
-  STRING: FieldDescriptorProto.Type.TYPE_STRING,
-  [TableFieldSchema.Type.STRUCT]: FieldDescriptorProto.Type.TYPE_MESSAGE,
-  STRUCT: FieldDescriptorProto.Type.TYPE_MESSAGE,
-  [TableFieldSchema.Type.TIME]: FieldDescriptorProto.Type.TYPE_STRING,
-  TIME: FieldDescriptorProto.Type.TYPE_STRING,
-  [TableFieldSchema.Type.TIMESTAMP]: FieldDescriptorProto.Type.TYPE_INT64,
-  TIMESTAMP: FieldDescriptorProto.Type.TYPE_INT64,
-  [TableFieldSchema.Type.JSON]: FieldDescriptorProto.Type.TYPE_STRING,
-  JSON: protos.google.protobuf.FieldDescriptorProto.Type.TYPE_STRING,
-  [TableFieldSchema.Type.TYPE_UNSPECIFIED]: null,
-  TYPE_UNSPECIFIED: null,
-  [TableFieldSchema.Type.INTERVAL]: null,
-  INTERVAL: null,
-};
-
-const fieldTypeLabelMap: Record<FieldDescriptorProtoType, string> = {
-  [FieldDescriptorProto.Type.TYPE_DOUBLE]: 'TYPE_DOUBLE',
-  TYPE_DOUBLE: 'TYPE_DOUBLE',
-  [FieldDescriptorProto.Type.TYPE_FLOAT]: 'TYPE_FLOAT',
-  TYPE_FLOAT: 'TYPE_FLOAT',
-  [FieldDescriptorProto.Type.TYPE_INT64]: 'TYPE_INT64',
-  TYPE_INT64: 'TYPE_INT64',
-  [FieldDescriptorProto.Type.TYPE_UINT64]: 'TYPE_UINT64',
-  TYPE_UINT64: 'TYPE_UINT64',
-  [FieldDescriptorProto.Type.TYPE_INT32]: 'TYPE_INT32',
-  TYPE_INT32: 'TYPE_INT32',
-  [FieldDescriptorProto.Type.TYPE_FIXED64]: 'TYPE_FIXED64',
-  TYPE_FIXED64: 'TYPE_FIXED64',
-  [FieldDescriptorProto.Type.TYPE_FIXED32]: 'TYPE_FIXED32',
-  TYPE_FIXED32: 'TYPE_FIXED32',
-  [FieldDescriptorProto.Type.TYPE_BOOL]: 'TYPE_BOOL',
-  TYPE_BOOL: 'TYPE_BOOL',
-  [FieldDescriptorProto.Type.TYPE_STRING]: 'TYPE_STRING',
-  TYPE_STRING: 'TYPE_STRING',
-  [FieldDescriptorProto.Type.TYPE_GROUP]: 'TYPE_GROUP',
-  TYPE_GROUP: 'TYPE_GROUP',
-  [FieldDescriptorProto.Type.TYPE_MESSAGE]: 'TYPE_MESSAGE',
-  TYPE_MESSAGE: 'TYPE_MESSAGE',
-  [FieldDescriptorProto.Type.TYPE_BYTES]: 'TYPE_BYTES',
-  TYPE_BYTES: 'TYPE_BYTES',
-  [FieldDescriptorProto.Type.TYPE_UINT32]: 'TYPE_UINT32',
-  TYPE_UINT32: 'TYPE_UINT32',
-  [FieldDescriptorProto.Type.TYPE_ENUM]: 'TYPE_ENUM',
-  TYPE_ENUM: 'TYPE_ENUM',
-  [FieldDescriptorProto.Type.TYPE_SFIXED32]: 'TYPE_SFIXED32',
-  TYPE_SFIXED32: 'TYPE_SFIXED32',
-  [FieldDescriptorProto.Type.TYPE_SFIXED64]: 'TYPE_SFIXED64',
-  TYPE_SFIXED64: 'TYPE_SFIXED64',
-  [FieldDescriptorProto.Type.TYPE_SINT32]: 'TYPE_SINT32',
-  TYPE_SINT32: 'TYPE_SINT32',
-  [FieldDescriptorProto.Type.TYPE_SINT64]: 'TYPE_SINT64',
-  TYPE_SINT64: 'TYPE_SINT64',
-};
-
-const bqModeToFieldLabelMapProto2: Record<
-  TableFieldSchemaMode,
-  FieldDescriptorProtoLabel | null
-> = {
-  [TableFieldSchema.Mode.NULLABLE]: FieldDescriptorProto.Label.LABEL_OPTIONAL,
-  NULLABLE: FieldDescriptorProto.Label.LABEL_OPTIONAL,
-  [TableFieldSchema.Mode.REPEATED]: FieldDescriptorProto.Label.LABEL_REPEATED,
-  REPEATED: FieldDescriptorProto.Label.LABEL_REPEATED,
-  [TableFieldSchema.Mode.REQUIRED]: FieldDescriptorProto.Label.LABEL_REQUIRED,
-  REQUIRED: FieldDescriptorProto.Label.LABEL_REQUIRED,
-  [TableFieldSchema.Mode.MODE_UNSPECIFIED]: null,
-  MODE_UNSPECIFIED: null,
-};
-
-const bqModeToFieldLabelMapProto3: Record<
-  TableFieldSchemaMode,
-  FieldDescriptorProtoLabel | null
-> = {
-  [TableFieldSchema.Mode.NULLABLE]: FieldDescriptorProto.Label.LABEL_OPTIONAL,
-  NULLABLE: FieldDescriptorProto.Label.LABEL_OPTIONAL,
-  [protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Mode.REPEATED]:
-    FieldDescriptorProto.Label.LABEL_REPEATED,
-  REPEATED: FieldDescriptorProto.Label.LABEL_REPEATED,
-  [protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Mode.REQUIRED]:
-    FieldDescriptorProto.Label.LABEL_OPTIONAL,
-  REQUIRED: FieldDescriptorProto.Label.LABEL_REQUIRED,
-  [protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Mode
-    .MODE_UNSPECIFIED]: null,
-  MODE_UNSPECIFIED: null,
-};
-
-/** Builds a FileDescriptorSet for a given table schema using proto2 syntax.
+/** Builds a DescriptorProto for a given table schema using proto2 syntax.
  * @param schema - a BigQuery Storage TableSchema.
  * @param scope - scope to namespace protobuf structs.
- * @returns FileDescriptorSet | null
+ * @returns DescriptorProto | null
  */
 export function convertStorageSchemaToProto2Descriptor(
   schema: TableSchema,
   scope: string
-): FileDescriptorSet | null {
-  return convertStorageSchemaToFileDescriptorInternal(schema, scope, false);
+): DescriptorProto | null {
+  const fds = convertStorageSchemaToFileDescriptorInternal(schema, scope, false);
+  if (!fds) {
+    return null;
+  }
+  return normalizeDescriptorSet(fds);
 }
 
-/** Builds a FileDescriptorSet for a given table schema using proto3 syntax.
+/** Builds a DescriptorProto for a given table schema using proto3 syntax.
  * @param schema - a Bigquery TableSchema.
  * @param scope - scope to namespace protobuf structs.
- * @returns FileDescriptorSet | null
+ * @returns DescriptorProto | null
  */
 export function convertStorageSchemaToProto3Descriptor(
   schema: TableSchema,
   scope: string
-): FileDescriptorSet | null {
-  return convertStorageSchemaToFileDescriptorInternal(schema, scope, true);
+): DescriptorProto | null {
+  const fds = convertStorageSchemaToFileDescriptorInternal(schema, scope, true);
+  if (!fds) {
+    return null;
+  }
+  return normalizeDescriptorSet(fds);
 }
 
 function convertStorageSchemaToFileDescriptorInternal(
@@ -274,14 +164,9 @@ function convertStorageSchemaToFileDescriptorInternal(
   return fds;
 }
 
-/**
- * Builds a self-contained DescriptorProto suitable for communicating schema
- * information with the BigQuery Storage write API.  It's primarily used for cases where users are
- * interested in sending data using a predefined protocol buffer message.
- * @param fds - FileDescriptorSet to be bundled.
- * @return DescriptorProto
- */
-export function normalizeDescriptor(fds: FileDescriptorSet): DescriptorProto {
+function normalizeDescriptorSet(
+  fds: FileDescriptorSet
+): DescriptorProto {
   let dp: DescriptorProto | null = null;
   let fdpName;
   if (fds.file.length > 0) {
@@ -306,15 +191,20 @@ export function normalizeDescriptor(fds: FileDescriptorSet): DescriptorProto {
       continue;
     }
     for (const nestedDP of fdp.messageType) {
-      dp.nestedType.push(
-        normalizeDescriptorProto(new DescriptorProto(nestedDP))
-      );
+      dp.nestedType.push(normalizeDescriptor(new DescriptorProto(nestedDP)));
     }
   }
-  return normalizeDescriptorProto(dp);
+  return normalizeDescriptor(dp);
 }
 
-function normalizeDescriptorProto(dp: DescriptorProto): DescriptorProto {
+/**
+ * Builds a self-contained DescriptorProto suitable for communicating schema
+ * information with the BigQuery Storage write API. It's primarily used for cases where users are
+ * interested in sending data using a predefined protocol buffer message.
+ * @param dp - DescriptorProto to be bundled.
+ * @return DescriptorProto
+ */
+export function normalizeDescriptor(dp: DescriptorProto): DescriptorProto {
   dp.name = normalizeName(dp.name);
   for (const f of dp.field) {
     if (f.proto3Optional) {
@@ -323,37 +213,20 @@ function normalizeDescriptorProto(dp: DescriptorProto): DescriptorProto {
     if (f.oneofIndex) {
       f.oneofIndex = null;
     }
+    if (f.options) {
+      f.options.packed = shouldPackType(f.type, f.label, false);
+    }
   }
+  const normalizedNestedTypes = []
+  for (const nestedDP of dp.nestedType) {
+    normalizedNestedTypes.push(normalizeDescriptor(new DescriptorProto(nestedDP)));
+  }
+  dp.nestedType = normalizedNestedTypes;
   return dp;
 }
 
 function normalizeName(name: string): string {
   return name.replace(/\./, '_');
-}
-
-/** Builds a namespace descriptor in JSON format from a FileDescriptorSet.
- * This can be used to on protobufjs.Root.fromJSON to load protobuf structs.
- * @param fds - a FileDescriptorSet
- * @returns Namespace
- */
-export function fileDescriptorSetToNamespace(
-  fds: FileDescriptorSet
-): Namespace {
-  const ns: Namespace = {
-    nested: {},
-  };
-  for (const fdp of fds.file || []) {
-    for (const dp of fdp.messageType || []) {
-      if (!ns.nested) {
-        ns.nested = {};
-      }
-      const data = protoDescriptorToNamespace(new DescriptorProto(dp));
-      for (const key of Object.keys(data.nested)) {
-        ns.nested[`${key}`] = data.nested[key];
-      }
-    }
-  }
-  return ns;
 }
 
 /** Builds a namespace descriptor in JSON format from a DescriptorProto.
@@ -363,7 +236,7 @@ export function fileDescriptorSetToNamespace(
  */
 export function protoDescriptorToNamespace(dp: DescriptorProto): Namespace {
   const fields: {[k: string]: protobuf.IField} = {};
-  for (const f of dp.field || []) {
+  for (const f of dp.field) {
     fields[`${f.name}`] = descriptorProtoFieldToField(f);
   }
   const result = {
@@ -373,7 +246,7 @@ export function protoDescriptorToNamespace(dp: DescriptorProto): Namespace {
       },
     },
   };
-  for (const nested of dp.nestedType || []) {
+  for (const nested of dp.nestedType) {
     const nestedData = protoDescriptorToNamespace(new DescriptorProto(nested));
     for (const key of Object.keys(nestedData.nested)) {
       const data = nestedData.nested[key];
@@ -466,12 +339,12 @@ function shouldPackType(
   t: FieldDescriptorProtoType,
   label: FieldDescriptorProtoLabel | null,
   useProto3: boolean
-): boolean {
+): boolean | undefined {
   if (useProto3) {
     return false;
   }
   if (label !== FieldDescriptorProto.Label.LABEL_REPEATED) {
-    return false;
+    return undefined;
   }
   return packedTypes.includes(t);
 }
@@ -484,16 +357,4 @@ function isProto3Optional(
     return undefined;
   }
   return label === FieldDescriptorProto.Label.LABEL_OPTIONAL;
-}
-
-function convertModeToLabel(
-  mode: TableFieldSchema['mode'],
-  useProto3: Boolean
-): FieldDescriptorProtoLabel | null {
-  if (!mode) {
-    return null;
-  }
-  return useProto3
-    ? bqModeToFieldLabelMapProto3[mode]
-    : bqModeToFieldLabelMapProto2[mode];
 }

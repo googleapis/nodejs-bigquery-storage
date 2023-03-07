@@ -16,8 +16,11 @@ import * as assert from 'assert';
 import {describe, it} from 'mocha';
 import {protobuf} from 'google-gax';
 import * as adapt from '../../src/adapt';
+import * as messagesJSON from './fixtures/messages.json';
+import * as protos from '../../protos/protos';
 import {TableSchema} from '@google-cloud/bigquery';
 
+const DescriptorProto = protos.google.protobuf.DescriptorProto;
 const {Root} = protobuf;
 
 describe('Adapt Protos', () => {
@@ -49,58 +52,10 @@ describe('Adapt Protos', () => {
       };
       const storageSchema =
         adapt.convertBigQuerySchemaToStorageTableSchema(schema);
-      const fileDescriptorSet = adapt.convertStorageSchemaToProto2Descriptor(
+      const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
         storageSchema,
         'Test'
       );
-      assert.notEqual(fileDescriptorSet, null);
-      if (!fileDescriptorSet) {
-        throw Error('null file descriptor set');
-      }
-      assert.deepEqual(JSON.parse(JSON.stringify(fileDescriptorSet)), {
-        file: [
-          {
-            name: 'Test.proto',
-            messageType: [
-              {
-                name: 'Test',
-                field: [
-                  {
-                    name: 'foo',
-                    number: 1,
-                    label: 'LABEL_OPTIONAL',
-                    type: 'TYPE_STRING',
-                    options: {packed: false},
-                  },
-                  {
-                    name: 'bar',
-                    number: 2,
-                    label: 'LABEL_REQUIRED',
-                    type: 'TYPE_DOUBLE',
-                    options: {packed: false},
-                  },
-                  {
-                    name: 'baz',
-                    number: 3,
-                    label: 'LABEL_REPEATED',
-                    type: 'TYPE_STRING',
-                    options: {packed: false},
-                  },
-                  {
-                    name: 'bat',
-                    number: 4,
-                    label: 'LABEL_REPEATED',
-                    type: 'TYPE_BOOL',
-                    options: {packed: true},
-                  },
-                ],
-              },
-            ],
-            syntax: 'proto2',
-          },
-        ],
-      });
-      const protoDescriptor = adapt.normalizeDescriptor(fileDescriptorSet);
       assert.notEqual(protoDescriptor, null);
       if (!protoDescriptor) {
         throw Error('null proto descriptor set');
@@ -165,101 +120,10 @@ describe('Adapt Protos', () => {
       };
       const storageSchema =
         adapt.convertBigQuerySchemaToStorageTableSchema(schema);
-      const fileDescriptorSet = adapt.convertStorageSchemaToProto2Descriptor(
+      const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
         storageSchema,
         'Nested'
       );
-      if (!fileDescriptorSet) {
-        throw Error('null file descriptor set');
-      }
-      assert.deepEqual(JSON.parse(JSON.stringify(fileDescriptorSet)), {
-        file: [
-          {
-            name: 'Nested.proto',
-            dependency: ['Nested_details.proto', 'Nested_metadata.proto'],
-            messageType: [
-              {
-                name: 'Nested',
-                field: [
-                  {
-                    name: 'record_id',
-                    number: 1,
-                    label: 'LABEL_OPTIONAL',
-                    type: 'TYPE_INT64',
-                    options: {packed: false},
-                  },
-                  {
-                    name: 'details',
-                    number: 2,
-                    label: 'LABEL_REPEATED',
-                    type: 'TYPE_MESSAGE',
-                    typeName: 'Nested_details',
-                  },
-                  {
-                    name: 'metadata',
-                    number: 3,
-                    label: 'LABEL_OPTIONAL',
-                    type: 'TYPE_MESSAGE',
-                    typeName: 'Nested_metadata',
-                  },
-                ],
-              },
-            ],
-            syntax: 'proto2',
-          },
-          {
-            name: 'Nested_details.proto',
-            messageType: [
-              {
-                name: 'Nested_details',
-                field: [
-                  {
-                    name: 'key',
-                    number: 1,
-                    label: 'LABEL_REQUIRED',
-                    type: 'TYPE_STRING',
-                    options: {packed: false},
-                  },
-                  {
-                    name: 'value',
-                    number: 2,
-                    label: 'LABEL_OPTIONAL',
-                    type: 'TYPE_STRING',
-                    options: {packed: false},
-                  },
-                ],
-              },
-            ],
-            syntax: 'proto2',
-          },
-          {
-            name: 'Nested_metadata.proto',
-            messageType: [
-              {
-                name: 'Nested_metadata',
-                field: [
-                  {
-                    name: 'createdAt',
-                    number: 1,
-                    label: 'LABEL_REQUIRED',
-                    type: 'TYPE_INT64',
-                    options: {packed: false},
-                  },
-                  {
-                    name: 'updatedAt',
-                    number: 2,
-                    label: 'LABEL_OPTIONAL',
-                    type: 'TYPE_INT64',
-                    options: {packed: false},
-                  },
-                ],
-              },
-            ],
-            syntax: 'proto2',
-          },
-        ],
-      });
-      const protoDescriptor = adapt.normalizeDescriptor(fileDescriptorSet);
       assert.notEqual(protoDescriptor, null);
       if (!protoDescriptor) {
         throw Error('null proto descriptor set');
@@ -272,7 +136,7 @@ describe('Adapt Protos', () => {
             number: 1,
             label: 'LABEL_OPTIONAL',
             type: 'TYPE_INT64',
-            options: {packed: false},
+            options: {},
           },
           {
             name: 'details',
@@ -298,14 +162,14 @@ describe('Adapt Protos', () => {
                 number: 1,
                 label: 'LABEL_REQUIRED',
                 type: 'TYPE_STRING',
-                options: {packed: false},
+                options: {},
               },
               {
                 name: 'value',
                 number: 2,
                 label: 'LABEL_OPTIONAL',
                 type: 'TYPE_STRING',
-                options: {packed: false},
+                options: {},
               },
             ],
           },
@@ -317,14 +181,14 @@ describe('Adapt Protos', () => {
                 number: 1,
                 label: 'LABEL_REQUIRED',
                 type: 'TYPE_INT64',
-                options: {packed: false},
+                options: {},
               },
               {
                 name: 'updatedAt',
                 number: 2,
                 label: 'LABEL_OPTIONAL',
                 type: 'TYPE_INT64',
-                options: {packed: false},
+                options: {},
               },
             ],
           },
@@ -347,6 +211,237 @@ describe('Adapt Protos', () => {
       const serialized = NestedProto.encode(raw).finish();
       const decoded = NestedProto.decode(serialized).toJSON();
       assert.deepEqual(raw, decoded);
+    });
+  });
+
+  describe('Proto descriptor normalization', () => {
+    it('bundle multiple proto descriptors into one', () => {
+      const root = Root.fromJSON(messagesJSON).resolveAll();
+      const descriptor = root
+        .lookupType('testdata.GithubArchiveMessage')
+        .add(root.lookupType('testdata.GithubArchiveRepo'))
+        .add(root.lookupType('testdata.GithubArchiveEntity'))
+        .toDescriptor('proto2');
+      const normalized = adapt
+        .normalizeDescriptor(new DescriptorProto(descriptor))
+        .toJSON();
+      assert.deepEqual(normalized, {
+        name: 'GithubArchiveMessage',
+        field: [
+          {
+            name: 'type',
+            number: 1,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_STRING',
+            options: {},
+          },
+          {
+            name: 'public',
+            number: 2,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_BOOL',
+            options: {},
+          },
+          {
+            name: 'payload',
+            number: 3,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_STRING',
+            options: {},
+          },
+          {
+            name: 'repo',
+            number: 4,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_MESSAGE',
+            typeName: 'GithubArchiveRepo',
+            options: {},
+          },
+          {
+            name: 'actor',
+            number: 5,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_MESSAGE',
+            typeName: 'GithubArchiveEntity',
+            options: {},
+          },
+          {
+            name: 'org',
+            number: 6,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_MESSAGE',
+            typeName: 'GithubArchiveEntity',
+            options: {},
+          },
+          {
+            name: 'created_at',
+            number: 7,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_INT64',
+            options: {},
+          },
+          {
+            name: 'id',
+            number: 8,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_STRING',
+            options: {},
+          },
+          {
+            name: 'other',
+            number: 9,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_STRING',
+            options: {},
+          },
+        ],
+        nestedType: [
+          {
+            name: 'GithubArchiveRepo',
+            field: [
+              {
+                name: 'id',
+                number: 1,
+                label: 'LABEL_OPTIONAL',
+                type: 'TYPE_INT64',
+                options: {},
+              },
+              {
+                name: 'name',
+                number: 2,
+                label: 'LABEL_OPTIONAL',
+                type: 'TYPE_STRING',
+                options: {},
+              },
+              {
+                name: 'url',
+                number: 3,
+                label: 'LABEL_OPTIONAL',
+                type: 'TYPE_STRING',
+                options: {},
+              },
+            ],
+          },
+          {
+            name: 'GithubArchiveEntity',
+            field: [
+              {
+                name: 'id',
+                number: 1,
+                label: 'LABEL_OPTIONAL',
+                type: 'TYPE_INT64',
+                options: {},
+              },
+              {
+                name: 'login',
+                number: 2,
+                label: 'LABEL_OPTIONAL',
+                type: 'TYPE_STRING',
+                options: {},
+              },
+              {
+                name: 'gravatar_id',
+                number: 3,
+                label: 'LABEL_OPTIONAL',
+                type: 'TYPE_STRING',
+                options: {},
+              },
+              {
+                name: 'avatar_url',
+                number: 4,
+                label: 'LABEL_OPTIONAL',
+                type: 'TYPE_STRING',
+                options: {},
+              },
+              {
+                name: 'url',
+                number: 5,
+                label: 'LABEL_OPTIONAL',
+                type: 'TYPE_STRING',
+                options: {},
+              },
+            ],
+          },
+        ],
+      });
+    });
+    it('nested proto with enum', () => {
+      const root = Root.fromJSON(messagesJSON).resolveAll();
+      const descriptor = root
+        .lookupType('testdata.ExternalEnumMessage')
+        .add(root.lookupType('testdata.EnumMsgA'))
+        .add(root.lookupType('testdata.EnumMsgB'))
+        .add(root.lookupEnum('testdata.ExtEnum'))
+        .toDescriptor('proto2');
+      const normalized = adapt
+        .normalizeDescriptor(new DescriptorProto(descriptor))
+        .toJSON();
+      assert.deepEqual(normalized, {
+        name: 'ExternalEnumMessage',
+        field: [
+          {
+            name: 'msg_a',
+            number: 1,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_MESSAGE',
+            typeName: 'EnumMsgA',
+            options: {},
+          },
+          {
+            name: 'msg_b',
+            number: 2,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_MESSAGE',
+            typeName: 'EnumMsgB',
+            options: {},
+          },
+        ],
+        nestedType: [
+          {
+            name: 'EnumMsgA',
+            field: [
+              {
+                name: 'foo',
+                number: 1,
+                label: 'LABEL_OPTIONAL',
+                type: 'TYPE_STRING',
+                options: {},
+              },
+              {
+                name: 'bar',
+                number: 2,
+                label: 'LABEL_OPTIONAL',
+                type: 'TYPE_ENUM',
+                typeName: 'ExtEnum',
+                options: {},
+              },
+            ],
+          },
+          {
+            name: 'EnumMsgB',
+            field: [
+              {
+                name: 'baz',
+                number: 1,
+                label: 'LABEL_OPTIONAL',
+                type: 'TYPE_ENUM',
+                typeName: 'ExtEnum',
+                options: {},
+              },
+            ],
+          },
+        ],
+        enumType: [
+          {
+            name: 'ExtEnum',
+            value: [
+              {name: 'UNDEFINED', number: 0},
+              {name: 'THING', number: 1},
+              {name: 'OTHER_THING', number: 2},
+            ],
+          },
+        ],
+      });
     });
   });
 });

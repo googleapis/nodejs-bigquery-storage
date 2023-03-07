@@ -125,7 +125,7 @@ describe('writeClient', () => {
     });
 
     it('BQ Schema to Proto adapt', async () => {
-      return testAppendRowsMultipleType('append_rows_adapt_proto2');
+      return testAppendRowsMultipleType('append_rows_table_to_proto2');
     });
   });
 

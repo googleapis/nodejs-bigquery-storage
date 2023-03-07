@@ -14,56 +14,15 @@
 
 import * as bigquery from '@google-cloud/bigquery';
 import * as protos from '../../protos/protos';
+import {fieldTypeMap, modeMap} from './schema_mappings';
+
 type StorageTableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type StorageTableField =
   protos.google.cloud.bigquery.storage.v1.ITableFieldSchema;
-type StorageTableFieldType =
-  protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type;
 
 const StorageTableSchema = protos.google.cloud.bigquery.storage.v1.TableSchema;
 const StorageTableField =
   protos.google.cloud.bigquery.storage.v1.TableFieldSchema;
-const StorageTableFieldType =
-  protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type;
-
-const fieldTypeMap: Record<string, StorageTableFieldType> = {
-  STRING: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.STRING,
-  BYTES: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.BYTES,
-  INTEGER: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.INT64,
-  INT64: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.INT64,
-  FLOAT: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.DOUBLE,
-  FLOAT64: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.DOUBLE,
-  NUMERIC:
-    protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.NUMERIC,
-  BIGNUMERIC:
-    protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.BIGNUMERIC,
-  BOOLEAN: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.BOOL,
-  BOOL: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.BOOL,
-  TIMESTAMP:
-    protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.TIMESTAMP,
-  DATE: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.DATE,
-  TIME: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.TIME,
-  DATETIME:
-    protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.DATETIME,
-  INTERVAL:
-    protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.INTERVAL,
-  RECORD: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.STRUCT,
-  STRUCT: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.STRUCT,
-  JSON: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.JSON,
-  GEOGRAPHY:
-    protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.GEOGRAPHY,
-};
-
-const modeMap: Record<string, StorageTableField['mode']> = {
-  NULLABLE:
-    protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Mode.NULLABLE,
-  REPEATED:
-    protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Mode.REPEATED,
-  REQUIRED:
-    protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Mode.REQUIRED,
-  '': protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Mode
-    .MODE_UNSPECIFIED,
-};
 
 /**
  * Converts a bigquery Schema into the protobuf-based TableSchema used

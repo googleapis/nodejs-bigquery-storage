@@ -27,7 +27,7 @@ function main(
   const {protobuf} = require('google-gax');
   const {Root} = protobuf;
 
-  const mode = require('@google-cloud/bigquery-storage').protos.google.cloud
+  const type = require('@google-cloud/bigquery-storage').protos.google.cloud
     .bigquery.storage.v1.WriteStream.Type;
 
   async function appendRowsProto2() {
@@ -45,11 +45,10 @@ function main(
     // protocol buffer representation of your message descriptor.
     // For this sample, we are going to use some helper functions to convert
     // the BigQuery table schema to a ProtoDescriptor.
-    const fileDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
+    const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
       storageSchema,
       'SampleData'
     );
-    const protoDescriptor = adapt.normalizeDescriptor(fileDescriptor);
     const namespace = adapt.protoDescriptorToNamespace(protoDescriptor);
     const root = Root.fromJSON(namespace);
     const SampleData = root.lookupType('SampleData');
@@ -65,7 +64,7 @@ function main(
 
     try {
       // Create a write stream to the given table.
-      let writeStream = {type: mode.PENDING};
+      let writeStream = {type: type.PENDING};
 
       let request = {
         parent,
