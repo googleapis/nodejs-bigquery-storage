@@ -23,22 +23,20 @@ function main(
   const {v1, adapt} = require('@google-cloud/bigquery-storage');
   const {BigQueryWriteClient} = v1;
 
-  const customer_record_json = require('./testdata/customer_record.json');
-  const customer_record_pb = require('./testdata/customer_record');
-  const { CustomerRecord } = customer_record_pb;
+  const customer_record_pb = require('./customer_record_pb.js');
+  const {CustomerRecord} = customer_record_pb;
 
   const {protobuf} = require('google-gax');
-  const {Root} = protobuf;
 
   const type = require('@google-cloud/bigquery-storage').protos.google.cloud
     .bigquery.storage.v1.WriteStream.Type;
 
   async function appendRowsPending() {
     /**
-     * If you make updates to the sample_data.proto protocol buffers definition,
+     * If you make updates to the customer_record.proto protocol buffers definition,
      * run:
-     *   pbjs testdata/customer_record.proto -t static-module -w commonjs -o testdata/customer_record.js
-     *   pbjs testdata/customer_record.proto -t json --keep-case -w commonjs -o testdata/customer_record.json
+     *   pbjs customer_record.proto -t static-module -w commonjs -o customer_record.js
+     *   pbjs sample_data.proto -t json --keep-case -o customer_record.json
      * from the /samples directory to generate the customer_record module.
      */
 
@@ -46,9 +44,8 @@ function main(
 
     // So that BigQuery knows how to parse the serialized_rows, create a
     // protocol buffer representation of your message descriptor.
-    const root = Root.fromJSON(customer_record_json).resolveAll();
+    const root = protobuf.loadSync('./customer_record.json');
     const descriptor = root.lookupType('CustomerRecord').toDescriptor('proto2');
-    descriptor.field = descriptor.field.filter(f => f.name != 'row_num'); // remove row_num field
     const protoDescriptor = adapt.normalizeDescriptor(descriptor).toJSON();
 
     /**

@@ -77,7 +77,11 @@ export function convertStorageSchemaToProto2Descriptor(
   schema: TableSchema,
   scope: string
 ): DescriptorProto | null {
-  const fds = convertStorageSchemaToFileDescriptorInternal(schema, scope, false);
+  const fds = convertStorageSchemaToFileDescriptorInternal(
+    schema,
+    scope,
+    false
+  );
   if (!fds) {
     return null;
   }
@@ -164,9 +168,7 @@ function convertStorageSchemaToFileDescriptorInternal(
   return fds;
 }
 
-function normalizeDescriptorSet(
-  fds: FileDescriptorSet
-): DescriptorProto {
+function normalizeDescriptorSet(fds: FileDescriptorSet): DescriptorProto {
   let dp: DescriptorProto | null = null;
   let fdpName;
   if (fds.file.length > 0) {
@@ -217,9 +219,11 @@ export function normalizeDescriptor(dp: DescriptorProto): DescriptorProto {
       f.options.packed = shouldPackType(f.type, f.label, false);
     }
   }
-  const normalizedNestedTypes = []
+  const normalizedNestedTypes = [];
   for (const nestedDP of dp.nestedType) {
-    normalizedNestedTypes.push(normalizeDescriptor(new DescriptorProto(nestedDP)));
+    normalizedNestedTypes.push(
+      normalizeDescriptor(new DescriptorProto(nestedDP))
+    );
   }
   dp.nestedType = normalizedNestedTypes;
   return dp;

@@ -12,15 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {protobuf} from 'google-gax';
 import * as protos from '../../protos/protos';
-type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
+
 type TableFieldSchema =
   protos.google.cloud.bigquery.storage.v1.ITableFieldSchema;
 type FieldDescriptorProto = protos.google.protobuf.IFieldDescriptorProto;
-type FileDescriptorProto = protos.google.protobuf.IFileDescriptorProto;
-type FileDescriptorSet = protos.google.protobuf.FileDescriptorSet;
-type DescriptorProto = protos.google.protobuf.DescriptorProto;
 type FieldDescriptorProtoType =
   protos.google.protobuf.FieldDescriptorProto['type'];
 type TableFieldSchemaType =
@@ -31,22 +27,9 @@ type FieldDescriptorProtoLabel =
   protos.google.protobuf.FieldDescriptorProto.Label;
 type IFieldRule = 'optional' | 'required' | 'repeated' | undefined;
 
-type Namespace = {
-  nested: {
-    [k: string]: {
-      fields: {
-        [k: string]: protobuf.IField;
-      };
-    };
-  };
-};
-
 const TableFieldSchema =
   protos.google.cloud.bigquery.storage.v1.TableFieldSchema;
-const DescriptorProto = protos.google.protobuf.DescriptorProto;
 const FieldDescriptorProto = protos.google.protobuf.FieldDescriptorProto;
-const FileDescriptorProto = protos.google.protobuf.FileDescriptorProto;
-const FileDescriptorSet = protos.google.protobuf.FileDescriptorSet;
 
 export const labelToFieldRuleMap: Record<
   protos.google.protobuf.FieldDescriptorProto['label'],

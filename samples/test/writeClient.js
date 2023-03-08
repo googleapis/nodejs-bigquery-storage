@@ -52,7 +52,10 @@ describe('writeClient', () => {
   });
 
   it('should append rows', async () => {
-    const schema = [{name: 'customer_name', type: 'STRING'}];
+    const schema = [
+      {name: 'customer_name', type: 'STRING'},
+      {name: 'row_num', type: 'INTEGER', mode: 'REQUIRED'},
+    ];
 
     const tableId = generateUuid();
 
@@ -80,13 +83,16 @@ describe('writeClient', () => {
     });
 
     assert.strictEqual(rows.length, 3);
-    assert.deepInclude(rows, {customer_name: 'Octavia'});
-    assert.deepInclude(rows, {customer_name: 'Turing'});
-    assert.deepInclude(rows, {customer_name: 'bell'});
+    assert.deepInclude(rows, {customer_name: 'Octavia', row_num: 1});
+    assert.deepInclude(rows, {customer_name: 'Turing', row_num: 2});
+    assert.deepInclude(rows, {customer_name: 'bell', row_num: 3});
   });
 
   it('should append rows in non-US regions', async () => {
-    const schema = [{name: 'customer_name', type: 'STRING'}];
+    const schema = [
+      {name: 'customer_name', type: 'STRING'},
+      {name: 'row_num', type: 'INTEGER', mode: 'REQUIRED'},
+    ];
 
     const tableId = generateUuid();
 
@@ -114,9 +120,9 @@ describe('writeClient', () => {
     });
 
     assert.strictEqual(rows.length, 3);
-    assert.deepInclude(rows, {customer_name: 'Octavia'});
-    assert.deepInclude(rows, {customer_name: 'Turing'});
-    assert.deepInclude(rows, {customer_name: 'bell'});
+    assert.deepInclude(rows, {customer_name: 'Octavia', row_num: 1});
+    assert.deepInclude(rows, {customer_name: 'Turing', row_num: 2});
+    assert.deepInclude(rows, {customer_name: 'bell', row_num: 3});
   });
 
   describe('should append rows with multiple types', async () => {
