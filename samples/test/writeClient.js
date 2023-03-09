@@ -126,11 +126,11 @@ describe('writeClient', () => {
   });
 
   describe('should append rows with multiple types', async () => {
-    it('protofile generated stub', async () => {
+    it('uses protofile generated stubs', async () => {
       return testAppendRowsMultipleType('append_rows_proto2');
     });
 
-    it('BQ Schema to Proto adapt', async () => {
+    it('adapts BQ Schema to Proto descriptor', async () => {
       return testAppendRowsMultipleType('append_rows_table_to_proto2');
     });
   });
@@ -205,7 +205,7 @@ describe('writeClient', () => {
       {bytes_col: Buffer.from('hello world')},
       {float64_col: 123.44999694824219},
       {int64_col: 123},
-      {string_col: 'omfg!'},
+      {string_col: 'omg'},
       {row_num: 1},
     ]);
     assert.deepInclude(rows, [{bool_col: false}, {row_num: 2}]);

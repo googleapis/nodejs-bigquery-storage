@@ -131,7 +131,7 @@ function main(
         bytesCol: Buffer.from('hello world'),
         float64Col: parseFloat('+123.45'),
         int64Col: 123,
-        stringCol: 'omfg!',
+        stringCol: 'omg',
       };
       serializedRows.push(SampleData.encode(row).finish());
 
