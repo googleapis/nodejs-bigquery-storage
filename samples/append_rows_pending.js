@@ -20,7 +20,7 @@ function main(
   tableId = 'my_table'
 ) {
   // [START bigquerystorage_append_rows_pending]
-  const {WriterClient} =
+  const {WriterClient, StreamWriter} =
     require('@google-cloud/bigquery-storage').managedwriter;
   const customer_record_pb = require('./customer_record_pb.js');
 
@@ -67,8 +67,12 @@ function main(
       console.log(`Stream created: ${streamId}`);
 
       // Append data to the given stream.
-      const managedStream = await writeClient.createManagedStream({
+      const connection = await writeClient.createStreamConnection({
         streamId,
+      });
+      const writer = new StreamWriter({
+        streamId,
+        connection,
         protoDescriptor,
       });
 
@@ -97,7 +101,7 @@ function main(
       let offsetValue = 0;
 
       // Send batch.
-      let pw = managedStream.appendRows({serializedRows}, offsetValue);
+      let pw = writer.appendRows({serializedRows}, offsetValue);
       pendingWrites.push(pw);
 
       serializedRows = [];
@@ -111,7 +115,7 @@ function main(
       offsetValue = 2;
 
       // Send batch.
-      pw = managedStream.appendRows({serializedRows}, offsetValue);
+      pw = writer.appendRows({serializedRows}, offsetValue);
       pendingWrites.push(pw);
 
       const results = await Promise.all(
@@ -119,7 +123,7 @@ function main(
       );
       console.log('Write results:', results);
 
-      const rowCount = await managedStream.finalize();
+      const rowCount = await connection.finalize();
       console.log(`Row count: ${rowCount}`);
 
       const response = await writeClient.batchCommitWriteStream({

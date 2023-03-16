@@ -20,7 +20,7 @@ function main(
   tableId = 'my_table'
 ) {
   // [START bigquerystorage_append_rows_raw_proto2]
-  const {WriterClient} =
+  const {WriterClient, StreamWriter} =
     require('@google-cloud/bigquery-storage').managedwriter;
   const sample_data_pb = require('./sample_data_pb.js');
 
@@ -138,6 +138,7 @@ function main(
             name: 'sub_int_col',
             number: 1,
             type: type.TYPE_INT64,
+            label: protos.TableFieldSchema.Mode.OPTIONAL,
           },
         ],
       },
@@ -156,14 +157,19 @@ function main(
 
     try {
       // Append data to the given stream.
-      const managedStream = await writeClient.createManagedStream({
+      const connection = await writeClient.createStreamConnection({
         streamType,
         destinationTable,
-        protoDescriptor,
       });
 
-      const streamId = managedStream.getStreamId();
+      const streamId = connection.getStreamId();
       console.log(`Stream created: ${streamId}`);
+
+      const writer = new StreamWriter({
+        streamId,
+        connection,
+        protoDescriptor,
+      });
 
       let serializedRows = [];
       const pendingWrites = [];
@@ -218,7 +224,7 @@ function main(
       let offsetValue = 0;
 
       // Send batch.
-      let pw = managedStream.appendRows({serializedRows}, offsetValue);
+      let pw = writer.appendRows({serializedRows}, offsetValue);
       pendingWrites.push(pw);
 
       // Reset rows.
@@ -266,7 +272,7 @@ function main(
       offsetValue = 6;
 
       // Send batch.
-      pw = managedStream.appendRows({serializedRows}, offsetValue);
+      pw = writer.appendRows({serializedRows}, offsetValue);
       pendingWrites.push(pw);
 
       serializedRows = [];
@@ -300,7 +306,7 @@ function main(
       offsetValue = 12;
 
       // Send batch.
-      pw = managedStream.appendRows({serializedRows}, offsetValue);
+      pw = writer.appendRows({serializedRows}, offsetValue);
       pendingWrites.push(pw);
 
       const results = await Promise.all(
@@ -308,7 +314,7 @@ function main(
       );
       console.log('Write results:', results);
 
-      const rowCount = await managedStream.finalize();
+      const rowCount = await connection.finalize();
       console.log(`Row count: ${rowCount}`);
 
       const response = await writeClient.batchCommitWriteStream({
