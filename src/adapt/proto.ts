@@ -12,14 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {protobuf} from 'google-gax';
 import * as protos from '../../protos/protos';
-import {
-  bqTypeToFieldTypeMap,
-  labelToFieldRuleMap,
-  convertModeToLabel,
-  fieldTypeLabelMap,
-} from './proto_mappings';
+import {bqTypeToFieldTypeMap, convertModeToLabel} from './proto_mappings';
 
 type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type TableFieldSchema =
@@ -32,17 +26,6 @@ type FieldDescriptorProtoType =
   protos.google.protobuf.IFieldDescriptorProto['type'];
 type FieldDescriptorProtoLabel =
   protos.google.protobuf.IFieldDescriptorProto['label'];
-type IFieldRule = 'optional' | 'required' | 'repeated' | undefined;
-
-type Namespace = {
-  nested: {
-    [k: string]: {
-      fields: {
-        [k: string]: protobuf.IField;
-      };
-    };
-  };
-};
 
 const TableFieldSchema =
   protos.google.cloud.bigquery.storage.v1.TableFieldSchema;
@@ -231,72 +214,6 @@ export function normalizeDescriptor(dp: DescriptorProto): DescriptorProto {
 
 function normalizeName(name: string): string {
   return name.replace(/\./, '_');
-}
-
-/** Builds a namespace descriptor in JSON format from a DescriptorProto.
- * This can be used to on protobufjs.Root.fromJSON to load protobuf structs.
- * @param dp - a DescriptorProto
- * @returns Namespace
- */
-export function protoDescriptorToNamespace(dp: DescriptorProto): Namespace {
-  const fields: {[k: string]: protobuf.IField} = {};
-  for (const f of dp.field) {
-    fields[`${f.name}`] = descriptorProtoFieldToField(f);
-  }
-  const result = {
-    nested: {
-      [`${dp.name}`]: {
-        fields,
-      },
-    },
-  };
-  for (const nested of dp.nestedType) {
-    const nestedData = protoDescriptorToNamespace(new DescriptorProto(nested));
-    for (const key of Object.keys(nestedData.nested)) {
-      const data = nestedData.nested[key];
-      if (data) {
-        result.nested[key] = data;
-      }
-    }
-  }
-  return result;
-}
-
-function descriptorProtoFieldToField(
-  field: FieldDescriptorProto
-): protobuf.IField {
-  let type = '';
-  if (field.type) {
-    if (field.typeName) {
-      type = field.typeName;
-    } else {
-      type = fieldTypeLabelMap[field.type].replace('TYPE_', '').toLowerCase();
-    }
-  }
-  return {
-    id: field.number || -1,
-    type: type,
-    rule: labelToFieldRule(field.label),
-    options: optionToFieldOption(field.options),
-  };
-}
-
-function labelToFieldRule(label?: FieldDescriptorProto['label']): IFieldRule {
-  if (!label) {
-    return undefined;
-  }
-  return labelToFieldRuleMap[label];
-}
-
-function optionToFieldOption(
-  options: FieldDescriptorProto['options']
-): protobuf.IField['options'] {
-  if (!options) {
-    return {};
-  }
-  return {
-    ...options,
-  };
 }
 
 function convertTableFieldSchemaToFieldDescriptorProto(

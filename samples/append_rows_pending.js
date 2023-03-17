@@ -26,7 +26,8 @@ function main(
   const customer_record_pb = require('./customer_record_pb.js');
   const {CustomerRecord} = customer_record_pb;
 
-  const {protobuf} = require('google-gax');
+  const protobufjs = require('protobufjs');
+  require('protobufjs/ext/descriptor');
 
   const type = require('@google-cloud/bigquery-storage').protos.google.cloud
     .bigquery.storage.v1.WriteStream.Type;
@@ -44,7 +45,7 @@ function main(
 
     // So that BigQuery knows how to parse the serialized_rows, create a
     // protocol buffer representation of your message descriptor.
-    const root = protobuf.loadSync('./customer_record.json');
+    const root = protobufjs.loadSync('./customer_record.json');
     const descriptor = root.lookupType('CustomerRecord').toDescriptor('proto2');
     const protoDescriptor = adapt.normalizeDescriptor(descriptor).toJSON();
 

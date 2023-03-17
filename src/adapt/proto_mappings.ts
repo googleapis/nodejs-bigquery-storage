@@ -25,23 +25,10 @@ type TableFieldSchemaMode =
   protos.google.cloud.bigquery.storage.v1.TableFieldSchema['mode'];
 type FieldDescriptorProtoLabel =
   protos.google.protobuf.FieldDescriptorProto.Label;
-type IFieldRule = 'optional' | 'required' | 'repeated' | undefined;
 
 const TableFieldSchema =
   protos.google.cloud.bigquery.storage.v1.TableFieldSchema;
 const FieldDescriptorProto = protos.google.protobuf.FieldDescriptorProto;
-
-export const labelToFieldRuleMap: Record<
-  protos.google.protobuf.FieldDescriptorProto['label'],
-  IFieldRule
-> = {
-  LABEL_OPTIONAL: 'optional',
-  '1': 'optional',
-  LABEL_REQUIRED: 'required',
-  '2': 'required',
-  LABEL_REPEATED: 'repeated',
-  '3': 'repeated',
-};
 
 // Reference https://cloud.google.com/bigquery/docs/write-api#data_type_conversions
 export const bqTypeToFieldTypeMap: Record<
@@ -80,45 +67,6 @@ export const bqTypeToFieldTypeMap: Record<
   TYPE_UNSPECIFIED: null,
   [TableFieldSchema.Type.INTERVAL]: null,
   INTERVAL: null,
-};
-
-export const fieldTypeLabelMap: Record<FieldDescriptorProtoType, string> = {
-  [FieldDescriptorProto.Type.TYPE_DOUBLE]: 'TYPE_DOUBLE',
-  TYPE_DOUBLE: 'TYPE_DOUBLE',
-  [FieldDescriptorProto.Type.TYPE_FLOAT]: 'TYPE_FLOAT',
-  TYPE_FLOAT: 'TYPE_FLOAT',
-  [FieldDescriptorProto.Type.TYPE_INT64]: 'TYPE_INT64',
-  TYPE_INT64: 'TYPE_INT64',
-  [FieldDescriptorProto.Type.TYPE_UINT64]: 'TYPE_UINT64',
-  TYPE_UINT64: 'TYPE_UINT64',
-  [FieldDescriptorProto.Type.TYPE_INT32]: 'TYPE_INT32',
-  TYPE_INT32: 'TYPE_INT32',
-  [FieldDescriptorProto.Type.TYPE_FIXED64]: 'TYPE_FIXED64',
-  TYPE_FIXED64: 'TYPE_FIXED64',
-  [FieldDescriptorProto.Type.TYPE_FIXED32]: 'TYPE_FIXED32',
-  TYPE_FIXED32: 'TYPE_FIXED32',
-  [FieldDescriptorProto.Type.TYPE_BOOL]: 'TYPE_BOOL',
-  TYPE_BOOL: 'TYPE_BOOL',
-  [FieldDescriptorProto.Type.TYPE_STRING]: 'TYPE_STRING',
-  TYPE_STRING: 'TYPE_STRING',
-  [FieldDescriptorProto.Type.TYPE_GROUP]: 'TYPE_GROUP',
-  TYPE_GROUP: 'TYPE_GROUP',
-  [FieldDescriptorProto.Type.TYPE_MESSAGE]: 'TYPE_MESSAGE',
-  TYPE_MESSAGE: 'TYPE_MESSAGE',
-  [FieldDescriptorProto.Type.TYPE_BYTES]: 'TYPE_BYTES',
-  TYPE_BYTES: 'TYPE_BYTES',
-  [FieldDescriptorProto.Type.TYPE_UINT32]: 'TYPE_UINT32',
-  TYPE_UINT32: 'TYPE_UINT32',
-  [FieldDescriptorProto.Type.TYPE_ENUM]: 'TYPE_ENUM',
-  TYPE_ENUM: 'TYPE_ENUM',
-  [FieldDescriptorProto.Type.TYPE_SFIXED32]: 'TYPE_SFIXED32',
-  TYPE_SFIXED32: 'TYPE_SFIXED32',
-  [FieldDescriptorProto.Type.TYPE_SFIXED64]: 'TYPE_SFIXED64',
-  TYPE_SFIXED64: 'TYPE_SFIXED64',
-  [FieldDescriptorProto.Type.TYPE_SINT32]: 'TYPE_SINT32',
-  TYPE_SINT32: 'TYPE_SINT32',
-  [FieldDescriptorProto.Type.TYPE_SINT64]: 'TYPE_SINT64',
-  TYPE_SINT64: 'TYPE_SINT64',
 };
 
 export const bqModeToFieldLabelMapProto2: Record<

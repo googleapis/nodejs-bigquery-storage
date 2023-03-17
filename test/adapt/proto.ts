@@ -21,7 +21,7 @@ import * as protos from '../../protos/protos';
 import {TableSchema} from '@google-cloud/bigquery';
 
 const DescriptorProto = protos.google.protobuf.DescriptorProto;
-const {Root} = protobuf;
+const {Root, Type} = protobuf;
 
 describe('Adapt Protos', () => {
   describe('Schema to Proto Descriptor conversion', () => {
@@ -60,9 +60,7 @@ describe('Adapt Protos', () => {
       if (!protoDescriptor) {
         throw Error('null proto descriptor set');
       }
-      const namespace = adapt.protoDescriptorToNamespace(protoDescriptor);
-      const root = Root.fromJSON(namespace);
-      const TestProto = root.lookupType('Test');
+      const TestProto = (Type as any).fromDescriptor(protoDescriptor);
       const raw = {
         foo: 'name',
         bar: 42,
@@ -194,9 +192,7 @@ describe('Adapt Protos', () => {
           },
         ],
       });
-      const namespace = adapt.protoDescriptorToNamespace(protoDescriptor);
-      const root = Root.fromJSON(namespace);
-      const NestedProto = root.lookupType('Nested');
+      const NestedProto = (Type as any).fromDescriptor(protoDescriptor);
       const raw = {
         record_id: '12345',
         details: [

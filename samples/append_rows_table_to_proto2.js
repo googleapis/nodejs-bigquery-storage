@@ -19,13 +19,13 @@ function main(
   datasetId = 'my_dataset',
   tableId = 'my_table'
 ) {
-  // [START bigquerystorage_write_pending_complexschema]
+  // [START bigquerystorage_jsonstreamwriter_pending]
   const {v1, adapt} = require('@google-cloud/bigquery-storage');
   const {BigQueryWriteClient} = v1;
   const {BigQuery} = require('@google-cloud/bigquery');
 
-  const {protobuf} = require('google-gax');
-  const {Root} = protobuf;
+  const {Type} = require('protobufjs');
+  require('protobufjs/ext/descriptor');
 
   const type = require('@google-cloud/bigquery-storage').protos.google.cloud
     .bigquery.storage.v1.WriteStream.Type;
@@ -49,9 +49,7 @@ function main(
       storageSchema,
       'SampleData'
     );
-    const namespace = adapt.protoDescriptorToNamespace(protoDescriptor);
-    const root = Root.fromJSON(namespace);
-    const SampleData = root.lookupType('SampleData');
+    const SampleData = Type.fromDescriptor(protoDescriptor);
 
     /**
      * TODO(developer): Uncomment the following lines before running the sample.
@@ -299,7 +297,7 @@ function main(
       console.log(err);
     }
   }
-  // [END bigquerystorage_write_pending_complexschema]
+  // [END bigquerystorage_jsonstreamwriter_pending]
   appendRowsProto2();
 }
 process.on('unhandledRejection', err => {
