@@ -54,36 +54,30 @@ const packedTypes: FieldDescriptorProtoType[] = [
 /** Builds a DescriptorProto for a given table schema using proto2 syntax.
  * @param schema - a BigQuery Storage TableSchema.
  * @param scope - scope to namespace protobuf structs.
- * @returns DescriptorProto | null
+ * @returns DescriptorProto
  */
 export function convertStorageSchemaToProto2Descriptor(
   schema: TableSchema,
   scope: string
-): DescriptorProto | null {
+): DescriptorProto {
   const fds = convertStorageSchemaToFileDescriptorInternal(
     schema,
     scope,
     false
   );
-  if (!fds) {
-    return null;
-  }
   return normalizeDescriptorSet(fds);
 }
 
 /** Builds a DescriptorProto for a given table schema using proto3 syntax.
  * @param schema - a Bigquery TableSchema.
  * @param scope - scope to namespace protobuf structs.
- * @returns DescriptorProto | null
+ * @returns DescriptorProto
  */
 export function convertStorageSchemaToProto3Descriptor(
   schema: TableSchema,
   scope: string
-): DescriptorProto | null {
+): DescriptorProto {
   const fds = convertStorageSchemaToFileDescriptorInternal(schema, scope, true);
-  if (!fds) {
-    return null;
-  }
   return normalizeDescriptorSet(fds);
 }
 
@@ -94,8 +88,8 @@ function convertStorageSchemaToFileDescriptorInternal(
 ): FileDescriptorSet {
   let fNumber = 0;
   const fields: FieldDescriptorProto[] = [];
-  const deps: Record<string, FileDescriptorProto> = {};
-  for (const field of schema.fields || []) {
+  const deps = new Map<string, FileDescriptorProto>();
+  for (const field of schema.fields ?? []) {
     fNumber += 1;
     const currentScope = `${scope}_${field.name}`;
     if (field.type === TableFieldSchema.Type.STRUCT) {
@@ -107,11 +101,11 @@ function convertStorageSchemaToFileDescriptorInternal(
         currentScope,
         useProto3
       );
-      fd.file?.forEach(f => {
+      for (const f of fd.file) {
         if (f.name) {
-          deps[f.name] = f;
+          deps.set(f.name, f);
         }
-      });
+      }
       const fdp = convertTableFieldSchemaToFieldDescriptorProto(
         field,
         fNumber,
@@ -135,7 +129,7 @@ function convertStorageSchemaToFileDescriptorInternal(
     field: fields,
   });
 
-  const depsNames: string[] = Object.keys(deps);
+  const depsNames: string[] = Array.from(deps.keys());
   const syntax = useProto3 ? 'proto3' : 'proto2';
   const fdp = new FileDescriptorProto({
     messageType: [dp],
@@ -145,7 +139,7 @@ function convertStorageSchemaToFileDescriptorInternal(
   });
 
   const fds = new FileDescriptorSet({
-    file: [fdp, ...Object.values(deps)],
+    file: [fdp, ...Array.from(deps.values())],
   });
 
   return fds;

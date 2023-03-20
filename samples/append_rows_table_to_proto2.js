@@ -30,7 +30,7 @@ function main(
   const type = require('@google-cloud/bigquery-storage').protos.google.cloud
     .bigquery.storage.v1.WriteStream.Type;
 
-  async function appendRowsProto2() {
+  async function appendRowsPendingStream() {
     const writeClient = new BigQueryWriteClient();
     const bigquery = new BigQuery({projectId: projectId});
 
@@ -298,7 +298,7 @@ function main(
     }
   }
   // [END bigquerystorage_jsonstreamwriter_pending]
-  appendRowsProto2();
+  appendRowsPendingStream();
 }
 process.on('unhandledRejection', err => {
   console.error(err.message);

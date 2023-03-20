@@ -15,7 +15,6 @@
 import {google} from '../../protos/protos';
 import * as assert from 'assert';
 import {describe, it} from 'mocha';
-import * as bigquery from '@google-cloud/bigquery';
 import * as adapt from '../../src/adapt';
 
 const TableFieldSchema = google.cloud.bigquery.storage.v1.TableFieldSchema;
@@ -23,7 +22,7 @@ const TableFieldSchema = google.cloud.bigquery.storage.v1.TableFieldSchema;
 describe('Adapt Schemas', () => {
   describe('BigQuery Schema to Storage Schema', () => {
     it('basic schema', () => {
-      const schema: bigquery.TableSchema = {
+      const schema = {
         fields: [
           {name: 'f1', type: 'STRING', description: 'first field'},
           {name: 'f2', type: 'INTEGER', description: 'second field'},
@@ -60,7 +59,7 @@ describe('Adapt Schemas', () => {
       });
     });
     it('arrays', () => {
-      const schema: bigquery.TableSchema = {
+      const schema = {
         fields: [
           {
             name: 'arr',
@@ -100,7 +99,7 @@ describe('Adapt Schemas', () => {
       });
     });
     it('nested structs', () => {
-      const schema: bigquery.TableSchema = {
+      const schema = {
         fields: [
           {
             name: 'struct1',

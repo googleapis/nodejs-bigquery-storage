@@ -12,10 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import * as bigquery from '@google-cloud/bigquery';
 import * as protos from '../../protos/protos';
 import {fieldTypeMap, modeMap} from './schema_mappings';
 
+type ITableSchema = {
+  /**
+   * Describes the fields in a table.
+   */
+  fields?: Array<ITableFieldSchema>;
+};
+type ITableFieldSchema = {
+  /**
+   * [Optional] The field description. The maximum length is 1,024 characters.
+   */
+  description?: string;
+  /**
+   * [Optional] Describes the nested schema fields if the type property is set to RECORD.
+   */
+  fields?: Array<ITableFieldSchema>;
+  /**
+   * [Optional] The field mode. Possible values include NULLABLE, REQUIRED and REPEATED. The default value is NULLABLE.
+   */
+  mode?: string;
+  /**
+   * [Required] The field name. The name must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_), and must start with a letter or underscore. The maximum length is 300 characters.
+   */
+  name?: string;
+  /**
+   * [Required] The field data type. Possible values include STRING, BYTES, INTEGER, INT64 (same as INTEGER), FLOAT, FLOAT64 (same as FLOAT), NUMERIC, BIGNUMERIC, BOOLEAN, BOOL (same as BOOLEAN), TIMESTAMP, DATE, TIME, DATETIME, INTERVAL, RECORD (where RECORD indicates that the field contains a nested schema) or STRUCT (same as RECORD).
+   */
+  type?: string;
+};
 type StorageTableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type StorageTableField =
   protos.google.cloud.bigquery.storage.v1.ITableFieldSchema;
@@ -31,10 +58,10 @@ const StorageTableField =
  * @return StorageTableSchema
  */
 export function convertBigQuerySchemaToStorageTableSchema(
-  schema: bigquery.TableSchema
+  schema: ITableSchema
 ): StorageTableSchema {
   const out: StorageTableSchema = {};
-  for (const field of schema.fields || []) {
+  for (const field of schema.fields ?? []) {
     const converted = bqFieldToStorageField(field);
     if (!converted) {
       throw Error(`failed to convert field ${field.name}`);
@@ -47,7 +74,7 @@ export function convertBigQuerySchemaToStorageTableSchema(
   return out;
 }
 
-function bqFieldToStorageField(field: bigquery.TableField): StorageTableField {
+function bqFieldToStorageField(field: ITableFieldSchema): StorageTableField {
   const out: StorageTableField = {
     name: field.name,
   };
@@ -75,7 +102,7 @@ function bqFieldToStorageField(field: bigquery.TableField): StorageTableField {
     out.mode = modeMap[field.mode];
   }
 
-  for (const subField of field.fields || []) {
+  for (const subField of field.fields ?? []) {
     const converted = bqFieldToStorageField(subField);
     if (!out.fields) {
       out.fields = [];

@@ -18,7 +18,6 @@ import {protobuf} from 'google-gax';
 import * as adapt from '../../src/adapt';
 import * as messagesJSON from '../../samples/testdata/messages.json';
 import * as protos from '../../protos/protos';
-import {TableSchema} from '@google-cloud/bigquery';
 
 const DescriptorProto = protos.google.protobuf.DescriptorProto;
 const {Root, Type} = protobuf;
@@ -26,7 +25,7 @@ const {Root, Type} = protobuf;
 describe('Adapt Protos', () => {
   describe('Schema to Proto Descriptor conversion', () => {
     it('basic', () => {
-      const schema: TableSchema = {
+      const schema = {
         fields: [
           {
             name: 'foo',
@@ -73,7 +72,7 @@ describe('Adapt Protos', () => {
     });
 
     it('nested struct', () => {
-      const schema: TableSchema = {
+      const schema = {
         fields: [
           {
             name: 'record_id',
