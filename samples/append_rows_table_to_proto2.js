@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,34 +19,37 @@ function main(
   datasetId = 'my_dataset',
   tableId = 'my_table'
 ) {
-  // [START bigquerystorage_append_rows_raw_proto2]
+  // [START bigquerystorage_jsonstreamwriter_pending]
   const {v1, adapt} = require('@google-cloud/bigquery-storage');
   const {BigQueryWriteClient} = v1;
-  const sample_data_pb = require('./sample_data_pb.js');
-  const {SampleData} = sample_data_pb;
+  const {BigQuery} = require('@google-cloud/bigquery');
 
-  const protobufjs = require('protobufjs');
+  const {Type} = require('protobufjs');
   require('protobufjs/ext/descriptor');
 
   const type = require('@google-cloud/bigquery-storage').protos.google.cloud
     .bigquery.storage.v1.WriteStream.Type;
 
-  async function appendRowsProto2() {
-    /**
-     * If you make updates to the sample_data.proto protocol buffers definition,
-     * run:
-     *   pbjs sample_data.proto -t static-module -w commonjs -o sample_data.js
-     *   pbjs sample_data.proto -t json --keep-case -o sample_data.json
-     * from the /samples directory to generate the sample_data module.
-     */
-
+  async function appendRowsPendingStream() {
     const writeClient = new BigQueryWriteClient();
+    const bigquery = new BigQuery({projectId: projectId});
+
+    const dataset = bigquery.dataset(datasetId);
+    const table = await dataset.table(tableId);
+    const [metadata] = await table.getMetadata();
+    const storageSchema = adapt.convertBigQuerySchemaToStorageTableSchema(
+      metadata.schema
+    );
 
     // So that BigQuery knows how to parse the serialized_rows, create a
     // protocol buffer representation of your message descriptor.
-    const root = protobufjs.loadSync('./sample_data.json');
-    const descriptor = root.lookupType('SampleData').toDescriptor('proto2');
-    const protoDescriptor = adapt.normalizeDescriptor(descriptor).toJSON();
+    // For this sample, we are going to use some helper functions to convert
+    // the BigQuery table schema to a ProtoDescriptor.
+    const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
+      storageSchema,
+      'SampleData'
+    );
+    const SampleData = Type.fromDescriptor(protoDescriptor);
 
     /**
      * TODO(developer): Uncomment the following lines before running the sample.
@@ -83,7 +86,7 @@ function main(
           throw new Error(response.error.message);
         }
 
-        console.log(response);
+        console.log('response:', response);
         responses.push(response);
 
         // Close the stream when all responses have been received.
@@ -118,52 +121,54 @@ function main(
 
       // Row 1
       let row = {
-        rowNum: 1,
-        boolCol: true,
-        bytesCol: Buffer.from('hello world'),
-        float64Col: parseFloat('+123.45'),
-        int64Col: 123,
-        stringCol: 'omg',
+        row_num: 1,
+        bool_col: true,
+        bytes_col: Buffer.from('hello world'),
+        float64_col: parseFloat('+123.44999694824219'),
+        int64_col: 123,
+        string_col: 'omg',
       };
       serializedRows.push(SampleData.encode(row).finish());
 
       // Row 2
       row = {
-        rowNum: 2,
-        boolCol: false,
+        row_num: 2,
+        bool_col: false,
       };
       serializedRows.push(SampleData.encode(row).finish());
 
       // Row 3
       row = {
-        rowNum: 3,
-        bytesCol: Buffer.from('later, gator'),
+        row_num: 3,
+        bytes_col: Buffer.from('later, gator'),
       };
       serializedRows.push(SampleData.encode(row).finish());
 
       // Row 4
       row = {
-        rowNum: 4,
-        float64Col: 987.654,
+        row_num: 4,
+        float64_col: 987.6539916992188,
       };
       serializedRows.push(SampleData.encode(row).finish());
 
       // Row 5
       row = {
-        rowNum: 5,
-        int64Col: 321,
+        row_num: 5,
+        int64_col: 321,
       };
       serializedRows.push(SampleData.encode(row).finish());
 
       // Row 6
       row = {
-        rowNum: 6,
-        stringCol: 'octavia',
+        row_num: 6,
+        string_col: 'octavia',
       };
       serializedRows.push(SampleData.encode(row).finish());
 
       let protoRows = {
-        writerSchema: {protoDescriptor},
+        writerSchema: {
+          protoDescriptor: protoDescriptor.toJSON(),
+        },
         rows: {serializedRows},
       };
 
@@ -191,45 +196,44 @@ function main(
 
       // Row 7
       row = {
-        rowNum: 7,
-        dateCol: 1132896,
+        row_num: 7,
+        date_col: 1132896,
       };
       serializedRows.push(SampleData.encode(row).finish());
 
       // Row 8
       row = {
-        rowNum: 8,
-        datetimeCol: '2019-02-17 11:24:00.000',
+        row_num: 8,
+        datetime_col: bigquery.datetime('2019-02-17 11:24:00.000').value, // BigQuery civil time
       };
       serializedRows.push(SampleData.encode(row).finish());
 
       // Row 9
       row = {
-        rowNum: 9,
-        geographyCol: 'POINT(5 5)',
+        row_num: 9,
+        geography_col: 'POINT(5 5)',
       };
       serializedRows.push(SampleData.encode(row).finish());
 
       // Row 10
       row = {
-        rowNum: 10,
-        numericCol: '123456',
-        bignumericCol: '99999999999999999999999999999.999999999',
+        row_num: 10,
+        numeric_col: '123456',
+        bignumeric_col: '99999999999999999999999999999.999999999',
       };
       serializedRows.push(SampleData.encode(row).finish());
 
       // Row 11
       row = {
-        rowNum: 11,
-        timeCol: '18:00:00',
+        row_num: 11,
+        time_col: '18:00:00',
       };
       serializedRows.push(SampleData.encode(row).finish());
 
       // Row 12
-      const timestamp = 1641700186564;
       row = {
-        rowNum: 12,
-        timestampCol: timestamp,
+        row_num: 12,
+        timestamp_col: 1641700186564,
       };
       serializedRows.push(SampleData.encode(row).finish());
 
@@ -255,26 +259,27 @@ function main(
 
       // Row 13
       row = {
-        rowNum: 13,
-        int64List: [1999, 2001],
+        row_num: 13,
+        int64_list: [1999, 2001],
       };
       serializedRows.push(SampleData.encode(row).finish());
 
       // Row 14
       row = {
-        rowNum: 14,
-        structCol: {
-          subIntCol: 99,
+        row_num: 14,
+        struct_col: {
+          sub_int_col: 99,
         },
       };
       serializedRows.push(SampleData.encode(row).finish());
 
       // Row 15
       row = {
-        rowNum: 15,
-        structList: [{subIntCol: 100}, {subIntCol: 101}],
+        row_num: 15,
+        struct_list: [{sub_int_col: 100}, {sub_int_col: 101}],
       };
       serializedRows.push(SampleData.encode(row).finish());
+
       protoRows = {
         rows: {serializedRows},
       };
@@ -292,8 +297,8 @@ function main(
       console.log(err);
     }
   }
-  // [END bigquerystorage_append_rows_raw_proto2]
-  appendRowsProto2();
+  // [END bigquerystorage_jsonstreamwriter_pending]
+  appendRowsPendingStream();
 }
 process.on('unhandledRejection', err => {
   console.error(err.message);
