@@ -37,7 +37,7 @@ function main(
      * If you make updates to the customer_record.proto protocol buffers definition,
      * run:
      *   pbjs customer_record.proto -t static-module -w commonjs -o customer_record.js
-     *   pbjs sample_data.proto -t json --keep-case -o customer_record.json
+     *   pbjs customer_record.proto -t json --keep-case -o customer_record.json
      * from the /samples directory to generate the customer_record module.
      */
 
