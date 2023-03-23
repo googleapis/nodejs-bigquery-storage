@@ -198,6 +198,7 @@ describe('writeClient', () => {
     });
 
     assert.strictEqual(rows.length, 15);
+    console.log('Rows found: ', JSON.stringify(rows));
     assert.deepInclude(rows, [
       {
         bool_col: true,
