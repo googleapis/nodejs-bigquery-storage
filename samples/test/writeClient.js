@@ -229,7 +229,7 @@ describe('writeClient', () => {
     ]);
     assert.deepInclude(rows, [{time_col: '18:00:00'}, {row_num: 11}]);
     assert.deepInclude(rows, [
-      {timestamp_col: '1970-01-20T00:01:40.186Z'},
+      {timestamp_col: '1970-01-20T00:01:40.186564000Z'},
       {row_num: 12},
     ]);
     assert.deepInclude(rows, [{int64_list: [1999, 2001]}, {row_num: 13}]);
