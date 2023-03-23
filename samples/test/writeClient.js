@@ -52,7 +52,10 @@ describe('writeClient', () => {
   });
 
   it('should append rows', async () => {
-    const schema = [{name: 'customer_name', type: 'STRING'}];
+    const schema = [
+      {name: 'customer_name', type: 'STRING'},
+      {name: 'row_num', type: 'INTEGER', mode: 'REQUIRED'},
+    ];
 
     const tableId = generateUuid();
 
@@ -80,13 +83,16 @@ describe('writeClient', () => {
     });
 
     assert.strictEqual(rows.length, 3);
-    assert.deepInclude(rows, {customer_name: 'Octavia'});
-    assert.deepInclude(rows, {customer_name: 'Turing'});
-    assert.deepInclude(rows, {customer_name: 'bell'});
+    assert.deepInclude(rows, {customer_name: 'Octavia', row_num: 1});
+    assert.deepInclude(rows, {customer_name: 'Turing', row_num: 2});
+    assert.deepInclude(rows, {customer_name: 'bell', row_num: 3});
   });
 
   it('should append rows in non-US regions', async () => {
-    const schema = [{name: 'customer_name', type: 'STRING'}];
+    const schema = [
+      {name: 'customer_name', type: 'STRING'},
+      {name: 'row_num', type: 'INTEGER', mode: 'REQUIRED'},
+    ];
 
     const tableId = generateUuid();
 
@@ -114,12 +120,22 @@ describe('writeClient', () => {
     });
 
     assert.strictEqual(rows.length, 3);
-    assert.deepInclude(rows, {customer_name: 'Octavia'});
-    assert.deepInclude(rows, {customer_name: 'Turing'});
-    assert.deepInclude(rows, {customer_name: 'bell'});
+    assert.deepInclude(rows, {customer_name: 'Octavia', row_num: 1});
+    assert.deepInclude(rows, {customer_name: 'Turing', row_num: 2});
+    assert.deepInclude(rows, {customer_name: 'bell', row_num: 3});
   });
 
-  it('should append rows with multiple types', async () => {
+  describe('should append rows with multiple types', async () => {
+    it('uses protofile generated stubs', async () => {
+      return testAppendRowsMultipleType('append_rows_proto2');
+    });
+
+    it('adapts BQ Schema to Proto descriptor', async () => {
+      return testAppendRowsMultipleType('append_rows_table_to_proto2');
+    });
+  });
+
+  async function testAppendRowsMultipleType(testFile) {
     const schema = [
       {name: 'bool_col', type: 'BOOLEAN'},
       {name: 'bytes_col', type: 'BYTES'},
@@ -157,7 +173,7 @@ describe('writeClient', () => {
     projectId = table.metadata.tableReference.projectId;
 
     const output = execSync(
-      `node append_rows_proto2 ${projectId} ${datasetId} ${tableId}`
+      `node ${testFile} ${projectId} ${datasetId} ${tableId}`
     );
     assert.match(output, /Stream created:/);
     assert.match(output, /Row count: 15/);
@@ -188,7 +204,7 @@ describe('writeClient', () => {
       {bytes_col: Buffer.from('hello world')},
       {float64_col: 123.44999694824219},
       {int64_col: 123},
-      {string_col: 'omfg!'},
+      {string_col: 'omg'},
       {row_num: 1},
     ]);
     assert.deepInclude(rows, [{bool_col: false}, {row_num: 2}]);
@@ -221,7 +237,7 @@ describe('writeClient', () => {
       {struct_list: [{sub_int_col: 100}, {sub_int_col: 101}]},
       {row_num: 15},
     ]);
-  });
+  }
 
   // Only delete a resource if it is older than 24 hours. That will prevent
   // collisions with parallel CI test runs.

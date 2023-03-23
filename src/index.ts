@@ -47,3 +47,5 @@ export default {
 };
 import * as protos from '../protos/protos';
 export {protos};
+import * as adapt from './adapt';
+export {adapt};

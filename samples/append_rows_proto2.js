@@ -20,129 +20,32 @@ function main(
   tableId = 'my_table'
 ) {
   // [START bigquerystorage_append_rows_raw_proto2]
-  const {WriterClient, StreamWriter} =
-    require('@google-cloud/bigquery-storage').managedwriter;
-  const sample_data_pb = require('./sample_data_pb.js');
+  const {adapt, managedwriter} = require('@google-cloud/bigquery-storage');
+  const {WriterClient, StreamWriter} = managedwriter;
 
-  const protos = require('@google-cloud/bigquery-storage').protos.google.cloud
-    .bigquery.storage.v1;
-  const type = require('@google-cloud/bigquery-storage').protos.google.protobuf
-    .FieldDescriptorProto.Type;
-  const mode = require('@google-cloud/bigquery-storage').protos.google.cloud
+  const sample_data_pb = require('./sample_data_pb.js');
+  const {SampleData} = sample_data_pb;
+
+  const protobufjs = require('protobufjs');
+  require('protobufjs/ext/descriptor');
+
+  const type = require('@google-cloud/bigquery-storage').protos.google.cloud
     .bigquery.storage.v1.WriteStream.Type;
 
   async function appendRowsProto2() {
     /**
      * If you make updates to the sample_data.proto protocol buffers definition,
      * run:
-     *   protoc --js_out=import_style=commonjs,binary:. sample_data.proto
-     * from the /samples directory to generate the sample_data_pb module.
+     *   pbjs sample_data.proto -t static-module -w commonjs -o sample_data.js
+     *   pbjs sample_data.proto -t json --keep-case -o sample_data.json
+     * from the /samples directory to generate the sample_data module.
      */
 
     // So that BigQuery knows how to parse the serialized_rows, create a
     // protocol buffer representation of your message descriptor.
-    const protoDescriptor = {};
-    protoDescriptor.name = 'SampleData';
-    protoDescriptor.field = [
-      {
-        name: 'bool_col',
-        number: 1,
-        type: type.TYPE_BOOL,
-      },
-      {
-        name: 'bytes_col',
-        number: 2,
-        type: type.TYPE_BYTES,
-      },
-      {
-        name: 'float64_col',
-        number: 3,
-        type: type.TYPE_FLOAT,
-      },
-      {
-        name: 'int64_col',
-        number: 4,
-        type: type.TYPE_INT64,
-      },
-      {
-        name: 'string_col',
-        number: 5,
-        type: type.TYPE_STRING,
-      },
-      {
-        name: 'date_col',
-        number: 6,
-        type: type.TYPE_INT32,
-      },
-      {
-        name: 'datetime_col',
-        number: 7,
-        type: type.TYPE_STRING,
-      },
-      {
-        name: 'geography_col',
-        number: 8,
-        type: type.TYPE_STRING,
-      },
-      {
-        name: 'numeric_col',
-        number: 9,
-        type: type.TYPE_STRING,
-      },
-      {
-        name: 'bignumeric_col',
-        number: 10,
-        type: type.TYPE_STRING,
-      },
-      {
-        name: 'time_col',
-        number: 11,
-        type: type.TYPE_STRING,
-      },
-      {
-        name: 'timestamp_col',
-        number: 12,
-        type: type.TYPE_INT64,
-      },
-      {
-        name: 'int64_list',
-        number: 13,
-        type: type.TYPE_INT64,
-        label: protos.TableFieldSchema.Mode.REPEATED,
-      },
-      {
-        name: 'struct_col',
-        number: 14,
-        typeName: 'SampleStruct',
-        type: type.TYPE_MESSAGE,
-      },
-      {
-        name: 'struct_list',
-        number: 15,
-        typeName: 'SampleStruct',
-        type: type.TYPE_MESSAGE,
-        label: protos.TableFieldSchema.Mode.REPEATED,
-      },
-      {
-        name: 'row_num',
-        number: 16,
-        type: type.TYPE_INT64,
-        label: protos.TableFieldSchema.Mode.REQUIRED,
-      },
-    ];
-    protoDescriptor.nestedType = [
-      {
-        name: 'SampleStruct',
-        field: [
-          {
-            name: 'sub_int_col',
-            number: 1,
-            type: type.TYPE_INT64,
-            label: protos.TableFieldSchema.Mode.OPTIONAL,
-          },
-        ],
-      },
-    ];
+    const root = protobufjs.loadSync('./sample_data.json');
+    const descriptor = root.lookupType('SampleData').toDescriptor('proto2');
+    const protoDescriptor = adapt.normalizeDescriptor(descriptor).toJSON();
 
     /**
      * TODO(developer): Uncomment the following lines before running the sample.
@@ -152,7 +55,7 @@ function main(
     // tableId = 'my_table';
 
     const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
-    const streamType = mode.PENDING;
+    const streamType = type.PENDING;
     const writeClient = new WriterClient({projectId});
 
     try {
@@ -175,44 +78,50 @@ function main(
       const pendingWrites = [];
 
       // Row 1
-      let row = new sample_data_pb.SampleData();
-      row.setRowNum(1);
-      row.setBoolCol(true);
-      row.setBytesCol(Buffer.from('hello world'));
-      row.setFloat64Col(parseFloat('+123.45'));
-      row.setInt64Col(123);
-      row.setStringCol('omfg!');
-      serializedRows.push(row.serializeBinary());
+      let row = {
+        rowNum: 1,
+        boolCol: true,
+        bytesCol: Buffer.from('hello world'),
+        float64Col: parseFloat('+123.45'),
+        int64Col: 123,
+        stringCol: 'omg',
+      };
+      serializedRows.push(SampleData.encode(row).finish());
 
       // Row 2
-      row = new sample_data_pb.SampleData();
-      row.setRowNum(2);
-      row.setBoolCol(false);
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 2,
+        boolCol: false,
+      };
+      serializedRows.push(SampleData.encode(row).finish());
 
       // Row 3
-      row = new sample_data_pb.SampleData();
-      row.setRowNum(3);
-      row.setBytesCol(Buffer.from('later, gator'));
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 3,
+        bytesCol: Buffer.from('later, gator'),
+      };
+      serializedRows.push(SampleData.encode(row).finish());
 
       // Row 4
-      row = new sample_data_pb.SampleData();
-      row.setRowNum(4);
-      row.setFloat64Col(987.654);
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 4,
+        float64Col: 987.654,
+      };
+      serializedRows.push(SampleData.encode(row).finish());
 
       // Row 5
-      row = new sample_data_pb.SampleData();
-      row.setRowNum(5);
-      row.setInt64Col(321);
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 5,
+        int64Col: 321,
+      };
+      serializedRows.push(SampleData.encode(row).finish());
 
       // Row 6
-      row = new sample_data_pb.SampleData();
-      row.setRowNum(6);
-      row.setStringCol('octavia');
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 6,
+        stringCol: 'octavia',
+      };
+      serializedRows.push(SampleData.encode(row).finish());
 
       // Set an offset to allow resuming this stream if the connection breaks.
       // Keep track of which requests the server has acknowledged and resume the
@@ -231,42 +140,48 @@ function main(
       serializedRows = [];
 
       // Row 7
-      row = new sample_data_pb.SampleData();
-      row.setRowNum(7);
-      row.setDateCol(1132896);
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 7,
+        dateCol: 1132896,
+      };
+      serializedRows.push(SampleData.encode(row).finish());
 
       // Row 8
-      row = new sample_data_pb.SampleData();
-      row.setRowNum(8);
-      row.setDatetimeCol('2019-02-17 11:24:00.000');
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 8,
+        datetimeCol: '2019-02-17 11:24:00.000',
+      };
+      serializedRows.push(SampleData.encode(row).finish());
 
       // Row 9
-      row = new sample_data_pb.SampleData();
-      row.setRowNum(9);
-      row.setGeographyCol('POINT(5 5)');
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 9,
+        geographyCol: 'POINT(5 5)',
+      };
+      serializedRows.push(SampleData.encode(row).finish());
 
       // Row 10
-      row = new sample_data_pb.SampleData();
-      row.setRowNum(10);
-      row.setNumericCol('123456');
-      row.setBignumericCol('99999999999999999999999999999.999999999');
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 10,
+        numericCol: '123456',
+        bignumericCol: '99999999999999999999999999999.999999999',
+      };
+      serializedRows.push(SampleData.encode(row).finish());
 
       // Row 11
-      row = new sample_data_pb.SampleData();
-      row.setRowNum(11);
-      row.setTimeCol('18:00:00');
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 11,
+        timeCol: '18:00:00',
+      };
+      serializedRows.push(SampleData.encode(row).finish());
 
       // Row 12
-      row = new sample_data_pb.SampleData();
-      row.setRowNum(12);
       const timestamp = 1641700186564;
-      row.setTimestampCol(timestamp);
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 12,
+        timestampCol: timestamp,
+      };
+      serializedRows.push(SampleData.encode(row).finish());
 
       // Offset must equal the number of rows that were previously sent.
       offsetValue = 6;
@@ -278,30 +193,27 @@ function main(
       serializedRows = [];
 
       // Row 13
-      row = new sample_data_pb.SampleData();
-      row.setRowNum(13);
-      row.addInt64List(1999);
-      row.addInt64List(2001);
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 13,
+        int64List: [1999, 2001],
+      };
+      serializedRows.push(SampleData.encode(row).finish());
 
       // Row 14
-      row = new sample_data_pb.SampleData();
-      let sampleStruct = new sample_data_pb.SampleData.SampleStruct();
-      sampleStruct.setSubIntCol(99);
-      row.setRowNum(14);
-      row.setStructCol(sampleStruct);
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 14,
+        structCol: {
+          subIntCol: 99,
+        },
+      };
+      serializedRows.push(SampleData.encode(row).finish());
 
       // Row 15
-      row = new sample_data_pb.SampleData();
-      sampleStruct = new sample_data_pb.SampleData.SampleStruct();
-      sampleStruct.setSubIntCol(100);
-      const sampleStruct2 = new sample_data_pb.SampleData.SampleStruct();
-      sampleStruct2.setSubIntCol(101);
-      row.setRowNum(15);
-      row.addStructList(sampleStruct);
-      row.addStructList(sampleStruct2);
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 15,
+        structList: [{subIntCol: 100}, {subIntCol: 101}],
+      };
+      serializedRows.push(SampleData.encode(row).finish());
 
       offsetValue = 12;
 

@@ -20,34 +20,32 @@ function main(
   tableId = 'my_table'
 ) {
   // [START bigquerystorage_append_rows_pending]
-  const {WriterClient, StreamWriter} =
-    require('@google-cloud/bigquery-storage').managedwriter;
-  const customer_record_pb = require('./customer_record_pb.js');
+  const {adapt, managedwriter} = require('@google-cloud/bigquery-storage');
+  const {WriterClient, StreamWriter} = managedwriter;
 
-  const type = require('@google-cloud/bigquery-storage').protos.google.protobuf
-    .FieldDescriptorProto.Type;
-  const mode = require('@google-cloud/bigquery-storage').protos.google.cloud
+  const customer_record_pb = require('./customer_record_pb.js');
+  const {CustomerRecord} = customer_record_pb;
+
+  const protobufjs = require('protobufjs');
+  require('protobufjs/ext/descriptor');
+
+  const type = require('@google-cloud/bigquery-storage').protos.google.cloud
     .bigquery.storage.v1.WriteStream.Type;
 
   async function appendRowsPending() {
     /**
-     * If you make updates to the sample_data.proto protocol buffers definition,
+     * If you make updates to the customer_record.proto protocol buffers definition,
      * run:
-     *   protoc --js_out=import_style=commonjs,binary:. customer_record.proto
-     * from the /samples directory to generate the customer_record_pb module.
+     *   pbjs customer_record.proto -t static-module -w commonjs -o customer_record.js
+     *   pbjs customer_record.proto -t json --keep-case -o customer_record.json
+     * from the /samples directory to generate the customer_record module.
      */
 
     // So that BigQuery knows how to parse the serialized_rows, create a
     // protocol buffer representation of your message descriptor.
-    const protoDescriptor = {};
-    protoDescriptor.name = 'CustomerRecord';
-    protoDescriptor.field = [
-      {
-        name: 'customer_name',
-        number: 1,
-        type: type.TYPE_STRING,
-      },
-    ];
+    const root = protobufjs.loadSync('./customer_record.json');
+    const descriptor = root.lookupType('CustomerRecord').toDescriptor('proto2');
+    const protoDescriptor = adapt.normalizeDescriptor(descriptor).toJSON();
 
     /**
      * TODO(developer): Uncomment the following lines before running the sample.
@@ -57,7 +55,7 @@ function main(
     // tableId = 'my_table';
 
     const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
-    const streamType = mode.PENDING;
+    const streamType = type.PENDING;
     const writeClient = new WriterClient({projectId});
     try {
       const streamId = await writeClient.createWriteStream({
@@ -80,16 +78,18 @@ function main(
       const pendingWrites = [];
 
       // Row 1
-      let row = new customer_record_pb.CustomerRecord();
-      row.row_num = 1;
-      row.setCustomerName('Octavia');
-      serializedRows.push(row.serializeBinary());
+      let row = {
+        rowNum: 1,
+        customerName: 'Octavia',
+      };
+      serializedRows.push(CustomerRecord.encode(row).finish());
 
       // Row 2
-      row = new customer_record_pb.CustomerRecord();
-      row.row_num = 2;
-      row.setCustomerName('Turing');
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 2,
+        customerName: 'Turing',
+      };
+      serializedRows.push(CustomerRecord.encode(row).finish());
 
       // Set an offset to allow resuming this stream if the connection breaks.
       // Keep track of which requests the server has acknowledged and resume the
@@ -107,9 +107,11 @@ function main(
       serializedRows = [];
 
       // Row 3
-      row.row_num = 3;
-      row.setCustomerName('bell');
-      serializedRows.push(row.serializeBinary());
+      row = {
+        rowNum: 3,
+        customerName: 'bell',
+      };
+      serializedRows.push(CustomerRecord.encode(row).finish());
 
       // Offset must equal the number of rows that were previously sent.
       offsetValue = 2;
