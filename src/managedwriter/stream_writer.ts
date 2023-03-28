@@ -21,22 +21,25 @@ type AppendRowRequest =
 type IInt64Value = protos.google.protobuf.IInt64Value;
 type ProtoData =
   protos.google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData;
-type DescriptorProto = protos.google.protobuf.IDescriptorProto;
+type IDescriptorProto = protos.google.protobuf.IDescriptorProto;
+type DescriptorProto = protos.google.protobuf.DescriptorProto;
+
+const DescriptorProto = protos.google.protobuf.DescriptorProto;
 
 export class StreamWriter {
   private _streamId: string;
-  private _protoDescriptor: protos.google.protobuf.IDescriptorProto;
+  private _protoDescriptor: DescriptorProto;
   private _streamConnection: StreamConnection;
 
   constructor(params: {
     streamId: string;
     connection: StreamConnection;
-    protoDescriptor: DescriptorProto;
+    protoDescriptor: IDescriptorProto;
   }) {
     const {streamId, connection, protoDescriptor} = params;
     this._streamId = streamId;
     this._streamConnection = connection;
-    this._protoDescriptor = protoDescriptor;
+    this._protoDescriptor = new DescriptorProto(protoDescriptor);
   }
 
   appendRows(
@@ -54,7 +57,7 @@ export class StreamWriter {
       protoRows: {
         rows,
         writerSchema: {
-          protoDescriptor: this._protoDescriptor,
+          protoDescriptor: this._protoDescriptor.toJSON(),
         },
       },
       offset,

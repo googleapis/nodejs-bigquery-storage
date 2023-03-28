@@ -187,8 +187,12 @@ export class WriterClient {
       }
       return streamId;
     }
-    if (streamType && destinationTable) {
-      streamId = await this.createWriteStream({streamType, destinationTable});
+    if (destinationTable) {
+      const finalStreamType = streamType || 'PENDING';
+      streamId = await this.createWriteStream({
+        streamType: finalStreamType,
+        destinationTable,
+      });
       return streamId;
     }
     throw new Error(

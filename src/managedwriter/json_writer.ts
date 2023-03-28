@@ -16,16 +16,19 @@ import {protobuf} from 'google-gax';
 import * as protos from '../../protos/protos';
 import {PendingWrite} from './pending_write';
 import {StreamConnection} from './stream_connection';
+import * as adapt from '../adapt';
 import {StreamWriter} from './stream_writer';
 
 type IInt64Value = protos.google.protobuf.IInt64Value;
-type DescriptorProto = protos.google.protobuf.IDescriptorProto;
+type IDescriptorProto = protos.google.protobuf.IDescriptorProto;
+type DescriptorProto = protos.google.protobuf.DescriptorProto;
 type JSONPrimitive = string | number | boolean | null;
 type JSONValue = JSONPrimitive | JSONObject | JSONArray;
 type JSONObject = {[member: string]: JSONValue};
 type JSONArray = Array<JSONValue>;
 type JSONList = Array<JSONObject>;
 
+const DescriptorProto = protos.google.protobuf.DescriptorProto;
 const {Type} = protobuf;
 
 export class JSONWriter {
@@ -35,29 +38,17 @@ export class JSONWriter {
   constructor(params: {
     streamId: string;
     connection: StreamConnection;
-    protoDescriptor: DescriptorProto;
+    protoDescriptor: IDescriptorProto;
   }) {
     const {protoDescriptor} = params;
-    this._type = (Type as any).fromDescriptor(
-      this.normalizeDescriptor(protoDescriptor)
+    const normalized = adapt.normalizeDescriptor(
+      new DescriptorProto(protoDescriptor)
     );
-    this._writer = new StreamWriter(params);
-  }
-
-  private normalizeDescriptor(
-    protoDescriptor: DescriptorProto
-  ): DescriptorProto {
-    if (!protoDescriptor.field) {
-      protoDescriptor.field = [];
-    }
-    protoDescriptor.field = protoDescriptor.field.map(f => {
-      if (!f.label) {
-        f.label =
-          protos.google.protobuf.FieldDescriptorProto.Label.LABEL_OPTIONAL;
-      }
-      return f;
+    this._type = (Type as any).fromDescriptor(normalized);
+    this._writer = new StreamWriter({
+      ...params,
+      protoDescriptor,
     });
-    return protoDescriptor;
   }
 
   appendRows(rows: JSONList, offsetValue?: IInt64Value['value']): PendingWrite {

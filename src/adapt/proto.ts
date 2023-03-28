@@ -186,6 +186,10 @@ function normalizeDescriptorSet(fds: FileDescriptorSet): DescriptorProto {
 export function normalizeDescriptor(dp: DescriptorProto): DescriptorProto {
   dp.name = normalizeName(dp.name);
   for (const f of dp.field) {
+    if (!f.label) {
+      f.label =
+        protos.google.protobuf.FieldDescriptorProto.Label.LABEL_OPTIONAL;
+    }
     if (f.proto3Optional) {
       f.proto3Optional = null;
     }

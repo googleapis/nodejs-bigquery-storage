@@ -26,7 +26,7 @@ const {managedwriter} = bigquerywriter;
 const {WriterClient, StreamWriter, JSONWriter} = managedwriter;
 
 type WriteStream = protos.google.cloud.bigquery.storage.v1.IWriteStream;
-type ProtoDescriptor = protos.google.protobuf.IDescriptorProto;
+type DescriptorProto = protos.google.protobuf.IDescriptorProto;
 type IInt64Value = protos.google.protobuf.IInt64Value;
 type AppendRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse;
@@ -165,7 +165,7 @@ describe('managedwriter.WriterClient', () => {
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
-      const protoDescriptor: ProtoDescriptor = {};
+      const protoDescriptor: DescriptorProto = {};
       protoDescriptor.name = 'CustomerRecord';
       protoDescriptor.field = [
         {
@@ -261,7 +261,7 @@ describe('managedwriter.WriterClient', () => {
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
-      const protoDescriptor: ProtoDescriptor = {};
+      const protoDescriptor: DescriptorProto = {};
       protoDescriptor.name = 'CustomerRecord';
       protoDescriptor.field = [
         {
@@ -345,7 +345,7 @@ describe('managedwriter.WriterClient', () => {
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
-      const protoDescriptor: ProtoDescriptor = {};
+      const protoDescriptor: DescriptorProto = {};
       protoDescriptor.name = 'CustomerRecord';
       protoDescriptor.field = [
         {
@@ -432,7 +432,7 @@ describe('managedwriter.WriterClient', () => {
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
-      const protoDescriptor: ProtoDescriptor = {};
+      const protoDescriptor: DescriptorProto = {};
       protoDescriptor.name = 'CustomerRecord';
       protoDescriptor.field = [
         {
@@ -540,7 +540,7 @@ describe('managedwriter.WriterClient', () => {
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
-      const protoDescriptor: ProtoDescriptor = {};
+      const protoDescriptor: DescriptorProto = {};
       protoDescriptor.name = 'CustomerRecord';
       protoDescriptor.field = [
         {

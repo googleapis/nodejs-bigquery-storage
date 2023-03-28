@@ -50,7 +50,7 @@ export class StreamConnection {
 
     this._connection.on('data', this._handleData);
     this._connection.on('error', err => {
-      console.log('error:', err);
+      console.log('connection error:', err);
     });
     this._connection.on('end', () => {
       this._open = false;
@@ -60,7 +60,7 @@ export class StreamConnection {
   _handleData = (response: AppendRowsResponse) => {
     const pw = this._pendingWrites.pop();
     if (!pw) {
-      console.log('data arrived with no pending write available', response);
+      console.warn('data arrived with no pending write available', response);
       return;
     }
     pw._markDone(response);
