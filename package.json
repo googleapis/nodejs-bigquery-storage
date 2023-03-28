@@ -27,8 +27,8 @@
     "precompile": "gts clean"
   },
   "dependencies": {
-    "google-gax": "^3.5.2",
-    "protobufjs": "^7.1.2"
+    "google-gax": "3.5.2",
+    "protobufjs": "7.1.2"
   },
   "devDependencies": {
     "@google-cloud/bigquery": "^6.1.0",
