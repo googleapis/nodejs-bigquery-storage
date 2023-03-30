@@ -94,7 +94,7 @@ export class StreamConnection {
    * Finalize a write stream so that no new data can be appended to the
    * stream. Finalize is not supported on the DefaultStream stream.
    *
-   * @returns {Promise<FinalizeWriteStreamResponse['rowCount']>} - number of rows appended.
+   * @returns {Promise<FinalizeWriteStreamResponse.rowCount>} - number of rows appended.
    */
   async finalize(): Promise<FinalizeWriteStreamResponse['rowCount']> {
     this.close();

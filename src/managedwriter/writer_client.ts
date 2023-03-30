@@ -274,7 +274,7 @@ export class WriterClient {
    * Finalize all opened write streams that no new data can be appended to the
    * stream. Finalize is not supported on the DefaultStream stream.
    *
-   * @returns {Promise<FinalizeWriteStreamResponse['rowCount']>} - number of rows appended.
+   * @returns {Promise<FinalizeWriteStreamResponse.rowCount>} - number of rows appended.
    */
   async finalize(): Promise<FinalizeWriteStreamResponse['rowCount']> {
     const rowCounts = await Promise.all(
