@@ -19,8 +19,7 @@ import {BigQuery} from '@google-cloud/bigquery';
 import * as protos from '../protos/protos';
 import * as bigquerywriter from '../src';
 import {ClientOptions, protobuf} from 'google-gax';
-import * as customerprotos from './fixtures/managedwriter/test_protos/customer_record';
-import * as customerRecordProtoJson from './fixtures/managedwriter/test_protos/customer_record.json';
+import * as customerRecordProtoJson from '../samples/customer_record.json';
 
 const {managedwriter} = bigquerywriter;
 const {WriterClient, StreamWriter, JSONWriter} = managedwriter;
@@ -31,7 +30,6 @@ type IInt64Value = protos.google.protobuf.IInt64Value;
 type AppendRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse;
 
-type CustomerRecord = customerprotos.customer_record.ICustomerRecord;
 const FieldDescriptorProtoType =
   protos.google.protobuf.FieldDescriptorProto.Type;
 
@@ -181,7 +179,7 @@ describe('managedwriter.WriterClient', () => {
       ];
 
       // Row 1
-      const row1: CustomerRecord = {
+      const row1 = {
         customerName: 'Ada Lovelace',
         rowNum: 1,
       };
@@ -190,7 +188,7 @@ describe('managedwriter.WriterClient', () => {
         CustomerRecord.encode(row1Message).finish();
 
       // Row 2
-      const row2: CustomerRecord = {
+      const row2 = {
         customerName: 'Alan Turing',
         rowNum: 2,
       };
@@ -219,7 +217,6 @@ describe('managedwriter.WriterClient', () => {
           streamId,
         });
         const writer = new StreamWriter({
-          streamId,
           connection,
           protoDescriptor,
         });
@@ -309,7 +306,6 @@ describe('managedwriter.WriterClient', () => {
           streamId,
         });
         const writer = new JSONWriter({
-          streamId,
           connection,
           protoDescriptor,
         });
@@ -361,7 +357,7 @@ describe('managedwriter.WriterClient', () => {
       ];
 
       // Row 1
-      const row1: CustomerRecord = {
+      const row1 = {
         customerName: 'Lovelace',
         rowNum: 1,
       };
@@ -370,7 +366,7 @@ describe('managedwriter.WriterClient', () => {
         CustomerRecord.encode(row1Message).finish();
 
       // Row 2
-      const row2: CustomerRecord = {
+      const row2 = {
         customerName: 'Turing',
         rowNum: 2,
       };
@@ -397,9 +393,7 @@ describe('managedwriter.WriterClient', () => {
           streamId: managedwriter.DefaultStream,
           destinationTable: parent,
         });
-        const streamId = connection.getStreamId();
         const writer = new StreamWriter({
-          streamId,
           connection,
           protoDescriptor,
         });
@@ -448,7 +442,7 @@ describe('managedwriter.WriterClient', () => {
       ];
 
       // Row 1
-      const row1: CustomerRecord = {
+      const row1 = {
         customerName: 'Lovelace',
         rowNum: 1,
       };
@@ -457,7 +451,7 @@ describe('managedwriter.WriterClient', () => {
         CustomerRecord.encode(row1Message).finish();
 
       // Row 2
-      const row2: CustomerRecord = {
+      const row2 = {
         customerName: 'Turing',
         rowNum: 2,
       };
@@ -472,7 +466,6 @@ describe('managedwriter.WriterClient', () => {
         });
         const streamId = connection.getStreamId();
         const writer = new StreamWriter({
-          streamId,
           connection,
           protoDescriptor,
         });
@@ -556,7 +549,7 @@ describe('managedwriter.WriterClient', () => {
       ];
 
       // Row 1
-      const row1: CustomerRecord = {
+      const row1 = {
         customerName: 'Lovelace',
         rowNum: 1,
       };
@@ -565,7 +558,7 @@ describe('managedwriter.WriterClient', () => {
         CustomerRecord.encode(row1Message).finish();
 
       // Row 2
-      const row2: CustomerRecord = {
+      const row2 = {
         customerName: 'Turing',
         rowNum: 2,
       };
@@ -581,9 +574,7 @@ describe('managedwriter.WriterClient', () => {
           return client.createStreamConnection({streamId});
         })
         .then(connection => {
-          const streamId = connection.getStreamId();
           const writer = new StreamWriter({
-            streamId,
             connection,
             protoDescriptor,
           });
