@@ -69,7 +69,6 @@ function main(
         streamId,
       });
       const writer = new StreamWriter({
-        streamId,
         connection,
         protoDescriptor,
       });

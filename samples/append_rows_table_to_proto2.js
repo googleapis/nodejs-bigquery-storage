@@ -212,8 +212,6 @@ function main(
       pw = writer.appendRows(rows, offsetValue);
       pendingWrites.push(pw);
 
-      console.log('pending writes', pendingWrites);
-
       const results = await Promise.all(
         pendingWrites.map(pw => pw.getResult())
       );

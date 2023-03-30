@@ -40,10 +40,14 @@ type StreamConnections = {
   connectionList: StreamConnection[];
   connections: Record<string, StreamConnection>;
 };
+type CreateWriteStreamRequest =
+  protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest;
 type BatchCommitWriteStreamsRequest =
   protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest;
 type BatchCommitWriteStreamsResponse =
   protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse;
+type FinalizeWriteStreamResponse =
+  protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse;
 
 export class WriterClient {
   private _client: BigQueryWriteClient;
@@ -100,7 +104,24 @@ export class WriterClient {
     return this._client_closed;
   }
 
-  async createWriteStream(req: {
+  /**
+   * Creates a write stream to the given table.
+   * Additionally, every table has a special stream named DefaultStream
+   * to which data can be written. This stream doesn't need to be created using
+   * createWriteStream. It is a stream that can be used simultaneously by any
+   * number of clients. Data written to this stream is considered committed as
+   * soon as an acknowledgement is received.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.streamType
+   *   Required. The type of stream to create.
+   * @param {string} request.destinationTable
+   *   Required. Reference to the table to which the stream belongs, in the format
+   *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
+   * @returns {Promise<string>}} - The promise which resolves to the streamId.
+   */
+  async createWriteStream(request: {
     streamType: WriteStreamType;
     destinationTable: string;
   }): Promise<string> {
@@ -108,15 +129,14 @@ export class WriterClient {
       this._client_closed = false;
     }
     await this.initialize();
-    const {streamType, destinationTable} = req;
-    const request: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest =
-      {
-        parent: destinationTable,
-        writeStream: {
-          type: streamTypeToEnum(streamType),
-        },
-      };
-    const [response] = await this._client.createWriteStream(request);
+    const {streamType, destinationTable} = request;
+    const createReq: CreateWriteStreamRequest = {
+      parent: destinationTable,
+      writeStream: {
+        type: streamTypeToEnum(streamType),
+      },
+    };
+    const [response] = await this._client.createWriteStream(createReq);
     if (typeof [response] === undefined) {
       throw new gax.GoogleError(`${response}`);
     }
@@ -131,19 +151,38 @@ export class WriterClient {
     }
   }
 
+  /**
+   * Open StreamConnection in which data can be appended to the given stream.
+   *
+   * If a stream is created beforehand with `createWriteStream`, the streamId can be passed here.
+   *
+   * Or destinationTable + streamType can be passed so the WriteStreamStream is created under the hood.
+   *
+   * @param {object} [request]
+   * @param {string?} request.streamId
+   *   Optional. The ID of the stream to open.
+   * @param {string?} request.destinationTable
+   *   Optional. Parent table that all the streams should belong to, in the form
+   *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
+   * @param {string?} request.streamType
+   *   Optional. The type of stream to create. If not specified, the default is `PENDING`.
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {StreamConnection} - stream which rows can be appended to.
+   */
   async createStreamConnection(
-    req: {
+    request: {
       streamId?: string;
       destinationTable?: string;
       streamType?: WriteStreamType;
     },
-    clientOptions?: CallOptions
+    options?: CallOptions
   ): Promise<StreamConnection> {
     if (this._client_closed) {
       this._client_closed = false;
     }
     await this.initialize();
-    const {streamId, streamType, destinationTable} = req;
+    const {streamId, streamType, destinationTable} = request;
     try {
       const fullStreamId = await this.resolveStreamId(
         streamId,
@@ -154,8 +193,8 @@ export class WriterClient {
         name: fullStreamId,
         type: streamTypeToEnum(streamType),
       };
-      const connection = clientOptions
-        ? this._client.appendRows(clientOptions)
+      const connection = options
+        ? this._client.appendRows(options)
         : this._client.appendRows();
       const streamConnection = new StreamConnection(
         fullStreamId,
@@ -200,6 +239,23 @@ export class WriterClient {
     );
   }
 
+  /**
+   * Atomically commits a group of `PENDING` streams that belong to the same
+   * `parent` table.
+   *
+   * Streams must be finalized before commit and cannot be committed multiple
+   * times. Once a stream is committed, data in the stream becomes available
+   * for read operations.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.parent
+   *   Required. Parent table that all the streams should belong to, in the form
+   *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
+   * @param {string[]} request.writeStreams
+   *   Required. The group of streams that will be committed atomically.
+   * @returns {Promise} - a promise which resolves to an {@link google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsResponse | BatchCommitWriteStreamsResponse}.
+   */
   async batchCommitWriteStream(
     req: BatchCommitWriteStreamsRequest
   ): Promise<BatchCommitWriteStreamsResponse> {
@@ -214,9 +270,13 @@ export class WriterClient {
     });
   }
 
-  async finalize(): Promise<
-    protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse['rowCount']
-  > {
+  /**
+   * Finalize all opened write streams that no new data can be appended to the
+   * stream. Finalize is not supported on the DefaultStream stream.
+   *
+   * @returns {Promise<FinalizeWriteStreamResponse['rowCount']>} - number of rows appended.
+   */
+  async finalize(): Promise<FinalizeWriteStreamResponse['rowCount']> {
     const rowCounts = await Promise.all(
       this._connections.connectionList.map(ms => {
         return ms.finalize();

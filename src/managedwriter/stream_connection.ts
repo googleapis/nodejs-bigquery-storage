@@ -23,6 +23,10 @@ type AppendRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse;
 type AppendRowRequest =
   protos.google.cloud.bigquery.storage.v1.IAppendRowsRequest;
+type FinalizeWriteStreamResponse =
+  protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse;
+type FinalizeWriteStreamRequest =
+  protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest;
 
 export class StreamConnection {
   private _writeStreamType?: WriteStreamType = 'TYPE_UNSPECIFIED';
@@ -86,17 +90,20 @@ export class StreamConnection {
     this._connection.end();
   }
 
-  async finalize(): Promise<
-    protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse['rowCount']
-  > {
+  /**
+   * Finalize a write stream so that no new data can be appended to the
+   * stream. Finalize is not supported on the DefaultStream stream.
+   *
+   * @returns {Promise<FinalizeWriteStreamResponse['rowCount']>} - number of rows appended.
+   */
+  async finalize(): Promise<FinalizeWriteStreamResponse['rowCount']> {
     this.close();
     if (this._writeStreamType === DefaultStream) {
       return;
     }
-    const finalizeStreamReq: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest =
-      {
-        name: this._streamId,
-      };
+    const finalizeStreamReq: FinalizeWriteStreamRequest = {
+      name: this._streamId,
+    };
 
     return this._writeClient
       .getClient()

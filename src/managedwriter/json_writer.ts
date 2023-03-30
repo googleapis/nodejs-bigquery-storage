@@ -36,7 +36,6 @@ export class JSONWriter {
   private _type: protobuf.Type;
 
   constructor(params: {
-    streamId: string;
     connection: StreamConnection;
     protoDescriptor: IDescriptorProto;
   }) {

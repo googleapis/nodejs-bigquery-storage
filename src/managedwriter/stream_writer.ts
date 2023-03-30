@@ -27,17 +27,14 @@ type DescriptorProto = protos.google.protobuf.DescriptorProto;
 const DescriptorProto = protos.google.protobuf.DescriptorProto;
 
 export class StreamWriter {
-  private _streamId: string;
   private _protoDescriptor: DescriptorProto;
   private _streamConnection: StreamConnection;
 
   constructor(params: {
-    streamId: string;
     connection: StreamConnection;
     protoDescriptor: IDescriptorProto;
   }) {
-    const {streamId, connection, protoDescriptor} = params;
-    this._streamId = streamId;
+    const {connection, protoDescriptor} = params;
     this._streamConnection = connection;
     this._protoDescriptor = new DescriptorProto(protoDescriptor);
   }
@@ -53,7 +50,7 @@ export class StreamWriter {
       };
     }
     const request: AppendRowRequest = {
-      writeStream: this._streamId,
+      writeStream: this._streamConnection.getStreamId(),
       protoRows: {
         rows,
         writerSchema: {
