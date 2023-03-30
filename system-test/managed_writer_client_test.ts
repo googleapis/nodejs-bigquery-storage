@@ -44,7 +44,7 @@ const root = protobuf.Root.fromJSON(customerRecordProtoJson);
 if (!root) {
   throw Error('Proto must not be undefined');
 }
-const CustomerRecord = root.lookupType('customer_record.CustomerRecord');
+const CustomerRecord = root.lookupType('CustomerRecord');
 
 describe('managedwriter.WriterClient', () => {
   let projectId: string;
