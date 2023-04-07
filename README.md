@@ -151,7 +151,7 @@ async function bigqueryStorageQuickstart() {
         let pos;
         do {
           const decodedData = avroType.decode(
-            data.avroRows.serializedBinaryRows,
+            Buffer.from(data.avroRows.serializedBinaryRows),
             pos
           );
 
