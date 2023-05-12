@@ -39,6 +39,11 @@ const version = require('../../../package.json').version;
  *  BigQuery storage API.
  *
  *  The BigQuery storage API can be used to read data stored in BigQuery.
+ *
+ *  The v1beta1 API is not yet officially deprecated, and will go through a full
+ *  deprecation cycle (https://cloud.google.com/products#product-launch-stages)
+ *  before the service is turned down. However, new code should use the v1 API
+ *  going forward.
  * @class
  * @memberof v1beta1
  */
@@ -360,7 +365,7 @@ export class BigQueryStorageClient {
    * reached the end of each stream in the session, then all the data in the
    * table has been read.
    *
-   * Read sessions automatically expire 24 hours after they are created and do
+   * Read sessions automatically expire 6 hours after they are created and do
    * not require manual clean-up by the caller.
    *
    * @param {Object} request
@@ -385,6 +390,7 @@ export class BigQueryStorageClient {
    *   Read options for this session (e.g. column selection, filters).
    * @param {google.cloud.bigquery.storage.v1beta1.DataFormat} request.format
    *   Data output format. Currently default to Avro.
+   *   DATA_FORMAT_UNSPECIFIED not supported.
    * @param {google.cloud.bigquery.storage.v1beta1.ShardingStrategy} request.shardingStrategy
    *   The strategy to use for distributing data among multiple streams. Currently
    *   defaults to liquid sharding.
@@ -588,7 +594,7 @@ export class BigQueryStorageClient {
     );
   }
   /**
-   * Triggers the graceful termination of a single stream in a ReadSession. This
+   * Causes a single stream in a ReadSession to gracefully stop. This
    * API can be used to dynamically adjust the parallelism of a batch processing
    * task downwards without losing data.
    *
