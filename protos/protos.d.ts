@@ -5334,6 +5334,20 @@ export namespace google {
                         public static getTypeUrl(typeUrlPrefix?: string): string;
                     }
 
+                    /** DataFormat enum. */
+                    enum DataFormat {
+                        DATA_FORMAT_UNSPECIFIED = 0,
+                        AVRO = 1,
+                        ARROW = 3
+                    }
+
+                    /** ShardingStrategy enum. */
+                    enum ShardingStrategy {
+                        SHARDING_STRATEGY_UNSPECIFIED = 0,
+                        LIQUID = 1,
+                        BALANCED = 2
+                    }
+
                     /** Properties of a CreateReadSessionRequest. */
                     interface ICreateReadSessionRequest {
 
@@ -5465,20 +5479,6 @@ export namespace google {
                          * @returns The default type url
                          */
                         public static getTypeUrl(typeUrlPrefix?: string): string;
-                    }
-
-                    /** DataFormat enum. */
-                    enum DataFormat {
-                        DATA_FORMAT_UNSPECIFIED = 0,
-                        AVRO = 1,
-                        ARROW = 3
-                    }
-
-                    /** ShardingStrategy enum. */
-                    enum ShardingStrategy {
-                        SHARDING_STRATEGY_UNSPECIFIED = 0,
-                        LIQUID = 1,
-                        BALANCED = 2
                     }
 
                     /** Properties of a ReadRowsRequest. */
@@ -5910,6 +5910,12 @@ export namespace google {
 
                         /** ReadRowsResponse throttleStatus */
                         throttleStatus?: (google.cloud.bigquery.storage.v1beta1.IThrottleStatus|null);
+
+                        /** ReadRowsResponse avroSchema */
+                        avroSchema?: (google.cloud.bigquery.storage.v1beta1.IAvroSchema|null);
+
+                        /** ReadRowsResponse arrowSchema */
+                        arrowSchema?: (google.cloud.bigquery.storage.v1beta1.IArrowSchema|null);
                     }
 
                     /** Represents a ReadRowsResponse. */
@@ -5936,8 +5942,17 @@ export namespace google {
                         /** ReadRowsResponse throttleStatus. */
                         public throttleStatus?: (google.cloud.bigquery.storage.v1beta1.IThrottleStatus|null);
 
+                        /** ReadRowsResponse avroSchema. */
+                        public avroSchema?: (google.cloud.bigquery.storage.v1beta1.IAvroSchema|null);
+
+                        /** ReadRowsResponse arrowSchema. */
+                        public arrowSchema?: (google.cloud.bigquery.storage.v1beta1.IArrowSchema|null);
+
                         /** ReadRowsResponse rows. */
                         public rows?: ("avroRows"|"arrowRecordBatch");
+
+                        /** ReadRowsResponse schema. */
+                        public schema?: ("avroSchema"|"arrowSchema");
 
                         /**
                          * Creates a new ReadRowsResponse instance using the specified properties.

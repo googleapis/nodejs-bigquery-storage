@@ -1333,6 +1333,20 @@
                             }
                           }
                         },
+                        "DataFormat": {
+                          "values": {
+                            "DATA_FORMAT_UNSPECIFIED": 0,
+                            "AVRO": 1,
+                            "ARROW": 3
+                          }
+                        },
+                        "ShardingStrategy": {
+                          "values": {
+                            "SHARDING_STRATEGY_UNSPECIFIED": 0,
+                            "LIQUID": 1,
+                            "BALANCED": 2
+                          }
+                        },
                         "CreateReadSessionRequest": {
                           "fields": {
                             "tableReference": {
@@ -1370,20 +1384,6 @@
                               "type": "ShardingStrategy",
                               "id": 7
                             }
-                          }
-                        },
-                        "DataFormat": {
-                          "values": {
-                            "DATA_FORMAT_UNSPECIFIED": 0,
-                            "AVRO": 1,
-                            "ARROW": 3
-                          }
-                        },
-                        "ShardingStrategy": {
-                          "values": {
-                            "SHARDING_STRATEGY_UNSPECIFIED": 0,
-                            "LIQUID": 1,
-                            "BALANCED": 2
                           }
                         },
                         "ReadRowsRequest": {
@@ -1444,6 +1444,12 @@
                                 "avroRows",
                                 "arrowRecordBatch"
                               ]
+                            },
+                            "schema": {
+                              "oneof": [
+                                "avroSchema",
+                                "arrowSchema"
+                              ]
                             }
                           },
                           "fields": {
@@ -1466,6 +1472,20 @@
                             "throttleStatus": {
                               "type": "ThrottleStatus",
                               "id": 5
+                            },
+                            "avroSchema": {
+                              "type": "AvroSchema",
+                              "id": 7,
+                              "options": {
+                                "(google.api.field_behavior)": "OUTPUT_ONLY"
+                              }
+                            },
+                            "arrowSchema": {
+                              "type": "ArrowSchema",
+                              "id": 8,
+                              "options": {
+                                "(google.api.field_behavior)": "OUTPUT_ONLY"
+                              }
                             }
                           }
                         },
