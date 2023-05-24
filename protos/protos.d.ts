@@ -3316,7 +3316,12 @@ export namespace google {
                             STREAM_FINALIZED = 6,
                             SCHEMA_MISMATCH_EXTRA_FIELDS = 7,
                             OFFSET_ALREADY_EXISTS = 8,
-                            OFFSET_OUT_OF_RANGE = 9
+                            OFFSET_OUT_OF_RANGE = 9,
+                            CMEK_NOT_PROVIDED = 10,
+                            INVALID_CMEK_PROVIDED = 11,
+                            CMEK_ENCRYPTION_ERROR = 12,
+                            KMS_SERVICE_ERROR = 13,
+                            KMS_PERMISSION_DENIED = 14
                         }
                     }
 
@@ -3724,6 +3729,9 @@ export namespace google {
 
                             /** TableReadOptions avroSerializationOptions */
                             avroSerializationOptions?: (google.cloud.bigquery.storage.v1.IAvroSerializationOptions|null);
+
+                            /** TableReadOptions samplePercentage */
+                            samplePercentage?: (number|null);
                         }
 
                         /** Represents a TableReadOptions. */
@@ -3747,8 +3755,14 @@ export namespace google {
                             /** TableReadOptions avroSerializationOptions. */
                             public avroSerializationOptions?: (google.cloud.bigquery.storage.v1.IAvroSerializationOptions|null);
 
+                            /** TableReadOptions samplePercentage. */
+                            public samplePercentage?: (number|null);
+
                             /** TableReadOptions outputFormatSerializationOptions. */
                             public outputFormatSerializationOptions?: ("arrowSerializationOptions"|"avroSerializationOptions");
+
+                            /** TableReadOptions _samplePercentage. */
+                            public _samplePercentage?: "samplePercentage";
 
                             /**
                              * Creates a new TableReadOptions instance using the specified properties.
