@@ -52,7 +52,7 @@ type FinalizeWriteStreamResponse =
 export class WriterClient {
   private _client: BigQueryWriteClient;
   private _connections: StreamConnections;
-  private _client_closed: boolean;
+  private _clientClosed: boolean;
 
   constructor(opts?: ClientOptions) {
     this._client = new BigQueryWriteClient(opts);
@@ -60,7 +60,7 @@ export class WriterClient {
       connectionList: [],
       connections: {},
     };
-    this._client_closed = false;
+    this._clientClosed = false;
   }
 
   /**
@@ -101,7 +101,7 @@ export class WriterClient {
   }
 
   getClientClosedStatus(): boolean {
-    return this._client_closed;
+    return this._clientClosed;
   }
 
   /**
@@ -125,8 +125,8 @@ export class WriterClient {
     streamType: WriteStreamType;
     destinationTable: string;
   }): Promise<string> {
-    if (this._client_closed) {
-      this._client_closed = false;
+    if (this._clientClosed) {
+      this._clientClosed = false;
     }
     await this.initialize();
     const {streamType, destinationTable} = request;
@@ -178,8 +178,8 @@ export class WriterClient {
     },
     options?: CallOptions
   ): Promise<StreamConnection> {
-    if (this._client_closed) {
-      this._client_closed = false;
+    if (this._clientClosed) {
+      this._clientClosed = false;
     }
     await this.initialize();
     const {streamId, streamType, destinationTable} = request;
@@ -193,9 +193,10 @@ export class WriterClient {
         name: fullStreamId,
         type: streamTypeToEnum(streamType),
       };
-      const connection = options
-        ? this._client.appendRows(options)
-        : this._client.appendRows();
+
+      const callOptions = this.resolveCallOptions(fullStreamId, options);
+      const connection = this._client.appendRows(callOptions);
+
       const streamConnection = new StreamConnection(
         fullStreamId,
         writeStream,
@@ -209,6 +210,25 @@ export class WriterClient {
     } catch (err) {
       throw new Error('managed stream connection failed:' + err);
     }
+  }
+
+  private resolveCallOptions(
+    streamId: string,
+    options?: CallOptions
+  ): CallOptions {
+    const callOptions = options || {};
+    if (!callOptions.otherArgs) {
+      callOptions.otherArgs = {};
+    }
+    if (!callOptions.otherArgs.headers) {
+      callOptions.otherArgs.headers = {};
+    }
+    // This header is required so that the BigQuery Storage API
+    // knows which region to route the request to.
+    callOptions.otherArgs.headers[
+      'x-goog-request-params'
+    ] = `write_stream=${streamId}`;
+    return callOptions;
   }
 
   private async resolveStreamId(
