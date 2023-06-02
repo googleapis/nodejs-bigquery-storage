@@ -7521,6 +7521,11 @@
                                     case 7:
                                     case 8:
                                     case 9:
+                                    case 10:
+                                    case 11:
+                                    case 12:
+                                    case 13:
+                                    case 14:
                                         break;
                                     }
                                 if (message.entity != null && message.hasOwnProperty("entity"))
@@ -7590,6 +7595,26 @@
                                 case "OFFSET_OUT_OF_RANGE":
                                 case 9:
                                     message.code = 9;
+                                    break;
+                                case "CMEK_NOT_PROVIDED":
+                                case 10:
+                                    message.code = 10;
+                                    break;
+                                case "INVALID_CMEK_PROVIDED":
+                                case 11:
+                                    message.code = 11;
+                                    break;
+                                case "CMEK_ENCRYPTION_ERROR":
+                                case 12:
+                                    message.code = 12;
+                                    break;
+                                case "KMS_SERVICE_ERROR":
+                                case 13:
+                                    message.code = 13;
+                                    break;
+                                case "KMS_PERMISSION_DENIED":
+                                case 14:
+                                    message.code = 14;
                                     break;
                                 }
                                 if (object.entity != null)
@@ -7666,6 +7691,11 @@
                              * @property {number} SCHEMA_MISMATCH_EXTRA_FIELDS=7 SCHEMA_MISMATCH_EXTRA_FIELDS value
                              * @property {number} OFFSET_ALREADY_EXISTS=8 OFFSET_ALREADY_EXISTS value
                              * @property {number} OFFSET_OUT_OF_RANGE=9 OFFSET_OUT_OF_RANGE value
+                             * @property {number} CMEK_NOT_PROVIDED=10 CMEK_NOT_PROVIDED value
+                             * @property {number} INVALID_CMEK_PROVIDED=11 INVALID_CMEK_PROVIDED value
+                             * @property {number} CMEK_ENCRYPTION_ERROR=12 CMEK_ENCRYPTION_ERROR value
+                             * @property {number} KMS_SERVICE_ERROR=13 KMS_SERVICE_ERROR value
+                             * @property {number} KMS_PERMISSION_DENIED=14 KMS_PERMISSION_DENIED value
                              */
                             StorageError.StorageErrorCode = (function() {
                                 var valuesById = {}, values = Object.create(valuesById);
@@ -7679,6 +7709,11 @@
                                 values[valuesById[7] = "SCHEMA_MISMATCH_EXTRA_FIELDS"] = 7;
                                 values[valuesById[8] = "OFFSET_ALREADY_EXISTS"] = 8;
                                 values[valuesById[9] = "OFFSET_OUT_OF_RANGE"] = 9;
+                                values[valuesById[10] = "CMEK_NOT_PROVIDED"] = 10;
+                                values[valuesById[11] = "INVALID_CMEK_PROVIDED"] = 11;
+                                values[valuesById[12] = "CMEK_ENCRYPTION_ERROR"] = 12;
+                                values[valuesById[13] = "KMS_SERVICE_ERROR"] = 13;
+                                values[valuesById[14] = "KMS_PERMISSION_DENIED"] = 14;
                                 return values;
                             })();
     
@@ -8796,6 +8831,7 @@
                                  * @property {string|null} [rowRestriction] TableReadOptions rowRestriction
                                  * @property {google.cloud.bigquery.storage.v1.IArrowSerializationOptions|null} [arrowSerializationOptions] TableReadOptions arrowSerializationOptions
                                  * @property {google.cloud.bigquery.storage.v1.IAvroSerializationOptions|null} [avroSerializationOptions] TableReadOptions avroSerializationOptions
+                                 * @property {number|null} [samplePercentage] TableReadOptions samplePercentage
                                  */
     
                                 /**
@@ -8846,6 +8882,14 @@
                                  */
                                 TableReadOptions.prototype.avroSerializationOptions = null;
     
+                                /**
+                                 * TableReadOptions samplePercentage.
+                                 * @member {number|null|undefined} samplePercentage
+                                 * @memberof google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions
+                                 * @instance
+                                 */
+                                TableReadOptions.prototype.samplePercentage = null;
+    
                                 // OneOf field names bound to virtual getters and setters
                                 var $oneOfFields;
     
@@ -8857,6 +8901,17 @@
                                  */
                                 Object.defineProperty(TableReadOptions.prototype, "outputFormatSerializationOptions", {
                                     get: $util.oneOfGetter($oneOfFields = ["arrowSerializationOptions", "avroSerializationOptions"]),
+                                    set: $util.oneOfSetter($oneOfFields)
+                                });
+    
+                                /**
+                                 * TableReadOptions _samplePercentage.
+                                 * @member {"samplePercentage"|undefined} _samplePercentage
+                                 * @memberof google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions
+                                 * @instance
+                                 */
+                                Object.defineProperty(TableReadOptions.prototype, "_samplePercentage", {
+                                    get: $util.oneOfGetter($oneOfFields = ["samplePercentage"]),
                                     set: $util.oneOfSetter($oneOfFields)
                                 });
     
@@ -8893,6 +8948,8 @@
                                         $root.google.cloud.bigquery.storage.v1.ArrowSerializationOptions.encode(message.arrowSerializationOptions, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                                     if (message.avroSerializationOptions != null && Object.hasOwnProperty.call(message, "avroSerializationOptions"))
                                         $root.google.cloud.bigquery.storage.v1.AvroSerializationOptions.encode(message.avroSerializationOptions, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                                    if (message.samplePercentage != null && Object.hasOwnProperty.call(message, "samplePercentage"))
+                                        writer.uint32(/* id 5, wireType 1 =*/41).double(message.samplePercentage);
                                     return writer;
                                 };
     
@@ -8943,6 +9000,10 @@
                                             }
                                         case 4: {
                                                 message.avroSerializationOptions = $root.google.cloud.bigquery.storage.v1.AvroSerializationOptions.decode(reader, reader.uint32());
+                                                break;
+                                            }
+                                        case 5: {
+                                                message.samplePercentage = reader.double();
                                                 break;
                                             }
                                         default:
@@ -9009,6 +9070,11 @@
                                                 return "avroSerializationOptions." + error;
                                         }
                                     }
+                                    if (message.samplePercentage != null && message.hasOwnProperty("samplePercentage")) {
+                                        properties._samplePercentage = 1;
+                                        if (typeof message.samplePercentage !== "number")
+                                            return "samplePercentage: number expected";
+                                    }
                                     return null;
                                 };
     
@@ -9043,6 +9109,8 @@
                                             throw TypeError(".google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions.avroSerializationOptions: object expected");
                                         message.avroSerializationOptions = $root.google.cloud.bigquery.storage.v1.AvroSerializationOptions.fromObject(object.avroSerializationOptions);
                                     }
+                                    if (object.samplePercentage != null)
+                                        message.samplePercentage = Number(object.samplePercentage);
                                     return message;
                                 };
     
@@ -9079,6 +9147,11 @@
                                         object.avroSerializationOptions = $root.google.cloud.bigquery.storage.v1.AvroSerializationOptions.toObject(message.avroSerializationOptions, options);
                                         if (options.oneofs)
                                             object.outputFormatSerializationOptions = "avroSerializationOptions";
+                                    }
+                                    if (message.samplePercentage != null && message.hasOwnProperty("samplePercentage")) {
+                                        object.samplePercentage = options.json && !isFinite(message.samplePercentage) ? String(message.samplePercentage) : message.samplePercentage;
+                                        if (options.oneofs)
+                                            object._samplePercentage = "samplePercentage";
                                     }
                                     return object;
                                 };
