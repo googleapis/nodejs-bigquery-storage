@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.4.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v3.3.0...v3.4.0) (2023-06-05)
+
+
+### Features
+
+* Adapt package to convert TableSchema to ProtoDescriptor ([#326](https://github.com/googleapis/nodejs-bigquery-storage/issues/326)) ([2d189e9](https://github.com/googleapis/nodejs-bigquery-storage/commit/2d189e9bf3fc0e4721110b148eede9f3ddbed29e))
+* Add default_value_expression to TableFieldSchema ([#323](https://github.com/googleapis/nodejs-bigquery-storage/issues/323)) ([b2aa964](https://github.com/googleapis/nodejs-bigquery-storage/commit/b2aa964153b048b550454f835f5aa6dd825a5362))
+* Add table sampling to ReadAPI v1 ([#338](https://github.com/googleapis/nodejs-bigquery-storage/issues/338)) ([18bb7b0](https://github.com/googleapis/nodejs-bigquery-storage/commit/18bb7b07bd0eb255d49aecd60f45d88b005d8610))
+
+
+### Bug Fixes
+
+* Re-introduce routing headers for Write API ([#340](https://github.com/googleapis/nodejs-bigquery-storage/issues/340)) ([db6eca6](https://github.com/googleapis/nodejs-bigquery-storage/commit/db6eca647e704d0c0169f394e80986b1db127d66))
+
 ## [3.3.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v3.2.1...v3.3.0) (2023-01-25)
 
 
