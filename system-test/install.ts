@@ -36,7 +36,7 @@ describe('📦 pack-n-play test', () => {
     try {
       await packNTest(options);
     } catch (err) {
-      console.error('TS install failed:', err);
+      console.error('TS install failed:\n', err);
       throw err;
     }
   });
@@ -56,7 +56,7 @@ describe('📦 pack-n-play test', () => {
     try {
       await packNTest(options);
     } catch (err) {
-      console.error('JS install failed:', err);
+      console.error('JS install failed:\n', err);
       throw err;
     }
   });
