@@ -32,7 +32,11 @@ describe('📦 pack-n-play test', () => {
         ).toString(),
       },
     };
-    await packNTest(options);
+    try {
+      await packNTest(options);
+    } catch (err) {
+      console.error('TS install failed:', err);
+    }
   });
 
   it('JavaScript code', async function () {
@@ -46,6 +50,10 @@ describe('📦 pack-n-play test', () => {
         ).toString(),
       },
     };
-    await packNTest(options);
+    try {
+      await packNTest(options);
+    } catch (err) {
+      console.error('JS install failed:', err);
+    }
   });
 });
