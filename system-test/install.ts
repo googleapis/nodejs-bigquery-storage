@@ -30,9 +30,15 @@ describe('📦 pack-n-play test', () => {
         ts: readFileSync(
           './system-test/fixtures/sample/src/index.ts'
         ).toString(),
+        dependencies: ['typescript@4.8.3'],
       },
     };
-    await packNTest(options);
+    try {
+      await packNTest(options);
+    } catch (err) {
+      console.error('TS install failed:\n', err);
+      throw err;
+    }
   });
 
   it('JavaScript code', async function () {
@@ -44,8 +50,14 @@ describe('📦 pack-n-play test', () => {
         ts: readFileSync(
           './system-test/fixtures/sample/src/index.js'
         ).toString(),
+        dependencies: ['typescript@4.8.3'],
       },
     };
-    await packNTest(options);
+    try {
+      await packNTest(options);
+    } catch (err) {
+      console.error('JS install failed:\n', err);
+      throw err;
+    }
   });
 });

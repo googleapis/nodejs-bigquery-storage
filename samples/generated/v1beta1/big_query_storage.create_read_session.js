@@ -57,6 +57,7 @@ function main(tableReference, parent) {
   // const readOptions = {}
   /**
    *  Data output format. Currently default to Avro.
+   *  DATA_FORMAT_UNSPECIFIED not supported.
    */
   // const format = {}
   /**

@@ -7521,6 +7521,11 @@
                                     case 7:
                                     case 8:
                                     case 9:
+                                    case 10:
+                                    case 11:
+                                    case 12:
+                                    case 13:
+                                    case 14:
                                         break;
                                     }
                                 if (message.entity != null && message.hasOwnProperty("entity"))
@@ -7590,6 +7595,26 @@
                                 case "OFFSET_OUT_OF_RANGE":
                                 case 9:
                                     message.code = 9;
+                                    break;
+                                case "CMEK_NOT_PROVIDED":
+                                case 10:
+                                    message.code = 10;
+                                    break;
+                                case "INVALID_CMEK_PROVIDED":
+                                case 11:
+                                    message.code = 11;
+                                    break;
+                                case "CMEK_ENCRYPTION_ERROR":
+                                case 12:
+                                    message.code = 12;
+                                    break;
+                                case "KMS_SERVICE_ERROR":
+                                case 13:
+                                    message.code = 13;
+                                    break;
+                                case "KMS_PERMISSION_DENIED":
+                                case 14:
+                                    message.code = 14;
                                     break;
                                 }
                                 if (object.entity != null)
@@ -7666,6 +7691,11 @@
                              * @property {number} SCHEMA_MISMATCH_EXTRA_FIELDS=7 SCHEMA_MISMATCH_EXTRA_FIELDS value
                              * @property {number} OFFSET_ALREADY_EXISTS=8 OFFSET_ALREADY_EXISTS value
                              * @property {number} OFFSET_OUT_OF_RANGE=9 OFFSET_OUT_OF_RANGE value
+                             * @property {number} CMEK_NOT_PROVIDED=10 CMEK_NOT_PROVIDED value
+                             * @property {number} INVALID_CMEK_PROVIDED=11 INVALID_CMEK_PROVIDED value
+                             * @property {number} CMEK_ENCRYPTION_ERROR=12 CMEK_ENCRYPTION_ERROR value
+                             * @property {number} KMS_SERVICE_ERROR=13 KMS_SERVICE_ERROR value
+                             * @property {number} KMS_PERMISSION_DENIED=14 KMS_PERMISSION_DENIED value
                              */
                             StorageError.StorageErrorCode = (function() {
                                 var valuesById = {}, values = Object.create(valuesById);
@@ -7679,6 +7709,11 @@
                                 values[valuesById[7] = "SCHEMA_MISMATCH_EXTRA_FIELDS"] = 7;
                                 values[valuesById[8] = "OFFSET_ALREADY_EXISTS"] = 8;
                                 values[valuesById[9] = "OFFSET_OUT_OF_RANGE"] = 9;
+                                values[valuesById[10] = "CMEK_NOT_PROVIDED"] = 10;
+                                values[valuesById[11] = "INVALID_CMEK_PROVIDED"] = 11;
+                                values[valuesById[12] = "CMEK_ENCRYPTION_ERROR"] = 12;
+                                values[valuesById[13] = "KMS_SERVICE_ERROR"] = 13;
+                                values[valuesById[14] = "KMS_PERMISSION_DENIED"] = 14;
                                 return values;
                             })();
     
@@ -8796,6 +8831,7 @@
                                  * @property {string|null} [rowRestriction] TableReadOptions rowRestriction
                                  * @property {google.cloud.bigquery.storage.v1.IArrowSerializationOptions|null} [arrowSerializationOptions] TableReadOptions arrowSerializationOptions
                                  * @property {google.cloud.bigquery.storage.v1.IAvroSerializationOptions|null} [avroSerializationOptions] TableReadOptions avroSerializationOptions
+                                 * @property {number|null} [samplePercentage] TableReadOptions samplePercentage
                                  */
     
                                 /**
@@ -8846,6 +8882,14 @@
                                  */
                                 TableReadOptions.prototype.avroSerializationOptions = null;
     
+                                /**
+                                 * TableReadOptions samplePercentage.
+                                 * @member {number|null|undefined} samplePercentage
+                                 * @memberof google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions
+                                 * @instance
+                                 */
+                                TableReadOptions.prototype.samplePercentage = null;
+    
                                 // OneOf field names bound to virtual getters and setters
                                 var $oneOfFields;
     
@@ -8857,6 +8901,17 @@
                                  */
                                 Object.defineProperty(TableReadOptions.prototype, "outputFormatSerializationOptions", {
                                     get: $util.oneOfGetter($oneOfFields = ["arrowSerializationOptions", "avroSerializationOptions"]),
+                                    set: $util.oneOfSetter($oneOfFields)
+                                });
+    
+                                /**
+                                 * TableReadOptions _samplePercentage.
+                                 * @member {"samplePercentage"|undefined} _samplePercentage
+                                 * @memberof google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions
+                                 * @instance
+                                 */
+                                Object.defineProperty(TableReadOptions.prototype, "_samplePercentage", {
+                                    get: $util.oneOfGetter($oneOfFields = ["samplePercentage"]),
                                     set: $util.oneOfSetter($oneOfFields)
                                 });
     
@@ -8893,6 +8948,8 @@
                                         $root.google.cloud.bigquery.storage.v1.ArrowSerializationOptions.encode(message.arrowSerializationOptions, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                                     if (message.avroSerializationOptions != null && Object.hasOwnProperty.call(message, "avroSerializationOptions"))
                                         $root.google.cloud.bigquery.storage.v1.AvroSerializationOptions.encode(message.avroSerializationOptions, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                                    if (message.samplePercentage != null && Object.hasOwnProperty.call(message, "samplePercentage"))
+                                        writer.uint32(/* id 5, wireType 1 =*/41).double(message.samplePercentage);
                                     return writer;
                                 };
     
@@ -8943,6 +9000,10 @@
                                             }
                                         case 4: {
                                                 message.avroSerializationOptions = $root.google.cloud.bigquery.storage.v1.AvroSerializationOptions.decode(reader, reader.uint32());
+                                                break;
+                                            }
+                                        case 5: {
+                                                message.samplePercentage = reader.double();
                                                 break;
                                             }
                                         default:
@@ -9009,6 +9070,11 @@
                                                 return "avroSerializationOptions." + error;
                                         }
                                     }
+                                    if (message.samplePercentage != null && message.hasOwnProperty("samplePercentage")) {
+                                        properties._samplePercentage = 1;
+                                        if (typeof message.samplePercentage !== "number")
+                                            return "samplePercentage: number expected";
+                                    }
                                     return null;
                                 };
     
@@ -9043,6 +9109,8 @@
                                             throw TypeError(".google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions.avroSerializationOptions: object expected");
                                         message.avroSerializationOptions = $root.google.cloud.bigquery.storage.v1.AvroSerializationOptions.fromObject(object.avroSerializationOptions);
                                     }
+                                    if (object.samplePercentage != null)
+                                        message.samplePercentage = Number(object.samplePercentage);
                                     return message;
                                 };
     
@@ -9079,6 +9147,11 @@
                                         object.avroSerializationOptions = $root.google.cloud.bigquery.storage.v1.AvroSerializationOptions.toObject(message.avroSerializationOptions, options);
                                         if (options.oneofs)
                                             object.outputFormatSerializationOptions = "avroSerializationOptions";
+                                    }
+                                    if (message.samplePercentage != null && message.hasOwnProperty("samplePercentage")) {
+                                        object.samplePercentage = options.json && !isFinite(message.samplePercentage) ? String(message.samplePercentage) : message.samplePercentage;
+                                        if (options.oneofs)
+                                            object._samplePercentage = "samplePercentage";
                                     }
                                     return object;
                                 };
@@ -12907,6 +12980,38 @@
                             return ReadSession;
                         })();
     
+                        /**
+                         * DataFormat enum.
+                         * @name google.cloud.bigquery.storage.v1beta1.DataFormat
+                         * @enum {number}
+                         * @property {number} DATA_FORMAT_UNSPECIFIED=0 DATA_FORMAT_UNSPECIFIED value
+                         * @property {number} AVRO=1 AVRO value
+                         * @property {number} ARROW=3 ARROW value
+                         */
+                        v1beta1.DataFormat = (function() {
+                            var valuesById = {}, values = Object.create(valuesById);
+                            values[valuesById[0] = "DATA_FORMAT_UNSPECIFIED"] = 0;
+                            values[valuesById[1] = "AVRO"] = 1;
+                            values[valuesById[3] = "ARROW"] = 3;
+                            return values;
+                        })();
+    
+                        /**
+                         * ShardingStrategy enum.
+                         * @name google.cloud.bigquery.storage.v1beta1.ShardingStrategy
+                         * @enum {number}
+                         * @property {number} SHARDING_STRATEGY_UNSPECIFIED=0 SHARDING_STRATEGY_UNSPECIFIED value
+                         * @property {number} LIQUID=1 LIQUID value
+                         * @property {number} BALANCED=2 BALANCED value
+                         */
+                        v1beta1.ShardingStrategy = (function() {
+                            var valuesById = {}, values = Object.create(valuesById);
+                            values[valuesById[0] = "SHARDING_STRATEGY_UNSPECIFIED"] = 0;
+                            values[valuesById[1] = "LIQUID"] = 1;
+                            values[valuesById[2] = "BALANCED"] = 2;
+                            return values;
+                        })();
+    
                         v1beta1.CreateReadSessionRequest = (function() {
     
                             /**
@@ -13310,38 +13415,6 @@
                             };
     
                             return CreateReadSessionRequest;
-                        })();
-    
-                        /**
-                         * DataFormat enum.
-                         * @name google.cloud.bigquery.storage.v1beta1.DataFormat
-                         * @enum {number}
-                         * @property {number} DATA_FORMAT_UNSPECIFIED=0 DATA_FORMAT_UNSPECIFIED value
-                         * @property {number} AVRO=1 AVRO value
-                         * @property {number} ARROW=3 ARROW value
-                         */
-                        v1beta1.DataFormat = (function() {
-                            var valuesById = {}, values = Object.create(valuesById);
-                            values[valuesById[0] = "DATA_FORMAT_UNSPECIFIED"] = 0;
-                            values[valuesById[1] = "AVRO"] = 1;
-                            values[valuesById[3] = "ARROW"] = 3;
-                            return values;
-                        })();
-    
-                        /**
-                         * ShardingStrategy enum.
-                         * @name google.cloud.bigquery.storage.v1beta1.ShardingStrategy
-                         * @enum {number}
-                         * @property {number} SHARDING_STRATEGY_UNSPECIFIED=0 SHARDING_STRATEGY_UNSPECIFIED value
-                         * @property {number} LIQUID=1 LIQUID value
-                         * @property {number} BALANCED=2 BALANCED value
-                         */
-                        v1beta1.ShardingStrategy = (function() {
-                            var valuesById = {}, values = Object.create(valuesById);
-                            values[valuesById[0] = "SHARDING_STRATEGY_UNSPECIFIED"] = 0;
-                            values[valuesById[1] = "LIQUID"] = 1;
-                            values[valuesById[2] = "BALANCED"] = 2;
-                            return values;
                         })();
     
                         v1beta1.ReadRowsRequest = (function() {
@@ -14285,6 +14358,8 @@
                              * @property {number|Long|null} [rowCount] ReadRowsResponse rowCount
                              * @property {google.cloud.bigquery.storage.v1beta1.IStreamStatus|null} [status] ReadRowsResponse status
                              * @property {google.cloud.bigquery.storage.v1beta1.IThrottleStatus|null} [throttleStatus] ReadRowsResponse throttleStatus
+                             * @property {google.cloud.bigquery.storage.v1beta1.IAvroSchema|null} [avroSchema] ReadRowsResponse avroSchema
+                             * @property {google.cloud.bigquery.storage.v1beta1.IArrowSchema|null} [arrowSchema] ReadRowsResponse arrowSchema
                              */
     
                             /**
@@ -14342,6 +14417,22 @@
                              */
                             ReadRowsResponse.prototype.throttleStatus = null;
     
+                            /**
+                             * ReadRowsResponse avroSchema.
+                             * @member {google.cloud.bigquery.storage.v1beta1.IAvroSchema|null|undefined} avroSchema
+                             * @memberof google.cloud.bigquery.storage.v1beta1.ReadRowsResponse
+                             * @instance
+                             */
+                            ReadRowsResponse.prototype.avroSchema = null;
+    
+                            /**
+                             * ReadRowsResponse arrowSchema.
+                             * @member {google.cloud.bigquery.storage.v1beta1.IArrowSchema|null|undefined} arrowSchema
+                             * @memberof google.cloud.bigquery.storage.v1beta1.ReadRowsResponse
+                             * @instance
+                             */
+                            ReadRowsResponse.prototype.arrowSchema = null;
+    
                             // OneOf field names bound to virtual getters and setters
                             var $oneOfFields;
     
@@ -14353,6 +14444,17 @@
                              */
                             Object.defineProperty(ReadRowsResponse.prototype, "rows", {
                                 get: $util.oneOfGetter($oneOfFields = ["avroRows", "arrowRecordBatch"]),
+                                set: $util.oneOfSetter($oneOfFields)
+                            });
+    
+                            /**
+                             * ReadRowsResponse schema.
+                             * @member {"avroSchema"|"arrowSchema"|undefined} schema
+                             * @memberof google.cloud.bigquery.storage.v1beta1.ReadRowsResponse
+                             * @instance
+                             */
+                            Object.defineProperty(ReadRowsResponse.prototype, "schema", {
+                                get: $util.oneOfGetter($oneOfFields = ["avroSchema", "arrowSchema"]),
                                 set: $util.oneOfSetter($oneOfFields)
                             });
     
@@ -14390,6 +14492,10 @@
                                     $root.google.cloud.bigquery.storage.v1beta1.ThrottleStatus.encode(message.throttleStatus, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                                 if (message.rowCount != null && Object.hasOwnProperty.call(message, "rowCount"))
                                     writer.uint32(/* id 6, wireType 0 =*/48).int64(message.rowCount);
+                                if (message.avroSchema != null && Object.hasOwnProperty.call(message, "avroSchema"))
+                                    $root.google.cloud.bigquery.storage.v1beta1.AvroSchema.encode(message.avroSchema, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+                                if (message.arrowSchema != null && Object.hasOwnProperty.call(message, "arrowSchema"))
+                                    $root.google.cloud.bigquery.storage.v1beta1.ArrowSchema.encode(message.arrowSchema, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
                                 return writer;
                             };
     
@@ -14442,6 +14548,14 @@
                                         }
                                     case 5: {
                                             message.throttleStatus = $root.google.cloud.bigquery.storage.v1beta1.ThrottleStatus.decode(reader, reader.uint32());
+                                            break;
+                                        }
+                                    case 7: {
+                                            message.avroSchema = $root.google.cloud.bigquery.storage.v1beta1.AvroSchema.decode(reader, reader.uint32());
+                                            break;
+                                        }
+                                    case 8: {
+                                            message.arrowSchema = $root.google.cloud.bigquery.storage.v1beta1.ArrowSchema.decode(reader, reader.uint32());
                                             break;
                                         }
                                     default:
@@ -14511,6 +14625,24 @@
                                     if (error)
                                         return "throttleStatus." + error;
                                 }
+                                if (message.avroSchema != null && message.hasOwnProperty("avroSchema")) {
+                                    properties.schema = 1;
+                                    {
+                                        var error = $root.google.cloud.bigquery.storage.v1beta1.AvroSchema.verify(message.avroSchema);
+                                        if (error)
+                                            return "avroSchema." + error;
+                                    }
+                                }
+                                if (message.arrowSchema != null && message.hasOwnProperty("arrowSchema")) {
+                                    if (properties.schema === 1)
+                                        return "schema: multiple values";
+                                    properties.schema = 1;
+                                    {
+                                        var error = $root.google.cloud.bigquery.storage.v1beta1.ArrowSchema.verify(message.arrowSchema);
+                                        if (error)
+                                            return "arrowSchema." + error;
+                                    }
+                                }
                                 return null;
                             };
     
@@ -14554,6 +14686,16 @@
                                     if (typeof object.throttleStatus !== "object")
                                         throw TypeError(".google.cloud.bigquery.storage.v1beta1.ReadRowsResponse.throttleStatus: object expected");
                                     message.throttleStatus = $root.google.cloud.bigquery.storage.v1beta1.ThrottleStatus.fromObject(object.throttleStatus);
+                                }
+                                if (object.avroSchema != null) {
+                                    if (typeof object.avroSchema !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1beta1.ReadRowsResponse.avroSchema: object expected");
+                                    message.avroSchema = $root.google.cloud.bigquery.storage.v1beta1.AvroSchema.fromObject(object.avroSchema);
+                                }
+                                if (object.arrowSchema != null) {
+                                    if (typeof object.arrowSchema !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1beta1.ReadRowsResponse.arrowSchema: object expected");
+                                    message.arrowSchema = $root.google.cloud.bigquery.storage.v1beta1.ArrowSchema.fromObject(object.arrowSchema);
                                 }
                                 return message;
                             };
@@ -14599,6 +14741,16 @@
                                         object.rowCount = options.longs === String ? String(message.rowCount) : message.rowCount;
                                     else
                                         object.rowCount = options.longs === String ? $util.Long.prototype.toString.call(message.rowCount) : options.longs === Number ? new $util.LongBits(message.rowCount.low >>> 0, message.rowCount.high >>> 0).toNumber() : message.rowCount;
+                                if (message.avroSchema != null && message.hasOwnProperty("avroSchema")) {
+                                    object.avroSchema = $root.google.cloud.bigquery.storage.v1beta1.AvroSchema.toObject(message.avroSchema, options);
+                                    if (options.oneofs)
+                                        object.schema = "avroSchema";
+                                }
+                                if (message.arrowSchema != null && message.hasOwnProperty("arrowSchema")) {
+                                    object.arrowSchema = $root.google.cloud.bigquery.storage.v1beta1.ArrowSchema.toObject(message.arrowSchema, options);
+                                    if (options.oneofs)
+                                        object.schema = "arrowSchema";
+                                }
                                 return object;
                             };
     
