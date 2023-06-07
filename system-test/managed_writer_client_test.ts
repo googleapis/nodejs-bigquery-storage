@@ -15,14 +15,15 @@
 import * as assert from 'assert';
 import {describe, it} from 'mocha';
 import * as uuid from 'uuid';
-import {BigQuery} from '@google-cloud/bigquery';
+import {BigQuery, TableSchema} from '@google-cloud/bigquery';
 import * as protos from '../protos/protos';
 import * as bigquerywriter from '../src';
 import {ClientOptions, protobuf} from 'google-gax';
 import * as customerRecordProtoJson from '../samples/customer_record.json';
+import {PendingStream} from '../src/managedwriter';
 
-const {managedwriter} = bigquerywriter;
-const {WriterClient, StreamWriter, JSONWriter} = managedwriter;
+const {managedwriter, adapt} = bigquerywriter;
+const {WriterClient, Writer, JSONWriter} = managedwriter;
 
 type WriteStream = protos.google.cloud.bigquery.storage.v1.IWriteStream;
 type DescriptorProto = protos.google.protobuf.IDescriptorProto;
@@ -51,19 +52,21 @@ describe('managedwriter.WriterClient', () => {
   let parent: string;
   let bqWriteClient: bigquerywriter.BigQueryWriteClient;
   let clientOptions: ClientOptions;
-
-  before(async () => {
-    await bigquery.createDataset(datasetId);
-    const schema = [
+  const schema: TableSchema = {
+    fields: [
       {
         name: 'customer_name',
         type: 'STRING',
       },
       {
         name: 'row_num',
-        type: 'INT64',
+        type: 'INTEGER',
       },
-    ];
+    ],
+  };
+
+  before(async () => {
+    await bigquery.createDataset(datasetId);
 
     const [table] = await bigquery
       .dataset(datasetId)
@@ -104,57 +107,6 @@ describe('managedwriter.WriterClient', () => {
       assert.strictEqual(clientId, clientOptions.projectId);
     });
   });
-
-  /*describe('initializeStreamConnection', () => {
-    it('should invoke initalizeStreamConnection with or without clientOptions without errors', async () => {
-      await bqWriteClient.initialize();
-      writeStreamType = managedwriter.PendingStream;
-      const client = new WriterClient(
-        parent,
-        bqWriteClient,
-        undefined,
-        writeStreamType
-      );
-      const numConnections: number =
-        client.getConnections().connectionList.length;
-
-      client.createWriteStream().then(() => {
-        const streamId = 'fake-stream-id';
-        const streamIdResult = sinon.replace(
-          client,
-          'getStreamId',
-          sinon.fake.returns(streamId)
-        );
-        assert(client.getConnections().connectionList.length === 1);
-        assert(client.getConnections().connections['streamId']);
-        assert.strictEqual(streamIdResult, streamId);
-      });
-
-      // invokes initializeStreamConnection with CallOptions
-      const callOptions: gax.CallOptions = {};
-      const streamCallOptionsId = 'fake-stream-id-with-call-options';
-      client.createWriteStream().then((streamId) => client.createManagedStream(streamId)).then(() => {
-        const streamIdCallOptionsResult = sinon.replace(
-          client,
-          'getStreamId',
-          sinon.fake.returns(streamCallOptionsId)
-        );
-        console.log(client.getConnections().connectionList.length);
-        assert(
-          client.getConnections().connectionList.length === numConnections + 2
-        );
-        assert(client.getConnections().connections['streamId']);
-        assert.strictEqual(streamIdCallOptionsResult, streamCallOptionsId);
-      });
-    });
-
-    it('should invoke initalizeStreamConnection with errors', () => {
-
-    })
-    it('should invoke initalizeStreamConnection with closed client', () => {
-
-    })
-  });*/
 
   describe('appendRowsToStream', () => {
     it('should invoke appendRowsToStream without errors', async () => {
@@ -216,7 +168,7 @@ describe('managedwriter.WriterClient', () => {
         const connection = await client.createStreamConnection({
           streamId,
         });
-        const writer = new StreamWriter({
+        const writer = new Writer({
           connection,
           protoDescriptor,
         });
@@ -336,6 +288,105 @@ describe('managedwriter.WriterClient', () => {
       return Promise.resolve();
     });
 
+    it('should update proto descriptor automatically with JSONWriter.appendRows without errors', async () => {
+      bqWriteClient.initialize();
+      const client = new WriterClient();
+      client.setClient(bqWriteClient);
+
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const protoDescriptor: DescriptorProto =
+        adapt.convertStorageSchemaToProto2Descriptor(storageSchema, 'root');
+
+      // Row 1
+      const row1 = {
+        customerName: 'Ada Lovelace',
+        rowNum: 1,
+      };
+
+      // Row 2
+      const row2 = {
+        customerName: 'Alan Turing',
+        rowNum: 2,
+      };
+
+      let receivedSchemaNotification = false;
+      try {
+        const connection = await client.createStreamConnection({
+          streamType: PendingStream,
+          destinationTable: parent,
+        });
+        connection.onSchemaUpdated(schema => {
+          receivedSchemaNotification = !!schema;
+        });
+
+        const streamId = connection.getStreamId();
+        const writer = new JSONWriter({
+          connection,
+          protoDescriptor,
+        });
+
+        let offset: IInt64Value['value'] = 0;
+        let pw = writer.appendRows([row1, row2], offset);
+        let result = await pw.getResult();
+
+        assert.equal(result.error, null);
+
+        const updatedSchema = {
+          fields: [
+            ...(schema.fields || []),
+            {
+              name: 'customer_email',
+              type: 'STRING',
+            },
+          ],
+        };
+        const [md] = await bigquery
+          .dataset(datasetId)
+          .table(tableId)
+          .setMetadata({
+            schema: updatedSchema,
+          });
+        assert.deepEqual(md.schema, updatedSchema);
+
+        // Row with new field
+        const rowUpdated = {
+          customerName: 'Charles Babbage',
+          rowNum: 3,
+          customerEmail: 'charles@babbage.com',
+        };
+        offset = 2;
+
+        while (!result.updatedSchema) {
+          pw = writer.appendRows([rowUpdated], offset);
+          rowUpdated.rowNum++;
+          offset++;
+          result = await pw.getResult();
+        }
+        const updatedStorageSchema =
+          adapt.convertBigQuerySchemaToStorageTableSchema(updatedSchema);
+        assert.equal(
+          result.updatedSchema.fields?.length,
+          updatedStorageSchema.fields?.length
+        );
+        assert.equal(receivedSchemaNotification, true);
+
+        const rowCount = await connection.finalize();
+        connection.close();
+        assert.equal(rowCount, offset);
+
+        const commitResponse = await client.batchCommitWriteStream({
+          parent,
+          writeStreams: [streamId],
+        });
+        assert.equal(commitResponse.streamErrors?.length, 0);
+      } finally {
+        client.close();
+      }
+
+      return Promise.resolve();
+    }).timeout(30 * 1000);
+
     it('should invoke appendRows to default stream without errors', async () => {
       bqWriteClient.initialize();
       const client = new WriterClient();
@@ -393,7 +444,7 @@ describe('managedwriter.WriterClient', () => {
           streamId: managedwriter.DefaultStream,
           destinationTable: parent,
         });
-        const writer = new StreamWriter({
+        const writer = new Writer({
           connection,
           protoDescriptor,
         });
@@ -465,7 +516,7 @@ describe('managedwriter.WriterClient', () => {
           destinationTable: parent,
         });
         const streamId = connection.getStreamId();
-        const writer = new StreamWriter({
+        const writer = new Writer({
           connection,
           protoDescriptor,
         });
@@ -516,14 +567,6 @@ describe('managedwriter.WriterClient', () => {
 
       return Promise.resolve();
     });
-
-    /*it('should invoke appendRowsToStream with errors', () => {
-
-    })*/
-
-    /*it('should invoke appendRowsToStream with closed client', () => {
-
-    })*/
   });
 
   describe('closeStream', () => {
@@ -574,7 +617,7 @@ describe('managedwriter.WriterClient', () => {
           return client.createStreamConnection({streamId});
         })
         .then(connection => {
-          const writer = new StreamWriter({
+          const writer = new Writer({
             connection,
             protoDescriptor,
           });
@@ -592,13 +635,5 @@ describe('managedwriter.WriterClient', () => {
           assert.strictEqual(client.getClientClosedStatus, true);
         });
     });
-
-    /*it('should invoke closeStream with errors', () => {
-
-    })*/
-
-    /*it('should invoke closeStream with closed client', () => {
-
-    })*/
   });
 });

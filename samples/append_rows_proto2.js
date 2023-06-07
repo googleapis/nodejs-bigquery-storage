@@ -21,7 +21,7 @@ function main(
 ) {
   // [START bigquerystorage_append_rows_raw_proto2]
   const {adapt, managedwriter} = require('@google-cloud/bigquery-storage');
-  const {WriterClient, StreamWriter} = managedwriter;
+  const {WriterClient, Writer} = managedwriter;
 
   const sample_data_pb = require('./sample_data_pb.js');
   const {SampleData} = sample_data_pb;
@@ -68,7 +68,7 @@ function main(
       const streamId = connection.getStreamId();
       console.log(`Stream created: ${streamId}`);
 
-      const writer = new StreamWriter({
+      const writer = new Writer({
         connection,
         protoDescriptor,
       });

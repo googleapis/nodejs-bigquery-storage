@@ -16,29 +16,39 @@ import * as protos from '../../protos/protos';
 
 type AppendRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse;
+type AppendRowRequest =
+  protos.google.cloud.bigquery.storage.v1.IAppendRowsRequest;
 
 export class PendingWrite {
+  private request: AppendRowRequest;
   private promise: Promise<AppendRowsResponse>;
   private resolveFunc?: (response: AppendRowsResponse) => void;
   private rejectFunc?: (reason?: protos.google.rpc.IStatus) => void;
 
-  constructor() {
+  constructor(request: AppendRowRequest) {
+    this.request = request;
     this.promise = new Promise((resolve, reject) => {
       this.resolveFunc = resolve;
       this.rejectFunc = reject;
     });
   }
 
-  _markDone(result?: AppendRowsResponse) {
+  _markDone(err: Error | null, result?: AppendRowsResponse) {
+    if (err) {
+      this.rejectFunc && this.rejectFunc(err);
+      return;
+    }
+
     if (result) {
       if (result.error) {
         this.rejectFunc && this.rejectFunc(result.error);
       } else {
         this.resolveFunc && this.resolveFunc(result);
       }
-    } else {
-      this.rejectFunc && this.rejectFunc(new Error('ended with no status'));
+      return;
     }
+
+    this.rejectFunc && this.rejectFunc(new Error('ended with no status'));
   }
 
   getResult(): Promise<AppendRowsResponse> {

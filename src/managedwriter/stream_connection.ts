@@ -13,12 +13,13 @@
 // limitations under the License.
 
 import * as gax from 'google-gax';
+import {EventEmitter} from 'events';
 import * as protos from '../../protos/protos';
 
 import {WriterClient} from './writer_client';
-import {WriteStream, WriteStreamType, DefaultStream} from './stream_types';
 import {PendingWrite} from './pending_write';
 
+type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type AppendRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse;
 type AppendRowRequest =
@@ -28,33 +29,32 @@ type FinalizeWriteStreamResponse =
 type FinalizeWriteStreamRequest =
   protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest;
 
-export class StreamConnection {
-  private _writeStreamType?: WriteStreamType = 'TYPE_UNSPECIFIED';
+export type RemoveListener = {
+  off: () => void;
+};
+
+export class StreamConnection extends EventEmitter {
   private _streamId: string;
   private _writeClient: WriterClient;
-  private _writeStream: WriteStream;
   private _connection: gax.CancellableStream;
   private _pendingWrites: PendingWrite[];
   private _open: boolean;
 
   constructor(
     streamId: string,
-    writeStream: WriteStream,
     connection: gax.CancellableStream,
-    writeStreamType: WriteStreamType,
     writeClient: WriterClient
   ) {
+    super();
     this._streamId = streamId;
     this._writeClient = writeClient;
-    this._writeStream = writeStream;
     this._connection = connection;
-    this._writeStreamType = writeStreamType;
     this._pendingWrites = [];
     this._open = true;
 
     this._connection.on('data', this._handleData);
     this._connection.on('error', err => {
-      console.log('connection error:', err);
+      this.emit('error', err);
     });
     this._connection.on('end', () => {
       this._open = false;
@@ -67,16 +67,50 @@ export class StreamConnection {
       console.warn('data arrived with no pending write available', response);
       return;
     }
-    pw._markDone(response);
+    if (response.updatedSchema) {
+      this.emit('schemaUpdated', response.updatedSchema);
+    }
+    pw._markDone(null, response);
   };
+
+  onSchemaUpdated(listener: (schema: TableSchema) => void): RemoveListener {
+    return this._registerListener('schemaUpdated', listener);
+  }
+
+  onWriteError(
+    listener: (err: Error, req: AppendRowRequest) => void
+  ): RemoveListener {
+    return this._registerListener('writeError', listener);
+  }
+
+  onError(listener: (err: Error) => void): RemoveListener {
+    return this._registerListener('error', listener);
+  }
+
+  _registerListener(
+    eventName: string,
+    listener: (...args: any[]) => void
+  ): RemoveListener {
+    this.addListener(eventName, listener);
+    return {
+      off: () => {
+        this.removeListener(eventName, listener);
+      },
+    };
+  }
 
   getStreamId = (): string => {
     return this._streamId;
   };
 
   write(request: AppendRowRequest): PendingWrite {
-    const pw = new PendingWrite();
-    this._connection.write(request, () => {
+    const pw = new PendingWrite(request);
+    this._connection.write(request, err => {
+      if (err) {
+        this.emit('writeError', err, request);
+        pw._markDone(err);
+        return;
+      }
       this._pendingWrites.unshift(pw);
     });
     return pw;
@@ -88,6 +122,7 @@ export class StreamConnection {
 
   async close() {
     this._connection.end();
+    this.removeAllListeners();
   }
 
   /**
@@ -98,22 +133,22 @@ export class StreamConnection {
    */
   async finalize(): Promise<FinalizeWriteStreamResponse['rowCount']> {
     this.close();
-    if (this._writeStreamType === DefaultStream) {
+    if (this._streamId.includes('_default')) {
+      // check if is default stream
       return;
     }
     const finalizeStreamReq: FinalizeWriteStreamRequest = {
       name: this._streamId,
     };
 
-    return this._writeClient
+    const result = await this._writeClient
       .getClient()
-      .finalizeWriteStream(finalizeStreamReq)
-      .then(result => {
-        if (!result.includes(undefined)) {
-          const [validResponse] = result;
-          return validResponse.rowCount;
-        }
-        return null;
-      });
+      .finalizeWriteStream(finalizeStreamReq);
+
+    if (!result.includes(undefined)) {
+      const [validResponse] = result;
+      return validResponse.rowCount;
+    }
+    return null;
   }
 }

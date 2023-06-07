@@ -26,7 +26,7 @@ type DescriptorProto = protos.google.protobuf.DescriptorProto;
 
 const DescriptorProto = protos.google.protobuf.DescriptorProto;
 
-export class StreamWriter {
+export class Writer {
   private _protoDescriptor: DescriptorProto;
   private _streamConnection: StreamConnection;
 

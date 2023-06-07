@@ -14,7 +14,7 @@
 //
 
 export {WriterClient} from './writer_client';
-export {StreamWriter} from './stream_writer';
+export {Writer} from './writer';
 export {JSONWriter} from './json_writer';
 export {
   DefaultStream,

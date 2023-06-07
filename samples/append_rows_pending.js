@@ -21,7 +21,7 @@ function main(
 ) {
   // [START bigquerystorage_append_rows_pending]
   const {adapt, managedwriter} = require('@google-cloud/bigquery-storage');
-  const {WriterClient, StreamWriter} = managedwriter;
+  const {WriterClient, Writer} = managedwriter;
 
   const customer_record_pb = require('./customer_record_pb.js');
   const {CustomerRecord} = customer_record_pb;
@@ -68,7 +68,7 @@ function main(
       const connection = await writeClient.createStreamConnection({
         streamId,
       });
-      const writer = new StreamWriter({
+      const writer = new Writer({
         connection,
         protoDescriptor,
       });

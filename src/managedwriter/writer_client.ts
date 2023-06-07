@@ -46,6 +46,10 @@ type BatchCommitWriteStreamsRequest =
   protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest;
 type BatchCommitWriteStreamsResponse =
   protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse;
+type FlushRowsRequest =
+  protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest;
+type FlushRowsResponse =
+  protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse;
 type FinalizeWriteStreamResponse =
   protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse;
 
@@ -165,7 +169,7 @@ export class WriterClient {
    *   Optional. Parent table that all the streams should belong to, in the form
    *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
    * @param {string?} request.streamType
-   *   Optional. The type of stream to create. If not specified, the default is `PENDING`.
+   *   Optional. The type of stream to create. If not specified, the default is `DEFAULT`.
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {StreamConnection} - stream which rows can be appended to.
@@ -189,19 +193,13 @@ export class WriterClient {
         streamType,
         destinationTable
       );
-      const writeStream: WriteStream = {
-        name: fullStreamId,
-        type: streamTypeToEnum(streamType),
-      };
 
       const callOptions = this.resolveCallOptions(fullStreamId, options);
       const connection = this._client.appendRows(callOptions);
 
       const streamConnection = new StreamConnection(
         fullStreamId,
-        writeStream,
         connection,
-        streamType,
         this
       );
       this._connections.connectionList.push(streamConnection);
@@ -247,15 +245,17 @@ export class WriterClient {
       return streamId;
     }
     if (destinationTable) {
-      const finalStreamType = streamType || 'PENDING';
-      streamId = await this.createWriteStream({
-        streamType: finalStreamType,
-        destinationTable,
-      });
-      return streamId;
+      if (streamType) {
+        streamId = await this.createWriteStream({
+          streamType,
+          destinationTable,
+        });
+        return streamId;
+      }
+      return `${destinationTable}/streams/_default`;
     }
     throw new Error(
-      'streamType and destinationTable required to create write stream'
+      'streamId or destinationTable required to create write stream'
     );
   }
 
@@ -281,6 +281,31 @@ export class WriterClient {
   ): Promise<BatchCommitWriteStreamsResponse> {
     await this.initialize();
     const [res] = await this._client.batchCommitWriteStreams(req);
+    return res;
+  }
+
+  /**
+   * Flushes rows to a BUFFERED stream.
+   *
+   * If users are appending rows to BUFFERED stream, flush operation is
+   * required in order for the rows to become available for reading. A
+   * Flush operation flushes up to any previously flushed offset in a BUFFERED
+   * stream, to the offset specified in the request.
+   *
+   * Flush is not supported on the DEFAULT stream, since it is not BUFFERED.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.writeStream
+   *   Required. The stream that is the target of the flush operation.
+   * @param {google.protobuf.Int64Value} request.offset
+   *   Ending offset of the flush operation. Rows before this offset(including
+   *   this offset) will be flushed.
+   * @returns {Promise} - The promise which resolves to a {@link google.cloud.bigquery.storage.v1.FlushRowsResponse | FlushRowsResponse}.
+   */
+  async flushRows(req?: FlushRowsRequest): Promise<FlushRowsResponse> {
+    await this.initialize();
+    const [res] = await this._client.flushRows(req);
     return res;
   }
 
