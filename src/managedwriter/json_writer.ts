@@ -34,7 +34,9 @@ const {Type} = protobuf;
 
 export class JSONWriter {
   private _writer: Writer;
-  private _type: protobuf.Type;
+  private _type: protobuf.Type = Type.fromJSON('root', {
+    fields: {},
+  });
   private _schemaListener: RemoveListener;
 
   constructor(params: {
@@ -42,26 +44,25 @@ export class JSONWriter {
     protoDescriptor: IDescriptorProto;
   }) {
     const {connection, protoDescriptor} = params;
-    const normalized = adapt.normalizeDescriptor(
-      new DescriptorProto(protoDescriptor)
-    );
-    this._type = (Type as any).fromDescriptor(normalized);
-    this._writer = new Writer({
-      connection,
-      protoDescriptor,
-    });
+    this._writer = new Writer(params);
     this._schemaListener = connection.onSchemaUpdated(this._onSchemaUpdated);
+    this.setProtoDescriptor(protoDescriptor);
   }
 
-  _onSchemaUpdated(schema: TableSchema): void {
+  _onSchemaUpdated = (schema: TableSchema) => {
     const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
       schema,
       'root'
     );
+    this.setProtoDescriptor(protoDescriptor);
+  };
+
+  setProtoDescriptor(protoDescriptor: IDescriptorProto): void {
     const normalized = adapt.normalizeDescriptor(
       new DescriptorProto(protoDescriptor)
     );
     this._type = (Type as any).fromDescriptor(normalized);
+    this._writer.setProtoDescriptor(protoDescriptor);
   }
 
   appendRows(rows: JSONList, offsetValue?: IInt64Value['value']): PendingWrite {
@@ -78,7 +79,7 @@ export class JSONWriter {
     return pw;
   }
 
-  async close() {
+  close() {
     this._writer.close();
     this._schemaListener.off();
   }

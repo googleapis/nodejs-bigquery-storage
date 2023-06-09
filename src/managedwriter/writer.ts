@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import {isDeepStrictEqual} from 'util';
 import * as protos from '../../protos/protos';
 import {PendingWrite} from './pending_write';
 import {StreamConnection} from './stream_connection';
@@ -39,6 +40,16 @@ export class Writer {
     this._protoDescriptor = new DescriptorProto(protoDescriptor);
   }
 
+  setProtoDescriptor(protoDescriptor: IDescriptorProto) {
+    const protoDescriptorInstance = new DescriptorProto(protoDescriptor);
+    if (!isDeepStrictEqual(protoDescriptorInstance, this._protoDescriptor)) {
+      this._protoDescriptor = new DescriptorProto(protoDescriptor);
+      // Reopen connection
+      this._streamConnection.close();
+      this._streamConnection.open();
+    }
+  }
+
   appendRows(
     rows: ProtoData['rows'],
     offsetValue?: IInt64Value['value']
@@ -64,7 +75,7 @@ export class Writer {
     return pw;
   }
 
-  async close() {
+  close() {
     this._streamConnection.close();
   }
 }

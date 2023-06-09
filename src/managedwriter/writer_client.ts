@@ -17,12 +17,7 @@ import type {CallOptions, ClientOptions} from 'google-gax';
 import * as protos from '../../protos/protos';
 
 import {BigQueryWriteClient} from '../v1';
-import {
-  WriteStream,
-  WriteStreamType,
-  DefaultStream,
-  streamTypeToEnum,
-} from './stream_types';
+import {WriteStreamType, DefaultStream, streamTypeToEnum} from './stream_types';
 import {StreamConnection} from './stream_connection';
 
 /**
@@ -80,6 +75,7 @@ export class WriterClient {
    */
   initialize = async (): Promise<void> => {
     await this._client.initialize();
+    this._clientClosed = false;
   };
 
   getClient = (): BigQueryWriteClient => {
@@ -90,18 +86,8 @@ export class WriterClient {
     this._client = client;
   };
 
-  getWriteStreams = (writeStream: WriteStream): undefined | null | string[] => {
-    if (writeStream === undefined || writeStream.name === undefined) {
-      return undefined;
-    }
-    if (writeStream.name === null) {
-      return null;
-    }
-    return new Array(writeStream.name);
-  };
-
-  getConnections(): StreamConnections {
-    return this._connections;
+  getConnections(): StreamConnections['connectionList'] {
+    return this._connections.connectionList;
   }
 
   getClientClosedStatus(): boolean {
@@ -129,9 +115,6 @@ export class WriterClient {
     streamType: WriteStreamType;
     destinationTable: string;
   }): Promise<string> {
-    if (this._clientClosed) {
-      this._clientClosed = false;
-    }
     await this.initialize();
     const {streamType, destinationTable} = request;
     const createReq: CreateWriteStreamRequest = {
@@ -182,9 +165,6 @@ export class WriterClient {
     },
     options?: CallOptions
   ): Promise<StreamConnection> {
-    if (this._clientClosed) {
-      this._clientClosed = false;
-    }
     await this.initialize();
     const {streamId, streamType, destinationTable} = request;
     try {
@@ -193,14 +173,10 @@ export class WriterClient {
         streamType,
         destinationTable
       );
-
-      const callOptions = this.resolveCallOptions(fullStreamId, options);
-      const connection = this._client.appendRows(callOptions);
-
       const streamConnection = new StreamConnection(
         fullStreamId,
-        connection,
-        this
+        this,
+        options
       );
       this._connections.connectionList.push(streamConnection);
       this._connections.connections[`${streamId}`] = streamConnection;
@@ -208,25 +184,6 @@ export class WriterClient {
     } catch (err) {
       throw new Error('managed stream connection failed:' + err);
     }
-  }
-
-  private resolveCallOptions(
-    streamId: string,
-    options?: CallOptions
-  ): CallOptions {
-    const callOptions = options || {};
-    if (!callOptions.otherArgs) {
-      callOptions.otherArgs = {};
-    }
-    if (!callOptions.otherArgs.headers) {
-      callOptions.otherArgs.headers = {};
-    }
-    // This header is required so that the BigQuery Storage API
-    // knows which region to route the request to.
-    callOptions.otherArgs.headers[
-      'x-goog-request-params'
-    ] = `write_stream=${streamId}`;
-    return callOptions;
   }
 
   private async resolveStreamId(
@@ -309,10 +266,11 @@ export class WriterClient {
     return res;
   }
 
-  async close() {
-    this._connections.connectionList.map(ms => {
-      return ms.close();
+  close() {
+    this._connections.connectionList.map(conn => {
+      conn.close();
     });
+    this._clientClosed = true;
   }
 
   /**

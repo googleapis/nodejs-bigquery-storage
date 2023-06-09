@@ -39,7 +39,6 @@ const bigquery = new BigQuery();
 const generateUuid = () =>
   `${GCLOUD_TESTS_PREFIX}_${uuid.v4()}`.replace(/-/gi, '_');
 const datasetId = generateUuid();
-const tableId = generateUuid();
 
 const root = protobuf.Root.fromJSON(customerRecordProtoJson);
 if (!root) {
@@ -50,6 +49,7 @@ const CustomerRecord = root.lookupType('CustomerRecord');
 describe('managedwriter.WriterClient', () => {
   let projectId: string;
   let parent: string;
+  let tableId: string;
   let bqWriteClient: bigquerywriter.BigQueryWriteClient;
   let clientOptions: ClientOptions;
   const schema: TableSchema = {
@@ -67,6 +67,10 @@ describe('managedwriter.WriterClient', () => {
 
   before(async () => {
     await bigquery.createDataset(datasetId);
+  });
+
+  beforeEach(async () => {
+    tableId = generateUuid();
 
     const [table] = await bigquery
       .dataset(datasetId)
@@ -132,8 +136,8 @@ describe('managedwriter.WriterClient', () => {
 
       // Row 1
       const row1 = {
-        customerName: 'Ada Lovelace',
-        rowNum: 1,
+        customer_name: 'Ada Lovelace',
+        row_num: 1,
       };
       const row1Message = CustomerRecord.create(row1);
       const serializedRow1Message: Uint8Array =
@@ -141,8 +145,8 @@ describe('managedwriter.WriterClient', () => {
 
       // Row 2
       const row2 = {
-        customerName: 'Alan Turing',
-        rowNum: 2,
+        customer_name: 'Alan Turing',
+        row_num: 2,
       };
       const row2Message = CustomerRecord.create(row2);
       const serializedRow2Message: Uint8Array =
@@ -227,14 +231,14 @@ describe('managedwriter.WriterClient', () => {
 
       // Row 1
       const row1 = {
-        customerName: 'Ada Lovelace',
-        rowNum: 1,
+        customer_name: 'Ada Lovelace',
+        row_num: 1,
       };
 
       // Row 2
       const row2 = {
-        customerName: 'Alan Turing',
-        rowNum: 2,
+        customer_name: 'Alan Turing',
+        row_num: 2,
       };
 
       const offset: IInt64Value['value'] = '0';
@@ -281,6 +285,8 @@ describe('managedwriter.WriterClient', () => {
           writeStreams: [streamId],
         });
         assert.equal(commitResponse.streamErrors?.length, 0);
+
+        writer.close();
       } finally {
         client.close();
       }
@@ -300,14 +306,14 @@ describe('managedwriter.WriterClient', () => {
 
       // Row 1
       const row1 = {
-        customerName: 'Ada Lovelace',
-        rowNum: 1,
+        customer_name: 'Ada Lovelace',
+        row_num: 1,
       };
 
       // Row 2
       const row2 = {
-        customerName: 'Alan Turing',
-        rowNum: 2,
+        customer_name: 'Alan Turing',
+        row_num: 2,
       };
 
       let receivedSchemaNotification = false;
@@ -318,6 +324,9 @@ describe('managedwriter.WriterClient', () => {
         });
         connection.onSchemaUpdated(schema => {
           receivedSchemaNotification = !!schema;
+        });
+        connection.onConnectionError(err => {
+          throw err;
         });
 
         const streamId = connection.getStreamId();
@@ -351,18 +360,19 @@ describe('managedwriter.WriterClient', () => {
 
         // Row with new field
         const rowUpdated = {
-          customerName: 'Charles Babbage',
-          rowNum: 3,
-          customerEmail: 'charles@babbage.com',
+          customer_name: 'Charles Babbage',
+          row_num: 3,
+          customer_email: 'charles@babbage.com',
         };
         offset = 2;
 
         while (!result.updatedSchema) {
           pw = writer.appendRows([rowUpdated], offset);
-          rowUpdated.rowNum++;
+          rowUpdated.row_num++;
           offset++;
           result = await pw.getResult();
         }
+
         const updatedStorageSchema =
           adapt.convertBigQuerySchemaToStorageTableSchema(updatedSchema);
         assert.equal(
@@ -370,6 +380,10 @@ describe('managedwriter.WriterClient', () => {
           updatedStorageSchema.fields?.length
         );
         assert.equal(receivedSchemaNotification, true);
+
+        pw = writer.appendRows([rowUpdated], offset);
+        offset++;
+        result = await pw.getResult();
 
         const rowCount = await connection.finalize();
         connection.close();
@@ -380,6 +394,15 @@ describe('managedwriter.WriterClient', () => {
           writeStreams: [streamId],
         });
         assert.equal(commitResponse.streamErrors?.length, 0);
+
+        const [rows] = await bigquery.query(
+          `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\` order by row_num`
+        );
+
+        assert.strictEqual(rows.length, offset);
+        assert.deepEqual(rows[rows.length - 1], rowUpdated);
+
+        writer.close();
       } finally {
         client.close();
       }
@@ -569,8 +592,8 @@ describe('managedwriter.WriterClient', () => {
     });
   });
 
-  describe('closeStream', () => {
-    it('should invoke closeStream without errors', () => {
+  describe('close', () => {
+    it('should invoke close without errors', async () => {
       bqWriteClient.initialize();
       const streamType: WriteStream['type'] = managedwriter.PendingStream;
       const client = new WriterClient();
@@ -610,30 +633,30 @@ describe('managedwriter.WriterClient', () => {
         CustomerRecord.encode(row2Message).finish();
 
       const offset = 0;
-
-      client
-        .createWriteStream({streamType, destinationTable: parent})
-        .then(streamId => {
-          return client.createStreamConnection({streamId});
-        })
-        .then(connection => {
-          const writer = new Writer({
-            connection,
-            protoDescriptor,
-          });
-          return writer.appendRows(
-            {
-              serializedRows: [serializedRow1Message, serializedRow2Message],
-            },
-            offset
-          );
-        })
-        .then(() => {
-          client.close();
-        })
-        .finally(() => {
-          assert.strictEqual(client.getClientClosedStatus, true);
+      try {
+        const streamId = await client.createWriteStream({
+          streamType,
+          destinationTable: parent,
         });
+        const connection = await client.createStreamConnection({streamId});
+        const writer = new Writer({
+          connection,
+          protoDescriptor,
+        });
+        await writer.appendRows(
+          {
+            serializedRows: [serializedRow1Message, serializedRow2Message],
+          },
+          offset
+        );
+        writer.close();
+        client.close();
+        assert.strictEqual(client.getClientClosedStatus(), true);
+      } finally {
+        client.close();
+      }
+
+      return Promise.resolve();
     });
   });
 });

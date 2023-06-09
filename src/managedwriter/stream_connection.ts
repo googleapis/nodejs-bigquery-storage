@@ -36,32 +36,61 @@ export type RemoveListener = {
 export class StreamConnection extends EventEmitter {
   private _streamId: string;
   private _writeClient: WriterClient;
-  private _connection: gax.CancellableStream;
+  private _connection?: gax.CancellableStream | null;
+  private _callOptions?: gax.CallOptions;
   private _pendingWrites: PendingWrite[];
-  private _open: boolean;
 
   constructor(
     streamId: string,
-    connection: gax.CancellableStream,
-    writeClient: WriterClient
+    writeClient: WriterClient,
+    options?: gax.CallOptions
   ) {
     super();
     this._streamId = streamId;
     this._writeClient = writeClient;
-    this._connection = connection;
+    this._callOptions = options;
     this._pendingWrites = [];
-    this._open = true;
+    this.open();
+  }
 
-    this._connection.on('data', this._handleData);
+  open() {
+    if (this.isOpen()) {
+      this.close();
+    }
+    const callOptions = this.resolveCallOptions(
+      this._streamId,
+      this._callOptions
+    );
+    const client = this._writeClient.getClient();
+    const connection = client.appendRows(callOptions);
+    this._connection = connection;
+    this._connection.on('data', this.handleData);
     this._connection.on('error', err => {
       this.emit('error', err);
     });
-    this._connection.on('end', () => {
-      this._open = false;
-    });
+    this._connection.on('end', () => {});
   }
 
-  _handleData = (response: AppendRowsResponse) => {
+  private resolveCallOptions(
+    streamId: string,
+    options?: gax.CallOptions
+  ): gax.CallOptions {
+    const callOptions = options || {};
+    if (!callOptions.otherArgs) {
+      callOptions.otherArgs = {};
+    }
+    if (!callOptions.otherArgs.headers) {
+      callOptions.otherArgs.headers = {};
+    }
+    // This header is required so that the BigQuery Storage API
+    // knows which region to route the request to.
+    callOptions.otherArgs.headers[
+      'x-goog-request-params'
+    ] = `write_stream=${streamId}`;
+    return callOptions;
+  }
+
+  private handleData = (response: AppendRowsResponse) => {
     const pw = this._pendingWrites.pop();
     if (!pw) {
       console.warn('data arrived with no pending write available', response);
@@ -74,20 +103,20 @@ export class StreamConnection extends EventEmitter {
   };
 
   onSchemaUpdated(listener: (schema: TableSchema) => void): RemoveListener {
-    return this._registerListener('schemaUpdated', listener);
+    return this.registerListener('schemaUpdated', listener);
   }
 
   onWriteError(
     listener: (err: Error, req: AppendRowRequest) => void
   ): RemoveListener {
-    return this._registerListener('writeError', listener);
+    return this.registerListener('writeError', listener);
   }
 
-  onError(listener: (err: Error) => void): RemoveListener {
-    return this._registerListener('error', listener);
+  onConnectionError(listener: (err: Error) => void): RemoveListener {
+    return this.registerListener('error', listener);
   }
 
-  _registerListener(
+  private registerListener(
     eventName: string,
     listener: (...args: any[]) => void
   ): RemoveListener {
@@ -105,10 +134,14 @@ export class StreamConnection extends EventEmitter {
 
   write(request: AppendRowRequest): PendingWrite {
     const pw = new PendingWrite(request);
+    if (!this._connection) {
+      pw._markDone(new Error('connection closed'));
+      return pw;
+    }
     this._connection.write(request, err => {
       if (err) {
         this.emit('writeError', err, request);
-        pw._markDone(err);
+        pw._markDone(err); //TODO: add retries
         return;
       }
       this._pendingWrites.unshift(pw);
@@ -117,12 +150,16 @@ export class StreamConnection extends EventEmitter {
   }
 
   isOpen(): boolean {
-    return this._open;
+    return !!this._connection;
   }
 
-  async close() {
+  close() {
+    if (!this._connection) {
+      return;
+    }
     this._connection.end();
-    this.removeAllListeners();
+    this._connection.removeAllListeners();
+    this._connection = null;
   }
 
   /**
