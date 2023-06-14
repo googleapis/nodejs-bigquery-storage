@@ -192,9 +192,9 @@ describe('managedwriter.WriterClient', () => {
 
         assert.deepEqual(appendRowsResponsesResult, responses);
 
-        const rowCount = await connection.finalize();
+        const res = await connection.finalize();
         connection.close();
-        assert.equal(rowCount, 2);
+        assert.equal(res?.rowCount, 2);
 
         const commitResponse = await client.batchCommitWriteStream({
           parent,
@@ -276,9 +276,9 @@ describe('managedwriter.WriterClient', () => {
 
         assert.deepEqual(appendRowsResponsesResult, responses);
 
-        const rowCount = await connection.finalize();
+        const res = await connection.finalize();
         connection.close();
-        assert.equal(rowCount, 2);
+        assert.equal(res?.rowCount, 2);
 
         const commitResponse = await client.batchCommitWriteStream({
           parent,
@@ -385,9 +385,9 @@ describe('managedwriter.WriterClient', () => {
         offset++;
         result = await pw.getResult();
 
-        const rowCount = await connection.finalize();
+        const res = await connection.finalize();
         connection.close();
-        assert.equal(rowCount, offset);
+        assert.equal(res?.rowCount, offset);
 
         const commitResponse = await client.batchCommitWriteStream({
           parent,
@@ -575,9 +575,9 @@ describe('managedwriter.WriterClient', () => {
         ];
         assert.deepEqual(appendRowsResponsesResult, responses);
 
-        const rowCount = await connection.finalize();
+        const res = await connection.finalize();
         connection.close();
-        assert.equal(rowCount, 4);
+        assert.equal(res?.rowCount, 4);
 
         const commitResponse = await client.batchCommitWriteStream({
           parent,
@@ -651,7 +651,7 @@ describe('managedwriter.WriterClient', () => {
         );
         writer.close();
         client.close();
-        assert.strictEqual(client.getClientClosedStatus(), true);
+        assert.strictEqual(client.isOpen(), false);
       } finally {
         client.close();
       }

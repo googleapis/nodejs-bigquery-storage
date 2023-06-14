@@ -45,13 +45,15 @@ type FlushRowsRequest =
   protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest;
 type FlushRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse;
+type FinalizeWriteStreamRequest =
+  protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest;
 type FinalizeWriteStreamResponse =
   protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse;
 
 export class WriterClient {
   private _client: BigQueryWriteClient;
   private _connections: StreamConnections;
-  private _clientClosed: boolean;
+  private _open: boolean;
 
   constructor(opts?: ClientOptions) {
     this._client = new BigQueryWriteClient(opts);
@@ -59,7 +61,7 @@ export class WriterClient {
       connectionList: [],
       connections: {},
     };
-    this._clientClosed = false;
+    this._open = false;
   }
 
   /**
@@ -75,7 +77,7 @@ export class WriterClient {
    */
   initialize = async (): Promise<void> => {
     await this._client.initialize();
-    this._clientClosed = false;
+    this._open = true;
   };
 
   getClient = (): BigQueryWriteClient => {
@@ -90,8 +92,8 @@ export class WriterClient {
     return this._connections.connectionList;
   }
 
-  getClientClosedStatus(): boolean {
-    return this._clientClosed;
+  isOpen(): boolean {
+    return this._open;
   }
 
   /**
@@ -216,6 +218,13 @@ export class WriterClient {
     );
   }
 
+  close() {
+    this._connections.connectionList.map(conn => {
+      conn.close();
+    });
+    this._open = false;
+  }
+
   /**
    * Atomically commits a group of `PENDING` streams that belong to the same
    * `parent` table.
@@ -234,10 +243,10 @@ export class WriterClient {
    * @returns {Promise} - a promise which resolves to an {@link google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsResponse | BatchCommitWriteStreamsResponse}.
    */
   async batchCommitWriteStream(
-    req: BatchCommitWriteStreamsRequest
+    request: BatchCommitWriteStreamsRequest
   ): Promise<BatchCommitWriteStreamsResponse> {
     await this.initialize();
-    const [res] = await this._client.batchCommitWriteStreams(req);
+    const [res] = await this._client.batchCommitWriteStreams(request);
     return res;
   }
 
@@ -260,35 +269,28 @@ export class WriterClient {
    *   this offset) will be flushed.
    * @returns {Promise} - The promise which resolves to a {@link google.cloud.bigquery.storage.v1.FlushRowsResponse | FlushRowsResponse}.
    */
-  async flushRows(req?: FlushRowsRequest): Promise<FlushRowsResponse> {
+  async flushRows(request?: FlushRowsRequest): Promise<FlushRowsResponse> {
     await this.initialize();
-    const [res] = await this._client.flushRows(req);
+    const [res] = await this._client.flushRows(request);
     return res;
   }
 
-  close() {
-    this._connections.connectionList.map(conn => {
-      conn.close();
-    });
-    this._clientClosed = true;
-  }
-
   /**
-   * Finalize all opened write streams that no new data can be appended to the
-   * stream. Finalize is not supported on the DefaultStream stream.
+   * Finalize a write stream so that no new data can be appended to the
+   * stream. Finalize is not supported on the DefaultStream.
    *
-   * @returns {Promise<FinalizeWriteStreamResponse.rowCount>} - number of rows appended.
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.name
+   *   Required. Name of the stream to finalize, in the form of
+   *   `projects/{project}/datasets/{dataset}/tables/{table}/streams/{stream}`.
+   * @returns {Promise<FinalizeWriteStreamResponse>} - A promise which resolves to a {@link google.cloud.bigquery.storage.v1.FinalizeWriteStreamResponse | FinalizeWriteStreamResponse}.
    */
-  async finalize(): Promise<FinalizeWriteStreamResponse['rowCount']> {
-    const rowCounts = await Promise.all(
-      this._connections.connectionList.map(ms => {
-        return ms.finalize();
-      })
-    );
-
-    return rowCounts.reduce((total: number, rowCount) => {
-      const rowCountNum = Number.parseInt(`${rowCount}`, 10);
-      return total + rowCountNum;
-    }, 0);
+  async finalizeWriteStream(
+    request: FinalizeWriteStreamRequest
+  ): Promise<FinalizeWriteStreamResponse> {
+    await this.initialize();
+    const [res] = await this._client.finalizeWriteStream(request);
+    return res;
   }
 }

@@ -108,7 +108,7 @@ function main(
       // Row 3
       row = {
         rowNum: 3,
-        customerName: 'bell',
+        customerName: 'Bell',
       };
       serializedRows.push(CustomerRecord.encode(row).finish());
 
@@ -124,7 +124,7 @@ function main(
       );
       console.log('Write results:', results);
 
-      const rowCount = await connection.finalize();
+      const {rowCount} = await connection.finalize();
       console.log(`Row count: ${rowCount}`);
 
       const response = await writeClient.batchCommitWriteStream({

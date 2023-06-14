@@ -20,6 +20,7 @@ import {WriterClient} from './writer_client';
 import {PendingWrite} from './pending_write';
 
 type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
+type IInt64Value = protos.google.protobuf.IInt64Value;
 type AppendRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse;
 type AppendRowRequest =
@@ -28,6 +29,10 @@ type FinalizeWriteStreamResponse =
   protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse;
 type FinalizeWriteStreamRequest =
   protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest;
+type FlushRowsResponse =
+  protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse;
+type FlushRowsRequest =
+  protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest;
 
 export type RemoveListener = {
   off: () => void;
@@ -163,29 +168,56 @@ export class StreamConnection extends EventEmitter {
   }
 
   /**
-   * Finalize a write stream so that no new data can be appended to the
-   * stream. Finalize is not supported on the DefaultStream stream.
+   * Flushes rows to a BUFFERED stream.
+   * If users are appending rows to BUFFERED stream,
+   * flush operation is required in order for the rows to become available for reading.
+   * A Flush operation flushes up to any previously flushed offset in a BUFFERED stream,
+   * to the offset specified in the request.
    *
-   * @returns {Promise<FinalizeWriteStreamResponse.rowCount>} - number of rows appended.
+   * Flush is not supported on the DefaultStream stream, since it is not BUFFERED.
+   *
+   * @param {IInt64Value} request.offset
+   *
+   * @returns {Promise<FlushRowsResponse | null>}
    */
-  async finalize(): Promise<FinalizeWriteStreamResponse['rowCount']> {
+  async flushRows(request?: {
+    offset?: IInt64Value['value'];
+  }): Promise<FlushRowsResponse | null> {
     this.close();
     if (this._streamId.includes('_default')) {
       // check if is default stream
-      return;
+      return null;
+    }
+    let offsetValue: FlushRowsRequest['offset'];
+    if (request && request.offset) {
+      offsetValue = {
+        value: request.offset,
+      };
+    }
+    const flushRowsReq: FlushRowsRequest = {
+      writeStream: this._streamId,
+      offset: offsetValue,
+    };
+
+    return this._writeClient.flushRows(flushRowsReq);
+  }
+
+  /**
+   * Finalize a write stream so that no new data can be appended to the
+   * stream. Finalize is not supported on the DefaultStream stream.
+   *
+   * @returns {Promise<FinalizeWriteStreamResponse | null>}
+   */
+  async finalize(): Promise<FinalizeWriteStreamResponse | null> {
+    this.close();
+    if (this._streamId.includes('_default')) {
+      // check if is default stream
+      return null;
     }
     const finalizeStreamReq: FinalizeWriteStreamRequest = {
       name: this._streamId,
     };
 
-    const result = await this._writeClient
-      .getClient()
-      .finalizeWriteStream(finalizeStreamReq);
-
-    if (!result.includes(undefined)) {
-      const [validResponse] = result;
-      return validResponse.rowCount;
-    }
-    return null;
+    return this._writeClient.finalizeWriteStream(finalizeStreamReq);
   }
 }

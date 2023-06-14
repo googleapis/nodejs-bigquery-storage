@@ -225,7 +225,7 @@ function main(
       );
       console.log('Write results:', results);
 
-      const rowCount = await connection.finalize();
+      const {rowCount} = await connection.finalize();
       console.log(`Row count: ${rowCount}`);
 
       const response = await writeClient.batchCommitWriteStream({
