@@ -642,12 +642,14 @@ describe('managedwriter.WriterClient', () => {
           connection,
           protoDescriptor,
         });
-        await writer.appendRows(
+        const pw = writer.appendRows(
           {
             serializedRows: [serializedRow1Message, serializedRow2Message],
           },
           offset
         );
+        await pw.getResult();
+
         writer.close();
         client.close();
         assert.strictEqual(client.isOpen(), false);

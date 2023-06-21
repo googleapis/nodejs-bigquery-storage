@@ -90,6 +90,9 @@ export class WriterClient {
     this._client = client;
   };
 
+  /**
+   * Check if client is open and ready to send requests.
+   */
   isOpen(): boolean {
     return this._open;
   }
