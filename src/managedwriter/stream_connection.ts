@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,6 +38,18 @@ export type RemoveListener = {
   off: () => void;
 };
 
+/**
+ * StreamConnection is responsible for writing requests to a bidirecional
+ * GRPC connection against the Storage Write API appendRows method.
+ *
+ * All the requests are sent without flow control, and writes are sent
+ * in receiving order. It's user's responsibility to do the flow control
+ * and maintain the lifetime of the requests.
+ *
+ * @class
+ * @extends EventEmitter
+ * @memberof managedwriter
+ */
 export class StreamConnection extends EventEmitter {
   private _streamId: string;
   private _writeClient: WriterClient;
@@ -107,16 +119,27 @@ export class StreamConnection extends EventEmitter {
     pw._markDone(null, response);
   };
 
+  /**
+   * Callback is invoked when a the server notifies the stream connection
+   * of a new Table Schema change.
+   */
   onSchemaUpdated(listener: (schema: TableSchema) => void): RemoveListener {
     return this.registerListener('schemaUpdated', listener);
   }
 
+  /**
+   * Callback is invoked when a write request fails based on an
+   * error received from the server.
+   */
   onWriteError(
     listener: (err: Error, req: AppendRowRequest) => void
   ): RemoveListener {
     return this.registerListener('writeError', listener);
   }
 
+  /**
+   * Callback is invoked when an error is received from the server.
+   */
   onConnectionError(listener: (err: Error) => void): RemoveListener {
     return this.registerListener('error', listener);
   }
@@ -133,10 +156,28 @@ export class StreamConnection extends EventEmitter {
     };
   }
 
+  // check if is default stream
+  private isDefaultStream(): boolean {
+    return this._streamId.endsWith('_default');
+  }
+
+  /**
+   * Get the name of the write stream associated with this connection.
+   * When the connection is created withouth a write stream,
+   * this method can be used to retrieve the automatically
+   * created write stream name.
+   */
   getStreamId = (): string => {
     return this._streamId;
   };
 
+  /**
+   * Write a request to the bi-directional stream connection.
+   *
+   * @param {AppendRowRequest} request - request to send.
+   *
+   * @returns {managedwriter.PendingWrite}
+   */
   write(request: AppendRowRequest): PendingWrite {
     const pw = new PendingWrite(request);
     if (!this._connection) {
@@ -154,10 +195,16 @@ export class StreamConnection extends EventEmitter {
     return pw;
   }
 
+  /**
+   * Check if connection is open and ready to send requests.
+   */
   isOpen(): boolean {
     return !!this._connection;
   }
 
+  /**
+   * Close the bi-directional stream connection.
+   */
   close() {
     if (!this._connection) {
       return;
@@ -176,7 +223,7 @@ export class StreamConnection extends EventEmitter {
    *
    * Flush is not supported on the DefaultStream stream, since it is not BUFFERED.
    *
-   * @param {IInt64Value} request.offset
+   * @param {number|Long|string|null} request.offset
    *
    * @returns {Promise<FlushRowsResponse | null>}
    */
@@ -184,8 +231,7 @@ export class StreamConnection extends EventEmitter {
     offset?: IInt64Value['value'];
   }): Promise<FlushRowsResponse | null> {
     this.close();
-    if (this._streamId.includes('_default')) {
-      // check if is default stream
+    if (this.isDefaultStream()) {
       return null;
     }
     let offsetValue: FlushRowsRequest['offset'];
@@ -210,8 +256,7 @@ export class StreamConnection extends EventEmitter {
    */
   async finalize(): Promise<FinalizeWriteStreamResponse | null> {
     this.close();
-    if (this._streamId.includes('_default')) {
-      // check if is default stream
+    if (this.isDefaultStream()) {
       return null;
     }
     const finalizeStreamReq: FinalizeWriteStreamRequest = {

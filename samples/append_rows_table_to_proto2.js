@@ -24,9 +24,6 @@ function main(
   const {WriterClient, JSONWriter} = managedwriter;
   const {BigQuery} = require('@google-cloud/bigquery');
 
-  const type = require('@google-cloud/bigquery-storage').protos.google.cloud
-    .bigquery.storage.v1.WriteStream.Type;
-
   async function appendRowsPendingStream() {
     /**
      * TODO(developer): Uncomment the following lines before running the sample.
@@ -36,7 +33,7 @@ function main(
     // tableId = 'my_table';
 
     const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
-    const streamType = type.PENDING;
+    const streamType = managedwriter.PendingStream;
     const writeClient = new WriterClient({projectId: projectId});
     const bigquery = new BigQuery({projectId: projectId});
 

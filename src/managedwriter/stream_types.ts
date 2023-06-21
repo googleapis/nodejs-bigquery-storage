@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,24 +20,40 @@ export type WriteStreamType = WriteStream['type'] | 'DEFAULT';
 export const WriteStreamType =
   protos.google.cloud.bigquery.storage.v1.WriteStream.Type;
 
-// DefaultStream most closely mimics the legacy bigquery
-// tabledata.insertAll semantics. Successful inserts are
-// committed immediately, and there's no tracking offsets as
-// all writes go into a "default" stream that always exists
-// for a table.
+/**
+ * DefaultStream most closely mimics the legacy bigquery
+ * tabledata.insertAll semantics. Successful inserts are
+ * committed immediately, and there's no tracking offsets as
+ * all writes go into a "default" stream that always exists
+ * for a table.
+ *
+ * @memberof managedwriter
+ */
 export const DefaultStream = 'DEFAULT';
 
-// CommittedStream appends data immediately, but creates a
-// discrete stream for the work so that offset tracking can
-// be used to track writes.
+/**
+ * CommittedStream appends data immediately, but creates a
+ * discrete stream for the work so that offset tracking can
+ * be used to track writes.
+ *
+ * @memberof managedwriter
+ */
 export const CommittedStream = 'COMMITTED';
 
-// BufferedStream is a form of checkpointed stream, that allows
-// you to advance the offset of visible rows via Flush operations.
+/**
+ * BufferedStream is a form of checkpointed stream, that allows
+ * you to advance the offset of visible rows via Flush operations.
+ *
+ * @memberof managedwriter
+ */
 export const BufferedStream = 'BUFFERED';
 
-// PendingStream is a stream in which no data is made visible to
-// readers until the stream is finalized and committed explicitly.
+/**
+ * PendingStream is a stream in which no data is made visible to
+ * readers until the stream is finalized and committed explicitly.
+ *
+ * @memberof managedwriter
+ */
 export const PendingStream = 'PENDING';
 
 export function streamTypeToEnum(

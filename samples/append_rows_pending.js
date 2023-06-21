@@ -29,9 +29,6 @@ function main(
   const protobufjs = require('protobufjs');
   require('protobufjs/ext/descriptor');
 
-  const type = require('@google-cloud/bigquery-storage').protos.google.cloud
-    .bigquery.storage.v1.WriteStream.Type;
-
   async function appendRowsPending() {
     /**
      * If you make updates to the customer_record.proto protocol buffers definition,
@@ -55,7 +52,7 @@ function main(
     // tableId = 'my_table';
 
     const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
-    const streamType = type.PENDING;
+    const streamType = managedwriter.PendingStream;
     const writeClient = new WriterClient({projectId});
     try {
       const streamId = await writeClient.createWriteStream({

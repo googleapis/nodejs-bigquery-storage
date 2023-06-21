@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,17 +20,6 @@ import {BigQueryWriteClient} from '../v1';
 import {WriteStreamType, DefaultStream, streamTypeToEnum} from './stream_types';
 import {StreamConnection} from './stream_connection';
 
-/**
- *  BigQuery Write API.
- *
- *  The Write API can be used to write data to BigQuery.
- *
- *  For supplementary information about the Write API, see:
- *  https://cloud.google.com/bigquery/docs/write-api
- * @class
- * @memberof storage
- */
-
 type StreamConnections = {
   connectionList: StreamConnection[];
   connections: Record<string, StreamConnection>;
@@ -50,6 +39,19 @@ type FinalizeWriteStreamRequest =
 type FinalizeWriteStreamResponse =
   protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse;
 
+/**
+ *  BigQuery Write API Client.
+ *  The Write API can be used to write data to BigQuery.
+ *
+ *  This class provides the ability to make remote calls to the backing service through method
+ *  calls that map to API methods.
+ *
+ *  For supplementary information about the Write API, see:
+ *  https://cloud.google.com/bigquery/docs/write-api
+ *
+ * @class
+ * @memberof managedwriter
+ */
 export class WriterClient {
   private _client: BigQueryWriteClient;
   private _connections: StreamConnections;
@@ -87,10 +89,6 @@ export class WriterClient {
   setClient = (client: BigQueryWriteClient): void => {
     this._client = client;
   };
-
-  getConnections(): StreamConnections['connectionList'] {
-    return this._connections.connectionList;
-  }
 
   isOpen(): boolean {
     return this._open;

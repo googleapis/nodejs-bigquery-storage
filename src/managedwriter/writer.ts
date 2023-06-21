@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,10 +27,26 @@ type DescriptorProto = protos.google.protobuf.DescriptorProto;
 
 const DescriptorProto = protos.google.protobuf.DescriptorProto;
 
+/**
+ * A BigQuery Storage API Writer that can be used to write data into BigQuery Table
+ * using the Storage API.
+ *
+ * @class
+ * @memberof managedwriter
+ */
 export class Writer {
   private _protoDescriptor: DescriptorProto;
   private _streamConnection: StreamConnection;
 
+  /**
+   * Creates a new Writer instance.
+   *
+   * @param {Object} params - The parameters for the JSONWriter.
+   * @param {StreamConnection} params.connection - The stream connection
+   *   to the BigQuery streaming insert operation.
+   * @param {IDescriptorProto} params.protoDescriptor - The proto descriptor
+   *   for the JSON rows.
+   */
   constructor(params: {
     connection: StreamConnection;
     protoDescriptor: IDescriptorProto;
@@ -40,6 +56,13 @@ export class Writer {
     this._protoDescriptor = new DescriptorProto(protoDescriptor);
   }
 
+  /**
+   * Update the proto descriptor for the Writer.
+   * Internally a reconnection event is gonna happen to apply
+   * the new proto descriptor.
+   *
+   * @param {IDescriptorProto} protoDescriptor - The proto descriptor.
+   */
   setProtoDescriptor(protoDescriptor: IDescriptorProto) {
     const protoDescriptorInstance = new DescriptorProto(protoDescriptor);
     if (!isDeepStrictEqual(protoDescriptorInstance, this._protoDescriptor)) {
@@ -50,6 +73,13 @@ export class Writer {
     }
   }
 
+  /**
+   * Schedules the writing of rows at given offset.
+   *
+   * @param {google.cloud.bigquery.storage.v1.IProtoRows|null} rows - the rows in serialized format to write to BigQuery.
+   * @param {number|Long|string|null} offsetValue - the offset of the first row.
+   * @returns {managedwriter.PendingWrite} The pending write
+   **/
   appendRows(
     rows: ProtoData['rows'],
     offsetValue?: IInt64Value['value']

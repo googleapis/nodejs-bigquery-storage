@@ -20,7 +20,6 @@ import * as protos from '../protos/protos';
 import * as bigquerywriter from '../src';
 import {ClientOptions, protobuf} from 'google-gax';
 import * as customerRecordProtoJson from '../samples/customer_record.json';
-import {PendingStream} from '../src/managedwriter';
 
 const {managedwriter, adapt} = bigquerywriter;
 const {WriterClient, Writer, JSONWriter} = managedwriter;
@@ -319,7 +318,7 @@ describe('managedwriter.WriterClient', () => {
       let receivedSchemaNotification = false;
       try {
         const connection = await client.createStreamConnection({
-          streamType: PendingStream,
+          streamType: managedwriter.PendingStream,
           destinationTable: parent,
         });
         connection.onSchemaUpdated(schema => {

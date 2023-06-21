@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,12 @@ type AppendRowsResponse =
 type AppendRowRequest =
   protos.google.cloud.bigquery.storage.v1.IAppendRowsRequest;
 
+/**
+ * PendingWrite tracks state for a set of rows that are part of a single
+ * append request. PendingWrites have a Promise interface to await for
+ * append results, as well as any errors encountered while processing
+ * the request.
+ */
 export class PendingWrite {
   private request: AppendRowRequest;
   private promise: Promise<AppendRowsResponse>;
@@ -51,6 +57,11 @@ export class PendingWrite {
     this.rejectFunc && this.rejectFunc(new Error('ended with no status'));
   }
 
+  /**
+   * Promise interface to await for
+   * append results, as well as any errors encountered while processing
+   * the request.
+   */
   getResult(): Promise<AppendRowsResponse> {
     return this.promise;
   }
