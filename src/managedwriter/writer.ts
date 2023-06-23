@@ -68,8 +68,7 @@ export class Writer {
     if (!isDeepStrictEqual(protoDescriptorInstance, this._protoDescriptor)) {
       this._protoDescriptor = new DescriptorProto(protoDescriptor);
       // Reopen connection
-      this._streamConnection.close();
-      this._streamConnection.open();
+      this._streamConnection.reconnect();
     }
   }
 

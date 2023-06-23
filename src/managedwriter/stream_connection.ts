@@ -82,10 +82,37 @@ export class StreamConnection extends EventEmitter {
     const connection = client.appendRows(callOptions);
     this._connection = connection;
     this._connection.on('data', this.handleData);
-    this._connection.on('error', err => {
+    this._connection.on('error', (err: gax.GoogleError) => {
+      if (this.shouldReconnect(err)) {
+        this.reconnect();
+        return;
+      }
+      if (this.isPermanentError(err)) {
+        for (const pw of this._pendingWrites) {
+          pw._markDone(err);
+        }
+      }
       this.emit('error', err);
     });
     this._connection.on('end', () => {});
+  }
+
+  private shouldReconnect(err: gax.GoogleError): boolean {
+    if (err.code === gax.Status.UNAVAILABLE && err.message) {
+      const detail = err.message.toLowerCase();
+      const knownErrors = [
+        'service is currently unavailable', // schema mismatch
+        'read econnreset', // idle connection reset
+      ];
+      const isKnownError =
+        knownErrors.findIndex(err => detail.includes(err)) !== -1;
+      return isKnownError;
+    }
+    return false;
+  }
+
+  private isPermanentError(err: gax.GoogleError): boolean {
+    return err.code === gax.Status.INVALID_ARGUMENT;
   }
 
   private resolveCallOptions(
@@ -140,7 +167,7 @@ export class StreamConnection extends EventEmitter {
   /**
    * Callback is invoked when an error is received from the server.
    */
-  onConnectionError(listener: (err: Error) => void): RemoveListener {
+  onConnectionError(listener: (err: gax.GoogleError) => void): RemoveListener {
     return this.registerListener('error', listener);
   }
 
@@ -180,9 +207,15 @@ export class StreamConnection extends EventEmitter {
    */
   write(request: AppendRowRequest): PendingWrite {
     const pw = new PendingWrite(request);
+    this.send(pw);
+    return pw;
+  }
+
+  private send(pw: PendingWrite) {
+    const request = pw.getRequest();
     if (!this._connection) {
       pw._markDone(new Error('connection closed'));
-      return pw;
+      return;
     }
     this._connection.write(request, err => {
       if (err) {
@@ -192,7 +225,6 @@ export class StreamConnection extends EventEmitter {
       }
       this._pendingWrites.unshift(pw);
     });
-    return pw;
   }
 
   /**
@@ -200,6 +232,17 @@ export class StreamConnection extends EventEmitter {
    */
   isOpen(): boolean {
     return !!this._connection;
+  }
+
+  /**
+   * Reconnect and re send inflight requests.
+   */
+  reconnect() {
+    this.close();
+    this.open();
+    for (const pw of this._pendingWrites) {
+      this.send(pw);
+    }
   }
 
   /**

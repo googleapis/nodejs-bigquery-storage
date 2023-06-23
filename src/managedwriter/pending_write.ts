@@ -58,6 +58,13 @@ export class PendingWrite {
   }
 
   /**
+   * Access the AppendRowRequest that generated this pending write request.
+   */
+  getRequest(): AppendRowRequest {
+    return this.request;
+  }
+
+  /**
    * Promise interface to await for
    * append results, as well as any errors encountered while processing
    * the request.

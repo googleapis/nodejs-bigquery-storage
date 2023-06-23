@@ -33,3 +33,4 @@ export {
   CommittedStream,
   PendingStream,
 } from './stream_types';
+export {parseStorageErrors} from './error';
