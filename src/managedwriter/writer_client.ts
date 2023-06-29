@@ -58,7 +58,14 @@ export class WriterClient {
   private _open: boolean;
 
   constructor(opts?: ClientOptions) {
-    this._client = new BigQueryWriteClient(opts);
+    const baseOptions = {
+      'grpc.keepalive_time_ms': 30 * 1000,
+      'grpc.keepalive_timeout_ms': 10 * 1000,
+    };
+    this._client = new BigQueryWriteClient({
+      ...baseOptions,
+      ...opts,
+    });
     this._connections = {
       connectionList: [],
       connections: {},

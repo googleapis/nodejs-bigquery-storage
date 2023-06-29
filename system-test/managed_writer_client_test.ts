@@ -24,6 +24,11 @@ import * as customerRecordProtoJson from '../samples/customer_record.json';
 
 const {managedwriter, adapt} = bigquerywriter;
 const {WriterClient, Writer, JSONWriter, parseStorageErrors} = managedwriter;
+const {Type} = protobuf;
+
+if (process.env.NODE_ENV === 'DEBUG') {
+  managedwriter.setLogFunction(console.log);
+}
 
 type WriteStream = protos.google.cloud.bigquery.storage.v1.IWriteStream;
 type DescriptorProto = protos.google.protobuf.IDescriptorProto;
@@ -57,10 +62,12 @@ describe('managedwriter.WriterClient', () => {
       {
         name: 'customer_name',
         type: 'STRING',
+        mode: 'REQUIRED',
       },
       {
         name: 'row_num',
         type: 'INTEGER',
+        mode: 'REQUIRED',
       },
     ],
   };
@@ -101,12 +108,12 @@ describe('managedwriter.WriterClient', () => {
   });
 
   beforeEach(async () => {
-    bqWriteClient = new bigquerywriter.BigQueryWriteClient({
-      projectId: projectId,
-    });
     clientOptions = {
       projectId: projectId,
+      'grpc.keepalive_time_ms': 30 * 1000,
+      'grpc.keepalive_timeout_ms': 10 * 1000,
     };
+    bqWriteClient = new bigquerywriter.BigQueryWriteClient(clientOptions);
   });
 
   afterEach(async () => {
@@ -636,6 +643,140 @@ describe('managedwriter.WriterClient', () => {
       return Promise.resolve();
     });
 
+    it('send request with invalid protobuf row', async () => {
+      bqWriteClient.initialize();
+      const client = new WriterClient();
+      client.setClient(bqWriteClient);
+
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const protoDescriptor: DescriptorProto =
+        adapt.convertStorageSchemaToProto2Descriptor(storageSchema, 'root');
+
+      try {
+        const connection = await client.createStreamConnection({
+          streamType: managedwriter.PendingStream,
+          destinationTable: parent,
+        });
+
+        const writer = new Writer({
+          connection,
+          protoDescriptor,
+        });
+
+        protoDescriptor.field = protoDescriptor.field?.slice(0, 1); // leave just first field
+        const invalidProto = (Type as any).fromDescriptor(
+          protoDescriptor
+        ) as protobuf.Type;
+        const row = {
+          customer_name: 'Test',
+        };
+        const serialized = invalidProto.encode(row).finish();
+
+        const pw = writer.appendRows(
+          {
+            serializedRows: [serialized],
+          },
+          0
+        );
+        let foundErr: AppendRowsResponse['error'] | null = null;
+        try {
+          await pw.getResult();
+        } catch (err) {
+          foundErr = err as AppendRowsResponse['error'];
+        }
+        assert.notEqual(foundErr, null);
+        assert.equal(
+          foundErr?.message?.split('.')[0],
+          'Errors found while processing rows'
+        );
+
+        writer.close();
+      } finally {
+        client.close();
+      }
+
+      return Promise.resolve();
+    });
+
+    it('send empty rows request should return an error', async () => {
+      bqWriteClient.initialize();
+      const client = new WriterClient();
+      client.setClient(bqWriteClient);
+
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const protoDescriptor: DescriptorProto =
+        adapt.convertStorageSchemaToProto2Descriptor(storageSchema, 'root');
+
+      try {
+        const connection = await client.createStreamConnection({
+          streamType: managedwriter.PendingStream,
+          destinationTable: parent,
+        });
+
+        const writer = new JSONWriter({
+          connection,
+          protoDescriptor,
+        });
+
+        const pw = writer.appendRows([], 0);
+        let foundErr: Error | null = null;
+        try {
+          await pw.getResult();
+        } catch (err) {
+          foundErr = err as Error;
+        }
+        assert.notEqual(foundErr, null);
+        assert.equal(foundErr?.message.split('.')[0], 'Rows must be specified');
+
+        writer.close();
+      } finally {
+        client.close();
+      }
+
+      return Promise.resolve();
+    });
+
+    it('send large request should return an error', async () => {
+      bqWriteClient.initialize();
+      const client = new WriterClient();
+      client.setClient(bqWriteClient);
+
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const protoDescriptor: DescriptorProto =
+        adapt.convertStorageSchemaToProto2Descriptor(storageSchema, 'root');
+
+      try {
+        const connection = await client.createStreamConnection({
+          streamType: managedwriter.PendingStream,
+          destinationTable: parent,
+        });
+
+        const writer = new JSONWriter({
+          connection,
+          protoDescriptor,
+        });
+
+        const pw = writer.appendRows([], 0);
+        let foundErr: Error | null = null;
+        try {
+          await pw.getResult();
+        } catch (err) {
+          foundErr = err as Error;
+        }
+        assert.notEqual(foundErr, null);
+        assert.equal(foundErr?.message.split('.')[0], 'Rows must be specified');
+
+        writer.close();
+      } finally {
+        client.close();
+      }
+
+      return Promise.resolve();
+    });
+
     xit('reconnect on idle connection', async () => {
       bqWriteClient.initialize();
       const client = new WriterClient();
@@ -675,8 +816,9 @@ describe('managedwriter.WriterClient', () => {
           new Promise(resolve => {
             setTimeout(resolve, ms);
           });
-        for (let i = 0; i <= 10; i++) {
-          console.log('sleeping for a minute');
+        const minutes = 10;
+        for (let i = 0; i <= minutes; i++) {
+          console.log('sleeping for a minute: ', minutes - i, 'to go');
           await sleep(60 * 1000);
         }
 

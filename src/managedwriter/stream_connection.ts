@@ -18,6 +18,7 @@ import * as protos from '../../protos/protos';
 
 import {WriterClient} from './writer_client';
 import {PendingWrite} from './pending_write';
+import {logger} from './logger';
 
 type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type IInt64Value = protos.google.protobuf.IInt64Value;
@@ -82,27 +83,53 @@ export class StreamConnection extends EventEmitter {
     const connection = client.appendRows(callOptions);
     this._connection = connection;
     this._connection.on('data', this.handleData);
-    this._connection.on('error', (err: gax.GoogleError) => {
-      if (this.shouldReconnect(err)) {
-        this.reconnect();
-        return;
-      }
-      if (this.isPermanentError(err)) {
-        for (const pw of this._pendingWrites) {
-          pw._markDone(err);
-        }
-      }
-      this.emit('error', err);
+    this._connection.on('error', this.handleError);
+    this._connection.on('close', () => {
+      this.trace('connection closed');
     });
-    this._connection.on('end', () => {});
+    this._connection.on('pause', () => {
+      this.trace('connection paused');
+    });
+    this._connection.on('resume', () => {
+      this.trace('connection resumed');
+    });
+    this._connection.on('end', () => {
+      this.trace('connection ended');
+    });
   }
 
+  private trace(msg: string, ...otherArgs: any[]) {
+    logger('stream_connection', msg, ...otherArgs);
+  }
+
+  private handleError = (err: gax.GoogleError) => {
+    this.trace('on error', err);
+    if (this.shouldReconnect(err)) {
+      this.reconnect();
+      return;
+    }
+    if (this.isPermanentError(err)) {
+      for (const pw of this._pendingWrites) {
+        pw._markDone(err);
+      }
+    }
+    this.emit('error', err);
+  };
+
   private shouldReconnect(err: gax.GoogleError): boolean {
-    if (err.code === gax.Status.UNAVAILABLE && err.message) {
+    if (
+      err.code &&
+      [gax.Status.UNAVAILABLE, gax.Status.RESOURCE_EXHAUSTED].includes(
+        err.code
+      ) &&
+      err.message
+    ) {
       const detail = err.message.toLowerCase();
       const knownErrors = [
         'service is currently unavailable', // schema mismatch
         'read econnreset', // idle connection reset
+        'bandwidth exhausted',
+        'memory limit exceeded',
       ];
       const isKnownError =
         knownErrors.findIndex(err => detail.includes(err)) !== -1;
@@ -135,6 +162,7 @@ export class StreamConnection extends EventEmitter {
   }
 
   private handleData = (response: AppendRowsResponse) => {
+    this.trace('data arrived', response);
     const pw = this._pendingWrites.pop();
     if (!pw) {
       console.warn('data arrived with no pending write available', response);
@@ -206,6 +234,7 @@ export class StreamConnection extends EventEmitter {
    * @returns {managedwriter.PendingWrite}
    */
   write(request: AppendRowRequest): PendingWrite {
+    this.trace('write', request);
     const pw = new PendingWrite(request);
     this.send(pw);
     return pw;
@@ -217,14 +246,21 @@ export class StreamConnection extends EventEmitter {
       pw._markDone(new Error('connection closed'));
       return;
     }
-    this._connection.write(request, err => {
-      if (err) {
-        this.emit('writeError', err, request);
-        pw._markDone(err); //TODO: add retries
-        return;
-      }
-      this._pendingWrites.unshift(pw);
-    });
+    this.trace('sending pending write', pw);
+    try {
+      this._connection.write(request, err => {
+        this.trace('wrote pending write', err);
+        if (err) {
+          this.emit('writeError', err, request);
+          pw._markDone(err); //TODO: add retries
+          return;
+        }
+        this._pendingWrites.unshift(pw);
+      });
+    } catch (err) {
+      this.emit('writeError', err, request);
+      pw._markDone(err as Error);
+    }
   }
 
   /**
@@ -238,11 +274,9 @@ export class StreamConnection extends EventEmitter {
    * Reconnect and re send inflight requests.
    */
   reconnect() {
+    this.trace('reconnect called');
     this.close();
     this.open();
-    for (const pw of this._pendingWrites) {
-      this.send(pw);
-    }
   }
 
   /**
