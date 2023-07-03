@@ -27,6 +27,7 @@ type AppendRowRequest =
  */
 export class PendingWrite {
   private request: AppendRowRequest;
+  private response?: AppendRowsResponse;
   private promise: Promise<AppendRowsResponse>;
   private resolveFunc?: (response: AppendRowsResponse) => void;
   private rejectFunc?: (reason?: protos.google.rpc.IStatus) => void;
@@ -39,22 +40,26 @@ export class PendingWrite {
     });
   }
 
-  _markDone(err: Error | null, result?: AppendRowsResponse) {
+  _markDone(err: Error | null, response?: AppendRowsResponse) {
     if (err) {
       this.rejectFunc && this.rejectFunc(err);
       return;
     }
 
-    if (result) {
-      if (result.error) {
-        this.rejectFunc && this.rejectFunc(result.error);
-      } else {
-        this.resolveFunc && this.resolveFunc(result);
-      }
+    if (response) {
+      this.response = response;
+      this.resolveFunc && this.resolveFunc(response);
       return;
     }
 
     this.rejectFunc && this.rejectFunc(new Error('ended with no status'));
+  }
+
+  /**
+   * Abort pending write so calls to GetResult can be unblocked/cancelled.
+   */
+  abort() {
+    this.rejectFunc && this.rejectFunc(new Error('aborted'));
   }
 
   /**
@@ -70,6 +75,9 @@ export class PendingWrite {
    * the request.
    */
   getResult(): Promise<AppendRowsResponse> {
+    if (this.response) {
+      return Promise.resolve(this.response);
+    }
     return this.promise;
   }
 }

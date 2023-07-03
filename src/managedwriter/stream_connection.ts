@@ -19,6 +19,7 @@ import * as protos from '../../protos/protos';
 import {WriterClient} from './writer_client';
 import {PendingWrite} from './pending_write';
 import {logger} from './logger';
+import {parseStorageErrors} from './error';
 
 type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type IInt64Value = protos.google.protobuf.IInt64Value;
@@ -98,20 +99,35 @@ export class StreamConnection extends EventEmitter {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private trace(msg: string, ...otherArgs: any[]) {
     logger('stream_connection', msg, ...otherArgs);
   }
 
   private handleError = (err: gax.GoogleError) => {
-    this.trace('on error', err);
+    this.trace('on error', err, JSON.stringify(err));
     if (this.shouldReconnect(err)) {
       this.reconnect();
       return;
     }
+    let nextPendingWrite = this.getNextPendingWrite();
     if (this.isPermanentError(err)) {
-      for (const pw of this._pendingWrites) {
-        pw._markDone(err);
+      this.trace('found permanent error', err);
+      while (nextPendingWrite) {
+        this.ackNextPendingWrite(err);
+        nextPendingWrite = this.getNextPendingWrite();
       }
+      this.emit('error', err);
+      return;
+    }
+    if (this.isRequestError(err) && nextPendingWrite) {
+      this.trace(
+        'found request error with pending write',
+        err,
+        nextPendingWrite
+      );
+      this.ackNextPendingWrite(err);
+      return;
     }
     this.emit('error', err);
   };
@@ -139,6 +155,22 @@ export class StreamConnection extends EventEmitter {
   }
 
   private isPermanentError(err: gax.GoogleError): boolean {
+    if (err.code === gax.Status.INVALID_ARGUMENT) {
+      const storageErrors = parseStorageErrors(err);
+      for (const storageError of storageErrors) {
+        if (
+          storageError.errorMessage?.includes(
+            'Schema mismatch due to extra fields in user schema'
+          )
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private isRequestError(err: gax.GoogleError): boolean {
     return err.code === gax.Status.INVALID_ARGUMENT;
   }
 
@@ -163,15 +195,15 @@ export class StreamConnection extends EventEmitter {
 
   private handleData = (response: AppendRowsResponse) => {
     this.trace('data arrived', response);
-    const pw = this._pendingWrites.pop();
+    const pw = this.getNextPendingWrite();
     if (!pw) {
-      console.warn('data arrived with no pending write available', response);
+      this.trace('data arrived with no pending write available', response);
       return;
     }
     if (response.updatedSchema) {
       this.emit('schemaUpdated', response.updatedSchema);
     }
-    pw._markDone(null, response);
+    this.ackNextPendingWrite(null, response);
   };
 
   /**
@@ -201,6 +233,7 @@ export class StreamConnection extends EventEmitter {
 
   private registerListener(
     eventName: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     listener: (...args: any[]) => void
   ): RemoveListener {
     this.addListener(eventName, listener);
@@ -226,6 +259,32 @@ export class StreamConnection extends EventEmitter {
     return this._streamId;
   };
 
+  private getNextPendingWrite(): PendingWrite | null {
+    if (this._pendingWrites.length > 0) {
+      return this._pendingWrites[0];
+    }
+    return null;
+  }
+
+  private ackNextPendingWrite(
+    err: Error | null,
+    result?:
+      | protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse
+      | undefined
+  ) {
+    const pw = this._pendingWrites.pop();
+    if (pw) {
+      pw._markDone(err, result);
+    }
+  }
+
+  /**
+   * Access in-flight write requests.
+   */
+  getPendingWrites(): PendingWrite[] {
+    return [...this._pendingWrites];
+  }
+
   /**
    * Write a request to the bi-directional stream connection.
    *
@@ -246,10 +305,13 @@ export class StreamConnection extends EventEmitter {
       pw._markDone(new Error('connection closed'));
       return;
     }
+    if (this._connection.destroyed || this._connection.closed) {
+      this.reconnect();
+    }
     this.trace('sending pending write', pw);
     try {
       this._connection.write(request, err => {
-        this.trace('wrote pending write', err);
+        this.trace('wrote pending write', err, this._pendingWrites.length);
         if (err) {
           this.emit('writeError', err, request);
           pw._markDone(err); //TODO: add retries

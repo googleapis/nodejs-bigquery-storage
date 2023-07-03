@@ -24,6 +24,7 @@ let logFunction: ((msg: string) => void) | null = null;
  * @private
  * @internal
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function logger(source: string, msg: string, ...otherArgs: any[]) {
   if (logFunction) {
     const time = new Date().toISOString();

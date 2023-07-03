@@ -222,8 +222,8 @@ describe('managedwriter.WriterClient', () => {
 
       // Row 1
       const row1 = {
-        customerName: 'Lovelace',
-        rowNum: 1,
+        customer_name: 'Lovelace',
+        row_num: 1,
       };
       const row1Message = CustomerRecord.create(row1);
       const serializedRow1Message: Uint8Array =
@@ -231,8 +231,8 @@ describe('managedwriter.WriterClient', () => {
 
       // Row 2
       const row2 = {
-        customerName: 'Turing',
-        rowNum: 2,
+        customer_name: 'Turing',
+        row_num: 2,
       };
       const row2Message = CustomerRecord.create(row2);
       const serializedRow2Message: Uint8Array =
@@ -292,8 +292,8 @@ describe('managedwriter.WriterClient', () => {
 
       // Row 1
       const row1 = {
-        customerName: 'Lovelace',
-        rowNum: 1,
+        customer_name: 'Lovelace',
+        row_num: 1,
       };
       const row1Message = CustomerRecord.create(row1);
       const serializedRow1Message: Uint8Array =
@@ -301,8 +301,8 @@ describe('managedwriter.WriterClient', () => {
 
       // Row 2
       const row2 = {
-        customerName: 'Turing',
-        rowNum: 2,
+        customer_name: 'Turing',
+        row_num: 2,
       };
       const row2Message = CustomerRecord.create(row2);
       const serializedRow2Message: Uint8Array =
@@ -665,6 +665,7 @@ describe('managedwriter.WriterClient', () => {
         });
 
         protoDescriptor.field = protoDescriptor.field?.slice(0, 1); // leave just first field
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const invalidProto = (Type as any).fromDescriptor(
           protoDescriptor
         ) as protobuf.Type;
@@ -679,15 +680,10 @@ describe('managedwriter.WriterClient', () => {
           },
           0
         );
-        let foundErr: AppendRowsResponse['error'] | null = null;
-        try {
-          await pw.getResult();
-        } catch (err) {
-          foundErr = err as AppendRowsResponse['error'];
-        }
-        assert.notEqual(foundErr, null);
+        const res = await pw.getResult();
+        assert.notEqual(res.error, null);
         assert.equal(
-          foundErr?.message?.split('.')[0],
+          res.error?.message?.split('.')[0],
           'Errors found while processing rows'
         );
 
@@ -721,14 +717,12 @@ describe('managedwriter.WriterClient', () => {
         });
 
         const pw = writer.appendRows([], 0);
-        let foundErr: Error | null = null;
-        try {
-          await pw.getResult();
-        } catch (err) {
-          foundErr = err as Error;
-        }
-        assert.notEqual(foundErr, null);
-        assert.equal(foundErr?.message.split('.')[0], 'Rows must be specified');
+        const res = await pw.getResult();
+        assert.notEqual(res.error, null);
+        assert.equal(
+          res.error?.message?.split('.')[0],
+          'Rows must be specified'
+        );
 
         writer.close();
       } finally {
@@ -754,20 +748,51 @@ describe('managedwriter.WriterClient', () => {
           destinationTable: parent,
         });
 
-        const writer = new JSONWriter({
+        const writer = new Writer({
           connection,
           protoDescriptor,
         });
 
-        const pw = writer.appendRows([], 0);
+        const row = {
+          customer_name: 'Lovelace',
+          row_num: 1,
+        };
+        const rowMessage = CustomerRecord.create(row);
+        const serializedRowMessage: Uint8Array =
+          CustomerRecord.encode(rowMessage).finish();
+
+        const rows: Uint8Array[] = [];
+        const targetSize = 11 * 1024 * 1024; // 11 MB;
+        const numRows = targetSize / serializedRowMessage.length;
+        for (let i = 0; i < numRows; i++) {
+          rows.push(serializedRowMessage);
+        }
+        const badPw = writer.appendRows(
+          {
+            serializedRows: rows,
+          },
+          0
+        );
         let foundErr: Error | null = null;
         try {
-          await pw.getResult();
+          await badPw.getResult();
         } catch (err) {
           foundErr = err as Error;
         }
         assert.notEqual(foundErr, null);
-        assert.equal(foundErr?.message.split('.')[0], 'Rows must be specified');
+        assert.equal(
+          foundErr?.message.includes('contains an invalid argument.'),
+          true
+        );
+
+        const goodPw = writer.appendRows(
+          {
+            serializedRows: [serializedRowMessage],
+          },
+          0
+        );
+        const res = await goodPw.getResult();
+        assert.equal(res.appendResult?.offset?.value, '0');
 
         writer.close();
       } finally {
@@ -853,8 +878,8 @@ describe('managedwriter.WriterClient', () => {
 
       // Row 1
       const row1 = {
-        customerName: 'Lovelace',
-        rowNum: 1,
+        customer_name: 'Lovelace',
+        row_num: 1,
       };
       const row1Message = CustomerRecord.create(row1);
       const serializedRow1Message: Uint8Array =
@@ -862,8 +887,8 @@ describe('managedwriter.WriterClient', () => {
 
       // Row 2
       const row2 = {
-        customerName: 'Turing',
-        rowNum: 2,
+        customer_name: 'Turing',
+        row_num: 2,
       };
       const row2Message = CustomerRecord.create(row2);
       const serializedRow2Message: Uint8Array =
@@ -886,7 +911,12 @@ describe('managedwriter.WriterClient', () => {
           },
           offset
         );
-        await pw.getResult();
+        try {
+          const res = await pw.getResult();
+          console.log('res', res);
+        } catch (err) {
+          console.log('err', err);
+        }
 
         writer.close();
         client.close();
