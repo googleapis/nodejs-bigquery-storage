@@ -211,8 +211,6 @@ describe('managedwriter.WriterClient', () => {
       } finally {
         client.close();
       }
-
-      return Promise.resolve();
     });
 
     it('should invoke appendRows to default stream without errors', async () => {
@@ -280,8 +278,6 @@ describe('managedwriter.WriterClient', () => {
       } finally {
         client.close();
       }
-
-      return Promise.resolve();
     });
 
     it('should invoke createWriteStream when streamType and destination table informed to createStreamConnection', async () => {
@@ -362,8 +358,6 @@ describe('managedwriter.WriterClient', () => {
       } finally {
         client.close();
       }
-
-      return Promise.resolve();
     });
   });
 
@@ -440,8 +434,6 @@ describe('managedwriter.WriterClient', () => {
       } finally {
         client.close();
       }
-
-      return Promise.resolve();
     });
 
     it('should update proto descriptor automatically with appendRows without errors', async () => {
@@ -556,8 +548,6 @@ describe('managedwriter.WriterClient', () => {
       } finally {
         client.close();
       }
-
-      return Promise.resolve();
     }).timeout(30 * 1000);
   });
 
@@ -639,8 +629,6 @@ describe('managedwriter.WriterClient', () => {
       } finally {
         client.close();
       }
-
-      return Promise.resolve();
     });
 
     it('send request with invalid protobuf row', async () => {
@@ -691,8 +679,6 @@ describe('managedwriter.WriterClient', () => {
       } finally {
         client.close();
       }
-
-      return Promise.resolve();
     });
 
     it('send empty rows request should return an error', async () => {
@@ -728,8 +714,6 @@ describe('managedwriter.WriterClient', () => {
       } finally {
         client.close();
       }
-
-      return Promise.resolve();
     });
 
     it('send large request should return an error', async () => {
@@ -798,8 +782,6 @@ describe('managedwriter.WriterClient', () => {
       } finally {
         client.close();
       }
-
-      return Promise.resolve();
     });
 
     xit('reconnect on idle connection', async () => {
@@ -864,8 +846,6 @@ describe('managedwriter.WriterClient', () => {
       } finally {
         client.close();
       }
-
-      return Promise.resolve();
     }).timeout(20 * 60 * 1000);
   });
 
@@ -911,12 +891,7 @@ describe('managedwriter.WriterClient', () => {
           },
           offset
         );
-        try {
-          const res = await pw.getResult();
-          console.log('res', res);
-        } catch (err) {
-          console.log('err', err);
-        }
+        await pw.getResult();
 
         writer.close();
         client.close();
@@ -924,8 +899,6 @@ describe('managedwriter.WriterClient', () => {
       } finally {
         client.close();
       }
-
-      return Promise.resolve();
     });
   });
 });
