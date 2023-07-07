@@ -215,16 +215,6 @@ export class StreamConnection extends EventEmitter {
   }
 
   /**
-   * Callback is invoked when a write request fails based on an
-   * error received from the server.
-   */
-  onWriteError(
-    listener: (err: Error, req: AppendRowRequest) => void
-  ): RemoveListener {
-    return this.registerListener('writeError', listener);
-  }
-
-  /**
    * Callback is invoked when an error is received from the server.
    */
   onConnectionError(listener: (err: gax.GoogleError) => void): RemoveListener {
@@ -313,14 +303,12 @@ export class StreamConnection extends EventEmitter {
       this._connection.write(request, err => {
         this.trace('wrote pending write', err, this._pendingWrites.length);
         if (err) {
-          this.emit('writeError', err, request);
           pw._markDone(err); //TODO: add retries
           return;
         }
         this._pendingWrites.unshift(pw);
       });
     } catch (err) {
-      this.emit('writeError', err, request);
       pw._markDone(err as Error);
     }
   }
