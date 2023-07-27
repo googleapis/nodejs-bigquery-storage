@@ -16,7 +16,7 @@
     "@google-cloud/bigquery": "^6.2.0",
     "@google-cloud/bigquery-storage": "^3.4.0",
     "avsc": "^5.4.18",
-    "google-gax": "^3.5.2",
+    "google-gax": "^4.0.0",
     "protobufjs": "^7.2.2",
     "snappy": "^7.0.0"
   },
