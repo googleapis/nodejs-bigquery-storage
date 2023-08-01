@@ -414,7 +414,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   >;
   createReadSession(
@@ -463,7 +463,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   > | void {
     request = request || {};
@@ -519,7 +519,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   >;
   batchCreateReadSessionStreams(
@@ -568,7 +568,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   > | void {
     request = request || {};
@@ -633,7 +633,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   >;
   finalizeStream(
@@ -682,7 +682,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   > | void {
     request = request || {};
@@ -750,7 +750,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   >;
   splitReadStream(
@@ -799,7 +799,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   > | void {
     request = request || {};
