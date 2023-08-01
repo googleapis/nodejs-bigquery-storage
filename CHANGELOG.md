@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.0.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v3.4.0...v4.0.0) (2023-08-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate to node 14 ([#354](https://github.com/googleapis/nodejs-bigquery-storage/issues/354))
+
+### Miscellaneous Chores
+
+* Migrate to node 14 ([#354](https://github.com/googleapis/nodejs-bigquery-storage/issues/354)) ([4423635](https://github.com/googleapis/nodejs-bigquery-storage/commit/4423635d2d815193be63e827c6360e9b9208dec1))
+
 ## [3.4.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v3.3.0...v3.4.0) (2023-06-05)
 
 
