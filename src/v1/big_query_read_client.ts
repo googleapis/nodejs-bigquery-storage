@@ -420,7 +420,7 @@ export class BigQueryReadClient {
         | protos.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest
         | undefined
       ),
-      {} | undefined,
+      {} | undefined
     ]
   >;
   createReadSession(
@@ -469,7 +469,7 @@ export class BigQueryReadClient {
         | protos.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest
         | undefined
       ),
-      {} | undefined,
+      {} | undefined
     ]
   > | void {
     request = request || {};
@@ -536,7 +536,7 @@ export class BigQueryReadClient {
         | protos.google.cloud.bigquery.storage.v1.ISplitReadStreamRequest
         | undefined
       ),
-      {} | undefined,
+      {} | undefined
     ]
   >;
   splitReadStream(
@@ -585,7 +585,7 @@ export class BigQueryReadClient {
         | protos.google.cloud.bigquery.storage.v1.ISplitReadStreamRequest
         | undefined
       ),
-      {} | undefined,
+      {} | undefined
     ]
   > | void {
     request = request || {};

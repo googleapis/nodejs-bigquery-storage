@@ -394,7 +394,7 @@ export class BigQueryWriteClient {
         | protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest
         | undefined
       ),
-      {} | undefined,
+      {} | undefined
     ]
   >;
   createWriteStream(
@@ -443,7 +443,7 @@ export class BigQueryWriteClient {
         | protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest
         | undefined
       ),
-      {} | undefined,
+      {} | undefined
     ]
   > | void {
     request = request || {};
@@ -495,7 +495,7 @@ export class BigQueryWriteClient {
         | protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest
         | undefined
       ),
-      {} | undefined,
+      {} | undefined
     ]
   >;
   getWriteStream(
@@ -544,7 +544,7 @@ export class BigQueryWriteClient {
         | protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest
         | undefined
       ),
-      {} | undefined,
+      {} | undefined
     ]
   > | void {
     request = request || {};
@@ -594,7 +594,7 @@ export class BigQueryWriteClient {
         | protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest
         | undefined
       ),
-      {} | undefined,
+      {} | undefined
     ]
   >;
   finalizeWriteStream(
@@ -643,7 +643,7 @@ export class BigQueryWriteClient {
         | protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest
         | undefined
       ),
-      {} | undefined,
+      {} | undefined
     ]
   > | void {
     request = request || {};
@@ -699,7 +699,7 @@ export class BigQueryWriteClient {
         | protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest
         | undefined
       ),
-      {} | undefined,
+      {} | undefined
     ]
   >;
   batchCommitWriteStreams(
@@ -748,7 +748,7 @@ export class BigQueryWriteClient {
         | protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest
         | undefined
       ),
-      {} | undefined,
+      {} | undefined
     ]
   > | void {
     request = request || {};
@@ -807,7 +807,7 @@ export class BigQueryWriteClient {
     [
       protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
       protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest | undefined,
-      {} | undefined,
+      {} | undefined
     ]
   >;
   flushRows(
@@ -853,7 +853,7 @@ export class BigQueryWriteClient {
     [
       protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
       protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest | undefined,
-      {} | undefined,
+      {} | undefined
     ]
   > | void {
     request = request || {};
