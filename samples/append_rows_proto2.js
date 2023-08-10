@@ -20,16 +20,14 @@ function main(
   tableId = 'my_table'
 ) {
   // [START bigquerystorage_append_rows_raw_proto2]
-  const {v1, adapt} = require('@google-cloud/bigquery-storage');
-  const {BigQueryWriteClient} = v1;
+  const {adapt, managedwriter} = require('@google-cloud/bigquery-storage');
+  const {WriterClient, Writer} = managedwriter;
+
   const sample_data_pb = require('./sample_data_pb.js');
   const {SampleData} = sample_data_pb;
 
   const protobufjs = require('protobufjs');
   require('protobufjs/ext/descriptor');
-
-  const type = require('@google-cloud/bigquery-storage').protos.google.cloud
-    .bigquery.storage.v1.WriteStream.Type;
 
   async function appendRowsProto2() {
     /**
@@ -39,8 +37,6 @@ function main(
      *   pbjs sample_data.proto -t json --keep-case -o sample_data.json
      * from the /samples directory to generate the sample_data module.
      */
-
-    const writeClient = new BigQueryWriteClient();
 
     // So that BigQuery knows how to parse the serialized_rows, create a
     // protocol buffer representation of your message descriptor.
@@ -55,75 +51,27 @@ function main(
     // datasetId = 'my_dataset';
     // tableId = 'my_table';
 
-    const parent = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
+    const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
+    const streamType = managedwriter.PendingStream;
+    const writeClient = new WriterClient({projectId});
 
     try {
-      // Create a write stream to the given table.
-      let writeStream = {type: type.PENDING};
-
-      let request = {
-        parent,
-        writeStream,
-      };
-
-      let [response] = await writeClient.createWriteStream(request);
-
-      console.log(`Stream created: ${response.name}`);
-
-      writeStream = response.name;
-
-      // This header is required so that the BigQuery Storage API
-      // knows which region to route the request to.
-      const options = {};
-      options.otherArgs = {};
-      options.otherArgs.headers = {};
-      options.otherArgs.headers[
-        'x-goog-request-params'
-      ] = `write_stream=${writeStream}`;
-
       // Append data to the given stream.
-      const stream = await writeClient.appendRows(options);
-
-      const responses = [];
-
-      stream.on('data', response => {
-        // Check for errors.
-        if (response.error) {
-          throw new Error(response.error.message);
-        }
-
-        console.log(response);
-        responses.push(response);
-
-        // Close the stream when all responses have been received.
-        if (responses.length === 3) {
-          stream.end();
-        }
+      const connection = await writeClient.createStreamConnection({
+        streamType,
+        destinationTable,
       });
 
-      stream.on('error', err => {
-        throw err;
-      });
+      const streamId = connection.getStreamId();
+      console.log(`Stream created: ${streamId}`);
 
-      stream.on('end', async () => {
-        // API call completed.
-        try {
-          [response] = await writeClient.finalizeWriteStream({
-            name: writeStream,
-          });
-          console.log(`Row count: ${response.rowCount}`);
-
-          [response] = await writeClient.batchCommitWriteStreams({
-            parent,
-            writeStreams: [writeStream],
-          });
-          console.log(response);
-        } catch (err) {
-          console.log(err);
-        }
+      const writer = new Writer({
+        connection,
+        protoDescriptor,
       });
 
       let serializedRows = [];
+      const pendingWrites = [];
 
       // Row 1
       let row = {
@@ -171,11 +119,6 @@ function main(
       };
       serializedRows.push(SampleData.encode(row).finish());
 
-      let protoRows = {
-        writerSchema: {protoDescriptor},
-        rows: {serializedRows},
-      };
-
       // Set an offset to allow resuming this stream if the connection breaks.
       // Keep track of which requests the server has acknowledged and resume the
       // stream at the first non-acknowledged message. If the server has already
@@ -185,15 +128,9 @@ function main(
       // The first request must always have an offset of 0.
       let offsetValue = 0;
 
-      // Construct request.
-      request = {
-        writeStream,
-        protoRows,
-        offset: {value: offsetValue},
-      };
-
       // Send batch.
-      stream.write(request);
+      let pw = writer.appendRows({serializedRows}, offsetValue);
+      pendingWrites.push(pw);
 
       // Reset rows.
       serializedRows = [];
@@ -242,23 +179,12 @@ function main(
       };
       serializedRows.push(SampleData.encode(row).finish());
 
-      // Since this is the second request, you only need to include the row data.
-      // The name of the stream and protocol buffers DESCRIPTOR is only needed in
-      // the first request.
-      protoRows = {
-        rows: {serializedRows},
-      };
-
       // Offset must equal the number of rows that were previously sent.
       offsetValue = 6;
 
-      request = {
-        protoRows,
-        offset: {value: offsetValue},
-      };
-
       // Send batch.
-      stream.write(request);
+      pw = writer.appendRows({serializedRows}, offsetValue);
+      pendingWrites.push(pw);
 
       serializedRows = [];
 
@@ -284,21 +210,31 @@ function main(
         structList: [{subIntCol: 100}, {subIntCol: 101}],
       };
       serializedRows.push(SampleData.encode(row).finish());
-      protoRows = {
-        rows: {serializedRows},
-      };
 
       offsetValue = 12;
 
-      request = {
-        protoRows,
-        offset: {value: offsetValue},
-      };
-
       // Send batch.
-      stream.write(request);
+      pw = writer.appendRows({serializedRows}, offsetValue);
+      pendingWrites.push(pw);
+
+      const results = await Promise.all(
+        pendingWrites.map(pw => pw.getResult())
+      );
+      console.log('Write results:', results);
+
+      const {rowCount} = await connection.finalize();
+      console.log(`Row count: ${rowCount}`);
+
+      const response = await writeClient.batchCommitWriteStream({
+        parent: destinationTable,
+        writeStreams: [streamId],
+      });
+
+      console.log(response);
     } catch (err) {
       console.log(err);
+    } finally {
+      writeClient.close();
     }
   }
   // [END bigquerystorage_append_rows_raw_proto2]
