@@ -29,14 +29,25 @@ function main(writeStream) {
    * TODO(developer): Uncomment these variables before running the sample.
    */
   /**
-   *  Required. The write_stream identifies the target of the append operation,
-   *  and only needs to be specified as part of the first request on the gRPC
-   *  connection. If provided for subsequent requests, it must match the value of
-   *  the first request.
+   *  Required. The write_stream identifies the append operation. It must be
+   *  provided in the following scenarios:
+   *  * In the first request to an AppendRows connection.
+   *  * In all subsequent requests to an AppendRows connection, if you use the
+   *  same connection to write to multiple tables or change the input schema for
+   *  default streams.
    *  For explicitly created write streams, the format is:
    *  * `projects/{project}/datasets/{dataset}/tables/{table}/streams/{id}`
    *  For the special default stream, the format is:
    *  * `projects/{project}/datasets/{dataset}/tables/{table}/streams/_default`.
+   *  An example of a possible sequence of requests with write_stream fields
+   *  within a single connection:
+   *  * r1: {write_stream: stream_name_1}
+   *  * r2: {write_stream: /*omit* /}
+   *  * r3: {write_stream: /*omit* /}
+   *  * r4: {write_stream: stream_name_2}
+   *  * r5: {write_stream: stream_name_2}
+   *  The destination changed in request_4, so the write_stream field must be
+   *  populated in all subsequent requests in this stream.
    */
   // const writeStream = 'abc123'
   /**
@@ -71,7 +82,7 @@ function main(writeStream) {
    *  Currently, field name can only be top-level column name, can't be a struct
    *  field path like 'foo.bar'.
    */
-  // const missingValueInterpretations = 1234
+  // const missingValueInterpretations = [1,2,3,4]
 
   // Imports the Storage library
   const {BigQueryWriteClient} = require('@google-cloud/bigquery-storage').v1;

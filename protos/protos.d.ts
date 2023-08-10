@@ -3483,6 +3483,9 @@ export namespace google {
                         /** ReadSession estimatedTotalBytesScanned */
                         estimatedTotalBytesScanned?: (number|Long|string|null);
 
+                        /** ReadSession estimatedTotalPhysicalFileSize */
+                        estimatedTotalPhysicalFileSize?: (number|Long|string|null);
+
                         /** ReadSession estimatedRowCount */
                         estimatedRowCount?: (number|Long|string|null);
 
@@ -3528,6 +3531,9 @@ export namespace google {
 
                         /** ReadSession estimatedTotalBytesScanned. */
                         public estimatedTotalBytesScanned: (number|Long|string);
+
+                        /** ReadSession estimatedTotalPhysicalFileSize. */
+                        public estimatedTotalPhysicalFileSize: (number|Long|string);
 
                         /** ReadSession estimatedRowCount. */
                         public estimatedRowCount: (number|Long|string);

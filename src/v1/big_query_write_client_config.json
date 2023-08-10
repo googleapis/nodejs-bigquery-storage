@@ -49,22 +49,22 @@
         },
         "GetWriteStream": {
           "timeout_millis": 600000,
-          "retry_codes_name": "idempotent",
+          "retry_codes_name": "deadline_exceeded_resource_exhausted_unavailable",
           "retry_params_name": "default"
         },
         "FinalizeWriteStream": {
           "timeout_millis": 600000,
-          "retry_codes_name": "idempotent",
+          "retry_codes_name": "deadline_exceeded_resource_exhausted_unavailable",
           "retry_params_name": "default"
         },
         "BatchCommitWriteStreams": {
           "timeout_millis": 600000,
-          "retry_codes_name": "idempotent",
+          "retry_codes_name": "deadline_exceeded_resource_exhausted_unavailable",
           "retry_params_name": "default"
         },
         "FlushRows": {
           "timeout_millis": 600000,
-          "retry_codes_name": "idempotent",
+          "retry_codes_name": "deadline_exceeded_resource_exhausted_unavailable",
           "retry_params_name": "default"
         }
       }

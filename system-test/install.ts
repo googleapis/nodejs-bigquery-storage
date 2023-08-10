@@ -21,43 +21,29 @@ import {readFileSync} from 'fs';
 import {describe, it} from 'mocha';
 
 describe('📦 pack-n-play test', () => {
-  it('TypeScript code', async function () {
+
+  it('TypeScript code', async function() {
     this.timeout(300000);
     const options = {
       packageDir: process.cwd(),
       sample: {
         description: 'TypeScript user can use the type definitions',
-        ts: readFileSync(
-          './system-test/fixtures/sample/src/index.ts'
-        ).toString(),
-        dependencies: ['typescript@4.8.3'],
-      },
+        ts: readFileSync('./system-test/fixtures/sample/src/index.ts').toString()
+      }
     };
-    try {
-      await packNTest(options);
-    } catch (err) {
-      console.error('TS install failed:\n', err);
-      throw err;
-    }
+    await packNTest(options);
   });
 
-  it('JavaScript code', async function () {
+  it('JavaScript code', async function() {
     this.timeout(300000);
     const options = {
       packageDir: process.cwd(),
       sample: {
         description: 'JavaScript user can use the library',
-        ts: readFileSync(
-          './system-test/fixtures/sample/src/index.js'
-        ).toString(),
-        dependencies: ['typescript@4.8.3'],
-      },
+        ts: readFileSync('./system-test/fixtures/sample/src/index.js').toString()
+      }
     };
-    try {
-      await packNTest(options);
-    } catch (err) {
-      console.error('JS install failed:\n', err);
-      throw err;
-    }
+    await packNTest(options);
   });
+
 });

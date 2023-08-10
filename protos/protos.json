@@ -829,6 +829,13 @@
                                 "(google.api.field_behavior)": "OUTPUT_ONLY"
                               }
                             },
+                            "estimatedTotalPhysicalFileSize": {
+                              "type": "int64",
+                              "id": 15,
+                              "options": {
+                                "(google.api.field_behavior)": "OUTPUT_ONLY"
+                              }
+                            },
                             "estimatedRowCount": {
                               "type": "int64",
                               "id": 14,
