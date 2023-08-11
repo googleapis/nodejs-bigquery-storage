@@ -80,7 +80,7 @@ describe('Adapt Protos', () => {
             mode: 'NULLABLE',
           },
           {
-            name: 'details',
+            name: 'recordDetails',
             type: 'STRUCT',
             mode: 'REPEATED',
             fields: [
@@ -136,11 +136,11 @@ describe('Adapt Protos', () => {
             options: {},
           },
           {
-            name: 'details',
+            name: 'recordDetails',
             number: 2,
             label: 'LABEL_REPEATED',
             type: 'TYPE_MESSAGE',
-            typeName: 'Nested_details',
+            typeName: 'Nested_recordDetails',
           },
           {
             name: 'metadata',
@@ -152,7 +152,7 @@ describe('Adapt Protos', () => {
         ],
         nestedType: [
           {
-            name: 'Nested_details',
+            name: 'Nested_recordDetails',
             field: [
               {
                 name: 'key',
@@ -194,7 +194,7 @@ describe('Adapt Protos', () => {
       const NestedProto = (Type as any).fromDescriptor(protoDescriptor);
       const raw = {
         record_id: '12345',
-        details: [
+        recordDetails: [
           {key: 'name', value: 'jimmy'},
           {key: 'title', value: 'clown'},
         ],
