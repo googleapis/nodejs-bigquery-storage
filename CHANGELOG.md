@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.0.0...v4.1.0) (2023-08-11)
+
+
+### Features
+
+* Storage write api veneer ([#328](https://github.com/googleapis/nodejs-bigquery-storage/issues/328)) ([146141e](https://github.com/googleapis/nodejs-bigquery-storage/commit/146141e7973c9e6642174d34b284be605e90582b))
+
 ## [4.0.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v3.4.0...v4.0.0) (2023-08-01)
 
 
