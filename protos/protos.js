@@ -4533,6 +4533,7 @@
                              * @property {google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData|null} [protoRows] AppendRowsRequest protoRows
                              * @property {string|null} [traceId] AppendRowsRequest traceId
                              * @property {Object.<string,google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation>|null} [missingValueInterpretations] AppendRowsRequest missingValueInterpretations
+                             * @property {google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation|null} [defaultMissingValueInterpretation] AppendRowsRequest defaultMissingValueInterpretation
                              */
     
                             /**
@@ -4591,6 +4592,14 @@
                              */
                             AppendRowsRequest.prototype.missingValueInterpretations = $util.emptyObject;
     
+                            /**
+                             * AppendRowsRequest defaultMissingValueInterpretation.
+                             * @member {google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation} defaultMissingValueInterpretation
+                             * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest
+                             * @instance
+                             */
+                            AppendRowsRequest.prototype.defaultMissingValueInterpretation = 0;
+    
                             // OneOf field names bound to virtual getters and setters
                             var $oneOfFields;
     
@@ -4640,6 +4649,8 @@
                                 if (message.missingValueInterpretations != null && Object.hasOwnProperty.call(message, "missingValueInterpretations"))
                                     for (var keys = Object.keys(message.missingValueInterpretations), i = 0; i < keys.length; ++i)
                                         writer.uint32(/* id 7, wireType 2 =*/58).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 0 =*/16).int32(message.missingValueInterpretations[keys[i]]).ldelim();
+                                if (message.defaultMissingValueInterpretation != null && Object.hasOwnProperty.call(message, "defaultMissingValueInterpretation"))
+                                    writer.uint32(/* id 8, wireType 0 =*/64).int32(message.defaultMissingValueInterpretation);
                                 return writer;
                             };
     
@@ -4713,6 +4724,10 @@
                                             message.missingValueInterpretations[key] = value;
                                             break;
                                         }
+                                    case 8: {
+                                            message.defaultMissingValueInterpretation = reader.int32();
+                                            break;
+                                        }
                                     default:
                                         reader.skipType(tag & 7);
                                         break;
@@ -4782,6 +4797,15 @@
                                             break;
                                         }
                                 }
+                                if (message.defaultMissingValueInterpretation != null && message.hasOwnProperty("defaultMissingValueInterpretation"))
+                                    switch (message.defaultMissingValueInterpretation) {
+                                    default:
+                                        return "defaultMissingValueInterpretation: enum value expected";
+                                    case 0:
+                                    case 1:
+                                    case 2:
+                                        break;
+                                    }
                                 return null;
                             };
     
@@ -4837,6 +4861,26 @@
                                             break;
                                         }
                                 }
+                                switch (object.defaultMissingValueInterpretation) {
+                                default:
+                                    if (typeof object.defaultMissingValueInterpretation === "number") {
+                                        message.defaultMissingValueInterpretation = object.defaultMissingValueInterpretation;
+                                        break;
+                                    }
+                                    break;
+                                case "MISSING_VALUE_INTERPRETATION_UNSPECIFIED":
+                                case 0:
+                                    message.defaultMissingValueInterpretation = 0;
+                                    break;
+                                case "NULL_VALUE":
+                                case 1:
+                                    message.defaultMissingValueInterpretation = 1;
+                                    break;
+                                case "DEFAULT_VALUE":
+                                case 2:
+                                    message.defaultMissingValueInterpretation = 2;
+                                    break;
+                                }
                                 return message;
                             };
     
@@ -4859,6 +4903,7 @@
                                     object.writeStream = "";
                                     object.offset = null;
                                     object.traceId = "";
+                                    object.defaultMissingValueInterpretation = options.enums === String ? "MISSING_VALUE_INTERPRETATION_UNSPECIFIED" : 0;
                                 }
                                 if (message.writeStream != null && message.hasOwnProperty("writeStream"))
                                     object.writeStream = message.writeStream;
@@ -4877,6 +4922,8 @@
                                     for (var j = 0; j < keys2.length; ++j)
                                         object.missingValueInterpretations[keys2[j]] = options.enums === String ? $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation[message.missingValueInterpretations[keys2[j]]] === undefined ? message.missingValueInterpretations[keys2[j]] : $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation[message.missingValueInterpretations[keys2[j]]] : message.missingValueInterpretations[keys2[j]];
                                 }
+                                if (message.defaultMissingValueInterpretation != null && message.hasOwnProperty("defaultMissingValueInterpretation"))
+                                    object.defaultMissingValueInterpretation = options.enums === String ? $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation[message.defaultMissingValueInterpretation] === undefined ? message.defaultMissingValueInterpretation : $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation[message.defaultMissingValueInterpretation] : message.defaultMissingValueInterpretation;
                                 return object;
                             };
     
@@ -8049,6 +8096,7 @@
                              * @property {google.cloud.bigquery.storage.v1.ReadSession.ITableReadOptions|null} [readOptions] ReadSession readOptions
                              * @property {Array.<google.cloud.bigquery.storage.v1.IReadStream>|null} [streams] ReadSession streams
                              * @property {number|Long|null} [estimatedTotalBytesScanned] ReadSession estimatedTotalBytesScanned
+                             * @property {number|Long|null} [estimatedTotalPhysicalFileSize] ReadSession estimatedTotalPhysicalFileSize
                              * @property {number|Long|null} [estimatedRowCount] ReadSession estimatedRowCount
                              * @property {string|null} [traceId] ReadSession traceId
                              */
@@ -8150,6 +8198,14 @@
                             ReadSession.prototype.estimatedTotalBytesScanned = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
     
                             /**
+                             * ReadSession estimatedTotalPhysicalFileSize.
+                             * @member {number|Long} estimatedTotalPhysicalFileSize
+                             * @memberof google.cloud.bigquery.storage.v1.ReadSession
+                             * @instance
+                             */
+                            ReadSession.prototype.estimatedTotalPhysicalFileSize = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    
+                            /**
                              * ReadSession estimatedRowCount.
                              * @member {number|Long} estimatedRowCount
                              * @memberof google.cloud.bigquery.storage.v1.ReadSession
@@ -8228,6 +8284,8 @@
                                     writer.uint32(/* id 13, wireType 2 =*/106).string(message.traceId);
                                 if (message.estimatedRowCount != null && Object.hasOwnProperty.call(message, "estimatedRowCount"))
                                     writer.uint32(/* id 14, wireType 0 =*/112).int64(message.estimatedRowCount);
+                                if (message.estimatedTotalPhysicalFileSize != null && Object.hasOwnProperty.call(message, "estimatedTotalPhysicalFileSize"))
+                                    writer.uint32(/* id 15, wireType 0 =*/120).int64(message.estimatedTotalPhysicalFileSize);
                                 return writer;
                             };
     
@@ -8302,6 +8360,10 @@
                                         }
                                     case 12: {
                                             message.estimatedTotalBytesScanned = reader.int64();
+                                            break;
+                                        }
+                                    case 15: {
+                                            message.estimatedTotalPhysicalFileSize = reader.int64();
                                             break;
                                         }
                                     case 14: {
@@ -8408,6 +8470,9 @@
                                 if (message.estimatedTotalBytesScanned != null && message.hasOwnProperty("estimatedTotalBytesScanned"))
                                     if (!$util.isInteger(message.estimatedTotalBytesScanned) && !(message.estimatedTotalBytesScanned && $util.isInteger(message.estimatedTotalBytesScanned.low) && $util.isInteger(message.estimatedTotalBytesScanned.high)))
                                         return "estimatedTotalBytesScanned: integer|Long expected";
+                                if (message.estimatedTotalPhysicalFileSize != null && message.hasOwnProperty("estimatedTotalPhysicalFileSize"))
+                                    if (!$util.isInteger(message.estimatedTotalPhysicalFileSize) && !(message.estimatedTotalPhysicalFileSize && $util.isInteger(message.estimatedTotalPhysicalFileSize.low) && $util.isInteger(message.estimatedTotalPhysicalFileSize.high)))
+                                        return "estimatedTotalPhysicalFileSize: integer|Long expected";
                                 if (message.estimatedRowCount != null && message.hasOwnProperty("estimatedRowCount"))
                                     if (!$util.isInteger(message.estimatedRowCount) && !(message.estimatedRowCount && $util.isInteger(message.estimatedRowCount.low) && $util.isInteger(message.estimatedRowCount.high)))
                                         return "estimatedRowCount: integer|Long expected";
@@ -8497,6 +8562,15 @@
                                         message.estimatedTotalBytesScanned = object.estimatedTotalBytesScanned;
                                     else if (typeof object.estimatedTotalBytesScanned === "object")
                                         message.estimatedTotalBytesScanned = new $util.LongBits(object.estimatedTotalBytesScanned.low >>> 0, object.estimatedTotalBytesScanned.high >>> 0).toNumber();
+                                if (object.estimatedTotalPhysicalFileSize != null)
+                                    if ($util.Long)
+                                        (message.estimatedTotalPhysicalFileSize = $util.Long.fromValue(object.estimatedTotalPhysicalFileSize)).unsigned = false;
+                                    else if (typeof object.estimatedTotalPhysicalFileSize === "string")
+                                        message.estimatedTotalPhysicalFileSize = parseInt(object.estimatedTotalPhysicalFileSize, 10);
+                                    else if (typeof object.estimatedTotalPhysicalFileSize === "number")
+                                        message.estimatedTotalPhysicalFileSize = object.estimatedTotalPhysicalFileSize;
+                                    else if (typeof object.estimatedTotalPhysicalFileSize === "object")
+                                        message.estimatedTotalPhysicalFileSize = new $util.LongBits(object.estimatedTotalPhysicalFileSize.low >>> 0, object.estimatedTotalPhysicalFileSize.high >>> 0).toNumber();
                                 if (object.estimatedRowCount != null)
                                     if ($util.Long)
                                         (message.estimatedRowCount = $util.Long.fromValue(object.estimatedRowCount)).unsigned = false;
@@ -8544,6 +8618,11 @@
                                         object.estimatedRowCount = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                                     } else
                                         object.estimatedRowCount = options.longs === String ? "0" : 0;
+                                    if ($util.Long) {
+                                        var long = new $util.Long(0, 0, false);
+                                        object.estimatedTotalPhysicalFileSize = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                                    } else
+                                        object.estimatedTotalPhysicalFileSize = options.longs === String ? "0" : 0;
                                 }
                                 if (message.name != null && message.hasOwnProperty("name"))
                                     object.name = message.name;
@@ -8584,6 +8663,11 @@
                                         object.estimatedRowCount = options.longs === String ? String(message.estimatedRowCount) : message.estimatedRowCount;
                                     else
                                         object.estimatedRowCount = options.longs === String ? $util.Long.prototype.toString.call(message.estimatedRowCount) : options.longs === Number ? new $util.LongBits(message.estimatedRowCount.low >>> 0, message.estimatedRowCount.high >>> 0).toNumber() : message.estimatedRowCount;
+                                if (message.estimatedTotalPhysicalFileSize != null && message.hasOwnProperty("estimatedTotalPhysicalFileSize"))
+                                    if (typeof message.estimatedTotalPhysicalFileSize === "number")
+                                        object.estimatedTotalPhysicalFileSize = options.longs === String ? String(message.estimatedTotalPhysicalFileSize) : message.estimatedTotalPhysicalFileSize;
+                                    else
+                                        object.estimatedTotalPhysicalFileSize = options.longs === String ? $util.Long.prototype.toString.call(message.estimatedTotalPhysicalFileSize) : options.longs === Number ? new $util.LongBits(message.estimatedTotalPhysicalFileSize.low >>> 0, message.estimatedTotalPhysicalFileSize.high >>> 0).toNumber() : message.estimatedTotalPhysicalFileSize;
                                 return object;
                             };
     

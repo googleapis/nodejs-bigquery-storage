@@ -2047,6 +2047,9 @@ export namespace google {
 
                         /** AppendRowsRequest missingValueInterpretations */
                         missingValueInterpretations?: ({ [k: string]: google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation }|null);
+
+                        /** AppendRowsRequest defaultMissingValueInterpretation */
+                        defaultMissingValueInterpretation?: (google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation|keyof typeof google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation|null);
                     }
 
                     /** Represents an AppendRowsRequest. */
@@ -2072,6 +2075,9 @@ export namespace google {
 
                         /** AppendRowsRequest missingValueInterpretations. */
                         public missingValueInterpretations: { [k: string]: google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation };
+
+                        /** AppendRowsRequest defaultMissingValueInterpretation. */
+                        public defaultMissingValueInterpretation: (google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation|keyof typeof google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation);
 
                         /** AppendRowsRequest rows. */
                         public rows?: "protoRows";
@@ -3483,6 +3489,9 @@ export namespace google {
                         /** ReadSession estimatedTotalBytesScanned */
                         estimatedTotalBytesScanned?: (number|Long|string|null);
 
+                        /** ReadSession estimatedTotalPhysicalFileSize */
+                        estimatedTotalPhysicalFileSize?: (number|Long|string|null);
+
                         /** ReadSession estimatedRowCount */
                         estimatedRowCount?: (number|Long|string|null);
 
@@ -3528,6 +3537,9 @@ export namespace google {
 
                         /** ReadSession estimatedTotalBytesScanned. */
                         public estimatedTotalBytesScanned: (number|Long|string);
+
+                        /** ReadSession estimatedTotalPhysicalFileSize. */
+                        public estimatedTotalPhysicalFileSize: (number|Long|string);
 
                         /** ReadSession estimatedRowCount. */
                         public estimatedRowCount: (number|Long|string);

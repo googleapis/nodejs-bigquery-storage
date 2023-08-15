@@ -515,6 +515,13 @@
                               "keyType": "string",
                               "type": "MissingValueInterpretation",
                               "id": 7
+                            },
+                            "defaultMissingValueInterpretation": {
+                              "type": "MissingValueInterpretation",
+                              "id": 8,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
                             }
                           },
                           "nested": {
@@ -825,6 +832,13 @@
                             "estimatedTotalBytesScanned": {
                               "type": "int64",
                               "id": 12,
+                              "options": {
+                                "(google.api.field_behavior)": "OUTPUT_ONLY"
+                              }
+                            },
+                            "estimatedTotalPhysicalFileSize": {
+                              "type": "int64",
+                              "id": 15,
                               "options": {
                                 "(google.api.field_behavior)": "OUTPUT_ONLY"
                               }
