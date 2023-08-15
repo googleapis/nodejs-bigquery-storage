@@ -36,7 +36,7 @@ function main(parent, writeStreams) {
   /**
    *  Required. The group of streams that will be committed atomically.
    */
-  // const writeStreams = 'abc123'
+  // const writeStreams = ['abc','def']
 
   // Imports the Storage library
   const {BigQueryWriteClient} = require('@google-cloud/bigquery-storage').v1;
