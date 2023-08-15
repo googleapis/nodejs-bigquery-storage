@@ -18,7 +18,12 @@
 
 /* global window */
 import type * as gax from 'google-gax';
-import type {Callback, CallOptions, Descriptors, ClientOptions} from 'google-gax';
+import type {
+  Callback,
+  CallOptions,
+  Descriptors,
+  ClientOptions,
+} from 'google-gax';
 import {PassThrough} from 'stream';
 import * as protos from '../../protos/protos';
 import jsonProtos = require('../../protos/protos.json');
@@ -100,14 +105,22 @@ export class BigQueryWriteClient {
    *     const client = new BigQueryWriteClient({fallback: 'rest'}, gax);
    *     ```
    */
-  constructor(opts?: ClientOptions, gaxInstance?: typeof gax | typeof gax.fallback) {
+  constructor(
+    opts?: ClientOptions,
+    gaxInstance?: typeof gax | typeof gax.fallback
+  ) {
     // Ensure that options include all the required fields.
     const staticMembers = this.constructor as typeof BigQueryWriteClient;
-    const servicePath = opts?.servicePath || opts?.apiEndpoint || staticMembers.servicePath;
-    this._providedCustomServicePath = !!(opts?.servicePath || opts?.apiEndpoint);
+    const servicePath =
+      opts?.servicePath || opts?.apiEndpoint || staticMembers.servicePath;
+    this._providedCustomServicePath = !!(
+      opts?.servicePath || opts?.apiEndpoint
+    );
     const port = opts?.port || staticMembers.port;
     const clientConfig = opts?.clientConfig ?? {};
-    const fallback = opts?.fallback ?? (typeof window !== 'undefined' && typeof window?.fetch === 'function');
+    const fallback =
+      opts?.fallback ??
+      (typeof window !== 'undefined' && typeof window?.fetch === 'function');
     opts = Object.assign({servicePath, port, clientConfig, fallback}, opts);
 
     // If scopes are unset in options and we're connecting to a non-default endpoint, set scopes just in case.
@@ -130,7 +143,7 @@ export class BigQueryWriteClient {
     this._opts = opts;
 
     // Save the auth object to the client, for use by other methods.
-    this.auth = (this._gaxGrpc.auth as gax.GoogleAuth);
+    this.auth = this._gaxGrpc.auth as gax.GoogleAuth;
 
     // Set useJWTAccessWithScope on the auth object.
     this.auth.useJWTAccessWithScope = true;
@@ -144,10 +157,7 @@ export class BigQueryWriteClient {
     }
 
     // Determine the client header string.
-    const clientHeader = [
-      `gax/${this._gaxModule.version}`,
-      `gapic/${version}`,
-    ];
+    const clientHeader = [`gax/${this._gaxModule.version}`, `gapic/${version}`];
     if (typeof process !== 'undefined' && 'versions' in process) {
       clientHeader.push(`gl-node/${process.versions.node}`);
     } else {
@@ -155,7 +165,7 @@ export class BigQueryWriteClient {
     }
     if (!opts.fallback) {
       clientHeader.push(`grpc/${this._gaxGrpc.grpcVersion}`);
-    } else if (opts.fallback === 'rest' ) {
+    } else if (opts.fallback === 'rest') {
       clientHeader.push(`rest/${this._gaxGrpc.grpcVersion}`);
     }
     if (opts.libName && opts.libVersion) {
@@ -188,13 +198,19 @@ export class BigQueryWriteClient {
     // Some of the methods on this service provide streaming responses.
     // Provide descriptors for these.
     this.descriptors.stream = {
-      appendRows: new this._gaxModule.StreamDescriptor(this._gaxModule.StreamType.BIDI_STREAMING, opts.fallback === 'rest')
+      appendRows: new this._gaxModule.StreamDescriptor(
+        this._gaxModule.StreamType.BIDI_STREAMING,
+        opts.fallback === 'rest'
+      ),
     };
 
     // Put together the default options sent with requests.
     this._defaults = this._gaxGrpc.constructSettings(
-        'google.cloud.bigquery.storage.v1.BigQueryWrite', gapicConfig as gax.ClientConfig,
-        opts.clientConfig || {}, {'x-goog-api-client': clientHeader.join(' ')});
+      'google.cloud.bigquery.storage.v1.BigQueryWrite',
+      gapicConfig as gax.ClientConfig,
+      opts.clientConfig || {},
+      {'x-goog-api-client': clientHeader.join(' ')}
+    );
 
     // Set up a dictionary of "inner API calls"; the core implementation
     // of calling the API is handled in `google-gax`, with this code
@@ -225,39 +241,54 @@ export class BigQueryWriteClient {
     // Put together the "service stub" for
     // google.cloud.bigquery.storage.v1.BigQueryWrite.
     this.bigQueryWriteStub = this._gaxGrpc.createStub(
-        this._opts.fallback ?
-          (this._protos as protobuf.Root).lookupService('google.cloud.bigquery.storage.v1.BigQueryWrite') :
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this._opts.fallback
+        ? (this._protos as protobuf.Root).lookupService(
+            'google.cloud.bigquery.storage.v1.BigQueryWrite'
+          )
+        : // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (this._protos as any).google.cloud.bigquery.storage.v1.BigQueryWrite,
-        this._opts, this._providedCustomServicePath) as Promise<{[method: string]: Function}>;
+      this._opts,
+      this._providedCustomServicePath
+    ) as Promise<{[method: string]: Function}>;
 
     // Iterate over each of the methods that the service provides
     // and create an API call method for each.
-    const bigQueryWriteStubMethods =
-        ['createWriteStream', 'appendRows', 'getWriteStream', 'finalizeWriteStream', 'batchCommitWriteStreams', 'flushRows'];
+    const bigQueryWriteStubMethods = [
+      'createWriteStream',
+      'appendRows',
+      'getWriteStream',
+      'finalizeWriteStream',
+      'batchCommitWriteStreams',
+      'flushRows',
+    ];
     for (const methodName of bigQueryWriteStubMethods) {
       const callPromise = this.bigQueryWriteStub.then(
-        stub => (...args: Array<{}>) => {
-          if (this._terminated) {
-            if (methodName in this.descriptors.stream) {
-              const stream = new PassThrough();
-              setImmediate(() => {
-                stream.emit('error', new this._gaxModule.GoogleError('The client has already been closed.'));
-              });
-              return stream;
+        stub =>
+          (...args: Array<{}>) => {
+            if (this._terminated) {
+              if (methodName in this.descriptors.stream) {
+                const stream = new PassThrough();
+                setImmediate(() => {
+                  stream.emit(
+                    'error',
+                    new this._gaxModule.GoogleError(
+                      'The client has already been closed.'
+                    )
+                  );
+                });
+                return stream;
+              }
+              return Promise.reject('The client has already been closed.');
             }
-            return Promise.reject('The client has already been closed.');
-          }
-          const func = stub[methodName];
-          return func.apply(stub, args);
-        },
-        (err: Error|null|undefined) => () => {
+            const func = stub[methodName];
+            return func.apply(stub, args);
+          },
+        (err: Error | null | undefined) => () => {
           throw err;
-        });
+        }
+      );
 
-      const descriptor =
-        this.descriptors.stream[methodName] ||
-        undefined;
+      const descriptor = this.descriptors.stream[methodName] || undefined;
       const apiCall = this._gaxModule.createApiCall(
         callPromise,
         this._defaults[methodName],
@@ -305,7 +336,7 @@ export class BigQueryWriteClient {
     return [
       'https://www.googleapis.com/auth/bigquery',
       'https://www.googleapis.com/auth/bigquery.insertdata',
-      'https://www.googleapis.com/auth/cloud-platform'
+      'https://www.googleapis.com/auth/cloud-platform',
     ];
   }
 
@@ -315,8 +346,9 @@ export class BigQueryWriteClient {
    * Return the project ID used by this class.
    * @returns {Promise} A promise that resolves to string containing the project ID.
    */
-  getProjectId(callback?: Callback<string, undefined, undefined>):
-      Promise<string>|void {
+  getProjectId(
+    callback?: Callback<string, undefined, undefined>
+  ): Promise<string> | void {
     if (callback) {
       this.auth.getProjectId(callback);
       return;
@@ -327,436 +359,562 @@ export class BigQueryWriteClient {
   // -------------------
   // -- Service calls --
   // -------------------
-/**
- * Creates a write stream to the given table.
- * Additionally, every table has a special stream named '_default'
- * to which data can be written. This stream doesn't need to be created using
- * CreateWriteStream. It is a stream that can be used simultaneously by any
- * number of clients. Data written to this stream is considered committed as
- * soon as an acknowledgement is received.
- *
- * @param {Object} request
- *   The request object that will be sent.
- * @param {string} request.parent
- *   Required. Reference to the table to which the stream belongs, in the format
- *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
- * @param {google.cloud.bigquery.storage.v1.WriteStream} request.writeStream
- *   Required. Stream to be created.
- * @param {object} [options]
- *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
- * @returns {Promise} - The promise which resolves to an array.
- *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1.WriteStream|WriteStream}.
- *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
- *   for more details and examples.
- * @example <caption>include:samples/generated/v1/big_query_write.create_write_stream.js</caption>
- * region_tag:bigquerystorage_v1_generated_BigQueryWrite_CreateWriteStream_async
- */
+  /**
+   * Creates a write stream to the given table.
+   * Additionally, every table has a special stream named '_default'
+   * to which data can be written. This stream doesn't need to be created using
+   * CreateWriteStream. It is a stream that can be used simultaneously by any
+   * number of clients. Data written to this stream is considered committed as
+   * soon as an acknowledgement is received.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.parent
+   *   Required. Reference to the table to which the stream belongs, in the format
+   *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
+   * @param {google.cloud.bigquery.storage.v1.WriteStream} request.writeStream
+   *   Required. Stream to be created.
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {Promise} - The promise which resolves to an array.
+   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1.WriteStream|WriteStream}.
+   *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
+   *   for more details and examples.
+   * @example <caption>include:samples/generated/v1/big_query_write.create_write_stream.js</caption>
+   * region_tag:bigquerystorage_v1_generated_BigQueryWrite_CreateWriteStream_async
+   */
   createWriteStream(
-      request?: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest,
-      options?: CallOptions):
-      Promise<[
-        protos.google.cloud.bigquery.storage.v1.IWriteStream,
-        protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest|undefined, {}|undefined
-      ]>;
+    request?: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest,
+    options?: CallOptions
+  ): Promise<
+    [
+      protos.google.cloud.bigquery.storage.v1.IWriteStream,
+      (
+        | protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest
+        | undefined
+      ),
+      {} | undefined,
+    ]
+  >;
   createWriteStream(
-      request: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest,
-      options: CallOptions,
-      callback: Callback<
-          protos.google.cloud.bigquery.storage.v1.IWriteStream,
-          protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest|null|undefined,
-          {}|null|undefined>): void;
+    request: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest,
+    options: CallOptions,
+    callback: Callback<
+      protos.google.cloud.bigquery.storage.v1.IWriteStream,
+      | protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest
+      | null
+      | undefined,
+      {} | null | undefined
+    >
+  ): void;
   createWriteStream(
-      request: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest,
-      callback: Callback<
-          protos.google.cloud.bigquery.storage.v1.IWriteStream,
-          protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest|null|undefined,
-          {}|null|undefined>): void;
+    request: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest,
+    callback: Callback<
+      protos.google.cloud.bigquery.storage.v1.IWriteStream,
+      | protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest
+      | null
+      | undefined,
+      {} | null | undefined
+    >
+  ): void;
   createWriteStream(
-      request?: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest,
-      optionsOrCallback?: CallOptions|Callback<
+    request?: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest,
+    optionsOrCallback?:
+      | CallOptions
+      | Callback<
           protos.google.cloud.bigquery.storage.v1.IWriteStream,
-          protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest|null|undefined,
-          {}|null|undefined>,
-      callback?: Callback<
-          protos.google.cloud.bigquery.storage.v1.IWriteStream,
-          protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest|null|undefined,
-          {}|null|undefined>):
-      Promise<[
-        protos.google.cloud.bigquery.storage.v1.IWriteStream,
-        protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest|undefined, {}|undefined
-      ]>|void {
+          | protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >,
+    callback?: Callback<
+      protos.google.cloud.bigquery.storage.v1.IWriteStream,
+      | protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest
+      | null
+      | undefined,
+      {} | null | undefined
+    >
+  ): Promise<
+    [
+      protos.google.cloud.bigquery.storage.v1.IWriteStream,
+      (
+        | protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest
+        | undefined
+      ),
+      {} | undefined,
+    ]
+  > | void {
     request = request || {};
     let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    }
-    else {
+    } else {
       options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = this._gaxModule.routingHeader.fromParams({
-      'parent': request.parent ?? '',
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      this._gaxModule.routingHeader.fromParams({
+        parent: request.parent ?? '',
+      });
     this.initialize();
     return this.innerApiCalls.createWriteStream(request, options, callback);
   }
-/**
- * Gets information about a write stream.
- *
- * @param {Object} request
- *   The request object that will be sent.
- * @param {string} request.name
- *   Required. Name of the stream to get, in the form of
- *   `projects/{project}/datasets/{dataset}/tables/{table}/streams/{stream}`.
- * @param {google.cloud.bigquery.storage.v1.WriteStreamView} request.view
- *   Indicates whether to get full or partial view of the WriteStream. If
- *   not set, view returned will be basic.
- * @param {object} [options]
- *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
- * @returns {Promise} - The promise which resolves to an array.
- *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1.WriteStream|WriteStream}.
- *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
- *   for more details and examples.
- * @example <caption>include:samples/generated/v1/big_query_write.get_write_stream.js</caption>
- * region_tag:bigquerystorage_v1_generated_BigQueryWrite_GetWriteStream_async
- */
+  /**
+   * Gets information about a write stream.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.name
+   *   Required. Name of the stream to get, in the form of
+   *   `projects/{project}/datasets/{dataset}/tables/{table}/streams/{stream}`.
+   * @param {google.cloud.bigquery.storage.v1.WriteStreamView} request.view
+   *   Indicates whether to get full or partial view of the WriteStream. If
+   *   not set, view returned will be basic.
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {Promise} - The promise which resolves to an array.
+   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1.WriteStream|WriteStream}.
+   *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
+   *   for more details and examples.
+   * @example <caption>include:samples/generated/v1/big_query_write.get_write_stream.js</caption>
+   * region_tag:bigquerystorage_v1_generated_BigQueryWrite_GetWriteStream_async
+   */
   getWriteStream(
-      request?: protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest,
-      options?: CallOptions):
-      Promise<[
-        protos.google.cloud.bigquery.storage.v1.IWriteStream,
-        protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest|undefined, {}|undefined
-      ]>;
+    request?: protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest,
+    options?: CallOptions
+  ): Promise<
+    [
+      protos.google.cloud.bigquery.storage.v1.IWriteStream,
+      (
+        | protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest
+        | undefined
+      ),
+      {} | undefined,
+    ]
+  >;
   getWriteStream(
-      request: protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest,
-      options: CallOptions,
-      callback: Callback<
-          protos.google.cloud.bigquery.storage.v1.IWriteStream,
-          protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest|null|undefined,
-          {}|null|undefined>): void;
+    request: protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest,
+    options: CallOptions,
+    callback: Callback<
+      protos.google.cloud.bigquery.storage.v1.IWriteStream,
+      | protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest
+      | null
+      | undefined,
+      {} | null | undefined
+    >
+  ): void;
   getWriteStream(
-      request: protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest,
-      callback: Callback<
-          protos.google.cloud.bigquery.storage.v1.IWriteStream,
-          protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest|null|undefined,
-          {}|null|undefined>): void;
+    request: protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest,
+    callback: Callback<
+      protos.google.cloud.bigquery.storage.v1.IWriteStream,
+      | protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest
+      | null
+      | undefined,
+      {} | null | undefined
+    >
+  ): void;
   getWriteStream(
-      request?: protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest,
-      optionsOrCallback?: CallOptions|Callback<
+    request?: protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest,
+    optionsOrCallback?:
+      | CallOptions
+      | Callback<
           protos.google.cloud.bigquery.storage.v1.IWriteStream,
-          protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest|null|undefined,
-          {}|null|undefined>,
-      callback?: Callback<
-          protos.google.cloud.bigquery.storage.v1.IWriteStream,
-          protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest|null|undefined,
-          {}|null|undefined>):
-      Promise<[
-        protos.google.cloud.bigquery.storage.v1.IWriteStream,
-        protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest|undefined, {}|undefined
-      ]>|void {
+          | protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >,
+    callback?: Callback<
+      protos.google.cloud.bigquery.storage.v1.IWriteStream,
+      | protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest
+      | null
+      | undefined,
+      {} | null | undefined
+    >
+  ): Promise<
+    [
+      protos.google.cloud.bigquery.storage.v1.IWriteStream,
+      (
+        | protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest
+        | undefined
+      ),
+      {} | undefined,
+    ]
+  > | void {
     request = request || {};
     let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    }
-    else {
+    } else {
       options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = this._gaxModule.routingHeader.fromParams({
-      'name': request.name ?? '',
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      this._gaxModule.routingHeader.fromParams({
+        name: request.name ?? '',
+      });
     this.initialize();
     return this.innerApiCalls.getWriteStream(request, options, callback);
   }
-/**
- * Finalize a write stream so that no new data can be appended to the
- * stream. Finalize is not supported on the '_default' stream.
- *
- * @param {Object} request
- *   The request object that will be sent.
- * @param {string} request.name
- *   Required. Name of the stream to finalize, in the form of
- *   `projects/{project}/datasets/{dataset}/tables/{table}/streams/{stream}`.
- * @param {object} [options]
- *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
- * @returns {Promise} - The promise which resolves to an array.
- *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamResponse|FinalizeWriteStreamResponse}.
- *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
- *   for more details and examples.
- * @example <caption>include:samples/generated/v1/big_query_write.finalize_write_stream.js</caption>
- * region_tag:bigquerystorage_v1_generated_BigQueryWrite_FinalizeWriteStream_async
- */
+  /**
+   * Finalize a write stream so that no new data can be appended to the
+   * stream. Finalize is not supported on the '_default' stream.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.name
+   *   Required. Name of the stream to finalize, in the form of
+   *   `projects/{project}/datasets/{dataset}/tables/{table}/streams/{stream}`.
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {Promise} - The promise which resolves to an array.
+   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamResponse|FinalizeWriteStreamResponse}.
+   *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
+   *   for more details and examples.
+   * @example <caption>include:samples/generated/v1/big_query_write.finalize_write_stream.js</caption>
+   * region_tag:bigquerystorage_v1_generated_BigQueryWrite_FinalizeWriteStream_async
+   */
   finalizeWriteStream(
-      request?: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest,
-      options?: CallOptions):
-      Promise<[
-        protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse,
-        protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest|undefined, {}|undefined
-      ]>;
+    request?: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest,
+    options?: CallOptions
+  ): Promise<
+    [
+      protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse,
+      (
+        | protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest
+        | undefined
+      ),
+      {} | undefined,
+    ]
+  >;
   finalizeWriteStream(
-      request: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest,
-      options: CallOptions,
-      callback: Callback<
-          protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse,
-          protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest|null|undefined,
-          {}|null|undefined>): void;
+    request: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest,
+    options: CallOptions,
+    callback: Callback<
+      protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse,
+      | protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest
+      | null
+      | undefined,
+      {} | null | undefined
+    >
+  ): void;
   finalizeWriteStream(
-      request: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest,
-      callback: Callback<
-          protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse,
-          protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest|null|undefined,
-          {}|null|undefined>): void;
+    request: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest,
+    callback: Callback<
+      protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse,
+      | protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest
+      | null
+      | undefined,
+      {} | null | undefined
+    >
+  ): void;
   finalizeWriteStream(
-      request?: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest,
-      optionsOrCallback?: CallOptions|Callback<
+    request?: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest,
+    optionsOrCallback?:
+      | CallOptions
+      | Callback<
           protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse,
-          protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest|null|undefined,
-          {}|null|undefined>,
-      callback?: Callback<
-          protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse,
-          protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest|null|undefined,
-          {}|null|undefined>):
-      Promise<[
-        protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse,
-        protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest|undefined, {}|undefined
-      ]>|void {
+          | protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >,
+    callback?: Callback<
+      protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse,
+      | protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest
+      | null
+      | undefined,
+      {} | null | undefined
+    >
+  ): Promise<
+    [
+      protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse,
+      (
+        | protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest
+        | undefined
+      ),
+      {} | undefined,
+    ]
+  > | void {
     request = request || {};
     let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    }
-    else {
+    } else {
       options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = this._gaxModule.routingHeader.fromParams({
-      'name': request.name ?? '',
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      this._gaxModule.routingHeader.fromParams({
+        name: request.name ?? '',
+      });
     this.initialize();
     return this.innerApiCalls.finalizeWriteStream(request, options, callback);
   }
-/**
- * Atomically commits a group of `PENDING` streams that belong to the same
- * `parent` table.
- *
- * Streams must be finalized before commit and cannot be committed multiple
- * times. Once a stream is committed, data in the stream becomes available
- * for read operations.
- *
- * @param {Object} request
- *   The request object that will be sent.
- * @param {string} request.parent
- *   Required. Parent table that all the streams should belong to, in the form
- *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
- * @param {string[]} request.writeStreams
- *   Required. The group of streams that will be committed atomically.
- * @param {object} [options]
- *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
- * @returns {Promise} - The promise which resolves to an array.
- *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsResponse|BatchCommitWriteStreamsResponse}.
- *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
- *   for more details and examples.
- * @example <caption>include:samples/generated/v1/big_query_write.batch_commit_write_streams.js</caption>
- * region_tag:bigquerystorage_v1_generated_BigQueryWrite_BatchCommitWriteStreams_async
- */
+  /**
+   * Atomically commits a group of `PENDING` streams that belong to the same
+   * `parent` table.
+   *
+   * Streams must be finalized before commit and cannot be committed multiple
+   * times. Once a stream is committed, data in the stream becomes available
+   * for read operations.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.parent
+   *   Required. Parent table that all the streams should belong to, in the form
+   *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
+   * @param {string[]} request.writeStreams
+   *   Required. The group of streams that will be committed atomically.
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {Promise} - The promise which resolves to an array.
+   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsResponse|BatchCommitWriteStreamsResponse}.
+   *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
+   *   for more details and examples.
+   * @example <caption>include:samples/generated/v1/big_query_write.batch_commit_write_streams.js</caption>
+   * region_tag:bigquerystorage_v1_generated_BigQueryWrite_BatchCommitWriteStreams_async
+   */
   batchCommitWriteStreams(
-      request?: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest,
-      options?: CallOptions):
-      Promise<[
-        protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse,
-        protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest|undefined, {}|undefined
-      ]>;
+    request?: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest,
+    options?: CallOptions
+  ): Promise<
+    [
+      protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse,
+      (
+        | protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest
+        | undefined
+      ),
+      {} | undefined,
+    ]
+  >;
   batchCommitWriteStreams(
-      request: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest,
-      options: CallOptions,
-      callback: Callback<
-          protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse,
-          protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest|null|undefined,
-          {}|null|undefined>): void;
+    request: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest,
+    options: CallOptions,
+    callback: Callback<
+      protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse,
+      | protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest
+      | null
+      | undefined,
+      {} | null | undefined
+    >
+  ): void;
   batchCommitWriteStreams(
-      request: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest,
-      callback: Callback<
-          protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse,
-          protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest|null|undefined,
-          {}|null|undefined>): void;
+    request: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest,
+    callback: Callback<
+      protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse,
+      | protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest
+      | null
+      | undefined,
+      {} | null | undefined
+    >
+  ): void;
   batchCommitWriteStreams(
-      request?: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest,
-      optionsOrCallback?: CallOptions|Callback<
+    request?: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest,
+    optionsOrCallback?:
+      | CallOptions
+      | Callback<
           protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse,
-          protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest|null|undefined,
-          {}|null|undefined>,
-      callback?: Callback<
-          protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse,
-          protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest|null|undefined,
-          {}|null|undefined>):
-      Promise<[
-        protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse,
-        protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest|undefined, {}|undefined
-      ]>|void {
+          | protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >,
+    callback?: Callback<
+      protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse,
+      | protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest
+      | null
+      | undefined,
+      {} | null | undefined
+    >
+  ): Promise<
+    [
+      protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse,
+      (
+        | protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest
+        | undefined
+      ),
+      {} | undefined,
+    ]
+  > | void {
     request = request || {};
     let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    }
-    else {
+    } else {
       options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = this._gaxModule.routingHeader.fromParams({
-      'parent': request.parent ?? '',
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      this._gaxModule.routingHeader.fromParams({
+        parent: request.parent ?? '',
+      });
     this.initialize();
-    return this.innerApiCalls.batchCommitWriteStreams(request, options, callback);
+    return this.innerApiCalls.batchCommitWriteStreams(
+      request,
+      options,
+      callback
+    );
   }
-/**
- * Flushes rows to a BUFFERED stream.
- *
- * If users are appending rows to BUFFERED stream, flush operation is
- * required in order for the rows to become available for reading. A
- * Flush operation flushes up to any previously flushed offset in a BUFFERED
- * stream, to the offset specified in the request.
- *
- * Flush is not supported on the _default stream, since it is not BUFFERED.
- *
- * @param {Object} request
- *   The request object that will be sent.
- * @param {string} request.writeStream
- *   Required. The stream that is the target of the flush operation.
- * @param {google.protobuf.Int64Value} request.offset
- *   Ending offset of the flush operation. Rows before this offset(including
- *   this offset) will be flushed.
- * @param {object} [options]
- *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
- * @returns {Promise} - The promise which resolves to an array.
- *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1.FlushRowsResponse|FlushRowsResponse}.
- *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
- *   for more details and examples.
- * @example <caption>include:samples/generated/v1/big_query_write.flush_rows.js</caption>
- * region_tag:bigquerystorage_v1_generated_BigQueryWrite_FlushRows_async
- */
+  /**
+   * Flushes rows to a BUFFERED stream.
+   *
+   * If users are appending rows to BUFFERED stream, flush operation is
+   * required in order for the rows to become available for reading. A
+   * Flush operation flushes up to any previously flushed offset in a BUFFERED
+   * stream, to the offset specified in the request.
+   *
+   * Flush is not supported on the _default stream, since it is not BUFFERED.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.writeStream
+   *   Required. The stream that is the target of the flush operation.
+   * @param {google.protobuf.Int64Value} request.offset
+   *   Ending offset of the flush operation. Rows before this offset(including
+   *   this offset) will be flushed.
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {Promise} - The promise which resolves to an array.
+   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1.FlushRowsResponse|FlushRowsResponse}.
+   *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
+   *   for more details and examples.
+   * @example <caption>include:samples/generated/v1/big_query_write.flush_rows.js</caption>
+   * region_tag:bigquerystorage_v1_generated_BigQueryWrite_FlushRows_async
+   */
   flushRows(
-      request?: protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest,
-      options?: CallOptions):
-      Promise<[
-        protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
-        protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest|undefined, {}|undefined
-      ]>;
+    request?: protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest,
+    options?: CallOptions
+  ): Promise<
+    [
+      protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
+      protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest | undefined,
+      {} | undefined,
+    ]
+  >;
   flushRows(
-      request: protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest,
-      options: CallOptions,
-      callback: Callback<
-          protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
-          protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest|null|undefined,
-          {}|null|undefined>): void;
+    request: protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest,
+    options: CallOptions,
+    callback: Callback<
+      protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
+      | protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest
+      | null
+      | undefined,
+      {} | null | undefined
+    >
+  ): void;
   flushRows(
-      request: protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest,
-      callback: Callback<
-          protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
-          protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest|null|undefined,
-          {}|null|undefined>): void;
+    request: protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest,
+    callback: Callback<
+      protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
+      | protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest
+      | null
+      | undefined,
+      {} | null | undefined
+    >
+  ): void;
   flushRows(
-      request?: protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest,
-      optionsOrCallback?: CallOptions|Callback<
+    request?: protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest,
+    optionsOrCallback?:
+      | CallOptions
+      | Callback<
           protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
-          protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest|null|undefined,
-          {}|null|undefined>,
-      callback?: Callback<
-          protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
-          protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest|null|undefined,
-          {}|null|undefined>):
-      Promise<[
-        protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
-        protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest|undefined, {}|undefined
-      ]>|void {
+          | protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >,
+    callback?: Callback<
+      protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
+      | protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest
+      | null
+      | undefined,
+      {} | null | undefined
+    >
+  ): Promise<
+    [
+      protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
+      protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest | undefined,
+      {} | undefined,
+    ]
+  > | void {
     request = request || {};
     let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    }
-    else {
+    } else {
       options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = this._gaxModule.routingHeader.fromParams({
-      'write_stream': request.writeStream ?? '',
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      this._gaxModule.routingHeader.fromParams({
+        write_stream: request.writeStream ?? '',
+      });
     this.initialize();
     return this.innerApiCalls.flushRows(request, options, callback);
   }
 
-/**
- * Appends data to the given stream.
- *
- * If `offset` is specified, the `offset` is checked against the end of
- * stream. The server returns `OUT_OF_RANGE` in `AppendRowsResponse` if an
- * attempt is made to append to an offset beyond the current end of the stream
- * or `ALREADY_EXISTS` if user provides an `offset` that has already been
- * written to. User can retry with adjusted offset within the same RPC
- * connection. If `offset` is not specified, append happens at the end of the
- * stream.
- *
- * The response contains an optional offset at which the append
- * happened.  No offset information will be returned for appends to a
- * default stream.
- *
- * Responses are received in the same order in which requests are sent.
- * There will be one response for each successful inserted request.  Responses
- * may optionally embed error information if the originating AppendRequest was
- * not successfully processed.
- *
- * The specifics of when successfully appended data is made visible to the
- * table are governed by the type of stream:
- *
- * * For COMMITTED streams (which includes the default stream), data is
- * visible immediately upon successful append.
- *
- * * For BUFFERED streams, data is made visible via a subsequent `FlushRows`
- * rpc which advances a cursor to a newer offset in the stream.
- *
- * * For PENDING streams, data is not made visible until the stream itself is
- * finalized (via the `FinalizeWriteStream` rpc), and the stream is explicitly
- * committed via the `BatchCommitWriteStreams` rpc.
- *
- * @param {object} [options]
- *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
- * @returns {Stream}
- *   An object stream which is both readable and writable. It accepts objects
- *   representing {@link protos.google.cloud.bigquery.storage.v1.AppendRowsRequest|AppendRowsRequest} for write() method, and
- *   will emit objects representing {@link protos.google.cloud.bigquery.storage.v1.AppendRowsResponse|AppendRowsResponse} on 'data' event asynchronously.
- *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#bi-directional-streaming | documentation }
- *   for more details and examples.
- * @example <caption>include:samples/generated/v1/big_query_write.append_rows.js</caption>
- * region_tag:bigquerystorage_v1_generated_BigQueryWrite_AppendRows_async
- */
-  appendRows(
-      options?: CallOptions):
-    gax.CancellableStream {
+  /**
+   * Appends data to the given stream.
+   *
+   * If `offset` is specified, the `offset` is checked against the end of
+   * stream. The server returns `OUT_OF_RANGE` in `AppendRowsResponse` if an
+   * attempt is made to append to an offset beyond the current end of the stream
+   * or `ALREADY_EXISTS` if user provides an `offset` that has already been
+   * written to. User can retry with adjusted offset within the same RPC
+   * connection. If `offset` is not specified, append happens at the end of the
+   * stream.
+   *
+   * The response contains an optional offset at which the append
+   * happened.  No offset information will be returned for appends to a
+   * default stream.
+   *
+   * Responses are received in the same order in which requests are sent.
+   * There will be one response for each successful inserted request.  Responses
+   * may optionally embed error information if the originating AppendRequest was
+   * not successfully processed.
+   *
+   * The specifics of when successfully appended data is made visible to the
+   * table are governed by the type of stream:
+   *
+   * * For COMMITTED streams (which includes the default stream), data is
+   * visible immediately upon successful append.
+   *
+   * * For BUFFERED streams, data is made visible via a subsequent `FlushRows`
+   * rpc which advances a cursor to a newer offset in the stream.
+   *
+   * * For PENDING streams, data is not made visible until the stream itself is
+   * finalized (via the `FinalizeWriteStream` rpc), and the stream is explicitly
+   * committed via the `BatchCommitWriteStreams` rpc.
+   *
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {Stream}
+   *   An object stream which is both readable and writable. It accepts objects
+   *   representing {@link protos.google.cloud.bigquery.storage.v1.AppendRowsRequest|AppendRowsRequest} for write() method, and
+   *   will emit objects representing {@link protos.google.cloud.bigquery.storage.v1.AppendRowsResponse|AppendRowsResponse} on 'data' event asynchronously.
+   *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#bi-directional-streaming | documentation }
+   *   for more details and examples.
+   * @example <caption>include:samples/generated/v1/big_query_write.append_rows.js</caption>
+   * region_tag:bigquerystorage_v1_generated_BigQueryWrite_AppendRows_async
+   */
+  appendRows(options?: CallOptions): gax.CancellableStream {
     this.initialize();
     return this.innerApiCalls.appendRows(null, options);
   }
@@ -771,7 +929,7 @@ export class BigQueryWriteClient {
    * @param {string} project
    * @returns {string} Resource name string.
    */
-  projectPath(project:string) {
+  projectPath(project: string) {
     return this.pathTemplates.projectPathTemplate.render({
       project: project,
     });
@@ -796,7 +954,7 @@ export class BigQueryWriteClient {
    * @param {string} session
    * @returns {string} Resource name string.
    */
-  readSessionPath(project:string,location:string,session:string) {
+  readSessionPath(project: string, location: string, session: string) {
     return this.pathTemplates.readSessionPathTemplate.render({
       project: project,
       location: location,
@@ -812,7 +970,8 @@ export class BigQueryWriteClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromReadSessionName(readSessionName: string) {
-    return this.pathTemplates.readSessionPathTemplate.match(readSessionName).project;
+    return this.pathTemplates.readSessionPathTemplate.match(readSessionName)
+      .project;
   }
 
   /**
@@ -823,7 +982,8 @@ export class BigQueryWriteClient {
    * @returns {string} A string representing the location.
    */
   matchLocationFromReadSessionName(readSessionName: string) {
-    return this.pathTemplates.readSessionPathTemplate.match(readSessionName).location;
+    return this.pathTemplates.readSessionPathTemplate.match(readSessionName)
+      .location;
   }
 
   /**
@@ -834,7 +994,8 @@ export class BigQueryWriteClient {
    * @returns {string} A string representing the session.
    */
   matchSessionFromReadSessionName(readSessionName: string) {
-    return this.pathTemplates.readSessionPathTemplate.match(readSessionName).session;
+    return this.pathTemplates.readSessionPathTemplate.match(readSessionName)
+      .session;
   }
 
   /**
@@ -846,7 +1007,12 @@ export class BigQueryWriteClient {
    * @param {string} stream
    * @returns {string} Resource name string.
    */
-  readStreamPath(project:string,location:string,session:string,stream:string) {
+  readStreamPath(
+    project: string,
+    location: string,
+    session: string,
+    stream: string
+  ) {
     return this.pathTemplates.readStreamPathTemplate.render({
       project: project,
       location: location,
@@ -863,7 +1029,8 @@ export class BigQueryWriteClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromReadStreamName(readStreamName: string) {
-    return this.pathTemplates.readStreamPathTemplate.match(readStreamName).project;
+    return this.pathTemplates.readStreamPathTemplate.match(readStreamName)
+      .project;
   }
 
   /**
@@ -874,7 +1041,8 @@ export class BigQueryWriteClient {
    * @returns {string} A string representing the location.
    */
   matchLocationFromReadStreamName(readStreamName: string) {
-    return this.pathTemplates.readStreamPathTemplate.match(readStreamName).location;
+    return this.pathTemplates.readStreamPathTemplate.match(readStreamName)
+      .location;
   }
 
   /**
@@ -885,7 +1053,8 @@ export class BigQueryWriteClient {
    * @returns {string} A string representing the session.
    */
   matchSessionFromReadStreamName(readStreamName: string) {
-    return this.pathTemplates.readStreamPathTemplate.match(readStreamName).session;
+    return this.pathTemplates.readStreamPathTemplate.match(readStreamName)
+      .session;
   }
 
   /**
@@ -896,7 +1065,8 @@ export class BigQueryWriteClient {
    * @returns {string} A string representing the stream.
    */
   matchStreamFromReadStreamName(readStreamName: string) {
-    return this.pathTemplates.readStreamPathTemplate.match(readStreamName).stream;
+    return this.pathTemplates.readStreamPathTemplate.match(readStreamName)
+      .stream;
   }
 
   /**
@@ -907,7 +1077,7 @@ export class BigQueryWriteClient {
    * @param {string} table
    * @returns {string} Resource name string.
    */
-  tablePath(project:string,dataset:string,table:string) {
+  tablePath(project: string, dataset: string, table: string) {
     return this.pathTemplates.tablePathTemplate.render({
       project: project,
       dataset: dataset,
@@ -957,7 +1127,12 @@ export class BigQueryWriteClient {
    * @param {string} stream
    * @returns {string} Resource name string.
    */
-  writeStreamPath(project:string,dataset:string,table:string,stream:string) {
+  writeStreamPath(
+    project: string,
+    dataset: string,
+    table: string,
+    stream: string
+  ) {
     return this.pathTemplates.writeStreamPathTemplate.render({
       project: project,
       dataset: dataset,
@@ -974,7 +1149,8 @@ export class BigQueryWriteClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromWriteStreamName(writeStreamName: string) {
-    return this.pathTemplates.writeStreamPathTemplate.match(writeStreamName).project;
+    return this.pathTemplates.writeStreamPathTemplate.match(writeStreamName)
+      .project;
   }
 
   /**
@@ -985,7 +1161,8 @@ export class BigQueryWriteClient {
    * @returns {string} A string representing the dataset.
    */
   matchDatasetFromWriteStreamName(writeStreamName: string) {
-    return this.pathTemplates.writeStreamPathTemplate.match(writeStreamName).dataset;
+    return this.pathTemplates.writeStreamPathTemplate.match(writeStreamName)
+      .dataset;
   }
 
   /**
@@ -996,7 +1173,8 @@ export class BigQueryWriteClient {
    * @returns {string} A string representing the table.
    */
   matchTableFromWriteStreamName(writeStreamName: string) {
-    return this.pathTemplates.writeStreamPathTemplate.match(writeStreamName).table;
+    return this.pathTemplates.writeStreamPathTemplate.match(writeStreamName)
+      .table;
   }
 
   /**
@@ -1007,7 +1185,8 @@ export class BigQueryWriteClient {
    * @returns {string} A string representing the stream.
    */
   matchStreamFromWriteStreamName(writeStreamName: string) {
-    return this.pathTemplates.writeStreamPathTemplate.match(writeStreamName).stream;
+    return this.pathTemplates.writeStreamPathTemplate.match(writeStreamName)
+      .stream;
   }
 
   /**
