@@ -4533,6 +4533,7 @@
                              * @property {google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData|null} [protoRows] AppendRowsRequest protoRows
                              * @property {string|null} [traceId] AppendRowsRequest traceId
                              * @property {Object.<string,google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation>|null} [missingValueInterpretations] AppendRowsRequest missingValueInterpretations
+                             * @property {google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation|null} [defaultMissingValueInterpretation] AppendRowsRequest defaultMissingValueInterpretation
                              */
     
                             /**
@@ -4591,6 +4592,14 @@
                              */
                             AppendRowsRequest.prototype.missingValueInterpretations = $util.emptyObject;
     
+                            /**
+                             * AppendRowsRequest defaultMissingValueInterpretation.
+                             * @member {google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation} defaultMissingValueInterpretation
+                             * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest
+                             * @instance
+                             */
+                            AppendRowsRequest.prototype.defaultMissingValueInterpretation = 0;
+    
                             // OneOf field names bound to virtual getters and setters
                             var $oneOfFields;
     
@@ -4640,6 +4649,8 @@
                                 if (message.missingValueInterpretations != null && Object.hasOwnProperty.call(message, "missingValueInterpretations"))
                                     for (var keys = Object.keys(message.missingValueInterpretations), i = 0; i < keys.length; ++i)
                                         writer.uint32(/* id 7, wireType 2 =*/58).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 0 =*/16).int32(message.missingValueInterpretations[keys[i]]).ldelim();
+                                if (message.defaultMissingValueInterpretation != null && Object.hasOwnProperty.call(message, "defaultMissingValueInterpretation"))
+                                    writer.uint32(/* id 8, wireType 0 =*/64).int32(message.defaultMissingValueInterpretation);
                                 return writer;
                             };
     
@@ -4713,6 +4724,10 @@
                                             message.missingValueInterpretations[key] = value;
                                             break;
                                         }
+                                    case 8: {
+                                            message.defaultMissingValueInterpretation = reader.int32();
+                                            break;
+                                        }
                                     default:
                                         reader.skipType(tag & 7);
                                         break;
@@ -4782,6 +4797,15 @@
                                             break;
                                         }
                                 }
+                                if (message.defaultMissingValueInterpretation != null && message.hasOwnProperty("defaultMissingValueInterpretation"))
+                                    switch (message.defaultMissingValueInterpretation) {
+                                    default:
+                                        return "defaultMissingValueInterpretation: enum value expected";
+                                    case 0:
+                                    case 1:
+                                    case 2:
+                                        break;
+                                    }
                                 return null;
                             };
     
@@ -4837,6 +4861,26 @@
                                             break;
                                         }
                                 }
+                                switch (object.defaultMissingValueInterpretation) {
+                                default:
+                                    if (typeof object.defaultMissingValueInterpretation === "number") {
+                                        message.defaultMissingValueInterpretation = object.defaultMissingValueInterpretation;
+                                        break;
+                                    }
+                                    break;
+                                case "MISSING_VALUE_INTERPRETATION_UNSPECIFIED":
+                                case 0:
+                                    message.defaultMissingValueInterpretation = 0;
+                                    break;
+                                case "NULL_VALUE":
+                                case 1:
+                                    message.defaultMissingValueInterpretation = 1;
+                                    break;
+                                case "DEFAULT_VALUE":
+                                case 2:
+                                    message.defaultMissingValueInterpretation = 2;
+                                    break;
+                                }
                                 return message;
                             };
     
@@ -4859,6 +4903,7 @@
                                     object.writeStream = "";
                                     object.offset = null;
                                     object.traceId = "";
+                                    object.defaultMissingValueInterpretation = options.enums === String ? "MISSING_VALUE_INTERPRETATION_UNSPECIFIED" : 0;
                                 }
                                 if (message.writeStream != null && message.hasOwnProperty("writeStream"))
                                     object.writeStream = message.writeStream;
@@ -4877,6 +4922,8 @@
                                     for (var j = 0; j < keys2.length; ++j)
                                         object.missingValueInterpretations[keys2[j]] = options.enums === String ? $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation[message.missingValueInterpretations[keys2[j]]] === undefined ? message.missingValueInterpretations[keys2[j]] : $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation[message.missingValueInterpretations[keys2[j]]] : message.missingValueInterpretations[keys2[j]];
                                 }
+                                if (message.defaultMissingValueInterpretation != null && message.hasOwnProperty("defaultMissingValueInterpretation"))
+                                    object.defaultMissingValueInterpretation = options.enums === String ? $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation[message.defaultMissingValueInterpretation] === undefined ? message.defaultMissingValueInterpretation : $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation[message.defaultMissingValueInterpretation] : message.defaultMissingValueInterpretation;
                                 return object;
                             };
     

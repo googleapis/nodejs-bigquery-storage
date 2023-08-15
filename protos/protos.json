@@ -515,6 +515,13 @@
                               "keyType": "string",
                               "type": "MissingValueInterpretation",
                               "id": 7
+                            },
+                            "defaultMissingValueInterpretation": {
+                              "type": "MissingValueInterpretation",
+                              "id": 8,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
                             }
                           },
                           "nested": {

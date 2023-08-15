@@ -2047,6 +2047,9 @@ export namespace google {
 
                         /** AppendRowsRequest missingValueInterpretations */
                         missingValueInterpretations?: ({ [k: string]: google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation }|null);
+
+                        /** AppendRowsRequest defaultMissingValueInterpretation */
+                        defaultMissingValueInterpretation?: (google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation|keyof typeof google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation|null);
                     }
 
                     /** Represents an AppendRowsRequest. */
@@ -2072,6 +2075,9 @@ export namespace google {
 
                         /** AppendRowsRequest missingValueInterpretations. */
                         public missingValueInterpretations: { [k: string]: google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation };
+
+                        /** AppendRowsRequest defaultMissingValueInterpretation. */
+                        public defaultMissingValueInterpretation: (google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation|keyof typeof google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation);
 
                         /** AppendRowsRequest rows. */
                         public rows?: "protoRows";

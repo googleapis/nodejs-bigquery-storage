@@ -83,6 +83,18 @@ function main(writeStream) {
    *  field path like 'foo.bar'.
    */
   // const missingValueInterpretations = [1,2,3,4]
+  /**
+   *  Optional. Default missing value interpretation for all columns in the
+   *  table. When a value is specified on an `AppendRowsRequest`, it is applied
+   *  to all requests on the connection from that point forward, until a
+   *  subsequent `AppendRowsRequest` sets it to a different value.
+   *  `missing_value_interpretation` can override
+   *  `default_missing_value_interpretation`. For example, if you want to write
+   *  `NULL` instead of using default values for some columns, you can set
+   *  `default_missing_value_interpretation` to `DEFAULT_VALUE` and at the same
+   *  time, set `missing_value_interpretations` to `NULL_VALUE` on those columns.
+   */
+  // const defaultMissingValueInterpretation = {}
 
   // Imports the Storage library
   const {BigQueryWriteClient} = require('@google-cloud/bigquery-storage').v1;
