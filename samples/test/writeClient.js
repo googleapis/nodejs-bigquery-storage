@@ -88,6 +88,40 @@ describe('writeClient', () => {
     assert.deepInclude(rows, {customer_name: 'Bell', row_num: 3});
   });
 
+  it('should append rows to default stream', async () => {
+    const schema = [
+      {name: 'customer_name', type: 'STRING'},
+      {name: 'row_num', type: 'INTEGER', mode: 'REQUIRED'},
+    ];
+
+    const tableId = generateUuid();
+
+    const [table] = await bigquery
+      .dataset(datasetId)
+      .createTable(tableId, {schema});
+
+    projectId = table.metadata.tableReference.projectId;
+
+    execSync(
+      `node append_rows_json_writer_default ${projectId} ${datasetId} ${tableId}`
+    );
+
+    let [rows] = await table.query(
+      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
+    );
+
+    rows = rows.map(row => {
+      if (row.customer_name !== null) {
+        return row;
+      }
+    });
+
+    assert.strictEqual(rows.length, 3);
+    assert.deepInclude(rows, {customer_name: 'Octavia', row_num: 1});
+    assert.deepInclude(rows, {customer_name: 'Turing', row_num: 2});
+    assert.deepInclude(rows, {customer_name: 'Bell', row_num: 3});
+  });
+
   it('should append rows buffered', async () => {
     const schema = [
       {name: 'customer_name', type: 'STRING'},
@@ -104,6 +138,43 @@ describe('writeClient', () => {
 
     const output = execSync(
       `node append_rows_buffered ${projectId} ${datasetId} ${tableId}`
+    );
+
+    assert.match(output, /Stream created:/);
+    assert.match(output, /Row count: 3/);
+
+    let [rows] = await table.query(
+      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
+    );
+
+    rows = rows.map(row => {
+      if (row.customer_name !== null) {
+        return row;
+      }
+    });
+
+    assert.strictEqual(rows.length, 3);
+    assert.deepInclude(rows, {customer_name: 'Octavia', row_num: 1});
+    assert.deepInclude(rows, {customer_name: 'Turing', row_num: 2});
+    assert.deepInclude(rows, {customer_name: 'Bell', row_num: 3});
+  });
+
+  it('should append rows committed', async () => {
+    const schema = [
+      {name: 'customer_name', type: 'STRING'},
+      {name: 'row_num', type: 'INTEGER', mode: 'REQUIRED'},
+    ];
+
+    const tableId = generateUuid();
+
+    const [table] = await bigquery
+      .dataset(datasetId)
+      .createTable(tableId, {schema});
+
+    projectId = table.metadata.tableReference.projectId;
+
+    const output = execSync(
+      `node append_rows_json_writer_commited ${projectId} ${datasetId} ${tableId}`
     );
 
     assert.match(output, /Stream created:/);
@@ -168,6 +239,10 @@ describe('writeClient', () => {
     });
 
     it('adapts BQ Schema to Proto descriptor', async () => {
+      return testAppendRowsMultipleType('append_rows_table_to_proto2');
+    });
+
+    it('using JSON Writer ', async () => {
       return testAppendRowsMultipleType('append_rows_table_to_proto2');
     });
   });
