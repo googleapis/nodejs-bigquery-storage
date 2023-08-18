@@ -220,7 +220,7 @@ function convertTableFieldSchemaToFieldDescriptorProto(
   scope: string,
   useProto3: boolean
 ): FieldDescriptorProto {
-  const name = `${field.name}`.toLowerCase();
+  const name = field.name;
   const type = field.type;
   if (!type) {
     throw Error(`table field ${name} missing type`);
@@ -241,7 +241,7 @@ function convertTableFieldSchemaToFieldDescriptorProto(
       throw Error(`table field type ${type} not supported`);
     }
     fdp = new FieldDescriptorProto({
-      name: field.name,
+      name: name,
       number: fNumber,
       type: pType,
       label: label,
