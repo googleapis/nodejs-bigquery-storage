@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.2.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.1.0...v4.2.0) (2023-09-26)
+
+
+### Features
+
+* Add default_missing_value_interpretation field; indicate KMS_SERVICE_ERROR is retryable ([#347](https://github.com/googleapis/nodejs-bigquery-storage/issues/347)) ([07794c1](https://github.com/googleapis/nodejs-bigquery-storage/commit/07794c12459f850bfc68df55937ca54fec65ea97))
+
+
+### Bug Fixes
+
+* Struct field names should not be lowercase ([#364](https://github.com/googleapis/nodejs-bigquery-storage/issues/364)) ([1867062](https://github.com/googleapis/nodejs-bigquery-storage/commit/18670627cbebf57c139036a7a949ace599606eb0))
+
 ## [4.1.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.0.0...v4.1.0) (2023-08-11)
 
 
