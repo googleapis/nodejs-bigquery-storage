@@ -1,5 +1,49 @@
 # Changelog
 
+## [4.2.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.1.0...v4.2.0) (2023-09-26)
+
+
+### Features
+
+* Add default_missing_value_interpretation field; indicate KMS_SERVICE_ERROR is retryable ([#347](https://github.com/googleapis/nodejs-bigquery-storage/issues/347)) ([07794c1](https://github.com/googleapis/nodejs-bigquery-storage/commit/07794c12459f850bfc68df55937ca54fec65ea97))
+
+
+### Bug Fixes
+
+* Struct field names should not be lowercase ([#364](https://github.com/googleapis/nodejs-bigquery-storage/issues/364)) ([1867062](https://github.com/googleapis/nodejs-bigquery-storage/commit/18670627cbebf57c139036a7a949ace599606eb0))
+
+## [4.1.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.0.0...v4.1.0) (2023-08-11)
+
+
+### Features
+
+* Storage write api veneer ([#328](https://github.com/googleapis/nodejs-bigquery-storage/issues/328)) ([146141e](https://github.com/googleapis/nodejs-bigquery-storage/commit/146141e7973c9e6642174d34b284be605e90582b))
+
+## [4.0.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v3.4.0...v4.0.0) (2023-08-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate to node 14 ([#354](https://github.com/googleapis/nodejs-bigquery-storage/issues/354))
+
+### Miscellaneous Chores
+
+* Migrate to node 14 ([#354](https://github.com/googleapis/nodejs-bigquery-storage/issues/354)) ([4423635](https://github.com/googleapis/nodejs-bigquery-storage/commit/4423635d2d815193be63e827c6360e9b9208dec1))
+
+## [3.4.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v3.3.0...v3.4.0) (2023-06-05)
+
+
+### Features
+
+* Adapt package to convert TableSchema to ProtoDescriptor ([#326](https://github.com/googleapis/nodejs-bigquery-storage/issues/326)) ([2d189e9](https://github.com/googleapis/nodejs-bigquery-storage/commit/2d189e9bf3fc0e4721110b148eede9f3ddbed29e))
+* Add default_value_expression to TableFieldSchema ([#323](https://github.com/googleapis/nodejs-bigquery-storage/issues/323)) ([b2aa964](https://github.com/googleapis/nodejs-bigquery-storage/commit/b2aa964153b048b550454f835f5aa6dd825a5362))
+* Add table sampling to ReadAPI v1 ([#338](https://github.com/googleapis/nodejs-bigquery-storage/issues/338)) ([18bb7b0](https://github.com/googleapis/nodejs-bigquery-storage/commit/18bb7b07bd0eb255d49aecd60f45d88b005d8610))
+
+
+### Bug Fixes
+
+* Re-introduce routing headers for Write API ([#340](https://github.com/googleapis/nodejs-bigquery-storage/issues/340)) ([db6eca6](https://github.com/googleapis/nodejs-bigquery-storage/commit/db6eca647e704d0c0169f394e80986b1db127d66))
+
 ## [3.3.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v3.2.1...v3.3.0) (2023-01-25)
 
 

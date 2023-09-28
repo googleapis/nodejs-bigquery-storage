@@ -39,6 +39,11 @@ const version = require('../../../package.json').version;
  *  BigQuery storage API.
  *
  *  The BigQuery storage API can be used to read data stored in BigQuery.
+ *
+ *  The v1beta1 API is not yet officially deprecated, and will go through a full
+ *  deprecation cycle (https://cloud.google.com/products#product-launch-stages)
+ *  before the service is turned down. However, new code should use the v1 API
+ *  going forward.
  * @class
  * @memberof v1beta1
  */
@@ -90,8 +95,7 @@ export class BigQueryStorageClient {
    *     API remote host.
    * @param {gax.ClientConfig} [options.clientConfig] - Client configuration override.
    *     Follows the structure of {@link gapicConfig}.
-   * @param {boolean | "rest"} [options.fallback] - Use HTTP fallback mode.
-   *     Pass "rest" to use HTTP/1.1 REST API instead of gRPC.
+   * @param {boolean} [options.fallback] - Use HTTP/1.1 REST mode.
    *     For more information, please check the
    *     {@link https://github.com/googleapis/gax-nodejs/blob/main/client-libraries.md#http11-rest-api-mode documentation}.
    * @param {gax} [gaxInstance]: loaded instance of `google-gax`. Useful if you
@@ -99,7 +103,7 @@ export class BigQueryStorageClient {
    *     HTTP implementation. Load only fallback version and pass it to the constructor:
    *     ```
    *     const gax = require('google-gax/build/src/fallback'); // avoids loading google-gax with gRPC
-   *     const client = new BigQueryStorageClient({fallback: 'rest'}, gax);
+   *     const client = new BigQueryStorageClient({fallback: true}, gax);
    *     ```
    */
   constructor(
@@ -162,7 +166,7 @@ export class BigQueryStorageClient {
     }
     if (!opts.fallback) {
       clientHeader.push(`grpc/${this._gaxGrpc.grpcVersion}`);
-    } else if (opts.fallback === 'rest') {
+    } else {
       clientHeader.push(`rest/${this._gaxGrpc.grpcVersion}`);
     }
     if (opts.libName && opts.libVersion) {
@@ -191,7 +195,7 @@ export class BigQueryStorageClient {
     this.descriptors.stream = {
       readRows: new this._gaxModule.StreamDescriptor(
         this._gaxModule.StreamType.SERVER_STREAMING,
-        opts.fallback === 'rest'
+        !!opts.fallback
       ),
     };
 
@@ -360,7 +364,7 @@ export class BigQueryStorageClient {
    * reached the end of each stream in the session, then all the data in the
    * table has been read.
    *
-   * Read sessions automatically expire 24 hours after they are created and do
+   * Read sessions automatically expire 6 hours after they are created and do
    * not require manual clean-up by the caller.
    *
    * @param {Object} request
@@ -385,15 +389,15 @@ export class BigQueryStorageClient {
    *   Read options for this session (e.g. column selection, filters).
    * @param {google.cloud.bigquery.storage.v1beta1.DataFormat} request.format
    *   Data output format. Currently default to Avro.
+   *   DATA_FORMAT_UNSPECIFIED not supported.
    * @param {google.cloud.bigquery.storage.v1beta1.ShardingStrategy} request.shardingStrategy
    *   The strategy to use for distributing data among multiple streams. Currently
    *   defaults to liquid sharding.
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing {@link google.cloud.bigquery.storage.v1beta1.ReadSession | ReadSession}.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods)
+   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1beta1.ReadSession|ReadSession}.
+   *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
    *   for more details and examples.
    * @example <caption>include:samples/generated/v1beta1/big_query_storage.create_read_session.js</caption>
    * region_tag:bigquerystorage_v1beta1_generated_BigQueryStorage_CreateReadSession_async
@@ -408,7 +412,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   >;
   createReadSession(
@@ -457,7 +461,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   > | void {
     request = request || {};
@@ -496,9 +500,8 @@ export class BigQueryStorageClient {
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing {@link google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse | BatchCreateReadSessionStreamsResponse}.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods)
+   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse|BatchCreateReadSessionStreamsResponse}.
+   *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
    *   for more details and examples.
    * @example <caption>include:samples/generated/v1beta1/big_query_storage.batch_create_read_session_streams.js</caption>
    * region_tag:bigquerystorage_v1beta1_generated_BigQueryStorage_BatchCreateReadSessionStreams_async
@@ -513,7 +516,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   >;
   batchCreateReadSessionStreams(
@@ -562,7 +565,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   > | void {
     request = request || {};
@@ -588,7 +591,7 @@ export class BigQueryStorageClient {
     );
   }
   /**
-   * Triggers the graceful termination of a single stream in a ReadSession. This
+   * Causes a single stream in a ReadSession to gracefully stop. This
    * API can be used to dynamically adjust the parallelism of a batch processing
    * task downwards without losing data.
    *
@@ -610,9 +613,8 @@ export class BigQueryStorageClient {
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing {@link google.protobuf.Empty | Empty}.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods)
+   *   The first element of the array is an object representing {@link protos.google.protobuf.Empty|Empty}.
+   *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
    *   for more details and examples.
    * @example <caption>include:samples/generated/v1beta1/big_query_storage.finalize_stream.js</caption>
    * region_tag:bigquerystorage_v1beta1_generated_BigQueryStorage_FinalizeStream_async
@@ -627,7 +629,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   >;
   finalizeStream(
@@ -676,7 +678,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   > | void {
     request = request || {};
@@ -727,9 +729,8 @@ export class BigQueryStorageClient {
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing {@link google.cloud.bigquery.storage.v1beta1.SplitReadStreamResponse | SplitReadStreamResponse}.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods)
+   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1beta1.SplitReadStreamResponse|SplitReadStreamResponse}.
+   *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
    *   for more details and examples.
    * @example <caption>include:samples/generated/v1beta1/big_query_storage.split_read_stream.js</caption>
    * region_tag:bigquerystorage_v1beta1_generated_BigQueryStorage_SplitReadStream_async
@@ -744,7 +745,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   >;
   splitReadStream(
@@ -793,7 +794,7 @@ export class BigQueryStorageClient {
         | protos.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   > | void {
     request = request || {};
@@ -835,9 +836,8 @@ export class BigQueryStorageClient {
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Stream}
-   *   An object stream which emits {@link google.cloud.bigquery.storage.v1beta1.ReadRowsResponse | ReadRowsResponse} on 'data' event.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#server-streaming)
+   *   An object stream which emits {@link protos.google.cloud.bigquery.storage.v1beta1.ReadRowsResponse|ReadRowsResponse} on 'data' event.
+   *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#server-streaming | documentation }
    *   for more details and examples.
    * @example <caption>include:samples/generated/v1beta1/big_query_storage.read_rows.js</caption>
    * region_tag:bigquerystorage_v1beta1_generated_BigQueryStorage_ReadRows_async

@@ -90,8 +90,7 @@ export class BigQueryReadClient {
    *     API remote host.
    * @param {gax.ClientConfig} [options.clientConfig] - Client configuration override.
    *     Follows the structure of {@link gapicConfig}.
-   * @param {boolean | "rest"} [options.fallback] - Use HTTP fallback mode.
-   *     Pass "rest" to use HTTP/1.1 REST API instead of gRPC.
+   * @param {boolean} [options.fallback] - Use HTTP/1.1 REST mode.
    *     For more information, please check the
    *     {@link https://github.com/googleapis/gax-nodejs/blob/main/client-libraries.md#http11-rest-api-mode documentation}.
    * @param {gax} [gaxInstance]: loaded instance of `google-gax`. Useful if you
@@ -99,7 +98,7 @@ export class BigQueryReadClient {
    *     HTTP implementation. Load only fallback version and pass it to the constructor:
    *     ```
    *     const gax = require('google-gax/build/src/fallback'); // avoids loading google-gax with gRPC
-   *     const client = new BigQueryReadClient({fallback: 'rest'}, gax);
+   *     const client = new BigQueryReadClient({fallback: true}, gax);
    *     ```
    */
   constructor(
@@ -162,7 +161,7 @@ export class BigQueryReadClient {
     }
     if (!opts.fallback) {
       clientHeader.push(`grpc/${this._gaxGrpc.grpcVersion}`);
-    } else if (opts.fallback === 'rest') {
+    } else {
       clientHeader.push(`rest/${this._gaxGrpc.grpcVersion}`);
     }
     if (opts.libName && opts.libVersion) {
@@ -197,7 +196,7 @@ export class BigQueryReadClient {
     this.descriptors.stream = {
       readRows: new this._gaxModule.StreamDescriptor(
         this._gaxModule.StreamType.SERVER_STREAMING,
-        opts.fallback === 'rest'
+        !!opts.fallback
       ),
     };
 
@@ -403,9 +402,8 @@ export class BigQueryReadClient {
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing {@link google.cloud.bigquery.storage.v1.ReadSession | ReadSession}.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods)
+   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1.ReadSession|ReadSession}.
+   *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
    *   for more details and examples.
    * @example <caption>include:samples/generated/v1/big_query_read.create_read_session.js</caption>
    * region_tag:bigquerystorage_v1_generated_BigQueryRead_CreateReadSession_async
@@ -420,7 +418,7 @@ export class BigQueryReadClient {
         | protos.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   >;
   createReadSession(
@@ -469,7 +467,7 @@ export class BigQueryReadClient {
         | protos.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   > | void {
     request = request || {};
@@ -519,9 +517,8 @@ export class BigQueryReadClient {
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing {@link google.cloud.bigquery.storage.v1.SplitReadStreamResponse | SplitReadStreamResponse}.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods)
+   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1.SplitReadStreamResponse|SplitReadStreamResponse}.
+   *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
    *   for more details and examples.
    * @example <caption>include:samples/generated/v1/big_query_read.split_read_stream.js</caption>
    * region_tag:bigquerystorage_v1_generated_BigQueryRead_SplitReadStream_async
@@ -536,7 +533,7 @@ export class BigQueryReadClient {
         | protos.google.cloud.bigquery.storage.v1.ISplitReadStreamRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   >;
   splitReadStream(
@@ -585,7 +582,7 @@ export class BigQueryReadClient {
         | protos.google.cloud.bigquery.storage.v1.ISplitReadStreamRequest
         | undefined
       ),
-      {} | undefined
+      {} | undefined,
     ]
   > | void {
     request = request || {};
@@ -627,9 +624,8 @@ export class BigQueryReadClient {
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Stream}
-   *   An object stream which emits {@link google.cloud.bigquery.storage.v1.ReadRowsResponse | ReadRowsResponse} on 'data' event.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#server-streaming)
+   *   An object stream which emits {@link protos.google.cloud.bigquery.storage.v1.ReadRowsResponse|ReadRowsResponse} on 'data' event.
+   *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#server-streaming | documentation }
    *   for more details and examples.
    * @example <caption>include:samples/generated/v1/big_query_read.read_rows.js</caption>
    * region_tag:bigquerystorage_v1_generated_BigQueryRead_ReadRows_async

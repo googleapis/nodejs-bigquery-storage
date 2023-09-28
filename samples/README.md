@@ -12,6 +12,9 @@
 
 * [Before you begin](#before-you-begin)
 * [Samples](#samples)
+  * [Append_rows_buffered](#append_rows_buffered)
+  * [Append_rows_json_writer_commited](#append_rows_json_writer_commited)
+  * [Append_rows_json_writer_default](#append_rows_json_writer_default)
   * [Append_rows_pending](#append_rows_pending)
   * [Append_rows_proto2](#append_rows_proto2)
   * [Append_rows_table_to_proto2](#append_rows_table_to_proto2)
@@ -31,6 +34,57 @@ Before running the samples, make sure you've followed the steps outlined in
 `cd ..`
 
 ## Samples
+
+
+
+### Append_rows_buffered
+
+View the [source code](https://github.com/googleapis/nodejs-bigquery-storage/blob/main/samples/append_rows_buffered.js).
+
+[![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/nodejs-bigquery-storage&page=editor&open_in_editor=samples/append_rows_buffered.js,samples/README.md)
+
+__Usage:__
+
+
+`node samples/append_rows_buffered.js`
+
+
+-----
+
+
+
+
+### Append_rows_json_writer_commited
+
+View the [source code](https://github.com/googleapis/nodejs-bigquery-storage/blob/main/samples/append_rows_json_writer_commited.js).
+
+[![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/nodejs-bigquery-storage&page=editor&open_in_editor=samples/append_rows_json_writer_commited.js,samples/README.md)
+
+__Usage:__
+
+
+`node samples/append_rows_json_writer_commited.js`
+
+
+-----
+
+
+
+
+### Append_rows_json_writer_default
+
+View the [source code](https://github.com/googleapis/nodejs-bigquery-storage/blob/main/samples/append_rows_json_writer_default.js).
+
+[![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/nodejs-bigquery-storage&page=editor&open_in_editor=samples/append_rows_json_writer_default.js,samples/README.md)
+
+__Usage:__
+
+
+`node samples/append_rows_json_writer_default.js`
+
+
+-----
+
 
 
 

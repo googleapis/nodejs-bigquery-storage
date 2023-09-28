@@ -556,7 +556,9 @@ describe('v1.BigQueryReadClient', () => {
       request.readStream = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
       client.close();
-      const stream = client.readRows(request);
+      const stream = client.readRows(request, {
+        retryRequestOptions: {noResponseRetries: 0},
+      });
       const promise = new Promise((resolve, reject) => {
         stream.on(
           'data',

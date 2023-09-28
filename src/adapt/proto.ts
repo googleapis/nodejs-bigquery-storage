@@ -186,6 +186,10 @@ function normalizeDescriptorSet(fds: FileDescriptorSet): DescriptorProto {
 export function normalizeDescriptor(dp: DescriptorProto): DescriptorProto {
   dp.name = normalizeName(dp.name);
   for (const f of dp.field) {
+    if (!f.label) {
+      f.label =
+        protos.google.protobuf.FieldDescriptorProto.Label.LABEL_OPTIONAL;
+    }
     if (f.proto3Optional) {
       f.proto3Optional = null;
     }
@@ -216,7 +220,7 @@ function convertTableFieldSchemaToFieldDescriptorProto(
   scope: string,
   useProto3: boolean
 ): FieldDescriptorProto {
-  const name = `${field.name}`.toLowerCase();
+  const name = field.name;
   const type = field.type;
   if (!type) {
     throw Error(`table field ${name} missing type`);
@@ -237,7 +241,7 @@ function convertTableFieldSchemaToFieldDescriptorProto(
       throw Error(`table field type ${type} not supported`);
     }
     fdp = new FieldDescriptorProto({
-      name: field.name,
+      name: name,
       number: fNumber,
       type: pType,
       label: label,

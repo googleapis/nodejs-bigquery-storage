@@ -185,6 +185,9 @@ Samples are in the [`samples/`](https://github.com/googleapis/nodejs-bigquery-st
 
 | Sample                      | Source Code                       | Try it |
 | --------------------------- | --------------------------------- | ------ |
+| Append_rows_buffered | [source code](https://github.com/googleapis/nodejs-bigquery-storage/blob/main/samples/append_rows_buffered.js) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/nodejs-bigquery-storage&page=editor&open_in_editor=samples/append_rows_buffered.js,samples/README.md) |
+| Append_rows_json_writer_commited | [source code](https://github.com/googleapis/nodejs-bigquery-storage/blob/main/samples/append_rows_json_writer_commited.js) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/nodejs-bigquery-storage&page=editor&open_in_editor=samples/append_rows_json_writer_commited.js,samples/README.md) |
+| Append_rows_json_writer_default | [source code](https://github.com/googleapis/nodejs-bigquery-storage/blob/main/samples/append_rows_json_writer_default.js) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/nodejs-bigquery-storage&page=editor&open_in_editor=samples/append_rows_json_writer_default.js,samples/README.md) |
 | Append_rows_pending | [source code](https://github.com/googleapis/nodejs-bigquery-storage/blob/main/samples/append_rows_pending.js) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/nodejs-bigquery-storage&page=editor&open_in_editor=samples/append_rows_pending.js,samples/README.md) |
 | Append_rows_proto2 | [source code](https://github.com/googleapis/nodejs-bigquery-storage/blob/main/samples/append_rows_proto2.js) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/nodejs-bigquery-storage&page=editor&open_in_editor=samples/append_rows_proto2.js,samples/README.md) |
 | Append_rows_table_to_proto2 | [source code](https://github.com/googleapis/nodejs-bigquery-storage/blob/main/samples/append_rows_table_to_proto2.js) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/nodejs-bigquery-storage&page=editor&open_in_editor=samples/append_rows_table_to_proto2.js,samples/README.md) |
@@ -199,7 +202,7 @@ also contains samples.
 
 ## Supported Node.js Versions
 
-Our client libraries follow the [Node.js release schedule](https://nodejs.org/en/about/releases/).
+Our client libraries follow the [Node.js release schedule](https://github.com/nodejs/release#release-schedule).
 Libraries are compatible with all current _active_ and _maintenance_ versions of
 Node.js.
 If you are using an end-of-life version of Node.js, we recommend that you update
