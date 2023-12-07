@@ -104,6 +104,43 @@ export class Writer {
     return pw;
   }
 
+  /**
+   * Schedules the writing of rows at given offset.
+   *
+   * @param {string} writeStreamId - the default stream id for the AppendRowRequest.
+   * @param {IDescriptorProto} descriptor - the descriptor for the AppendRowRequest.
+   * @param {google.cloud.bigquery.storage.v1.IProtoRows|null} rows - the rows in serialized format to write to BigQuery.
+   * @param {number|Long|string|null} offsetValue - the offset of the first row.
+   * @returns {managedwriter.PendingWrite} The pending write
+   **/
+  multiplexAppendRows(
+    writeStreamId: string,
+    descriptor: IDescriptorProto,
+    rows: ProtoData['rows'],
+    offsetValue?: IInt64Value['value'],
+  ): PendingWrite {
+    let offset: AppendRowRequest['offset'];
+    if (offsetValue) {
+      offset = {
+        value: offsetValue,
+      };
+    }
+
+    const request: AppendRowRequest = {
+      writeStream: writeStreamId,
+      protoRows: {
+        rows,
+        writerSchema: {
+          protoDescriptor: descriptor,
+        },
+      },
+      offset,
+    };
+
+    const pw = this._streamConnection.write(request);
+    return pw;
+  }
+
   close() {
     this._streamConnection.close();
   }
