@@ -212,11 +212,11 @@ describe('Adapt Protos', () => {
   describe('Proto descriptor normalization', () => {
     it('bundle multiple proto descriptors into one', () => {
       const root = Root.fromJSON(messagesJSON).resolveAll();
-      const descriptor = root
+      const types = root
         .lookupType('testdata.GithubArchiveMessage')
         .add(root.lookupType('testdata.GithubArchiveRepo'))
-        .add(root.lookupType('testdata.GithubArchiveEntity'))
-        .toDescriptor('proto2');
+        .add(root.lookupType('testdata.GithubArchiveEntity'));
+      const descriptor = (types as any).toDescriptor('proto2');
       const normalized = adapt
         .normalizeDescriptor(new DescriptorProto(descriptor))
         .toJSON();
@@ -362,12 +362,12 @@ describe('Adapt Protos', () => {
     });
     it('nested proto with enum', () => {
       const root = Root.fromJSON(messagesJSON).resolveAll();
-      const descriptor = root
+      const types = root
         .lookupType('testdata.ExternalEnumMessage')
         .add(root.lookupType('testdata.EnumMsgA'))
         .add(root.lookupType('testdata.EnumMsgB'))
-        .add(root.lookupEnum('testdata.ExtEnum'))
-        .toDescriptor('proto2');
+        .add(root.lookupEnum('testdata.ExtEnum'));
+      const descriptor = (types as any).toDescriptor('proto2');
       const normalized = adapt
         .normalizeDescriptor(new DescriptorProto(descriptor))
         .toJSON();
