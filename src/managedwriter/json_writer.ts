@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {protobuf} from 'google-gax';
+import * as protobuf from 'protobufjs';
 import * as protos from '../../protos/protos';
 import {PendingWrite} from './pending_write';
 import {StreamConnection, RemoveListener} from './stream_connection';
