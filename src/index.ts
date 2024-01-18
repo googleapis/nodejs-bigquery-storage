@@ -49,3 +49,6 @@ import * as protos from '../protos/protos';
 export {protos};
 import * as adapt from './adapt';
 export {adapt};
+
+// add extra definitions
+import './protobuf';
