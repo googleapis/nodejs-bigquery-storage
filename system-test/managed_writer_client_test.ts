@@ -19,7 +19,8 @@ import * as gax from 'google-gax';
 import {BigQuery, TableSchema} from '@google-cloud/bigquery';
 import * as protos from '../protos/protos';
 import * as bigquerywriter from '../src';
-import {ClientOptions, protobuf} from 'google-gax';
+import * as protobuf from 'protobufjs';
+import {ClientOptions} from 'google-gax';
 import * as customerRecordProtoJson from '../samples/customer_record.json';
 
 const {managedwriter, adapt} = bigquerywriter;
@@ -655,8 +656,8 @@ describe('managedwriter.WriterClient', () => {
         });
 
         protoDescriptor.field = protoDescriptor.field?.slice(0, 1); // leave just first field
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const invalidProto = (Type as any).fromDescriptor(
+
+        const invalidProto = Type.fromDescriptor(
           protoDescriptor
         ) as protobuf.Type;
         const row = {
