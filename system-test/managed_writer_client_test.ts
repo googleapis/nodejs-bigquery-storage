@@ -760,17 +760,10 @@ describe('managedwriter.WriterClient', () => {
           },
           0
         );
-        let foundErr: Error | null = null;
-        try {
-          await badPw.getResult();
-        } catch (err) {
-          foundErr = err as Error;
-        }
-        assert.notEqual(foundErr, null);
-        assert.equal(
-          foundErr?.message.includes('contains an invalid argument.'),
-          true
-        );
+
+        let res = await badPw.getResult();
+        assert.notEqual(res.error, null);
+        assert.equal(res.error?.message?.includes('request too large'), true);
 
         const goodPw = writer.appendRows(
           {
@@ -778,7 +771,7 @@ describe('managedwriter.WriterClient', () => {
           },
           0
         );
-        const res = await goodPw.getResult();
+        res = await goodPw.getResult();
         assert.equal(res.appendResult?.offset?.value, '0');
 
         writer.close();
