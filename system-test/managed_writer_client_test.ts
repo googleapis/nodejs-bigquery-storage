@@ -656,7 +656,7 @@ describe('managedwriter.WriterClient', () => {
         });
 
         protoDescriptor.field = protoDescriptor.field?.slice(0, 1); // leave just first field
-        Type;
+
         const invalidProto = Type.fromDescriptor(
           protoDescriptor
         ) as protobuf.Type;
