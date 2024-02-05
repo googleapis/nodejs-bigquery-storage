@@ -104,13 +104,6 @@ function main(
 
       const {rowCount} = await connection.finalize();
       console.log(`Row count: ${rowCount}`);
-
-      const response = await writeClient.batchCommitWriteStream({
-        parent: destinationTable,
-        writeStreams: [streamId],
-      });
-
-      console.log(response);
     } catch (err) {
       console.log(err);
     } finally {
