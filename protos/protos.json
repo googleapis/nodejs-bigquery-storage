@@ -396,6 +396,11 @@
                                 "avroSchema",
                                 "arrowSchema"
                               ]
+                            },
+                            "_uncompressedByteSize": {
+                              "oneof": [
+                                "uncompressedByteSize"
+                              ]
                             }
                           },
                           "fields": {
@@ -431,6 +436,14 @@
                               "id": 8,
                               "options": {
                                 "(google.api.field_behavior)": "OUTPUT_ONLY"
+                              }
+                            },
+                            "uncompressedByteSize": {
+                              "type": "int64",
+                              "id": 9,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL",
+                                "proto3_optional": true
                               }
                             }
                           }
@@ -879,6 +892,11 @@
                                   "oneof": [
                                     "samplePercentage"
                                   ]
+                                },
+                                "_responseCompressionCodec": {
+                                  "oneof": [
+                                    "responseCompressionCodec"
+                                  ]
                                 }
                               },
                               "fields": {
@@ -911,6 +929,22 @@
                                   "options": {
                                     "(google.api.field_behavior)": "OPTIONAL",
                                     "proto3_optional": true
+                                  }
+                                },
+                                "responseCompressionCodec": {
+                                  "type": "ResponseCompressionCodec",
+                                  "id": 6,
+                                  "options": {
+                                    "(google.api.field_behavior)": "OPTIONAL",
+                                    "proto3_optional": true
+                                  }
+                                }
+                              },
+                              "nested": {
+                                "ResponseCompressionCodec": {
+                                  "values": {
+                                    "RESPONSE_COMPRESSION_CODEC_UNSPECIFIED": 0,
+                                    "RESPONSE_COMPRESSION_CODEC_LZ4": 2
                                   }
                                 }
                               }

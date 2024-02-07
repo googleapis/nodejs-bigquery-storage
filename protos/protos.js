@@ -3403,6 +3403,7 @@
                              * @property {google.cloud.bigquery.storage.v1.IThrottleState|null} [throttleState] ReadRowsResponse throttleState
                              * @property {google.cloud.bigquery.storage.v1.IAvroSchema|null} [avroSchema] ReadRowsResponse avroSchema
                              * @property {google.cloud.bigquery.storage.v1.IArrowSchema|null} [arrowSchema] ReadRowsResponse arrowSchema
+                             * @property {number|Long|null} [uncompressedByteSize] ReadRowsResponse uncompressedByteSize
                              */
     
                             /**
@@ -3476,6 +3477,14 @@
                              */
                             ReadRowsResponse.prototype.arrowSchema = null;
     
+                            /**
+                             * ReadRowsResponse uncompressedByteSize.
+                             * @member {number|Long|null|undefined} uncompressedByteSize
+                             * @memberof google.cloud.bigquery.storage.v1.ReadRowsResponse
+                             * @instance
+                             */
+                            ReadRowsResponse.prototype.uncompressedByteSize = null;
+    
                             // OneOf field names bound to virtual getters and setters
                             var $oneOfFields;
     
@@ -3498,6 +3507,17 @@
                              */
                             Object.defineProperty(ReadRowsResponse.prototype, "schema", {
                                 get: $util.oneOfGetter($oneOfFields = ["avroSchema", "arrowSchema"]),
+                                set: $util.oneOfSetter($oneOfFields)
+                            });
+    
+                            /**
+                             * ReadRowsResponse _uncompressedByteSize.
+                             * @member {"uncompressedByteSize"|undefined} _uncompressedByteSize
+                             * @memberof google.cloud.bigquery.storage.v1.ReadRowsResponse
+                             * @instance
+                             */
+                            Object.defineProperty(ReadRowsResponse.prototype, "_uncompressedByteSize", {
+                                get: $util.oneOfGetter($oneOfFields = ["uncompressedByteSize"]),
                                 set: $util.oneOfSetter($oneOfFields)
                             });
     
@@ -3539,6 +3559,8 @@
                                     $root.google.cloud.bigquery.storage.v1.AvroSchema.encode(message.avroSchema, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
                                 if (message.arrowSchema != null && Object.hasOwnProperty.call(message, "arrowSchema"))
                                     $root.google.cloud.bigquery.storage.v1.ArrowSchema.encode(message.arrowSchema, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+                                if (message.uncompressedByteSize != null && Object.hasOwnProperty.call(message, "uncompressedByteSize"))
+                                    writer.uint32(/* id 9, wireType 0 =*/72).int64(message.uncompressedByteSize);
                                 return writer;
                             };
     
@@ -3599,6 +3621,10 @@
                                         }
                                     case 8: {
                                             message.arrowSchema = $root.google.cloud.bigquery.storage.v1.ArrowSchema.decode(reader, reader.uint32());
+                                            break;
+                                        }
+                                    case 9: {
+                                            message.uncompressedByteSize = reader.int64();
                                             break;
                                         }
                                     default:
@@ -3686,6 +3712,11 @@
                                             return "arrowSchema." + error;
                                     }
                                 }
+                                if (message.uncompressedByteSize != null && message.hasOwnProperty("uncompressedByteSize")) {
+                                    properties._uncompressedByteSize = 1;
+                                    if (!$util.isInteger(message.uncompressedByteSize) && !(message.uncompressedByteSize && $util.isInteger(message.uncompressedByteSize.low) && $util.isInteger(message.uncompressedByteSize.high)))
+                                        return "uncompressedByteSize: integer|Long expected";
+                                }
                                 return null;
                             };
     
@@ -3740,6 +3771,15 @@
                                         throw TypeError(".google.cloud.bigquery.storage.v1.ReadRowsResponse.arrowSchema: object expected");
                                     message.arrowSchema = $root.google.cloud.bigquery.storage.v1.ArrowSchema.fromObject(object.arrowSchema);
                                 }
+                                if (object.uncompressedByteSize != null)
+                                    if ($util.Long)
+                                        (message.uncompressedByteSize = $util.Long.fromValue(object.uncompressedByteSize)).unsigned = false;
+                                    else if (typeof object.uncompressedByteSize === "string")
+                                        message.uncompressedByteSize = parseInt(object.uncompressedByteSize, 10);
+                                    else if (typeof object.uncompressedByteSize === "number")
+                                        message.uncompressedByteSize = object.uncompressedByteSize;
+                                    else if (typeof object.uncompressedByteSize === "object")
+                                        message.uncompressedByteSize = new $util.LongBits(object.uncompressedByteSize.low >>> 0, object.uncompressedByteSize.high >>> 0).toNumber();
                                 return message;
                             };
     
@@ -3793,6 +3833,14 @@
                                     object.arrowSchema = $root.google.cloud.bigquery.storage.v1.ArrowSchema.toObject(message.arrowSchema, options);
                                     if (options.oneofs)
                                         object.schema = "arrowSchema";
+                                }
+                                if (message.uncompressedByteSize != null && message.hasOwnProperty("uncompressedByteSize")) {
+                                    if (typeof message.uncompressedByteSize === "number")
+                                        object.uncompressedByteSize = options.longs === String ? String(message.uncompressedByteSize) : message.uncompressedByteSize;
+                                    else
+                                        object.uncompressedByteSize = options.longs === String ? $util.Long.prototype.toString.call(message.uncompressedByteSize) : options.longs === Number ? new $util.LongBits(message.uncompressedByteSize.low >>> 0, message.uncompressedByteSize.high >>> 0).toNumber() : message.uncompressedByteSize;
+                                    if (options.oneofs)
+                                        object._uncompressedByteSize = "uncompressedByteSize";
                                 }
                                 return object;
                             };
@@ -8916,6 +8964,7 @@
                                  * @property {google.cloud.bigquery.storage.v1.IArrowSerializationOptions|null} [arrowSerializationOptions] TableReadOptions arrowSerializationOptions
                                  * @property {google.cloud.bigquery.storage.v1.IAvroSerializationOptions|null} [avroSerializationOptions] TableReadOptions avroSerializationOptions
                                  * @property {number|null} [samplePercentage] TableReadOptions samplePercentage
+                                 * @property {google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions.ResponseCompressionCodec|null} [responseCompressionCodec] TableReadOptions responseCompressionCodec
                                  */
     
                                 /**
@@ -8974,6 +9023,14 @@
                                  */
                                 TableReadOptions.prototype.samplePercentage = null;
     
+                                /**
+                                 * TableReadOptions responseCompressionCodec.
+                                 * @member {google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions.ResponseCompressionCodec|null|undefined} responseCompressionCodec
+                                 * @memberof google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions
+                                 * @instance
+                                 */
+                                TableReadOptions.prototype.responseCompressionCodec = null;
+    
                                 // OneOf field names bound to virtual getters and setters
                                 var $oneOfFields;
     
@@ -8996,6 +9053,17 @@
                                  */
                                 Object.defineProperty(TableReadOptions.prototype, "_samplePercentage", {
                                     get: $util.oneOfGetter($oneOfFields = ["samplePercentage"]),
+                                    set: $util.oneOfSetter($oneOfFields)
+                                });
+    
+                                /**
+                                 * TableReadOptions _responseCompressionCodec.
+                                 * @member {"responseCompressionCodec"|undefined} _responseCompressionCodec
+                                 * @memberof google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions
+                                 * @instance
+                                 */
+                                Object.defineProperty(TableReadOptions.prototype, "_responseCompressionCodec", {
+                                    get: $util.oneOfGetter($oneOfFields = ["responseCompressionCodec"]),
                                     set: $util.oneOfSetter($oneOfFields)
                                 });
     
@@ -9034,6 +9102,8 @@
                                         $root.google.cloud.bigquery.storage.v1.AvroSerializationOptions.encode(message.avroSerializationOptions, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
                                     if (message.samplePercentage != null && Object.hasOwnProperty.call(message, "samplePercentage"))
                                         writer.uint32(/* id 5, wireType 1 =*/41).double(message.samplePercentage);
+                                    if (message.responseCompressionCodec != null && Object.hasOwnProperty.call(message, "responseCompressionCodec"))
+                                        writer.uint32(/* id 6, wireType 0 =*/48).int32(message.responseCompressionCodec);
                                     return writer;
                                 };
     
@@ -9088,6 +9158,10 @@
                                             }
                                         case 5: {
                                                 message.samplePercentage = reader.double();
+                                                break;
+                                            }
+                                        case 6: {
+                                                message.responseCompressionCodec = reader.int32();
                                                 break;
                                             }
                                         default:
@@ -9159,6 +9233,16 @@
                                         if (typeof message.samplePercentage !== "number")
                                             return "samplePercentage: number expected";
                                     }
+                                    if (message.responseCompressionCodec != null && message.hasOwnProperty("responseCompressionCodec")) {
+                                        properties._responseCompressionCodec = 1;
+                                        switch (message.responseCompressionCodec) {
+                                        default:
+                                            return "responseCompressionCodec: enum value expected";
+                                        case 0:
+                                        case 2:
+                                            break;
+                                        }
+                                    }
                                     return null;
                                 };
     
@@ -9195,6 +9279,22 @@
                                     }
                                     if (object.samplePercentage != null)
                                         message.samplePercentage = Number(object.samplePercentage);
+                                    switch (object.responseCompressionCodec) {
+                                    default:
+                                        if (typeof object.responseCompressionCodec === "number") {
+                                            message.responseCompressionCodec = object.responseCompressionCodec;
+                                            break;
+                                        }
+                                        break;
+                                    case "RESPONSE_COMPRESSION_CODEC_UNSPECIFIED":
+                                    case 0:
+                                        message.responseCompressionCodec = 0;
+                                        break;
+                                    case "RESPONSE_COMPRESSION_CODEC_LZ4":
+                                    case 2:
+                                        message.responseCompressionCodec = 2;
+                                        break;
+                                    }
                                     return message;
                                 };
     
@@ -9237,6 +9337,11 @@
                                         if (options.oneofs)
                                             object._samplePercentage = "samplePercentage";
                                     }
+                                    if (message.responseCompressionCodec != null && message.hasOwnProperty("responseCompressionCodec")) {
+                                        object.responseCompressionCodec = options.enums === String ? $root.google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions.ResponseCompressionCodec[message.responseCompressionCodec] === undefined ? message.responseCompressionCodec : $root.google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions.ResponseCompressionCodec[message.responseCompressionCodec] : message.responseCompressionCodec;
+                                        if (options.oneofs)
+                                            object._responseCompressionCodec = "responseCompressionCodec";
+                                    }
                                     return object;
                                 };
     
@@ -9265,6 +9370,20 @@
                                     }
                                     return typeUrlPrefix + "/google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions";
                                 };
+    
+                                /**
+                                 * ResponseCompressionCodec enum.
+                                 * @name google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions.ResponseCompressionCodec
+                                 * @enum {number}
+                                 * @property {number} RESPONSE_COMPRESSION_CODEC_UNSPECIFIED=0 RESPONSE_COMPRESSION_CODEC_UNSPECIFIED value
+                                 * @property {number} RESPONSE_COMPRESSION_CODEC_LZ4=2 RESPONSE_COMPRESSION_CODEC_LZ4 value
+                                 */
+                                TableReadOptions.ResponseCompressionCodec = (function() {
+                                    var valuesById = {}, values = Object.create(valuesById);
+                                    values[valuesById[0] = "RESPONSE_COMPRESSION_CODEC_UNSPECIFIED"] = 0;
+                                    values[valuesById[2] = "RESPONSE_COMPRESSION_CODEC_LZ4"] = 2;
+                                    return values;
+                                })();
     
                                 return TableReadOptions;
                             })();
