@@ -14,7 +14,7 @@
 
 import * as assert from 'assert';
 import {describe, it} from 'mocha';
-import {protobuf} from 'google-gax';
+import * as protobuf from 'protobufjs';
 import * as adapt from '../../src/adapt';
 import * as messagesJSON from '../../samples/testdata/messages.json';
 import * as protos from '../../protos/protos';
@@ -59,7 +59,7 @@ describe('Adapt Protos', () => {
       if (!protoDescriptor) {
         throw Error('null proto descriptor set');
       }
-      const TestProto = (Type as any).fromDescriptor(protoDescriptor);
+      const TestProto = Type.fromDescriptor(protoDescriptor);
       const raw = {
         foo: 'name',
         bar: 42,
@@ -191,7 +191,7 @@ describe('Adapt Protos', () => {
           },
         ],
       });
-      const NestedProto = (Type as any).fromDescriptor(protoDescriptor);
+      const NestedProto = Type.fromDescriptor(protoDescriptor);
       const raw = {
         record_id: '12345',
         recordDetails: [

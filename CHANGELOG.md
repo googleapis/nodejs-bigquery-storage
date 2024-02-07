@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.2.1](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.2.0...v4.2.1) (2024-02-06)
+
+
+### Bug Fixes
+
+* Force import protobufjs/ext/descriptor package ([#407](https://github.com/googleapis/nodejs-bigquery-storage/issues/407)) ([a970824](https://github.com/googleapis/nodejs-bigquery-storage/commit/a970824d07f7a5faebe1a7972f6c19f80d2fe38c))
+* Large inserts AppendRow requests ([432835c](https://github.com/googleapis/nodejs-bigquery-storage/commit/432835cf9edc006df100de9a29697221dcc05247))
+
 ## [4.2.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.1.0...v4.2.0) (2023-09-26)
 
 

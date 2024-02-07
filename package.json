@@ -1,6 +1,6 @@
 {
   "name": "@google-cloud/bigquery-storage",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "Client for the BigQuery Storage API",
   "repository": "googleapis/nodejs-bigquery-storage",
   "license": "Apache-2.0",
@@ -29,14 +29,17 @@
   "dependencies": {
     "google-gax": "^4.0.3"
   },
+  "peerDependencies": {
+    "protobufjs": "^7.2.4"
+  },
   "devDependencies": {
     "@google-cloud/bigquery": "^7.0.0",
     "@types/uuid": "^9.0.1",
     "@types/mocha": "^9.0.0",
-    "@types/node": "^18.0.0",
-    "@types/sinon": "^10.0.0",
-    "c8": "^8.0.0",
-    "gapic-tools": "^0.2.0",
+    "@types/node": "^20.0.0",
+    "@types/sinon": "^17.0.0",
+    "c8": "^9.0.0",
+    "gapic-tools": "^0.3.0",
     "gts": "^5.0.0",
     "jsdoc": "^4.0.0",
     "jsdoc-fresh": "^3.0.0",

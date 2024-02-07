@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {protobuf} from 'google-gax';
+import * as protobuf from 'protobufjs';
 import * as protos from '../../protos/protos';
 import {PendingWrite} from './pending_write';
 import {StreamConnection, RemoveListener} from './stream_connection';
@@ -90,8 +90,7 @@ export class JSONWriter {
     const normalized = adapt.normalizeDescriptor(
       new DescriptorProto(protoDescriptor)
     );
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this._type = (Type as any).fromDescriptor(normalized);
+    this._type = Type.fromDescriptor(normalized);
     this._writer.setProtoDescriptor(protoDescriptor);
   }
 

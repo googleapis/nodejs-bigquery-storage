@@ -49,3 +49,12 @@ import * as protos from '../protos/protos';
 export {protos};
 import * as adapt from './adapt';
 export {adapt};
+
+// Add extra protobufjs definitions.
+// When importing protobufjs/ext/descriptor package, it monkey patches some methods
+// that we use in this package. We need to manually declare some of those
+// methods that we use to make the Typescript compiler happy.
+// There are some open issues around that. After they are fixed, we can remove this:
+// * https://github.com/protobufjs/protobuf.js/issues/1499
+// * https://github.com/protobufjs/protobuf.js/issues/1149
+import './protobuf';
