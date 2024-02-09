@@ -1605,6 +1605,9 @@ export namespace google {
 
                         /** ReadRowsResponse arrowSchema */
                         arrowSchema?: (google.cloud.bigquery.storage.v1.IArrowSchema|null);
+
+                        /** ReadRowsResponse uncompressedByteSize */
+                        uncompressedByteSize?: (number|Long|string|null);
                     }
 
                     /** Represents a ReadRowsResponse. */
@@ -1637,11 +1640,17 @@ export namespace google {
                         /** ReadRowsResponse arrowSchema. */
                         public arrowSchema?: (google.cloud.bigquery.storage.v1.IArrowSchema|null);
 
+                        /** ReadRowsResponse uncompressedByteSize. */
+                        public uncompressedByteSize?: (number|Long|string|null);
+
                         /** ReadRowsResponse rows. */
                         public rows?: ("avroRows"|"arrowRecordBatch");
 
                         /** ReadRowsResponse schema. */
                         public schema?: ("avroSchema"|"arrowSchema");
+
+                        /** ReadRowsResponse _uncompressedByteSize. */
+                        public _uncompressedByteSize?: "uncompressedByteSize";
 
                         /**
                          * Creates a new ReadRowsResponse instance using the specified properties.
@@ -3744,6 +3753,9 @@ export namespace google {
 
                             /** TableReadOptions samplePercentage */
                             samplePercentage?: (number|null);
+
+                            /** TableReadOptions responseCompressionCodec */
+                            responseCompressionCodec?: (google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions.ResponseCompressionCodec|keyof typeof google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions.ResponseCompressionCodec|null);
                         }
 
                         /** Represents a TableReadOptions. */
@@ -3770,11 +3782,17 @@ export namespace google {
                             /** TableReadOptions samplePercentage. */
                             public samplePercentage?: (number|null);
 
+                            /** TableReadOptions responseCompressionCodec. */
+                            public responseCompressionCodec?: (google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions.ResponseCompressionCodec|keyof typeof google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions.ResponseCompressionCodec|null);
+
                             /** TableReadOptions outputFormatSerializationOptions. */
                             public outputFormatSerializationOptions?: ("arrowSerializationOptions"|"avroSerializationOptions");
 
                             /** TableReadOptions _samplePercentage. */
                             public _samplePercentage?: "samplePercentage";
+
+                            /** TableReadOptions _responseCompressionCodec. */
+                            public _responseCompressionCodec?: "responseCompressionCodec";
 
                             /**
                              * Creates a new TableReadOptions instance using the specified properties.
@@ -3852,6 +3870,15 @@ export namespace google {
                              * @returns The default type url
                              */
                             public static getTypeUrl(typeUrlPrefix?: string): string;
+                        }
+
+                        namespace TableReadOptions {
+
+                            /** ResponseCompressionCodec enum. */
+                            enum ResponseCompressionCodec {
+                                RESPONSE_COMPRESSION_CODEC_UNSPECIFIED = 0,
+                                RESPONSE_COMPRESSION_CODEC_LZ4 = 2
+                            }
                         }
                     }
 
