@@ -1,4 +1,4 @@
-// Copyright 2023 Google LLC
+// Copyright 2024 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -89,14 +89,62 @@ function stubServerStreamingCall<ResponseType>(
 
 describe('v1.BigQueryReadClient', () => {
   describe('Common methods', () => {
-    it('has servicePath', () => {
-      const servicePath = bigqueryreadModule.v1.BigQueryReadClient.servicePath;
-      assert(servicePath);
+    it('has apiEndpoint', () => {
+      const client = new bigqueryreadModule.v1.BigQueryReadClient();
+      const apiEndpoint = client.apiEndpoint;
+      assert.strictEqual(apiEndpoint, 'bigquerystorage.googleapis.com');
     });
 
-    it('has apiEndpoint', () => {
-      const apiEndpoint = bigqueryreadModule.v1.BigQueryReadClient.apiEndpoint;
-      assert(apiEndpoint);
+    it('has universeDomain', () => {
+      const client = new bigqueryreadModule.v1.BigQueryReadClient();
+      const universeDomain = client.universeDomain;
+      assert.strictEqual(universeDomain, 'googleapis.com');
+    });
+
+    if (
+      typeof process !== 'undefined' &&
+      typeof process.emitWarning === 'function'
+    ) {
+      it('throws DeprecationWarning if static servicePath is used', () => {
+        const stub = sinon.stub(process, 'emitWarning');
+        const servicePath =
+          bigqueryreadModule.v1.BigQueryReadClient.servicePath;
+        assert.strictEqual(servicePath, 'bigquerystorage.googleapis.com');
+        assert(stub.called);
+        stub.restore();
+      });
+
+      it('throws DeprecationWarning if static apiEndpoint is used', () => {
+        const stub = sinon.stub(process, 'emitWarning');
+        const apiEndpoint =
+          bigqueryreadModule.v1.BigQueryReadClient.apiEndpoint;
+        assert.strictEqual(apiEndpoint, 'bigquerystorage.googleapis.com');
+        assert(stub.called);
+        stub.restore();
+      });
+    }
+    it('sets apiEndpoint according to universe domain camelCase', () => {
+      const client = new bigqueryreadModule.v1.BigQueryReadClient({
+        universeDomain: 'example.com',
+      });
+      const servicePath = client.apiEndpoint;
+      assert.strictEqual(servicePath, 'bigquerystorage.example.com');
+    });
+
+    it('sets apiEndpoint according to universe domain snakeCase', () => {
+      const client = new bigqueryreadModule.v1.BigQueryReadClient({
+        universe_domain: 'example.com',
+      });
+      const servicePath = client.apiEndpoint;
+      assert.strictEqual(servicePath, 'bigquerystorage.example.com');
+    });
+    it('does not allow setting both universeDomain and universe_domain', () => {
+      assert.throws(() => {
+        new bigqueryreadModule.v1.BigQueryReadClient({
+          universe_domain: 'example.com',
+          universeDomain: 'example.net',
+        });
+      });
     });
 
     it('has port', () => {
