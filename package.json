@@ -27,7 +27,7 @@
     "precompile": "gts clean"
   },
   "dependencies": {
-    "google-gax": "^4.3.0",
+    "google-gax": "^4.3.1",
     "google-auth-library": "^9.6.3"
   },
   "peerDependencies": {
