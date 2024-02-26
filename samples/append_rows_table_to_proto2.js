@@ -129,9 +129,10 @@ function main(
       rows = [];
 
       // Row 7
+      const days = new Date('2019-02-07').getTime() / (1000 * 60 * 60 * 24);
       row = {
         row_num: 7,
-        date_col: 1132896,
+        date_col: days, // The value is the number of days since the Unix epoch (1970-01-01)
       };
       rows.push(row);
 
@@ -165,9 +166,10 @@ function main(
       rows.push(row);
 
       // Row 12
+      const timestamp = new Date('2022-01-09T03:49:46.564Z').getTime();
       row = {
         row_num: 12,
-        timestamp_col: 1641700186564,
+        timestamp_col: timestamp * 1000, // The value is given in microseconds since the Unix epoch (1970-01-01)
       };
       rows.push(row);
 
