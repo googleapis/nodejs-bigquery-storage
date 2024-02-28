@@ -58,9 +58,9 @@ function main(
       console.log(`Stream created: ${streamId}`);
 
       const writer = new JSONWriter({
-        streamId,
         connection,
         protoDescriptor,
+        convertDates: true,
       });
 
       let rows = [];
@@ -129,17 +129,16 @@ function main(
       rows = [];
 
       // Row 7
-      const days = new Date('2019-02-07').getTime() / (1000 * 60 * 60 * 24);
       row = {
         row_num: 7,
-        date_col: days, // The value is the number of days since the Unix epoch (1970-01-01)
+        date_col: new Date('2019-02-07'),
       };
       rows.push(row);
 
       // Row 8
       row = {
         row_num: 8,
-        datetime_col: bigquery.datetime('2019-02-17 11:24:00.000').value, // BigQuery civil time
+        datetime_col: new Date('2019-02-17T11:24:00.000Z'),
       };
       rows.push(row);
 
@@ -166,10 +165,9 @@ function main(
       rows.push(row);
 
       // Row 12
-      const timestamp = new Date('2022-01-09T03:49:46.564Z').getTime();
       row = {
         row_num: 12,
-        timestamp_col: timestamp * 1000, // The value is given in microseconds since the Unix epoch (1970-01-01)
+        timestamp_col: new Date('2022-01-09T03:49:46.564Z'),
       };
       rows.push(row);
 

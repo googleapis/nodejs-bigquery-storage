@@ -27,6 +27,7 @@
     "precompile": "gts clean"
   },
   "dependencies": {
+    "extend": "^3.0.2",
     "google-gax": "^4.0.3"
   },
   "peerDependencies": {
@@ -34,10 +35,11 @@
   },
   "devDependencies": {
     "@google-cloud/bigquery": "^7.0.0",
-    "@types/uuid": "^9.0.1",
+    "@types/extend": "^3.0.4",
     "@types/mocha": "^9.0.0",
     "@types/node": "^20.0.0",
     "@types/sinon": "^17.0.0",
+    "@types/uuid": "^9.0.1",
     "c8": "^9.0.0",
     "gapic-tools": "^0.3.0",
     "gts": "^5.0.0",
@@ -50,8 +52,8 @@
     "pack-n-play": "^2.0.0",
     "sinon": "^17.0.0",
     "ts-loader": "^9.0.0",
-    "uuid": "^9.0.0",
     "typescript": "^5.1.6",
+    "uuid": "^9.0.0",
     "webpack": "^5.0.0",
     "webpack-cli": "^5.0.0"
   },
