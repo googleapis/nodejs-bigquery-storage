@@ -92,7 +92,7 @@ export class JSONEncoder {
 
   private isPlainObject(value: any): boolean {
     return value && [undefined, Object].includes(value.constructor);
-  } 
+  }
 
   private encodeRow(row: any): Uint8Array {
     const msg = this._type.create(row);
@@ -102,9 +102,9 @@ export class JSONEncoder {
   private convertRow(source: any): Object {
     if (!this._convertDates) {
       return source;
-    }        
-    const row = extend(true, {} , source);
-    for (let key in row) {
+    }
+    const row = extend(true, {}, source);
+    for (const key in row) {
       const value = row[key];
       if (value === null) {
         continue;
@@ -134,7 +134,7 @@ export class JSONEncoder {
           if (!this.isPlainObject(v)) {
             return v;
           }
-          return this.convertRow(v)
+          return this.convertRow(v);
         });
         continue;
       }
