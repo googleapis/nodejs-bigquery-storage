@@ -79,10 +79,7 @@ export class JSONEncoder {
   encodeRows(rows: any[]): Uint8Array[] {
     const serializedRows = rows
       .map(r => {
-        const converted = this.convertRow(r);
-        console.log('Original', r);
-        console.log('Converted', converted);
-        return converted;
+        return this.convertRow(r);
       })
       .map(r => {
         return this.encodeRow(r);

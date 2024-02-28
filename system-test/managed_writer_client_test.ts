@@ -420,7 +420,7 @@ describe('managedwriter.WriterClient', () => {
         customer_name: 'Ada Lovelace',
         row_num: 1,
         customer_birthday: -56270,
-        customer_created_at: '2022-01-09T03:49:46.564Z',
+        customer_created_at: '2022-01-09 03:49:46.564',
         customer_updated_at: 1673236186564000,
       });
 
@@ -430,7 +430,7 @@ describe('managedwriter.WriterClient', () => {
         customer_name: 'Alan Turing',
         row_num: 2,
         customer_birthday: -20981,
-        customer_created_at: '2022-01-09T03:49:46.564Z',
+        customer_created_at: '2022-01-09 03:49:46.564',
         customer_updated_at: 1673236186564000,
       });
     });
