@@ -28,7 +28,8 @@
   },
   "dependencies": {
     "extend": "^3.0.2",
-    "google-gax": "^4.0.3"
+    "google-gax": "^4.3.1",
+    "google-auth-library": "^9.6.3"
   },
   "peerDependencies": {
     "protobufjs": "^7.2.4"
