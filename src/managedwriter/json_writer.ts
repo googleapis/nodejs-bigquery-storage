@@ -19,6 +19,8 @@ import {StreamConnection, RemoveListener} from './stream_connection';
 import * as adapt from '../adapt';
 import {Writer} from './writer';
 
+type AppendRowRequest =
+  protos.google.cloud.bigquery.storage.v1.IAppendRowsRequest;
 type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type IInt64Value = protos.google.protobuf.IInt64Value;
 type IDescriptorProto = protos.google.protobuf.IDescriptorProto;
@@ -58,12 +60,18 @@ export class JSONWriter {
    * @param {Object} params - The parameters for the JSONWriter.
    * @param {StreamConnection} params.connection - The stream connection
    *   to the BigQuery streaming insert operation.
-   * @param {IDescriptorProto} params.protoDescriptor - The proto descriptor
+   * @param {AppendRowRequest['defaultMissingValueInterpretation']} params.defaultMissingValueInterpretation - controls how missing values are interpreted by
+   *  for a given stream.
+   * @param {AppendRowRequest['missingValueInterpretations']} params.missingValueInterpretations - The proto descriptor
    *   for the JSON rows.
    */
   constructor(params: {
     connection: StreamConnection;
     protoDescriptor: IDescriptorProto;
+    defaultMissingValueInterpretation?: AppendRowRequest['defaultMissingValueInterpretation'];
+    missingValueInterpretations?: {
+      [k: string]: AppendRowRequest['defaultMissingValueInterpretation'];
+    };
   }) {
     const {connection, protoDescriptor} = params;
     this._writer = new Writer(params);

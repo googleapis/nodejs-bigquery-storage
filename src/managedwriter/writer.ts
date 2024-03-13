@@ -37,6 +37,10 @@ const DescriptorProto = protos.google.protobuf.DescriptorProto;
 export class Writer {
   private _protoDescriptor: DescriptorProto;
   private _streamConnection: StreamConnection;
+  private _defaultMissingValueInterpretation: AppendRowRequest['defaultMissingValueInterpretation'];
+  private _missingValueInterpretations: {
+    [k: string]: AppendRowRequest['defaultMissingValueInterpretation'];
+  };
 
   /**
    * Creates a new Writer instance.
@@ -50,10 +54,21 @@ export class Writer {
   constructor(params: {
     connection: StreamConnection;
     protoDescriptor: IDescriptorProto;
+    defaultMissingValueInterpretation?: AppendRowRequest['defaultMissingValueInterpretation'];
+    missingValueInterpretations?: {
+      [k: string]: AppendRowRequest['defaultMissingValueInterpretation'];
+    };
   }) {
-    const {connection, protoDescriptor} = params;
+    const {
+      connection,
+      protoDescriptor,
+      missingValueInterpretations,
+      defaultMissingValueInterpretation,
+    } = params;
     this._streamConnection = connection;
     this._protoDescriptor = new DescriptorProto(protoDescriptor);
+    this._defaultMissingValueInterpretation = defaultMissingValueInterpretation;
+    this._missingValueInterpretations = missingValueInterpretations;
   }
 
   /**
@@ -97,6 +112,9 @@ export class Writer {
           protoDescriptor: this._protoDescriptor.toJSON(),
         },
       },
+      defaultMissingValueInterpretation:
+        this._defaultMissingValueInterpretation,
+      missingValueInterpretations: this._missingValueInterpretations as AppendRowRequest['missingValueInterpretations'],
       offset,
     };
 
