@@ -24,6 +24,11 @@ type ProtoData =
   protos.google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData;
 type IDescriptorProto = protos.google.protobuf.IDescriptorProto;
 type DescriptorProto = protos.google.protobuf.DescriptorProto;
+type MissingValueInterpretation =
+  AppendRowRequest['defaultMissingValueInterpretation'];
+type MissingValueInterpretationMap = {
+  [column: string]: MissingValueInterpretation;
+};
 
 const DescriptorProto = protos.google.protobuf.DescriptorProto;
 
@@ -44,7 +49,7 @@ export interface WriterOptions {
    * `defaultMissingValueInterpretation` to `DEFAULT_VALUE` and at the same
    * time, set `missingValueInterpretations` to `NULL_VALUE` on those columns.
    */
-  defaultMissingValueInterpretation?: AppendRowRequest['defaultMissingValueInterpretation'];
+  defaultMissingValueInterpretation?: MissingValueInterpretation;
 
   /**
    * Control how missing values are interpreted for individual columns.
@@ -70,9 +75,7 @@ export interface WriterOptions {
    * Currently, field name can only be top-level column name, can't be a struct
    * field path like 'foo.bar'.
    */
-  missingValueInterpretations?: {
-    [k: string]: AppendRowRequest['defaultMissingValueInterpretation'];
-  };
+  missingValueInterpretations?: MissingValueInterpretationMap;
 }
 
 /**
@@ -85,8 +88,8 @@ export interface WriterOptions {
 export class Writer {
   private _protoDescriptor: DescriptorProto;
   private _streamConnection: StreamConnection;
-  private _defaultMissingValueInterpretation: WriterOptions['defaultMissingValueInterpretation'];
-  private _missingValueInterpretations?: WriterOptions['missingValueInterpretations'];
+  private _defaultMissingValueInterpretation?: MissingValueInterpretation;
+  private _missingValueInterpretations?: MissingValueInterpretationMap;
 
   /**
    * Creates a new Writer instance.
@@ -126,10 +129,10 @@ export class Writer {
   /**
    * Update how missing values are interpreted by for the given stream.
    *
-   * @param {WriterOptions['defaultMissingValueInterpretation']} defaultMissingValueInterpretation
+   * @param {MissingValueInterpretation} defaultMissingValueInterpretation
    */
   setDefaultMissingValueInterpretation(
-    defaultMissingValueInterpretation: WriterOptions['defaultMissingValueInterpretation']
+    defaultMissingValueInterpretation: MissingValueInterpretation
   ) {
     this._defaultMissingValueInterpretation = defaultMissingValueInterpretation;
   }
@@ -137,10 +140,10 @@ export class Writer {
   /**
    * Update how missing values are interpreted for individual columns.
    *
-   * @param {WriterOptions['missingValueInterpretations']} missingValueInterpretations
+   * @param {MissingValueInterpretationMap} missingValueInterpretations
    */
   setMissingValueInterpretations(
-    missingValueInterpretations: WriterOptions['missingValueInterpretations']
+    missingValueInterpretations: MissingValueInterpretationMap
   ) {
     this._missingValueInterpretations = missingValueInterpretations;
   }

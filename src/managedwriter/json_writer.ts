@@ -20,6 +20,11 @@ import * as adapt from '../adapt';
 import {Writer, WriterOptions} from './writer';
 
 type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
+type MissingValueInterpretation =
+  protos.google.cloud.bigquery.storage.v1.AppendRowsRequest['defaultMissingValueInterpretation'];
+type MissingValueInterpretationMap = {
+  [column: string]: MissingValueInterpretation;
+};
 type IInt64Value = protos.google.protobuf.IInt64Value;
 type IDescriptorProto = protos.google.protobuf.IDescriptorProto;
 type DescriptorProto = protos.google.protobuf.DescriptorProto;
@@ -91,10 +96,10 @@ export class JSONWriter {
   /**
    * Update how missing values are interpreted by for the given stream.
    *
-   * @param {WriterOptions['defaultMissingValueInterpretation']} defaultMissingValueInterpretation
+   * @param {MissingValueInterpretation} defaultMissingValueInterpretation
    */
   setDefaultMissingValueInterpretation(
-    defaultMissingValueInterpretation: WriterOptions['defaultMissingValueInterpretation']
+    defaultMissingValueInterpretation: MissingValueInterpretation
   ) {
     this._writer.setDefaultMissingValueInterpretation(
       defaultMissingValueInterpretation
@@ -104,10 +109,10 @@ export class JSONWriter {
   /**
    * Update how missing values are interpreted for individual columns.
    *
-   * @param {WriterOptions['missingValueInterpretations']} missingValueInterpretations
+   * @param {MissingValueInterpretationMap} missingValueInterpretations
    */
   setMissingValueInterpretations(
-    missingValueInterpretations: WriterOptions['missingValueInterpretations']
+    missingValueInterpretations: MissingValueInterpretationMap
   ) {
     this._writer.setMissingValueInterpretations(missingValueInterpretations);
   }
