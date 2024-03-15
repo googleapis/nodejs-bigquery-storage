@@ -135,15 +135,18 @@ export class StreamConnection extends EventEmitter {
   private shouldReconnect(err: gax.GoogleError): boolean {
     if (
       err.code &&
-      [gax.Status.UNAVAILABLE, gax.Status.RESOURCE_EXHAUSTED].includes(
-        err.code
-      ) &&
+      [
+        gax.Status.UNAVAILABLE,
+        gax.Status.RESOURCE_EXHAUSTED,
+        gax.Status.ABORTED,
+      ].includes(err.code) &&
       err.message
     ) {
       const detail = err.message.toLowerCase();
       const knownErrors = [
         'service is currently unavailable', // schema mismatch
         'read econnreset', // idle connection reset
+        'closing the stream because it has been inactive', // idle connection reset
         'bandwidth exhausted',
         'memory limit exceeded',
       ];
