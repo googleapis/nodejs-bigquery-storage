@@ -54,21 +54,15 @@ export class JSONWriter {
    *   to the BigQuery streaming insert operation.
    * @param {IDescriptorProto} params.protoDescriptor - The proto descriptor
    *   for the JSON rows.
-   * @param {boolean} params.convertDates - Deep inspect each appended row object
-   *   and convert Javascript Date to the proper BigQuery Protobuf representation
-   *   per https://cloud.google.com/bigquery/docs/write-api#data_type_conversions.
-   *   This is an EXPERIMENTAL parameter and subject to change or removal without notice.
    */
   constructor(params: {
     connection: StreamConnection;
     protoDescriptor: IDescriptorProto;
-    convertDates?: boolean;
   }) {
-    const {connection, protoDescriptor, convertDates} = params;
+    const {connection, protoDescriptor} = params;
     this._writer = new Writer(params);
     this._encoder = new JSONEncoder({
       protoDescriptor: params.protoDescriptor,
-      convertDates: params.convertDates,
     });
     this._schemaListener = connection.onSchemaUpdated(this.onSchemaUpdated);
     this.setProtoDescriptor(protoDescriptor);

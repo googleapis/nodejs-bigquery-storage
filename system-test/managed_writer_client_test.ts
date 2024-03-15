@@ -390,7 +390,6 @@ describe('managedwriter.WriterClient', () => {
         adapt.convertStorageSchemaToProto2Descriptor(storageSchema, 'root');
       const encoder = new JSONEncoder({
         protoDescriptor,
-        convertDates: true,
       });
 
       // Row 1

@@ -34,7 +34,6 @@ export class JSONEncoder {
   private _type: protobuf.Type = Type.fromJSON('root', {
     fields: {},
   });
-  private _convertDates: boolean;
 
   /**
    * Creates a new JSONEncoder instance.
@@ -42,17 +41,9 @@ export class JSONEncoder {
    * @param {Object} params - The parameters for the JSONEncoder.
    * @param {IDescriptorProto} params.protoDescriptor - The proto descriptor
    *   for the JSON rows.
-   * @param {boolean} params.convertDates - Deep inspect each appended row object
-   *   and convert Javascript Date to the proper BigQuery Protobuf representation
-   *   per https://cloud.google.com/bigquery/docs/write-api#data_type_conversions.
-   *   This is an EXPERIMENTAL parameter and subject to change or removal without notice.
    */
-  constructor(params: {
-    protoDescriptor: IDescriptorProto;
-    convertDates?: boolean;
-  }) {
-    const {convertDates, protoDescriptor} = params;
-    this._convertDates = convertDates || false;
+  constructor(params: {protoDescriptor: IDescriptorProto}) {
+    const {protoDescriptor} = params;
     this.setProtoDescriptor(protoDescriptor);
   }
 
@@ -97,9 +88,6 @@ export class JSONEncoder {
   }
 
   private convertRow(source: any): Object {
-    if (!this._convertDates) {
-      return source;
-    }
     const row = extend(true, {}, source);
     for (const key in row) {
       const value = row[key];

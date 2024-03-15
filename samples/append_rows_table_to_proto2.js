@@ -60,7 +60,6 @@ function main(
       const writer = new JSONWriter({
         connection,
         protoDescriptor,
-        convertDates: true,
       });
 
       let rows = [];
