@@ -842,6 +842,14 @@ describe('managedwriter.WriterClient', () => {
             code: gax.Status.RESOURCE_EXHAUSTED,
             msg: 'memory limit exceeded',
           },
+          {
+            code: gax.Status.CANCELLED,
+            msg: 'read econnreset',
+          },
+          {
+            code: gax.Status.DEADLINE_EXCEEDED,
+            msg: 'read econnreset',
+          },
         ].map(err => {
           const gerr = new gax.GoogleError(err.msg);
           gerr.code = err.code;

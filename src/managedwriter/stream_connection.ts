@@ -133,15 +133,14 @@ export class StreamConnection extends EventEmitter {
   };
 
   private shouldReconnect(err: gax.GoogleError): boolean {
-    if (
-      err.code &&
-      [
-        gax.Status.UNAVAILABLE,
-        gax.Status.RESOURCE_EXHAUSTED,
-        gax.Status.ABORTED,
-      ].includes(err.code) &&
-      err.message
-    ) {
+    const reconnectionErrorCodes = [
+      gax.Status.UNAVAILABLE,
+      gax.Status.RESOURCE_EXHAUSTED,
+      gax.Status.ABORTED,
+      gax.Status.CANCELLED,
+      gax.Status.DEADLINE_EXCEEDED,
+    ];
+    if (err.code && reconnectionErrorCodes.includes(err.code) && err.message) {
       const detail = err.message.toLowerCase();
       const knownErrors = [
         'service is currently unavailable', // schema mismatch
