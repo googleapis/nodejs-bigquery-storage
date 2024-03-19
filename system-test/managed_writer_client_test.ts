@@ -832,7 +832,7 @@ describe('managedwriter.WriterClient', () => {
           },
           {
             code: gax.Status.ABORTED,
-            msg: 'service is currently unavailable', // schema mismatch
+            msg: 'service is currently unavailable',
           },
           {
             code: gax.Status.RESOURCE_EXHAUSTED,
