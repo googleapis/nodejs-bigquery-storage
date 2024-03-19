@@ -844,11 +844,11 @@ describe('managedwriter.WriterClient', () => {
           },
           {
             code: gax.Status.CANCELLED,
-            msg: 'read econnreset',
+            msg: 'any',
           },
           {
             code: gax.Status.DEADLINE_EXCEEDED,
-            msg: 'read econnreset',
+            msg: 'a msg',
           },
         ].map(err => {
           const gerr = new gax.GoogleError(err.msg);
