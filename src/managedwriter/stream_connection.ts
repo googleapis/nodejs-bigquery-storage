@@ -133,25 +133,14 @@ export class StreamConnection extends EventEmitter {
   };
 
   private shouldReconnect(err: gax.GoogleError): boolean {
-    if (
-      err.code &&
-      [gax.Status.UNAVAILABLE, gax.Status.RESOURCE_EXHAUSTED].includes(
-        err.code
-      ) &&
-      err.message
-    ) {
-      const detail = err.message.toLowerCase();
-      const knownErrors = [
-        'service is currently unavailable', // schema mismatch
-        'read econnreset', // idle connection reset
-        'bandwidth exhausted',
-        'memory limit exceeded',
-      ];
-      const isKnownError =
-        knownErrors.findIndex(err => detail.includes(err)) !== -1;
-      return isKnownError;
-    }
-    return false;
+    const reconnectionErrorCodes = [
+      gax.Status.UNAVAILABLE,
+      gax.Status.RESOURCE_EXHAUSTED,
+      gax.Status.ABORTED,
+      gax.Status.CANCELLED,
+      gax.Status.DEADLINE_EXCEEDED,
+    ];
+    return !!err.code && reconnectionErrorCodes.includes(err.code);
   }
 
   private isPermanentError(err: gax.GoogleError): boolean {

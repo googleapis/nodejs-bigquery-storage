@@ -22,7 +22,6 @@ import {StreamConnection} from './stream_connection';
 
 type StreamConnections = {
   connectionList: StreamConnection[];
-  connections: Record<string, StreamConnection>;
 };
 type CreateWriteStreamRequest =
   protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest;
@@ -68,7 +67,6 @@ export class WriterClient {
     });
     this._connections = {
       connectionList: [],
-      connections: {},
     };
     this._open = false;
   }
@@ -189,7 +187,6 @@ export class WriterClient {
         options
       );
       this._connections.connectionList.push(streamConnection);
-      this._connections.connections[`${streamId}`] = streamConnection;
       return streamConnection;
     } catch (err) {
       throw new Error('managed stream connection failed:' + err);
@@ -230,6 +227,9 @@ export class WriterClient {
     this._connections.connectionList.map(conn => {
       conn.close();
     });
+    this._connections = {
+      connectionList: [],
+    };
     this._open = false;
   }
 
