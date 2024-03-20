@@ -136,9 +136,10 @@ function main(
       serializedRows = [];
 
       // Row 7
+      const days = new Date('2019-02-07').getTime() / (1000 * 60 * 60 * 24);
       row = {
         rowNum: 7,
-        dateCol: 1132896,
+        dateCol: days, // The value is the number of days since the Unix epoch (1970-01-01)
       };
       serializedRows.push(SampleData.encode(row).finish());
 
@@ -172,10 +173,10 @@ function main(
       serializedRows.push(SampleData.encode(row).finish());
 
       // Row 12
-      const timestamp = 1641700186564;
+      const timestamp = new Date('2022-01-09T03:49:46.564Z').getTime();
       row = {
         rowNum: 12,
-        timestampCol: timestamp,
+        timestampCol: timestamp * 1000, // The value is given in microseconds since the Unix epoch (1970-01-01)
       };
       serializedRows.push(SampleData.encode(row).finish());
 
