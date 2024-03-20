@@ -4262,6 +4262,9 @@ export namespace google {
 
                         /** TableFieldSchema defaultValueExpression */
                         defaultValueExpression?: (string|null);
+
+                        /** TableFieldSchema rangeElementType */
+                        rangeElementType?: (google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType|null);
                     }
 
                     /** Represents a TableFieldSchema. */
@@ -4299,6 +4302,9 @@ export namespace google {
 
                         /** TableFieldSchema defaultValueExpression. */
                         public defaultValueExpression: string;
+
+                        /** TableFieldSchema rangeElementType. */
+                        public rangeElementType?: (google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType|null);
 
                         /**
                          * Creates a new TableFieldSchema instance using the specified properties.
@@ -4397,7 +4403,8 @@ export namespace google {
                             NUMERIC = 12,
                             BIGNUMERIC = 13,
                             INTERVAL = 14,
-                            JSON = 15
+                            JSON = 15,
+                            RANGE = 16
                         }
 
                         /** Mode enum. */
@@ -4406,6 +4413,103 @@ export namespace google {
                             NULLABLE = 1,
                             REQUIRED = 2,
                             REPEATED = 3
+                        }
+
+                        /** Properties of a FieldElementType. */
+                        interface IFieldElementType {
+
+                            /** FieldElementType type */
+                            type?: (google.cloud.bigquery.storage.v1.TableFieldSchema.Type|keyof typeof google.cloud.bigquery.storage.v1.TableFieldSchema.Type|null);
+                        }
+
+                        /** Represents a FieldElementType. */
+                        class FieldElementType implements IFieldElementType {
+
+                            /**
+                             * Constructs a new FieldElementType.
+                             * @param [properties] Properties to set
+                             */
+                            constructor(properties?: google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType);
+
+                            /** FieldElementType type. */
+                            public type: (google.cloud.bigquery.storage.v1.TableFieldSchema.Type|keyof typeof google.cloud.bigquery.storage.v1.TableFieldSchema.Type);
+
+                            /**
+                             * Creates a new FieldElementType instance using the specified properties.
+                             * @param [properties] Properties to set
+                             * @returns FieldElementType instance
+                             */
+                            public static create(properties?: google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType): google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType;
+
+                            /**
+                             * Encodes the specified FieldElementType message. Does not implicitly {@link google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.verify|verify} messages.
+                             * @param message FieldElementType message or plain object to encode
+                             * @param [writer] Writer to encode to
+                             * @returns Writer
+                             */
+                            public static encode(message: google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                            /**
+                             * Encodes the specified FieldElementType message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.verify|verify} messages.
+                             * @param message FieldElementType message or plain object to encode
+                             * @param [writer] Writer to encode to
+                             * @returns Writer
+                             */
+                            public static encodeDelimited(message: google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                            /**
+                             * Decodes a FieldElementType message from the specified reader or buffer.
+                             * @param reader Reader or buffer to decode from
+                             * @param [length] Message length if known beforehand
+                             * @returns FieldElementType
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType;
+
+                            /**
+                             * Decodes a FieldElementType message from the specified reader or buffer, length delimited.
+                             * @param reader Reader or buffer to decode from
+                             * @returns FieldElementType
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType;
+
+                            /**
+                             * Verifies a FieldElementType message.
+                             * @param message Plain object to verify
+                             * @returns `null` if valid, otherwise the reason why it is not
+                             */
+                            public static verify(message: { [k: string]: any }): (string|null);
+
+                            /**
+                             * Creates a FieldElementType message from a plain object. Also converts values to their respective internal types.
+                             * @param object Plain object
+                             * @returns FieldElementType
+                             */
+                            public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType;
+
+                            /**
+                             * Creates a plain object from a FieldElementType message. Also converts values to other types if specified.
+                             * @param message FieldElementType
+                             * @param [options] Conversion options
+                             * @returns Plain object
+                             */
+                            public static toObject(message: google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                            /**
+                             * Converts this FieldElementType to JSON.
+                             * @returns JSON object
+                             */
+                            public toJSON(): { [k: string]: any };
+
+                            /**
+                             * Gets the default type url for FieldElementType
+                             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns The default type url
+                             */
+                            public static getTypeUrl(typeUrlPrefix?: string): string;
                         }
                     }
                 }
