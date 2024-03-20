@@ -559,9 +559,18 @@ describe('managedwriter.WriterClient', () => {
     const client = new WriterClient();
     client.setClient(bqWriteClient);
 
-    const updatedSchema: TableSchema = {
+    const schema: TableSchema = {
       fields: [
-        ...(schema.fields || []),
+        {
+          name: 'customer_name',
+          type: 'STRING',
+          mode: 'REQUIRED',
+        },
+        {
+          name: 'row_num',
+          type: 'INTEGER',
+          mode: 'REQUIRED',
+        },
         {
           name: 'id',
           type: 'STRING',
@@ -581,21 +590,19 @@ describe('managedwriter.WriterClient', () => {
     };
     const [table] = await bigquery
       .dataset(datasetId)
-      .createTable(tableId + '_default_values', {schema: updatedSchema});
+      .createTable(tableId + '_default_values', {schema});
     const parent = `projects/${projectId}/datasets/${datasetId}/tables/${table.id}`;
 
     const storageSchema =
-      adapt.convertBigQuerySchemaToStorageTableSchema(updatedSchema);
+      adapt.convertBigQuerySchemaToStorageTableSchema(schema);
     const protoDescriptor: DescriptorProto =
       adapt.convertStorageSchemaToProto2Descriptor(storageSchema, 'root');
 
-    // Row 1
     const row1 = {
       customer_name: 'Ada Lovelace',
       row_num: 1,
     };
 
-    // Row 2
     const row2 = {
       customer_name: 'Alan Turing',
       row_num: 2,
@@ -617,14 +624,33 @@ describe('managedwriter.WriterClient', () => {
         },
       });
 
-      const pw = writer.appendRows([row1, row2], 0);
-      const result = await pw.getResult();
+      let pw = writer.appendRows([row1, row2], 0);
+      let result = await pw.getResult();
+
+      // change MVI config
+      writer.setDefaultMissingValueInterpretation('NULL_VALUE');
+      writer.setMissingValueInterpretations({
+        updated_at: 'DEFAULT_VALUE',
+      });
+
+      const row3 = {
+        customer_name: 'Charles Babbage',
+        row_num: 3,
+      };
+
+      const row4 = {
+        customer_name: 'Lord Byron',
+        row_num: 4,
+      };
+
+      pw = writer.appendRows([row3, row4], 2);
+      result = await pw.getResult();
 
       assert.equal(result.error, null);
 
       const res = await connection.finalize();
       connection.close();
-      assert.equal(res?.rowCount, 2);
+      assert.equal(res?.rowCount, 4);
 
       const commitResponse = await client.batchCommitWriteStream({
         parent,
@@ -635,8 +661,8 @@ describe('managedwriter.WriterClient', () => {
       const [rows] = await bigquery.query(
         `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\` order by row_num`
       );
+      assert.strictEqual(rows.length, 4);
 
-      assert.strictEqual(rows.length, 2);
       const first = rows[0];
       assert.notEqual(first.id, null);
       assert.notEqual(first.created_at, null);
@@ -646,6 +672,17 @@ describe('managedwriter.WriterClient', () => {
       assert.notEqual(second.id, null);
       assert.notEqual(second.created_at, null);
       assert.equal(second.updated_at, null);
+
+      // After change on MVI config
+      const third = rows[2];
+      assert.equal(third.id, null);
+      assert.equal(third.created_at, null);
+      assert.notEqual(third.updated_at, null);
+
+      const forth = rows[3];
+      assert.equal(forth.id, null);
+      assert.equal(forth.created_at, null);
+      assert.notEqual(forth.updated_at, null);
 
       writer.close();
     } finally {
