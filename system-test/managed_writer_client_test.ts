@@ -16,6 +16,7 @@ import * as assert from 'assert';
 import {describe, it, xit} from 'mocha';
 import * as uuid from 'uuid';
 import * as gax from 'google-gax';
+import * as sinon from 'sinon';
 import {BigQuery, TableSchema} from '@google-cloud/bigquery';
 import * as protos from '../protos/protos';
 import * as bigquerywriter from '../src';
@@ -23,6 +24,9 @@ import * as protobuf from 'protobufjs';
 import {ClientOptions} from 'google-gax';
 import * as customerRecordProtoJson from '../samples/customer_record.json';
 import {JSONEncoder} from '../src/managedwriter/encoder';
+
+const sandbox = sinon.createSandbox();
+afterEach(() => sandbox.restore());
 
 const {managedwriter, adapt} = bigquerywriter;
 const {WriterClient, Writer, JSONWriter, parseStorageErrors} = managedwriter;
@@ -844,6 +848,91 @@ describe('managedwriter.WriterClient', () => {
         );
         res = await goodPw.getResult();
         assert.equal(res.appendResult?.offset?.value, '0');
+
+        writer.close();
+      } finally {
+        client.close();
+      }
+    });
+
+    it('should trigger reconnection given some specific errors', async () => {
+      bqWriteClient.initialize();
+      const client = new WriterClient();
+      client.setClient(bqWriteClient);
+
+      const connection = await client.createStreamConnection({
+        streamType: managedwriter.PendingStream,
+        destinationTable: parent,
+      });
+
+      let reconnectedCalled = false;
+      sandbox.stub(connection, 'reconnect').callsFake(() => {
+        reconnectedCalled = true;
+      });
+
+      const writer = new JSONWriter({
+        connection,
+        protoDescriptor,
+      });
+
+      try {
+        // Write some data and trigger error
+        const pw = writer.appendRows(
+          [
+            {
+              customer_name: 'Ada Lovelace',
+              row_num: 1,
+            },
+            {
+              customer_name: 'Alan Turing',
+              row_num: 2,
+            },
+          ],
+          0
+        );
+        await pw.getResult();
+
+        const reconnectErrorCases: gax.GoogleError[] = [
+          {
+            code: gax.Status.ABORTED,
+            msg: 'Closing the stream because it has been inactive',
+          },
+          {
+            code: gax.Status.RESOURCE_EXHAUSTED,
+            msg: 'read econnreset',
+          },
+          {
+            code: gax.Status.ABORTED,
+            msg: 'service is currently unavailable',
+          },
+          {
+            code: gax.Status.RESOURCE_EXHAUSTED,
+            msg: 'bandwidth exhausted',
+          },
+          {
+            code: gax.Status.RESOURCE_EXHAUSTED,
+            msg: 'memory limit exceeded',
+          },
+          {
+            code: gax.Status.CANCELLED,
+            msg: 'any',
+          },
+          {
+            code: gax.Status.DEADLINE_EXCEEDED,
+            msg: 'a msg',
+          },
+        ].map(err => {
+          const gerr = new gax.GoogleError(err.msg);
+          gerr.code = err.code;
+          return gerr;
+        });
+        for (const gerr of reconnectErrorCases) {
+          const conn = connection['_connection'] as gax.CancellableStream; // private method
+          conn.emit('error', gerr);
+          assert.equal(reconnectedCalled, true);
+
+          reconnectedCalled = false; // reset flag
+        }
 
         writer.close();
       } finally {
