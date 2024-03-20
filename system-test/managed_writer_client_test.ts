@@ -23,6 +23,7 @@ import * as bigquerywriter from '../src';
 import * as protobuf from 'protobufjs';
 import {ClientOptions} from 'google-gax';
 import * as customerRecordProtoJson from '../samples/customer_record.json';
+import {JSONEncoder} from '../src/managedwriter/encoder';
 
 const sandbox = sinon.createSandbox();
 afterEach(() => sandbox.restore());
@@ -365,6 +366,76 @@ describe('managedwriter.WriterClient', () => {
       } finally {
         client.close();
       }
+    });
+  });
+
+  describe('JSONEncoder', () => {
+    it('should automatically convert date/datetime/timestamps to expect BigQuery format', () => {
+      const updatedSchema = {
+        fields: [
+          ...(schema.fields || []),
+          {
+            name: 'customer_birthday',
+            type: 'DATE',
+          },
+          {
+            name: 'customer_created_at',
+            type: 'DATETIME',
+          },
+          {
+            name: 'customer_updated_at',
+            type: 'TIMESTAMP',
+          },
+        ],
+      };
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(updatedSchema);
+      const protoDescriptor: DescriptorProto =
+        adapt.convertStorageSchemaToProto2Descriptor(storageSchema, 'root');
+      const encoder = new JSONEncoder({
+        protoDescriptor,
+      });
+
+      // Row 1
+      const row1 = {
+        customer_name: 'Ada Lovelace',
+        row_num: 1,
+        customer_birthday: new Date('1815-12-10'),
+        customer_created_at: new Date('2022-01-09T03:49:46.564Z'),
+        customer_updated_at: new Date('2023-01-09T03:49:46.564Z'),
+      };
+
+      // Row 2
+      const row2 = {
+        customer_name: 'Alan Turing',
+        row_num: 2,
+        customer_birthday: new Date('1912-07-23'),
+        customer_created_at: new Date('2022-01-09T03:49:46.564Z'),
+        customer_updated_at: new Date('2023-01-09T03:49:46.564Z'),
+      };
+
+      const Proto = Type.fromDescriptor(protoDescriptor);
+      const encoded = encoder.encodeRows([row1, row2]);
+
+      const encodedRow1 = encoded[0];
+      const decodedRow1 = Proto.decode(encodedRow1).toJSON();
+      assert.deepEqual(decodedRow1, {
+        customer_name: 'Ada Lovelace',
+        row_num: 1,
+        customer_birthday: -56270,
+        customer_created_at: '2022-01-09 03:49:46.564',
+        customer_updated_at: 1673236186564000,
+      });
+
+      const encodedRow2 = encoded[1];
+      const decodedRow2 = Proto.decode(encodedRow2).toJSON();
+      assert.deepEqual(decodedRow2, {
+        customer_name: 'Alan Turing',
+        row_num: 2,
+        customer_birthday: -20981,
+        customer_created_at: '2022-01-09 03:49:46.564',
+        customer_updated_at: 1673236186564000,
+      });
     });
   });
 
