@@ -18,7 +18,7 @@
  * More information about this new write client may also be found in
  * the public documentation: https://cloud.google.com/bigquery/docs/write-api
  *
- * It is EXPERIMENTAL and subject to change or removal without notice.  This is primarily to signal that this
+ * It is EXPERIMENTAL and subject to change or removal without notice. This is primarily to signal that this
  * package may still make breaking changes to existing methods and functionality.
  *
  * @namespace managedwriter

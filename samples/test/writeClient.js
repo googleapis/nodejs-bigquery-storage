@@ -327,7 +327,7 @@ describe('writeClient', () => {
     assert.deepInclude(rows, [{float64_col: 987.6539916992188}, {row_num: 4}]);
     assert.deepInclude(rows, [{int64_col: 321}, {row_num: 5}]);
     assert.deepInclude(rows, [{string_col: 'octavia'}, {row_num: 6}]);
-    assert.deepInclude(rows, [{date_col: '5071-10-07'}, {row_num: 7}]);
+    assert.deepInclude(rows, [{date_col: '2019-02-07'}, {row_num: 7}]);
     assert.deepInclude(rows, [
       {datetime_col: '2019-02-17T11:24:00'},
       {row_num: 8},
@@ -340,7 +340,7 @@ describe('writeClient', () => {
     ]);
     assert.deepInclude(rows, [{time_col: '18:00:00'}, {row_num: 11}]);
     assert.deepInclude(rows, [
-      {timestamp_col: '1970-01-20T00:01:40.186564000Z'},
+      {timestamp_col: '2022-01-09T03:49:46.564Z'},
       {row_num: 12},
     ]);
     assert.deepInclude(rows, [{int64_list: [1999, 2001]}, {row_num: 13}]);

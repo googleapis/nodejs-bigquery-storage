@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import * as protobuf from 'protobufjs';
 import * as protos from '../../protos/protos';
 import {PendingWrite} from './pending_write';
 import {RemoveListener} from './stream_connection';
 import * as adapt from '../adapt';
 import {Writer, WriterOptions} from './writer';
+import {JSONEncoder} from './encoder';
 
 type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type MissingValueInterpretation =
@@ -27,15 +27,11 @@ type MissingValueInterpretationMap = {
 };
 type IInt64Value = protos.google.protobuf.IInt64Value;
 type IDescriptorProto = protos.google.protobuf.IDescriptorProto;
-type DescriptorProto = protos.google.protobuf.DescriptorProto;
-type JSONPrimitive = string | number | boolean | null;
-type JSONValue = JSONPrimitive | JSONObject | JSONArray;
-type JSONObject = {[member: string]: JSONValue};
-type JSONArray = Array<JSONValue>;
-type JSONList = Array<JSONObject>;
-
-const DescriptorProto = protos.google.protobuf.DescriptorProto;
-const {Type} = protobuf;
+export type JSONPrimitive = string | number | boolean | Date | null;
+export type JSONValue = JSONPrimitive | JSONObject | JSONArray;
+export type JSONObject = {[member: string]: JSONValue};
+export type JSONArray = Array<JSONValue>;
+export type JSONList = Array<JSONObject>;
 
 /**
  * A StreamWriter that can write JSON data to BigQuery tables. The JSONWriter is
@@ -52,9 +48,7 @@ const {Type} = protobuf;
  */
 export class JSONWriter {
   private _writer: Writer;
-  private _type: protobuf.Type = Type.fromJSON('root', {
-    fields: {},
-  });
+  private _encoder: JSONEncoder;
   private _schemaListener: RemoveListener;
 
   /**
@@ -66,6 +60,9 @@ export class JSONWriter {
   constructor(params: WriterOptions) {
     const {connection, protoDescriptor} = params;
     this._writer = new Writer(params);
+    this._encoder = new JSONEncoder({
+      protoDescriptor: params.protoDescriptor,
+    });
     this._schemaListener = connection.onSchemaUpdated(this.onSchemaUpdated);
     this.setProtoDescriptor(protoDescriptor);
   }
@@ -86,11 +83,8 @@ export class JSONWriter {
    * @param {IDescriptorProto} protoDescriptor - The proto descriptor.
    */
   setProtoDescriptor(protoDescriptor: IDescriptorProto): void {
-    const normalized = adapt.normalizeDescriptor(
-      new DescriptorProto(protoDescriptor)
-    );
-    this._type = Type.fromDescriptor(normalized);
     this._writer.setProtoDescriptor(protoDescriptor);
+    this._encoder.setProtoDescriptor(protoDescriptor);
   }
 
   /**
@@ -127,10 +121,7 @@ export class JSONWriter {
    * @returns {managedwriter.PendingWrite} The pending write.
    */
   appendRows(rows: JSONList, offsetValue?: IInt64Value['value']): PendingWrite {
-    const serializedRows = rows.map(r => {
-      const msg = this._type.create(r);
-      return this._type.encode(msg).finish();
-    });
+    const serializedRows = this._encoder.encodeRows(rows);
     const pw = this._writer.appendRows(
       {
         serializedRows,
