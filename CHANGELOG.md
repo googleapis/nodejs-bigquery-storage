@@ -1,5 +1,18 @@
 # Changelog
 
+## [4.4.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.3.0...v4.4.0) (2024-03-21)
+
+
+### Features
+
+* Add support for missing value interpretation ([#428](https://github.com/googleapis/nodejs-bigquery-storage/issues/428)) ([1a3e4ba](https://github.com/googleapis/nodejs-bigquery-storage/commit/1a3e4bac76ef65e353e8bf6fb6780dbf8d0c887e))
+* Automatically convert date/datetime/timestamps ([#422](https://github.com/googleapis/nodejs-bigquery-storage/issues/422)) ([cbc7e94](https://github.com/googleapis/nodejs-bigquery-storage/commit/cbc7e94dfd6f79c038ed4b74c814a84c90a42be0))
+
+
+### Bug Fixes
+
+* Handle more scenarios for stream reconnection ([#429](https://github.com/googleapis/nodejs-bigquery-storage/issues/429)) ([e6f9323](https://github.com/googleapis/nodejs-bigquery-storage/commit/e6f93234906bb9f3346c80943660d04b36206d23))
+
 ## [4.3.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.2.1...v4.3.0) (2024-02-20)
 
 
