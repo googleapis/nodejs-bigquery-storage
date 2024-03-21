@@ -629,6 +629,142 @@ describe('managedwriter.WriterClient', () => {
     }).timeout(30 * 1000);
   });
 
+  it('should fill default values when MissingValuesInterpretation is set', async () => {
+    bqWriteClient.initialize();
+    const client = new WriterClient();
+    client.setClient(bqWriteClient);
+
+    const schema: TableSchema = {
+      fields: [
+        {
+          name: 'customer_name',
+          type: 'STRING',
+          mode: 'REQUIRED',
+        },
+        {
+          name: 'row_num',
+          type: 'INTEGER',
+          mode: 'REQUIRED',
+        },
+        {
+          name: 'id',
+          type: 'STRING',
+          defaultValueExpression: 'GENERATE_UUID()',
+        },
+        {
+          name: 'created_at',
+          type: 'TIMESTAMP',
+          defaultValueExpression: 'CURRENT_TIMESTAMP()',
+        },
+        {
+          name: 'updated_at',
+          type: 'TIMESTAMP',
+          defaultValueExpression: 'CURRENT_TIMESTAMP()',
+        },
+      ],
+    };
+    const [table] = await bigquery
+      .dataset(datasetId)
+      .createTable(tableId + '_default_values', {schema});
+    const parent = `projects/${projectId}/datasets/${datasetId}/tables/${table.id}`;
+
+    const storageSchema =
+      adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+    const protoDescriptor: DescriptorProto =
+      adapt.convertStorageSchemaToProto2Descriptor(storageSchema, 'root');
+
+    const row1 = {
+      customer_name: 'Ada Lovelace',
+      row_num: 1,
+    };
+
+    const row2 = {
+      customer_name: 'Alan Turing',
+      row_num: 2,
+    };
+
+    try {
+      const connection = await client.createStreamConnection({
+        streamType: managedwriter.PendingStream,
+        destinationTable: parent,
+      });
+
+      const streamId = connection.getStreamId();
+      const writer = new JSONWriter({
+        connection,
+        protoDescriptor,
+        defaultMissingValueInterpretation: 'DEFAULT_VALUE',
+        missingValueInterpretations: {
+          updated_at: 'NULL_VALUE',
+        },
+      });
+
+      let pw = writer.appendRows([row1, row2], 0);
+      let result = await pw.getResult();
+
+      // change MVI config
+      writer.setDefaultMissingValueInterpretation('NULL_VALUE');
+      writer.setMissingValueInterpretations({
+        updated_at: 'DEFAULT_VALUE',
+      });
+
+      const row3 = {
+        customer_name: 'Charles Babbage',
+        row_num: 3,
+      };
+
+      const row4 = {
+        customer_name: 'Lord Byron',
+        row_num: 4,
+      };
+
+      pw = writer.appendRows([row3, row4], 2);
+      result = await pw.getResult();
+
+      assert.equal(result.error, null);
+
+      const res = await connection.finalize();
+      connection.close();
+      assert.equal(res?.rowCount, 4);
+
+      const commitResponse = await client.batchCommitWriteStream({
+        parent,
+        writeStreams: [streamId],
+      });
+      assert.equal(commitResponse.streamErrors?.length, 0);
+
+      const [rows] = await bigquery.query(
+        `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\` order by row_num`
+      );
+      assert.strictEqual(rows.length, 4);
+
+      const first = rows[0];
+      assert.notEqual(first.id, null);
+      assert.notEqual(first.created_at, null);
+      assert.equal(first.updated_at, null);
+
+      const second = rows[1];
+      assert.notEqual(second.id, null);
+      assert.notEqual(second.created_at, null);
+      assert.equal(second.updated_at, null);
+
+      // After change on MVI config
+      const third = rows[2];
+      assert.equal(third.id, null);
+      assert.equal(third.created_at, null);
+      assert.notEqual(third.updated_at, null);
+
+      const forth = rows[3];
+      assert.equal(forth.id, null);
+      assert.equal(forth.created_at, null);
+      assert.notEqual(forth.updated_at, null);
+
+      writer.close();
+    } finally {
+      client.close();
+    }
+  });
+
   describe('Error Scenarios', () => {
     it('send request with mismatched proto descriptor', async () => {
       bqWriteClient.initialize();

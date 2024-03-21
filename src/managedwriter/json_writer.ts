@@ -14,12 +14,17 @@
 
 import * as protos from '../../protos/protos';
 import {PendingWrite} from './pending_write';
-import {StreamConnection, RemoveListener} from './stream_connection';
+import {RemoveListener} from './stream_connection';
 import * as adapt from '../adapt';
-import {Writer} from './writer';
+import {Writer, WriterOptions} from './writer';
 import {JSONEncoder} from './encoder';
 
 type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
+type MissingValueInterpretation =
+  protos.google.cloud.bigquery.storage.v1.AppendRowsRequest['defaultMissingValueInterpretation'];
+type MissingValueInterpretationMap = {
+  [column: string]: MissingValueInterpretation;
+};
 type IInt64Value = protos.google.protobuf.IInt64Value;
 type IDescriptorProto = protos.google.protobuf.IDescriptorProto;
 export type JSONPrimitive = string | number | boolean | Date | null;
@@ -49,16 +54,10 @@ export class JSONWriter {
   /**
    * Creates a new JSONWriter instance.
    *
-   * @param {Object} params - The parameters for the JSONWriter.
-   * @param {StreamConnection} params.connection - The stream connection
-   *   to the BigQuery streaming insert operation.
-   * @param {IDescriptorProto} params.protoDescriptor - The proto descriptor
-   *   for the JSON rows.
+   * @param {WriterOptions} params - The parameters for the JSONWriter.
+   *   See WriterOptions docs for more information.
    */
-  constructor(params: {
-    connection: StreamConnection;
-    protoDescriptor: IDescriptorProto;
-  }) {
+  constructor(params: WriterOptions) {
     const {connection, protoDescriptor} = params;
     this._writer = new Writer(params);
     this._encoder = new JSONEncoder({
@@ -86,6 +85,30 @@ export class JSONWriter {
   setProtoDescriptor(protoDescriptor: IDescriptorProto): void {
     this._writer.setProtoDescriptor(protoDescriptor);
     this._encoder.setProtoDescriptor(protoDescriptor);
+  }
+
+  /**
+   * Update how missing values are interpreted for the given stream.
+   *
+   * @param {MissingValueInterpretation} defaultMissingValueInterpretation
+   */
+  setDefaultMissingValueInterpretation(
+    defaultMissingValueInterpretation: MissingValueInterpretation
+  ) {
+    this._writer.setDefaultMissingValueInterpretation(
+      defaultMissingValueInterpretation
+    );
+  }
+
+  /**
+   * Update how missing values are interpreted for individual columns.
+   *
+   * @param {MissingValueInterpretationMap} missingValueInterpretations
+   */
+  setMissingValueInterpretations(
+    missingValueInterpretations: MissingValueInterpretationMap
+  ) {
+    this._writer.setMissingValueInterpretations(missingValueInterpretations);
   }
 
   /**
