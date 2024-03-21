@@ -40,8 +40,8 @@ export interface WriterOptions {
   protoDescriptor: IDescriptorProto;
 
   /**
-   * Controls how missing values are interpreted by for a given stream.
-   * `missingValueInterpretations` set for individual colums can override the default chosen
+   * Controls how missing values are interpreted for a given stream.
+   * `missingValueInterpretations` set for individual columns can override the default chosen
    * with this option.
    *
    * For example, if you want to write
@@ -127,7 +127,7 @@ export class Writer {
   }
 
   /**
-   * Update how missing values are interpreted by for the given stream.
+   * Update how missing values are interpreted for the given stream.
    *
    * @param {MissingValueInterpretation} defaultMissingValueInterpretation
    */

@@ -88,7 +88,7 @@ export class JSONWriter {
   }
 
   /**
-   * Update how missing values are interpreted by for the given stream.
+   * Update how missing values are interpreted for the given stream.
    *
    * @param {MissingValueInterpretation} defaultMissingValueInterpretation
    */
