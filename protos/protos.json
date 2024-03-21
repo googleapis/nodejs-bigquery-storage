@@ -1120,6 +1120,13 @@
                               "options": {
                                 "(google.api.field_behavior)": "OPTIONAL"
                               }
+                            },
+                            "rangeElementType": {
+                              "type": "FieldElementType",
+                              "id": 11,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
                             }
                           },
                           "nested": {
@@ -1140,7 +1147,8 @@
                                 "NUMERIC": 12,
                                 "BIGNUMERIC": 13,
                                 "INTERVAL": 14,
-                                "JSON": 15
+                                "JSON": 15,
+                                "RANGE": 16
                               }
                             },
                             "Mode": {
@@ -1149,6 +1157,17 @@
                                 "NULLABLE": 1,
                                 "REQUIRED": 2,
                                 "REPEATED": 3
+                              }
+                            },
+                            "FieldElementType": {
+                              "fields": {
+                                "type": {
+                                  "type": "Type",
+                                  "id": 1,
+                                  "options": {
+                                    "(google.api.field_behavior)": "REQUIRED"
+                                  }
+                                }
                               }
                             }
                           }

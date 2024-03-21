@@ -10286,6 +10286,7 @@
                              * @property {number|Long|null} [precision] TableFieldSchema precision
                              * @property {number|Long|null} [scale] TableFieldSchema scale
                              * @property {string|null} [defaultValueExpression] TableFieldSchema defaultValueExpression
+                             * @property {google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType|null} [rangeElementType] TableFieldSchema rangeElementType
                              */
     
                             /**
@@ -10377,6 +10378,14 @@
                             TableFieldSchema.prototype.defaultValueExpression = "";
     
                             /**
+                             * TableFieldSchema rangeElementType.
+                             * @member {google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType|null|undefined} rangeElementType
+                             * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema
+                             * @instance
+                             */
+                            TableFieldSchema.prototype.rangeElementType = null;
+    
+                            /**
                              * Creates a new TableFieldSchema instance using the specified properties.
                              * @function create
                              * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema
@@ -10419,6 +10428,8 @@
                                     writer.uint32(/* id 9, wireType 0 =*/72).int64(message.scale);
                                 if (message.defaultValueExpression != null && Object.hasOwnProperty.call(message, "defaultValueExpression"))
                                     writer.uint32(/* id 10, wireType 2 =*/82).string(message.defaultValueExpression);
+                                if (message.rangeElementType != null && Object.hasOwnProperty.call(message, "rangeElementType"))
+                                    $root.google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.encode(message.rangeElementType, writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
                                 return writer;
                             };
     
@@ -10491,6 +10502,10 @@
                                             message.defaultValueExpression = reader.string();
                                             break;
                                         }
+                                    case 11: {
+                                            message.rangeElementType = $root.google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.decode(reader, reader.uint32());
+                                            break;
+                                        }
                                     default:
                                         reader.skipType(tag & 7);
                                         break;
@@ -10549,6 +10564,7 @@
                                     case 13:
                                     case 14:
                                     case 15:
+                                    case 16:
                                         break;
                                     }
                                 if (message.mode != null && message.hasOwnProperty("mode"))
@@ -10585,6 +10601,11 @@
                                 if (message.defaultValueExpression != null && message.hasOwnProperty("defaultValueExpression"))
                                     if (!$util.isString(message.defaultValueExpression))
                                         return "defaultValueExpression: string expected";
+                                if (message.rangeElementType != null && message.hasOwnProperty("rangeElementType")) {
+                                    var error = $root.google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.verify(message.rangeElementType);
+                                    if (error)
+                                        return "rangeElementType." + error;
+                                }
                                 return null;
                             };
     
@@ -10673,6 +10694,10 @@
                                 case 15:
                                     message.type = 15;
                                     break;
+                                case "RANGE":
+                                case 16:
+                                    message.type = 16;
+                                    break;
                                 }
                                 switch (object.mode) {
                                 default:
@@ -10739,6 +10764,11 @@
                                         message.scale = new $util.LongBits(object.scale.low >>> 0, object.scale.high >>> 0).toNumber();
                                 if (object.defaultValueExpression != null)
                                     message.defaultValueExpression = String(object.defaultValueExpression);
+                                if (object.rangeElementType != null) {
+                                    if (typeof object.rangeElementType !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1.TableFieldSchema.rangeElementType: object expected");
+                                    message.rangeElementType = $root.google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.fromObject(object.rangeElementType);
+                                }
                                 return message;
                             };
     
@@ -10778,6 +10808,7 @@
                                     } else
                                         object.scale = options.longs === String ? "0" : 0;
                                     object.defaultValueExpression = "";
+                                    object.rangeElementType = null;
                                 }
                                 if (message.name != null && message.hasOwnProperty("name"))
                                     object.name = message.name;
@@ -10809,6 +10840,8 @@
                                         object.scale = options.longs === String ? $util.Long.prototype.toString.call(message.scale) : options.longs === Number ? new $util.LongBits(message.scale.low >>> 0, message.scale.high >>> 0).toNumber() : message.scale;
                                 if (message.defaultValueExpression != null && message.hasOwnProperty("defaultValueExpression"))
                                     object.defaultValueExpression = message.defaultValueExpression;
+                                if (message.rangeElementType != null && message.hasOwnProperty("rangeElementType"))
+                                    object.rangeElementType = $root.google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.toObject(message.rangeElementType, options);
                                 return object;
                             };
     
@@ -10858,6 +10891,7 @@
                              * @property {number} BIGNUMERIC=13 BIGNUMERIC value
                              * @property {number} INTERVAL=14 INTERVAL value
                              * @property {number} JSON=15 JSON value
+                             * @property {number} RANGE=16 RANGE value
                              */
                             TableFieldSchema.Type = (function() {
                                 var valuesById = {}, values = Object.create(valuesById);
@@ -10877,6 +10911,7 @@
                                 values[valuesById[13] = "BIGNUMERIC"] = 13;
                                 values[valuesById[14] = "INTERVAL"] = 14;
                                 values[valuesById[15] = "JSON"] = 15;
+                                values[valuesById[16] = "RANGE"] = 16;
                                 return values;
                             })();
     
@@ -10896,6 +10931,303 @@
                                 values[valuesById[2] = "REQUIRED"] = 2;
                                 values[valuesById[3] = "REPEATED"] = 3;
                                 return values;
+                            })();
+    
+                            TableFieldSchema.FieldElementType = (function() {
+    
+                                /**
+                                 * Properties of a FieldElementType.
+                                 * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema
+                                 * @interface IFieldElementType
+                                 * @property {google.cloud.bigquery.storage.v1.TableFieldSchema.Type|null} [type] FieldElementType type
+                                 */
+    
+                                /**
+                                 * Constructs a new FieldElementType.
+                                 * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema
+                                 * @classdesc Represents a FieldElementType.
+                                 * @implements IFieldElementType
+                                 * @constructor
+                                 * @param {google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType=} [properties] Properties to set
+                                 */
+                                function FieldElementType(properties) {
+                                    if (properties)
+                                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                            if (properties[keys[i]] != null)
+                                                this[keys[i]] = properties[keys[i]];
+                                }
+    
+                                /**
+                                 * FieldElementType type.
+                                 * @member {google.cloud.bigquery.storage.v1.TableFieldSchema.Type} type
+                                 * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType
+                                 * @instance
+                                 */
+                                FieldElementType.prototype.type = 0;
+    
+                                /**
+                                 * Creates a new FieldElementType instance using the specified properties.
+                                 * @function create
+                                 * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType
+                                 * @static
+                                 * @param {google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType=} [properties] Properties to set
+                                 * @returns {google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType} FieldElementType instance
+                                 */
+                                FieldElementType.create = function create(properties) {
+                                    return new FieldElementType(properties);
+                                };
+    
+                                /**
+                                 * Encodes the specified FieldElementType message. Does not implicitly {@link google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.verify|verify} messages.
+                                 * @function encode
+                                 * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType
+                                 * @static
+                                 * @param {google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType} message FieldElementType message or plain object to encode
+                                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                                 * @returns {$protobuf.Writer} Writer
+                                 */
+                                FieldElementType.encode = function encode(message, writer) {
+                                    if (!writer)
+                                        writer = $Writer.create();
+                                    if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+                                        writer.uint32(/* id 1, wireType 0 =*/8).int32(message.type);
+                                    return writer;
+                                };
+    
+                                /**
+                                 * Encodes the specified FieldElementType message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.verify|verify} messages.
+                                 * @function encodeDelimited
+                                 * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType
+                                 * @static
+                                 * @param {google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType} message FieldElementType message or plain object to encode
+                                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                                 * @returns {$protobuf.Writer} Writer
+                                 */
+                                FieldElementType.encodeDelimited = function encodeDelimited(message, writer) {
+                                    return this.encode(message, writer).ldelim();
+                                };
+    
+                                /**
+                                 * Decodes a FieldElementType message from the specified reader or buffer.
+                                 * @function decode
+                                 * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType
+                                 * @static
+                                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                                 * @param {number} [length] Message length if known beforehand
+                                 * @returns {google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType} FieldElementType
+                                 * @throws {Error} If the payload is not a reader or valid buffer
+                                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                                 */
+                                FieldElementType.decode = function decode(reader, length) {
+                                    if (!(reader instanceof $Reader))
+                                        reader = $Reader.create(reader);
+                                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType();
+                                    while (reader.pos < end) {
+                                        var tag = reader.uint32();
+                                        switch (tag >>> 3) {
+                                        case 1: {
+                                                message.type = reader.int32();
+                                                break;
+                                            }
+                                        default:
+                                            reader.skipType(tag & 7);
+                                            break;
+                                        }
+                                    }
+                                    return message;
+                                };
+    
+                                /**
+                                 * Decodes a FieldElementType message from the specified reader or buffer, length delimited.
+                                 * @function decodeDelimited
+                                 * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType
+                                 * @static
+                                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                                 * @returns {google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType} FieldElementType
+                                 * @throws {Error} If the payload is not a reader or valid buffer
+                                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                                 */
+                                FieldElementType.decodeDelimited = function decodeDelimited(reader) {
+                                    if (!(reader instanceof $Reader))
+                                        reader = new $Reader(reader);
+                                    return this.decode(reader, reader.uint32());
+                                };
+    
+                                /**
+                                 * Verifies a FieldElementType message.
+                                 * @function verify
+                                 * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType
+                                 * @static
+                                 * @param {Object.<string,*>} message Plain object to verify
+                                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                                 */
+                                FieldElementType.verify = function verify(message) {
+                                    if (typeof message !== "object" || message === null)
+                                        return "object expected";
+                                    if (message.type != null && message.hasOwnProperty("type"))
+                                        switch (message.type) {
+                                        default:
+                                            return "type: enum value expected";
+                                        case 0:
+                                        case 1:
+                                        case 2:
+                                        case 3:
+                                        case 4:
+                                        case 5:
+                                        case 6:
+                                        case 7:
+                                        case 8:
+                                        case 9:
+                                        case 10:
+                                        case 11:
+                                        case 12:
+                                        case 13:
+                                        case 14:
+                                        case 15:
+                                        case 16:
+                                            break;
+                                        }
+                                    return null;
+                                };
+    
+                                /**
+                                 * Creates a FieldElementType message from a plain object. Also converts values to their respective internal types.
+                                 * @function fromObject
+                                 * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType
+                                 * @static
+                                 * @param {Object.<string,*>} object Plain object
+                                 * @returns {google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType} FieldElementType
+                                 */
+                                FieldElementType.fromObject = function fromObject(object) {
+                                    if (object instanceof $root.google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType)
+                                        return object;
+                                    var message = new $root.google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType();
+                                    switch (object.type) {
+                                    default:
+                                        if (typeof object.type === "number") {
+                                            message.type = object.type;
+                                            break;
+                                        }
+                                        break;
+                                    case "TYPE_UNSPECIFIED":
+                                    case 0:
+                                        message.type = 0;
+                                        break;
+                                    case "STRING":
+                                    case 1:
+                                        message.type = 1;
+                                        break;
+                                    case "INT64":
+                                    case 2:
+                                        message.type = 2;
+                                        break;
+                                    case "DOUBLE":
+                                    case 3:
+                                        message.type = 3;
+                                        break;
+                                    case "STRUCT":
+                                    case 4:
+                                        message.type = 4;
+                                        break;
+                                    case "BYTES":
+                                    case 5:
+                                        message.type = 5;
+                                        break;
+                                    case "BOOL":
+                                    case 6:
+                                        message.type = 6;
+                                        break;
+                                    case "TIMESTAMP":
+                                    case 7:
+                                        message.type = 7;
+                                        break;
+                                    case "DATE":
+                                    case 8:
+                                        message.type = 8;
+                                        break;
+                                    case "TIME":
+                                    case 9:
+                                        message.type = 9;
+                                        break;
+                                    case "DATETIME":
+                                    case 10:
+                                        message.type = 10;
+                                        break;
+                                    case "GEOGRAPHY":
+                                    case 11:
+                                        message.type = 11;
+                                        break;
+                                    case "NUMERIC":
+                                    case 12:
+                                        message.type = 12;
+                                        break;
+                                    case "BIGNUMERIC":
+                                    case 13:
+                                        message.type = 13;
+                                        break;
+                                    case "INTERVAL":
+                                    case 14:
+                                        message.type = 14;
+                                        break;
+                                    case "JSON":
+                                    case 15:
+                                        message.type = 15;
+                                        break;
+                                    case "RANGE":
+                                    case 16:
+                                        message.type = 16;
+                                        break;
+                                    }
+                                    return message;
+                                };
+    
+                                /**
+                                 * Creates a plain object from a FieldElementType message. Also converts values to other types if specified.
+                                 * @function toObject
+                                 * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType
+                                 * @static
+                                 * @param {google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType} message FieldElementType
+                                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                                 * @returns {Object.<string,*>} Plain object
+                                 */
+                                FieldElementType.toObject = function toObject(message, options) {
+                                    if (!options)
+                                        options = {};
+                                    var object = {};
+                                    if (options.defaults)
+                                        object.type = options.enums === String ? "TYPE_UNSPECIFIED" : 0;
+                                    if (message.type != null && message.hasOwnProperty("type"))
+                                        object.type = options.enums === String ? $root.google.cloud.bigquery.storage.v1.TableFieldSchema.Type[message.type] === undefined ? message.type : $root.google.cloud.bigquery.storage.v1.TableFieldSchema.Type[message.type] : message.type;
+                                    return object;
+                                };
+    
+                                /**
+                                 * Converts this FieldElementType to JSON.
+                                 * @function toJSON
+                                 * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType
+                                 * @instance
+                                 * @returns {Object.<string,*>} JSON object
+                                 */
+                                FieldElementType.prototype.toJSON = function toJSON() {
+                                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                                };
+    
+                                /**
+                                 * Gets the default type url for FieldElementType
+                                 * @function getTypeUrl
+                                 * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType
+                                 * @static
+                                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                                 * @returns {string} The default type url
+                                 */
+                                FieldElementType.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                    if (typeUrlPrefix === undefined) {
+                                        typeUrlPrefix = "type.googleapis.com";
+                                    }
+                                    return typeUrlPrefix + "/google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType";
+                                };
+    
+                                return FieldElementType;
                             })();
     
                             return TableFieldSchema;
