@@ -18,7 +18,7 @@ import * as protos from '../../protos/protos';
 
 import {WriterClient} from './writer_client';
 import {PendingWrite} from './pending_write';
-import {logger} from './logger';
+import {logger} from '../util/logger';
 import {parseStorageErrors} from './error';
 
 type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
