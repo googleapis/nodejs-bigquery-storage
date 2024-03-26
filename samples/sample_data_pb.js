@@ -562,9 +562,8 @@ $root.SampleData = (function () {
       message.float64Col = Number(object.float64Col);
     if (object.int64Col != null)
       if ($util.Long)
-        (message.int64Col = $util.Long.fromValue(
-          object.int64Col
-        )).unsigned = false;
+        (message.int64Col = $util.Long.fromValue(object.int64Col)).unsigned =
+          false;
       else if (typeof object.int64Col === 'string')
         message.int64Col = parseInt(object.int64Col, 10);
       else if (typeof object.int64Col === 'number')
@@ -577,9 +576,8 @@ $root.SampleData = (function () {
     if (object.stringCol != null) message.stringCol = String(object.stringCol);
     if (object.dateCol != null)
       if ($util.Long)
-        (message.dateCol = $util.Long.fromValue(
-          object.dateCol
-        )).unsigned = false;
+        (message.dateCol = $util.Long.fromValue(object.dateCol)).unsigned =
+          false;
       else if (typeof object.dateCol === 'string')
         message.dateCol = parseInt(object.dateCol, 10);
       else if (typeof object.dateCol === 'number')
@@ -696,8 +694,8 @@ $root.SampleData = (function () {
           options.longs === String
             ? long.toString()
             : options.longs === Number
-            ? long.toNumber()
-            : long;
+              ? long.toNumber()
+              : long;
       } else object.int64Col = options.longs === String ? '0' : 0;
       object.stringCol = '';
       if ($util.Long) {
@@ -706,8 +704,8 @@ $root.SampleData = (function () {
           options.longs === String
             ? long.toString()
             : options.longs === Number
-            ? long.toNumber()
-            : long;
+              ? long.toNumber()
+              : long;
       } else object.dateCol = options.longs === String ? '0' : 0;
       object.datetimeCol = '';
       object.geographyCol = '';
@@ -720,8 +718,8 @@ $root.SampleData = (function () {
           options.longs === String
             ? long.toString()
             : options.longs === Number
-            ? long.toNumber()
-            : long;
+              ? long.toNumber()
+              : long;
       } else object.timestampCol = options.longs === String ? '0' : 0;
       object.structCol = null;
       if ($util.Long) {
@@ -730,8 +728,8 @@ $root.SampleData = (function () {
           options.longs === String
             ? long.toString()
             : options.longs === Number
-            ? long.toNumber()
-            : long;
+              ? long.toNumber()
+              : long;
       } else object.rowNum = options.longs === String ? '0' : 0;
     }
     if (message.boolCol != null && message.hasOwnProperty('boolCol'))
@@ -741,8 +739,8 @@ $root.SampleData = (function () {
         options.bytes === String
           ? $util.base64.encode(message.bytesCol, 0, message.bytesCol.length)
           : options.bytes === Array
-          ? Array.prototype.slice.call(message.bytesCol)
-          : message.bytesCol;
+            ? Array.prototype.slice.call(message.bytesCol)
+            : message.bytesCol;
     if (message.float64Col != null && message.hasOwnProperty('float64Col'))
       object.float64Col =
         options.json && !isFinite(message.float64Col)
@@ -759,11 +757,11 @@ $root.SampleData = (function () {
           options.longs === String
             ? $util.Long.prototype.toString.call(message.int64Col)
             : options.longs === Number
-            ? new $util.LongBits(
-                message.int64Col.low >>> 0,
-                message.int64Col.high >>> 0
-              ).toNumber()
-            : message.int64Col;
+              ? new $util.LongBits(
+                  message.int64Col.low >>> 0,
+                  message.int64Col.high >>> 0
+                ).toNumber()
+              : message.int64Col;
     if (message.stringCol != null && message.hasOwnProperty('stringCol'))
       object.stringCol = message.stringCol;
     if (message.dateCol != null && message.hasOwnProperty('dateCol'))
@@ -775,11 +773,11 @@ $root.SampleData = (function () {
           options.longs === String
             ? $util.Long.prototype.toString.call(message.dateCol)
             : options.longs === Number
-            ? new $util.LongBits(
-                message.dateCol.low >>> 0,
-                message.dateCol.high >>> 0
-              ).toNumber()
-            : message.dateCol;
+              ? new $util.LongBits(
+                  message.dateCol.low >>> 0,
+                  message.dateCol.high >>> 0
+                ).toNumber()
+              : message.dateCol;
     if (message.datetimeCol != null && message.hasOwnProperty('datetimeCol'))
       object.datetimeCol = message.datetimeCol;
     if (message.geographyCol != null && message.hasOwnProperty('geographyCol'))
@@ -804,11 +802,11 @@ $root.SampleData = (function () {
           options.longs === String
             ? $util.Long.prototype.toString.call(message.timestampCol)
             : options.longs === Number
-            ? new $util.LongBits(
-                message.timestampCol.low >>> 0,
-                message.timestampCol.high >>> 0
-              ).toNumber()
-            : message.timestampCol;
+              ? new $util.LongBits(
+                  message.timestampCol.low >>> 0,
+                  message.timestampCol.high >>> 0
+                ).toNumber()
+              : message.timestampCol;
     if (message.int64List && message.int64List.length) {
       object.int64List = [];
       for (var j = 0; j < message.int64List.length; ++j)
@@ -822,11 +820,11 @@ $root.SampleData = (function () {
             options.longs === String
               ? $util.Long.prototype.toString.call(message.int64List[j])
               : options.longs === Number
-              ? new $util.LongBits(
-                  message.int64List[j].low >>> 0,
-                  message.int64List[j].high >>> 0
-                ).toNumber()
-              : message.int64List[j];
+                ? new $util.LongBits(
+                    message.int64List[j].low >>> 0,
+                    message.int64List[j].high >>> 0
+                  ).toNumber()
+                : message.int64List[j];
     }
     if (message.structCol != null && message.hasOwnProperty('structCol'))
       object.structCol = $root.SampleData.SampleStruct.toObject(
@@ -850,11 +848,11 @@ $root.SampleData = (function () {
           options.longs === String
             ? $util.Long.prototype.toString.call(message.rowNum)
             : options.longs === Number
-            ? new $util.LongBits(
-                message.rowNum.low >>> 0,
-                message.rowNum.high >>> 0
-              ).toNumber()
-            : message.rowNum;
+              ? new $util.LongBits(
+                  message.rowNum.low >>> 0,
+                  message.rowNum.high >>> 0
+                ).toNumber()
+              : message.rowNum;
     return object;
   };
 
@@ -1076,8 +1074,8 @@ $root.SampleData = (function () {
             options.longs === String
               ? long.toString()
               : options.longs === Number
-              ? long.toNumber()
-              : long;
+                ? long.toNumber()
+                : long;
         } else object.subIntCol = options.longs === String ? '0' : 0;
       if (message.subIntCol != null && message.hasOwnProperty('subIntCol'))
         if (typeof message.subIntCol === 'number')
@@ -1090,11 +1088,11 @@ $root.SampleData = (function () {
             options.longs === String
               ? $util.Long.prototype.toString.call(message.subIntCol)
               : options.longs === Number
-              ? new $util.LongBits(
-                  message.subIntCol.low >>> 0,
-                  message.subIntCol.high >>> 0
-                ).toNumber()
-              : message.subIntCol;
+                ? new $util.LongBits(
+                    message.subIntCol.low >>> 0,
+                    message.subIntCol.high >>> 0
+                  ).toNumber()
+                : message.subIntCol;
       return object;
     };
 
