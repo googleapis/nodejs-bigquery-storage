@@ -149,7 +149,7 @@ export class ReadClient {
   async createReadStream(
     request: {
       streamName: string;
-      session: ReadSession,
+      session: ReadSession;
     },
     options?: CallOptions
   ): Promise<ReadStream> {

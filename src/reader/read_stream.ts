@@ -13,22 +13,13 @@
 // limitations under the License.
 
 import * as gax from 'google-gax';
-import {
-  Schema,
-  tableFromIPC,
-  RecordBatchReader,
-  Uint8,
-  AsyncMessageReader,
-  MessageReader,
-} from 'apache-arrow';
+import {RecordBatchReader} from 'apache-arrow';
 import * as protos from '../../protos/protos';
 
 import {ReadClient} from './read_client';
 import {logger} from '../util/logger';
 import {Readable} from 'stream';
-import {TableRow} from '@google-cloud/bigquery';
 
-type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type ReadSession = protos.google.cloud.bigquery.storage.v1.IReadSession;
 type ReadRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IReadRowsResponse;
@@ -51,7 +42,6 @@ export class ReadStream extends Readable {
   private _maxRows: number;
   private _readClient: ReadClient;
   private _session: ReadSession;
-  private _arrowSchema: Schema;
   private _connection?: gax.CancellableStream | null;
   private _callOptions?: gax.CallOptions;
 
@@ -71,17 +61,9 @@ export class ReadStream extends Readable {
     this._readClient = readClient;
     this._callOptions = options;
     this.open();
-
-    const buf = Buffer.from(
-      this._session.arrowSchema?.serializedSchema as Uint8Array
-    );
-    const schemaReader = new MessageReader(buf);
-    const schema = schemaReader.readSchema(false);
-    this.trace('schema', schema);
-    this._arrowSchema = schema!;
   }
 
-  _read(size?: number | undefined) {
+  _read(_?: number | undefined) {
     if (this.readableLength === 0) {
       this.trace('read called with zero rows', this._connection?.isPaused());
       if (this._connection && this._connection.isPaused()) {
@@ -177,19 +159,27 @@ export class ReadStream extends Readable {
 
       this._offset += rowCount;
 
-      // TODO: parse arrow data
-      const row: TableRow = {
-        f: [
-          {v: 'test'},
-          {v: batch.serializedRecordBatch?.length + ' bytes'},
-          {v: rowCount},
-        ],
-      };
+      const buf = Buffer.concat([
+        this._session.arrowSchema?.serializedSchema as Uint8Array,
+        batch.serializedRecordBatch as Uint8Array,
+      ]);
+      const r = RecordBatchReader.from(buf);
+      for (const recordBatch of r.readAll()) {
+        for (const row of recordBatch) {
+          this.push({
+            f: row.toArray().map(fieldValue => {
+              return {
+                v: fieldValue,
+              };
+            }),
+          });
+        }
+      }
       this.resume();
-      this.push(row);
+      /* TODO: backpressure ?
       if (this.readableLength > this._maxRows) {
         this._connection?.pause();
-      }
+      }*/
     }
   };
 
