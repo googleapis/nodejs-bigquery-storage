@@ -94,11 +94,11 @@ export class JSONEncoder {
       if (value === null) {
         continue;
       }
+      const pfield = this._type.fields[key];
+      if (!pfield) {
+        continue;
+      }
       if (value instanceof Date) {
-        const pfield = this._type.fields[key];
-        if (!pfield) {
-          continue;
-        }
         switch (pfield.type) {
           case 'int32': // DATE
             // The value is the number of days since the Unix epoch (1970-01-01)
@@ -110,6 +110,15 @@ export class JSONEncoder {
             break;
           case 'string': // DATETIME
             row[key] = value.toJSON().replace(/^(.*)T(.*)Z$/, '$1 $2');
+            break;
+        }
+        continue;
+      }
+      // NUMERIC and BIGNUMERIC integer
+      if (typeof value === 'number' || typeof value === 'bigint') {
+        switch (pfield.type) {
+          case 'string':
+            row[key] = value.toString(10);
             break;
         }
         continue;
