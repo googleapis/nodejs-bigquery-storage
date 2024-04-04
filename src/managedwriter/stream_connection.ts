@@ -177,9 +177,8 @@ export class StreamConnection extends EventEmitter {
     }
     // This header is required so that the BigQuery Storage API
     // knows which region to route the request to.
-    callOptions.otherArgs.headers[
-      'x-goog-request-params'
-    ] = `write_stream=${streamId}`;
+    callOptions.otherArgs.headers['x-goog-request-params'] =
+      `write_stream=${streamId}`;
     return callOptions;
   }
 
