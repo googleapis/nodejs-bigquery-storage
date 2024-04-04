@@ -1057,6 +1057,10 @@ describe('managedwriter.WriterClient', () => {
             code: gax.Status.DEADLINE_EXCEEDED,
             msg: 'a msg',
           },
+          {
+            code: gax.Status.INTERNAL,
+            msg: 'received RST_STREAM with code',
+          },
         ].map(err => {
           const gerr = new gax.GoogleError(err.msg);
           gerr.code = err.code;
