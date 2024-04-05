@@ -287,21 +287,9 @@ describe('writeClient', () => {
 
     projectId = table.metadata.tableReference.projectId;
 
-    /*const output = execSync(
-
-    );*/
-    const cmd = cp.exec(
-      `node ${testFile} ${projectId} ${datasetId} ${tableId}`,
-      {encoding: 'utf-8'}
+    const output = execSync(
+      `node ${testFile} ${projectId} ${datasetId} ${tableId}`
     );
-    let output = '';
-    cmd.stdout.on('data', msg => {
-      console.log('out', msg);
-      output += msg;
-    });
-    await new Promise(resolve => {
-      cmd.on('exit', resolve);
-    });
     assert.match(output, /Stream created:/);
     assert.match(output, /Row count: 16/);
 
