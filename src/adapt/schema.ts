@@ -42,6 +42,16 @@ type ITableFieldSchema = {
    * [Required] The field data type. Possible values include STRING, BYTES, INTEGER, INT64 (same as INTEGER), FLOAT, FLOAT64 (same as FLOAT), NUMERIC, BIGNUMERIC, BOOLEAN, BOOL (same as BOOLEAN), TIMESTAMP, DATE, TIME, DATETIME, INTERVAL, RECORD (where RECORD indicates that the field contains a nested schema) or STRUCT (same as RECORD).
    */
   type?: string;
+
+  /**
+   * Represents the type of a field element.
+   */
+  rangeElementType?: {
+    /**
+     * Required. The type of a field element. For more information, see TableFieldSchema.type.
+     */
+    type?: string;
+  };
 };
 type StorageTableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type StorageTableField =
@@ -109,5 +119,18 @@ function bqFieldToStorageField(field: ITableFieldSchema): StorageTableField {
     }
     out.fields.push(converted);
   }
+
+  if (field.rangeElementType && field.rangeElementType.type) {
+    const rtype = fieldTypeMap[field.rangeElementType.type];
+    if (!rtype) {
+      throw Error(
+        `could not convert range field (${field.name}) due to unknown range element type: ${field.rangeElementType.type}`
+      );
+    }
+    out.rangeElementType = {
+      type: rtype,
+    };
+  }
+
   return out;
 }

@@ -241,10 +241,6 @@ describe('writeClient', () => {
     it('adapts BQ Schema to Proto descriptor', async () => {
       return testAppendRowsMultipleType('append_rows_table_to_proto2');
     });
-
-    it('using JSON Writer ', async () => {
-      return testAppendRowsMultipleType('append_rows_table_to_proto2');
-    });
   });
 
   async function testAppendRowsMultipleType(testFile) {
@@ -273,6 +269,13 @@ describe('writeClient', () => {
         mode: 'REPEATED',
         fields: [{name: 'sub_int_col', type: 'INTEGER'}],
       },
+      {
+        name: 'range_col',
+        type: 'RANGE',
+        rangeElementType: {
+          type: 'TIMESTAMP',
+        },
+      },
       {name: 'row_num', type: 'INTEGER', mode: 'REQUIRED'},
     ];
 
@@ -284,11 +287,23 @@ describe('writeClient', () => {
 
     projectId = table.metadata.tableReference.projectId;
 
-    const output = execSync(
-      `node ${testFile} ${projectId} ${datasetId} ${tableId}`
+    /*const output = execSync(
+
+    );*/
+    const cmd = cp.exec(
+      `node ${testFile} ${projectId} ${datasetId} ${tableId}`,
+      {encoding: 'utf-8'}
     );
+    let output = '';
+    cmd.stdout.on('data', msg => {
+      console.log('out', msg);
+      output += msg;
+    });
+    await new Promise(resolve => {
+      cmd.on('exit', resolve);
+    });
     assert.match(output, /Stream created:/);
-    assert.match(output, /Row count: 15/);
+    assert.match(output, /Row count: 16/);
 
     let [rows] = await table.query(
       `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
@@ -304,11 +319,22 @@ describe('writeClient', () => {
           if (name === 'numeric_col' || name === 'bignumeric_col') {
             value = value.toNumber();
           }
+          if (name === 'range_col') {
+            // Parse range while not supported on @google-cloud/bigquery pkg
+            const [start, end] = value
+              .replace('[', '')
+              .replace(')', '')
+              .split(',');
+            value = {
+              start: BigQuery.timestamp(start).value,
+              end: BigQuery.timestamp(end).value,
+            };
+          }
           return {[name]: value};
         });
     });
 
-    assert.strictEqual(rows.length, 15);
+    assert.strictEqual(rows.length, 16);
     assert.deepInclude(rows, [
       {
         bool_col: true,
@@ -348,6 +374,15 @@ describe('writeClient', () => {
     assert.deepInclude(rows, [
       {struct_list: [{sub_int_col: 100}, {sub_int_col: 101}]},
       {row_num: 15},
+    ]);
+    assert.deepInclude(rows, [
+      {
+        range_col: {
+          start: '2022-01-09T03:49:46.564Z',
+          end: '2022-01-09T04:49:46.564Z',
+        },
+      },
+      {row_num: 16},
     ]);
   }
 
