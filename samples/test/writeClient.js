@@ -22,6 +22,7 @@ const {assert} = require('chai');
 const {describe, it, before, after} = require('mocha');
 const uuid = require('uuid');
 const cp = require('child_process');
+const {PreciseDate} = require('@google-cloud/precise-date');
 const {BigQuery} = require('@google-cloud/bigquery');
 
 const bigquery = new BigQuery();
@@ -294,7 +295,7 @@ describe('writeClient', () => {
     assert.match(output, /Row count: 16/);
 
     let [rows] = await table.query(
-      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\` order by row_num`
+      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
     );
 
     rows = rows.map(row => {
@@ -309,16 +310,17 @@ describe('writeClient', () => {
           }
           if (name === 'range_col') {
             // Parse range while not supported on @google-cloud/bigquery pkg
-            console.log('Found range column', value);
             const [start, end] = value
               .replace('[', '')
               .replace(')', '')
               .split(',');
+
+            const pdStart = new PreciseDate(BigInt(start) * BigInt(1000));
+            const pdEnd = new PreciseDate(BigInt(end) * BigInt(1000));
             value = {
-              start: BigQuery.timestamp(start).value,
-              end: BigQuery.timestamp(end).value,
+              start: BigQuery.timestamp(pdStart).value,
+              end: BigQuery.timestamp(pdEnd).value,
             };
-            console.log('Parsed range column', value);
           }
           return {[name]: value};
         });
@@ -365,7 +367,6 @@ describe('writeClient', () => {
       {struct_list: [{sub_int_col: 100}, {sub_int_col: 101}]},
       {row_num: 15},
     ]);
-    console.log('Row 16', rows[15]);
     assert.deepInclude(rows, [
       {
         range_col: {
