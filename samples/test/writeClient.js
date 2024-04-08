@@ -309,6 +309,7 @@ describe('writeClient', () => {
           }
           if (name === 'range_col') {
             // Parse range while not supported on @google-cloud/bigquery pkg
+            console.log('Found range column', value);
             const [start, end] = value
               .replace('[', '')
               .replace(')', '')
@@ -317,6 +318,7 @@ describe('writeClient', () => {
               start: BigQuery.timestamp(start).value,
               end: BigQuery.timestamp(end).value,
             };
+            console.log('Parsed range column', value);
           }
           return {[name]: value};
         });
