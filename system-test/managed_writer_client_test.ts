@@ -453,7 +453,7 @@ describe('managedwriter.WriterClient', () => {
           customer_created_at: '2022-01-09 03:49:46.564',
           customer_updated_at: '1673236186564000',
         },
-        customer_last_purchase_dates: ['1641700186564000', '1673236186564000']
+        customer_last_purchase_dates: ['1641700186564000', '1673236186564000'],
       });
 
       const encodedRow2 = encoded[1];
@@ -466,7 +466,7 @@ describe('managedwriter.WriterClient', () => {
           customer_created_at: '2022-01-09 03:49:46.564',
           customer_updated_at: '1673236186564000',
         },
-        customer_last_purchase_dates: ['1641700186564000', '1673236186564000']
+        customer_last_purchase_dates: ['1641700186564000', '1673236186564000'],
       });
     });
   });

@@ -131,9 +131,9 @@ export class JSONEncoder {
         if (this.isPlainObject(v)) {
           return this.convertRow(v, subType);
         }
-        const encodedValue = this.encodeRowValue(v, key, subType)
+        const encodedValue = this.encodeRowValue(v, key, subType);
         if (encodedValue === undefined) {
-          return v
+          return v;
         }
         return encodedValue;
       });
