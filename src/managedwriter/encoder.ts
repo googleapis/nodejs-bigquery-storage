@@ -16,6 +16,7 @@ import * as protobuf from 'protobufjs';
 import * as protos from '../../protos/protos';
 import {normalizeDescriptor} from '../adapt/proto';
 import * as extend from 'extend';
+import {JSONObject, JSONValue} from './json_writer';
 
 type IDescriptorProto = protos.google.protobuf.IDescriptorProto;
 type DescriptorProto = protos.google.protobuf.DescriptorProto;
@@ -67,7 +68,7 @@ export class JSONEncoder {
    * @param {JSONList} rows - The list of JSON rows.
    * @returns {Uint8Array[]} The encoded rows.
    */
-  encodeRows(rows: any[]): Uint8Array[] {
+  encodeRows(rows: JSONObject[]): Uint8Array[] {
     const serializedRows = rows
       .map(r => {
         return this.convertRow(r, this._type);
@@ -82,12 +83,12 @@ export class JSONEncoder {
     return value && [undefined, Object].includes(value.constructor);
   }
 
-  private encodeRow(row: any): Uint8Array {
+  private encodeRow(row: JSONObject): Uint8Array {
     const msg = this._type.create(row);
     return this._type.encode(msg).finish();
   }
 
-  private convertRow(source: any, ptype: protobuf.Type): Object {
+  private convertRow(source: JSONObject, ptype: protobuf.Type): JSONObject {
     const row = extend(true, {}, source);
     for (const key in row) {
       const value = row[key];
@@ -104,10 +105,10 @@ export class JSONEncoder {
   }
 
   private encodeRowValue(
-    value: any,
+    value: JSONValue,
     key: string,
     ptype: protobuf.Type
-  ): any | null {
+  ): JSONValue | undefined {
     const pfield = ptype.fields[key];
     if (!pfield) {
       return undefined;
@@ -137,7 +138,7 @@ export class JSONEncoder {
       const subType = this.getSubType(key, ptype);
       return value.map(v => {
         if (this.isPlainObject(v)) {
-          return this.convertRow(v, subType);
+          return this.convertRow(v as JSONObject, subType);
         }
         const encodedValue = this.encodeRowValue(v, key, subType);
         if (encodedValue === undefined) {
@@ -148,8 +149,9 @@ export class JSONEncoder {
     }
     if (this.isPlainObject(value)) {
       const subType = this.getSubType(key, ptype);
-      return this.convertRow(value, subType);
+      return this.convertRow(value as JSONObject, subType);
     }
+    return undefined;
   }
 
   private getSubType(key: string, ptype: protobuf.Type): protobuf.Type {
