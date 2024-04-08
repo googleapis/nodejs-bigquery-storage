@@ -371,20 +371,34 @@ describe('managedwriter.WriterClient', () => {
 
   describe('JSONEncoder', () => {
     it('should automatically convert date/datetime/timestamps to expect BigQuery format', () => {
-      const updatedSchema = {
+      const updatedSchema: TableSchema = {
         fields: [
           ...(schema.fields || []),
           {
             name: 'customer_birthday',
             type: 'DATE',
+            mode: 'REQUIRED',
           },
           {
-            name: 'customer_created_at',
-            type: 'DATETIME',
+            name: 'customer_metadata',
+            type: 'RECORD',
+            mode: 'REQUIRED',
+            fields: [
+              {
+                name: 'customer_created_at',
+                type: 'DATETIME',
+                mode: 'REQUIRED',
+              },
+              {
+                name: 'customer_updated_at',
+                type: 'TIMESTAMP',
+              },
+            ],
           },
           {
-            name: 'customer_updated_at',
+            name: 'customer_last_purchase_dates',
             type: 'TIMESTAMP',
+            mode: 'REPEATED',
           },
         ],
       };
@@ -401,8 +415,14 @@ describe('managedwriter.WriterClient', () => {
         customer_name: 'Ada Lovelace',
         row_num: 1,
         customer_birthday: new Date('1815-12-10'),
-        customer_created_at: new Date('2022-01-09T03:49:46.564Z'),
-        customer_updated_at: new Date('2023-01-09T03:49:46.564Z'),
+        customer_metadata: {
+          customer_created_at: new Date('2022-01-09T03:49:46.564Z'),
+          customer_updated_at: new Date('2023-01-09T03:49:46.564Z'),
+        },
+        customer_last_purchase_dates: [
+          new Date('2022-01-09T03:49:46.564Z'),
+          new Date('2023-01-09T03:49:46.564Z'),
+        ],
       };
 
       // Row 2
@@ -410,8 +430,14 @@ describe('managedwriter.WriterClient', () => {
         customer_name: 'Alan Turing',
         row_num: 2,
         customer_birthday: new Date('1912-07-23'),
-        customer_created_at: new Date('2022-01-09T03:49:46.564Z'),
-        customer_updated_at: new Date('2023-01-09T03:49:46.564Z'),
+        customer_metadata: {
+          customer_created_at: new Date('2022-01-09T03:49:46.564Z'),
+          customer_updated_at: new Date('2023-01-09T03:49:46.564Z'),
+        },
+        customer_last_purchase_dates: [
+          new Date('2022-01-09T03:49:46.564Z'),
+          new Date('2023-01-09T03:49:46.564Z'),
+        ],
       };
 
       const Proto = Type.fromDescriptor(protoDescriptor);
@@ -421,20 +447,26 @@ describe('managedwriter.WriterClient', () => {
       const decodedRow1 = Proto.decode(encodedRow1).toJSON();
       assert.deepEqual(decodedRow1, {
         customer_name: 'Ada Lovelace',
-        row_num: 1,
+        row_num: '1',
         customer_birthday: -56270,
-        customer_created_at: '2022-01-09 03:49:46.564',
-        customer_updated_at: 1673236186564000,
+        customer_metadata: {
+          customer_created_at: '2022-01-09 03:49:46.564',
+          customer_updated_at: '1673236186564000',
+        },
+        customer_last_purchase_dates: ['1641700186564000', '1673236186564000'],
       });
 
       const encodedRow2 = encoded[1];
       const decodedRow2 = Proto.decode(encodedRow2).toJSON();
       assert.deepEqual(decodedRow2, {
         customer_name: 'Alan Turing',
-        row_num: 2,
+        row_num: '2',
         customer_birthday: -20981,
-        customer_created_at: '2022-01-09 03:49:46.564',
-        customer_updated_at: 1673236186564000,
+        customer_metadata: {
+          customer_created_at: '2022-01-09 03:49:46.564',
+          customer_updated_at: '1673236186564000',
+        },
+        customer_last_purchase_dates: ['1641700186564000', '1673236186564000'],
       });
     });
 
