@@ -294,7 +294,7 @@ describe('writeClient', () => {
     assert.match(output, /Row count: 16/);
 
     let [rows] = await table.query(
-      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
+      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\` order by row_num`
     );
 
     rows = rows.map(row => {
@@ -363,6 +363,7 @@ describe('writeClient', () => {
       {struct_list: [{sub_int_col: 100}, {sub_int_col: 101}]},
       {row_num: 15},
     ]);
+    console.log('Row 16', rows[15]);
     assert.deepInclude(rows, [
       {
         range_col: {
