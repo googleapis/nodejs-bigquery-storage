@@ -22,7 +22,6 @@ const {assert} = require('chai');
 const {describe, it, before, after} = require('mocha');
 const uuid = require('uuid');
 const cp = require('child_process');
-const {PreciseDate} = require('@google-cloud/precise-date');
 const {BigQuery} = require('@google-cloud/bigquery');
 
 const bigquery = new BigQuery();
@@ -315,11 +314,11 @@ describe('writeClient', () => {
               .replace(')', '')
               .split(',');
 
-            const pdStart = new PreciseDate(BigInt(start) * BigInt(1000));
-            const pdEnd = new PreciseDate(BigInt(end) * BigInt(1000));
+            const dtStart = new Date(start / 1000);
+            const dtEnd = new Date(end / 1000);
             value = {
-              start: BigQuery.timestamp(pdStart).value,
-              end: BigQuery.timestamp(pdEnd).value,
+              start: BigQuery.timestamp(dtStart).value,
+              end: BigQuery.timestamp(dtEnd).value,
             };
           }
           return {[name]: value};
