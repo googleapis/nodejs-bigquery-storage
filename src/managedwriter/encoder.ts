@@ -108,11 +108,11 @@ export class JSONEncoder {
     key: string,
     ptype: protobuf.Type
   ): any | null {
+    const pfield = ptype.fields[key];
+    if (!pfield) {
+      return undefined;
+    }
     if (value instanceof Date) {
-      const pfield = ptype.fields[key];
-      if (!pfield) {
-        return undefined;
-      }
       switch (pfield.type) {
         case 'int32': // DATE
           // The value is the number of days since the Unix epoch (1970-01-01)
@@ -122,6 +122,14 @@ export class JSONEncoder {
           return value.getTime() * 1000;
         case 'string': // DATETIME
           return value.toJSON().replace(/^(.*)T(.*)Z$/, '$1 $2');
+      }
+      return undefined;
+    }
+    // NUMERIC and BIGNUMERIC integer
+    if (typeof value === 'number' || typeof value === 'bigint') {
+      switch (pfield.type) {
+        case 'string':
+          return value.toString(10);
       }
       return undefined;
     }
