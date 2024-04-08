@@ -204,10 +204,10 @@ function main(
 
       // Row 16
       row = {
-        rowNum: 16,
+        row_num: 16,
         range_col: {
-          start: new Date('2022-01-09T03:49:46.564Z'),
-          end: new Date('2022-01-09T04:49:46.564Z'),
+          start: new Date('2022-01-09T03:49:46.564Z').getTime() * 1000,
+          end: new Date('2022-01-09T04:49:46.564Z').getTime() * 1000,
         },
       };
       rows.push(row);
