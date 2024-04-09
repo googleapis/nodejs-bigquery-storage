@@ -27,7 +27,7 @@ type MissingValueInterpretationMap = {
 };
 type IInt64Value = protos.google.protobuf.IInt64Value;
 type IDescriptorProto = protos.google.protobuf.IDescriptorProto;
-export type JSONPrimitive = string | number | boolean | Date | null;
+export type JSONPrimitive = string | number | bigint | boolean | Date | null;
 export type JSONValue = JSONPrimitive | JSONObject | JSONArray;
 export type JSONObject = {[member: string]: JSONValue};
 export type JSONArray = Array<JSONValue>;

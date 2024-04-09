@@ -151,7 +151,7 @@ function main(
       // Row 10
       row = {
         row_num: 10,
-        numeric_col: '123456',
+        numeric_col: 123456,
         bignumeric_col: '99999999999999999999999999999.999999999',
       };
       rows.push(row);
