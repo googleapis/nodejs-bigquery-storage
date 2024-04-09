@@ -206,8 +206,8 @@ function main(
       row = {
         row_num: 16,
         range_col: {
-          start: new Date('2022-01-09T03:49:46.564Z').getTime() * 1000,
-          end: new Date('2022-01-09T04:49:46.564Z').getTime() * 1000,
+          start: new Date('2022-01-09T03:49:46.564Z'),
+          end: new Date('2022-01-09T04:49:46.564Z'),
         },
       };
       rows.push(row);
