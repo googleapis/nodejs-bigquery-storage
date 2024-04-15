@@ -1269,6 +1269,7 @@ describe('managedwriter.WriterClient', () => {
           destinationTable: parent,
         });
         const connection = await client.createStreamConnection({streamId});
+        const internalConn = connection['_connection']!;
         const writer = new Writer({
           connection,
           protoDescriptor,
@@ -1284,6 +1285,7 @@ describe('managedwriter.WriterClient', () => {
         writer.close();
         client.close();
         assert.strictEqual(client.isOpen(), false);
+        assert.strictEqual(internalConn.destroyed, true);
       } finally {
         client.close();
       }

@@ -327,6 +327,7 @@ export class StreamConnection extends EventEmitter {
     }
     this._connection.end();
     this._connection.removeAllListeners();
+    this._connection.destroy();
     this._connection = null;
   }
 
