@@ -1,5 +1,20 @@
 # Changelog
 
+## [4.5.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.4.0...v4.5.0) (2024-04-15)
+
+
+### Features
+
+* Add several fields to manage state of database encryption update ([#433](https://github.com/googleapis/nodejs-bigquery-storage/issues/433)) ([cf51780](https://github.com/googleapis/nodejs-bigquery-storage/commit/cf51780f991bc9befb87a812946f977cc8db9350))
+* Auto convert numbers ([#436](https://github.com/googleapis/nodejs-bigquery-storage/issues/436)) ([f0505e7](https://github.com/googleapis/nodejs-bigquery-storage/commit/f0505e7e32baca2eb9133161aa7161bf58e38a28))
+
+
+### Bug Fixes
+
+* Auto convert nested fields ([#438](https://github.com/googleapis/nodejs-bigquery-storage/issues/438)) ([0ba5b7d](https://github.com/googleapis/nodejs-bigquery-storage/commit/0ba5b7d592299f47ae285ce15b11157ee9e0207e))
+* Destroy internal grpc conn when closed ([#439](https://github.com/googleapis/nodejs-bigquery-storage/issues/439)) ([e7731bf](https://github.com/googleapis/nodejs-bigquery-storage/commit/e7731bf8f2b35c143a02bcd560fb4afb97936f0c))
+* Trigger reconnection on INTERNAL status error ([#435](https://github.com/googleapis/nodejs-bigquery-storage/issues/435)) ([f555322](https://github.com/googleapis/nodejs-bigquery-storage/commit/f5553220b9b9fe5289f9a1c394d3f964c016f07d))
+
 ## [4.4.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.3.0...v4.4.0) (2024-03-21)
 
 
