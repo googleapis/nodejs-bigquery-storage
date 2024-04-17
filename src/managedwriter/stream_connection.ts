@@ -139,6 +139,7 @@ export class StreamConnection extends EventEmitter {
       gax.Status.ABORTED,
       gax.Status.CANCELLED,
       gax.Status.DEADLINE_EXCEEDED,
+      gax.Status.INTERNAL,
     ];
     return !!err.code && reconnectionErrorCodes.includes(err.code);
   }
@@ -326,6 +327,7 @@ export class StreamConnection extends EventEmitter {
     }
     this._connection.end();
     this._connection.removeAllListeners();
+    this._connection.destroy();
     this._connection = null;
   }
 
