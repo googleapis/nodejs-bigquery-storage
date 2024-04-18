@@ -29,7 +29,6 @@ function main(
     try {
       sqlQuery =
         'SELECT repository_url as url, repository_owner as owner, repository_forks as forks FROM `bigquery-public-data.samples.github_timeline` where repository_url is not null LIMIT 300000';
-      //'SELECT repository_url as url, repository_owner as owner, repository_forks as forks FROM `bigquery-public-data.samples.github_timeline` where repository_url is not null LIMIT 1000';
 
       const [job] = await bigquery.createQueryJob({
         query: sqlQuery,
@@ -45,10 +44,14 @@ function main(
           projectId: dstTableRef.projectId,
         })
         .table(dstTableRef.tableId);
+      const [md] = await table.getMetadata({
+        view: 'BASIC',
+      });
 
       console.log('table', table.dataset.projectId, table.dataset.id, table.id);
       const treader = await readClient.createTableReader({table});
-      const [rows] = await treader.getRows();
+      const [rawRows] = await treader.getRows();
+      const rows = BigQuery.mergeSchemaWithRows_(md.schema, rawRows, {});
       rows.forEach(row => {
         const url = row['url'];
         const owner = row['owner'];

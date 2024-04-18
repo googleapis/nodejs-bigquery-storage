@@ -17,14 +17,28 @@ import type {CallOptions, ClientOptions} from 'google-gax';
 import * as protos from '../../protos/protos';
 
 import {BigQueryReadClient} from '../v1';
-import bigquery from '@google-cloud/bigquery/build/src/types';
-import {Table} from '@google-cloud/bigquery';
 import {ReadStream} from './read_stream';
 import {TableReader} from './table_reader';
 
 type CreateReadSessionRequest =
   protos.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest;
 type ReadSession = protos.google.cloud.bigquery.storage.v1.IReadSession;
+type DataFormat = protos.google.cloud.bigquery.storage.v1.DataFormat;
+
+export type TableReference = {
+  /**
+   * Required. The ID of the dataset containing this table.
+   */
+  datasetId?: string;
+  /**
+   * Required. The ID of the project containing this table.
+   */
+  projectId?: string;
+  /**
+   * Required. The ID of the table. The ID can contain Unicode characters in category L (letter), M (mark), N (number), Pc (connector, including underscore), Pd (dash), and Zs (space). For more information, see [General Category](https://wikipedia.org/wiki/Unicode_character_property#General_Category). The maximum length is 1,024 characters. Certain operations allow suffixing of the table ID with a partition decorator, such as `sample_table$20190123`.
+   */
+  tableId?: string;
+};
 
 /**
  *  BigQuery Read API Client.
@@ -96,28 +110,39 @@ export class ReadClient {
    *
    * @param {Object} request
    *   The request object that will be sent.
-   * @param {bigquery.ITableReference} request.table
+   * @param {string} request.parent
+   *   Parent table that all the streams should belong to, in the form
+   *   of `projects/{project}`.
+   * @param {string} request.table
+   *   Parent table that all the streams should belong to, in the form
+   *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
+   * @param {TableReference} request.table
    *   Reference to the table to which the stream belongs, in the format
    *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
    * @returns {Promise<string>}} - The promise which resolves to the streamId.
    */
   async createReadSession(request: {
-    table: bigquery.ITableReference;
+    parent: string;
+    table: string;
+    dataFormat: DataFormat;
+    selectedFields?: string[];
   }): Promise<ReadSession> {
     await this.initialize();
-    const {table} = request;
+    const {table, parent, dataFormat, selectedFields} = request;
     const maxWorkerCount = 1;
     const maxStreamCount = 0;
     const createReq: CreateReadSessionRequest = {
-      parent: `projects/${table.projectId}`,
+      parent,
       readSession: {
-        table: `projects/${table.projectId}/datasets/${table.datasetId}/tables/${table.tableId}`,
-        dataFormat: 'ARROW',
+        table,
+        dataFormat,
+        readOptions: {
+          selectedFields: selectedFields,
+        },
       },
       preferredMinStreamCount: maxWorkerCount,
       maxStreamCount: maxStreamCount,
     };
-    console.log('[read client] create session req', createReq);
     const [response] = await this._client.createReadSession(createReq);
     if (typeof [response] === undefined) {
       throw new gax.GoogleError(`${response}`);
@@ -163,11 +188,11 @@ export class ReadClient {
     }
   }
 
-  async createTableReader(request: {table: Table}): Promise<TableReader> {
+  async createTableReader(params: {
+    table: TableReference;
+  }): Promise<TableReader> {
     await this.initialize();
-    const reader = new TableReader(this, {
-      table: request.table,
-    });
+    const reader = new TableReader(this, params.table);
     return reader;
   }
 
