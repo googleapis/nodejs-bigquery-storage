@@ -163,7 +163,7 @@ export class TableReader {
       });
       stream.on('end', () => {
         this.trace('resolve called on joined stream');
-        resolve([rows, session, { rows, totalRows: session.estimatedRowCount }]);
+        resolve([rows, session, {rows, totalRows: session.estimatedRowCount}]);
       });
     });
   }
