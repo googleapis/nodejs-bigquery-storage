@@ -147,9 +147,25 @@ export class TableReader {
    */
   async getRows(options?: GetRowsOptions): Promise<RowsResponse> {
     this.trace('getRows', options);
-    const [stream] = await this.getRowsStream(options);
-    const rows = await stream.toArray();
-    return rows;
+    const [stream, session] = await this.getRowsStream(options);
+    return new Promise<RowsResponse>((resolve, reject) => {
+      const rows: TableRow[] = [];
+      stream.on('readable', () => {
+        let data;
+        while ((data = stream.read()) !== null) {
+          this.trace('row arrived', data);
+          rows.push(data);
+        }
+      });
+      stream.on('error', err => {
+        this.trace('reject called on joined stream', err);
+        reject(err);
+      });
+      stream.on('end', () => {
+        this.trace('resolve called on joined stream');
+        resolve([rows, session]);
+      });
+    });
   }
 
   close() {
