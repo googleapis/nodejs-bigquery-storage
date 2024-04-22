@@ -87,6 +87,7 @@ export class StreamConnection extends EventEmitter {
     this._connection.on('error', this.handleError);
     this._connection.on('close', () => {
       this.trace('connection closed');
+      this.close();
     });
     this._connection.on('pause', () => {
       this.trace('connection paused');
@@ -107,20 +108,19 @@ export class StreamConnection extends EventEmitter {
   private handleError = (err: gax.GoogleError) => {
     this.trace('on error', err, JSON.stringify(err));
     if (this.shouldReconnect(err)) {
+      err.message = 'reconnect triggered due to: ' + err.message;
+      this.ackAllPendingWrites(err);
       this.reconnect();
       return;
     }
-    let nextPendingWrite = this.getNextPendingWrite();
     if (this.isPermanentError(err)) {
       this.trace('found permanent error', err);
-      while (nextPendingWrite) {
-        this.ackNextPendingWrite(err);
-        nextPendingWrite = this.getNextPendingWrite();
-      }
+      this.ackAllPendingWrites(err);
       this.emit('error', err);
       return;
     }
-    if (this.isRequestError(err) && nextPendingWrite) {
+    let nextPendingWrite = this.getNextPendingWrite();
+    if (nextPendingWrite) {
       this.trace(
         'found request error with pending write',
         err,
@@ -144,6 +144,13 @@ export class StreamConnection extends EventEmitter {
     return !!err.code && reconnectionErrorCodes.includes(err.code);
   }
 
+  private isConnectionClosed() {
+    if (this._connection) {
+      return this._connection.destroyed || this._connection.closed;
+    }
+    return true;
+  }
+
   private isPermanentError(err: gax.GoogleError): boolean {
     if (err.code === gax.Status.INVALID_ARGUMENT) {
       const storageErrors = parseStorageErrors(err);
@@ -158,10 +165,6 @@ export class StreamConnection extends EventEmitter {
       }
     }
     return false;
-  }
-
-  private isRequestError(err: gax.GoogleError): boolean {
-    return err.code === gax.Status.INVALID_ARGUMENT;
   }
 
   private resolveCallOptions(
@@ -245,6 +248,19 @@ export class StreamConnection extends EventEmitter {
     return null;
   }
 
+  private ackAllPendingWrites(
+    err: Error | null,
+    result?:
+      | protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse
+      | undefined
+  ) {
+    let nextPendingWrite = this.getNextPendingWrite();
+    while (nextPendingWrite) {
+      this.ackNextPendingWrite(err, result);
+      nextPendingWrite = this.getNextPendingWrite();
+    }
+  }
+
   private ackNextPendingWrite(
     err: Error | null,
     result?:
@@ -280,16 +296,12 @@ export class StreamConnection extends EventEmitter {
 
   private send(pw: PendingWrite) {
     const request = pw.getRequest();
-    if (!this._connection) {
-      pw._markDone(new Error('connection closed'));
-      return;
-    }
-    if (this._connection.destroyed || this._connection.closed) {
+    if (this.isConnectionClosed()) {
       this.reconnect();
     }
     this.trace('sending pending write', pw);
     try {
-      this._connection.write(request, err => {
+      this._connection?.write(request, err => {
         this.trace('wrote pending write', err, this._pendingWrites.length);
         if (err) {
           pw._markDone(err); //TODO: add retries
@@ -306,11 +318,11 @@ export class StreamConnection extends EventEmitter {
    * Check if connection is open and ready to send requests.
    */
   isOpen(): boolean {
-    return !!this._connection;
+    return !this.isConnectionClosed();
   }
 
   /**
-   * Reconnect and re send inflight requests.
+   * Re open appendRows BiDi gRPC connection.
    */
   reconnect() {
     this.trace('reconnect called');

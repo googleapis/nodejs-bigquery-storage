@@ -51,6 +51,11 @@ const generateUuid = () =>
   `${GCLOUD_TESTS_PREFIX}_${uuid.v4()}`.replace(/-/gi, '_');
 const datasetId = generateUuid();
 
+const sleep = (ms: number) =>
+  new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+
 const root = protobuf.Root.fromJSON(customerRecordProtoJson);
 if (!root) {
   throw Error('Proto must not be undefined');
@@ -1172,7 +1177,7 @@ describe('managedwriter.WriterClient', () => {
       }
     });
 
-    xit('reconnect on idle connection', async () => {
+    it('reconnect on idle connection', async () => {
       bqWriteClient.initialize();
       const client = new WriterClient();
       client.setClient(bqWriteClient);
@@ -1207,15 +1212,17 @@ describe('managedwriter.WriterClient', () => {
         let pw = writer.appendRows([row1, row2], 0);
         await pw.getResult();
 
-        const sleep = (ms: number) =>
-          new Promise(resolve => {
-            setTimeout(resolve, ms);
-          });
-        const minutes = 10;
-        for (let i = 0; i <= minutes; i++) {
-          console.log('sleeping for a minute: ', minutes - i, 'to go');
-          await sleep(60 * 1000);
-        }
+        // Simulate server sending ABORT error as the conn was idle
+        const conn = connection['_connection'] as gax.CancellableStream; // private method
+        const gerr = new gax.GoogleError(
+          'Closing the stream because it has been inactive for 600 seconds'
+        );
+        gerr.code = gax.Status.ABORTED;
+        conn.emit('error', gerr);
+        // simulate server closing conn.
+        await sleep(100);
+        conn.destroy();
+        await sleep(100);
 
         const row3 = {
           customer_name: 'Test',
@@ -1234,7 +1241,70 @@ describe('managedwriter.WriterClient', () => {
       } finally {
         client.close();
       }
-    }).timeout(20 * 60 * 1000);
+    }).timeout(20 * 1000);
+
+    it('should mark any pending writes with error if connection was closed', async () => {
+      bqWriteClient.initialize();
+      const client = new WriterClient();
+      client.setClient(bqWriteClient);
+
+      const row1 = {
+        customer_name: 'Ada Lovelace',
+        row_num: 1,
+      };
+
+      try {
+        const connection = await client.createStreamConnection({
+          streamType: managedwriter.PendingStream,
+          destinationTable: parent,
+        });
+
+        const writer = new JSONWriter({
+          connection,
+          protoDescriptor,
+        });
+
+        const pw1 = writer.appendRows([row1], 0);
+        await pw1.getResult();
+
+        // Try to append a new row
+        const row2 = {
+          customer_name: 'Test',
+          row_num: 2,
+          customer_email: 'test@example.com',
+        };
+
+        let foundError: gax.GoogleError | null = null;
+        const pw2 = writer.appendRows([row2], 1);
+        pw2.getResult().catch(err => {
+          foundError = err as gax.GoogleError;
+        });
+
+        // Simulate server sending RESOURCE_EXHAUSTED error on a write
+        const conn = connection['_connection'] as gax.CancellableStream; // private method
+        // swallow ack for the last appendRow call, so we can simulate it failing
+        conn.removeAllListeners('data');
+        await new Promise(resolve => conn.once('data', resolve));
+        conn.addListener('data', connection['handleData']);
+
+        const gerr = new gax.GoogleError('memory limit exceeded');
+        gerr.code = gax.Status.RESOURCE_EXHAUSTED;
+        conn.emit('error', gerr);
+        // simulate server closing conn.
+        await sleep(100);
+        conn.destroy();
+        await sleep(100);
+        
+        // should throw error of reconnection
+        assert.notEqual(foundError, null);
+        assert.equal(foundError!.message.includes('reconnect'), true);
+
+        connection.close();
+        writer.close();
+      } finally {
+        client.close();
+      }
+    });
   });
 
   describe('close', () => {
