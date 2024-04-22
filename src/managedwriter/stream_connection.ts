@@ -119,7 +119,7 @@ export class StreamConnection extends EventEmitter {
       this.emit('error', err);
       return;
     }
-    let nextPendingWrite = this.getNextPendingWrite();
+    const nextPendingWrite = this.getNextPendingWrite();
     if (nextPendingWrite) {
       this.trace(
         'found request error with pending write',
@@ -180,8 +180,9 @@ export class StreamConnection extends EventEmitter {
     }
     // This header is required so that the BigQuery Storage API
     // knows which region to route the request to.
-    callOptions.otherArgs.headers['x-goog-request-params'] =
-      `write_stream=${streamId}`;
+    callOptions.otherArgs.headers[
+      'x-goog-request-params'
+    ] = `write_stream=${streamId}`;
     return callOptions;
   }
 

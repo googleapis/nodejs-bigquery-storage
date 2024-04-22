@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import * as assert from 'assert';
-import {describe, it, xit} from 'mocha';
+import {describe, it} from 'mocha';
 import * as uuid from 'uuid';
 import * as gax from 'google-gax';
 import * as sinon from 'sinon';
@@ -1294,7 +1294,7 @@ describe('managedwriter.WriterClient', () => {
         await sleep(100);
         conn.destroy();
         await sleep(100);
-        
+
         // should throw error of reconnection
         assert.notEqual(foundError, null);
         assert.equal(foundError!.message.includes('reconnect'), true);
