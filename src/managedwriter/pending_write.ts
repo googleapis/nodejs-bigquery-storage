@@ -28,16 +28,22 @@ type AppendRowRequest =
 export class PendingWrite {
   private request: AppendRowRequest;
   private response?: AppendRowsResponse;
+  private retryAttempts: number;
   private promise: Promise<AppendRowsResponse>;
   private resolveFunc?: (response: AppendRowsResponse) => void;
   private rejectFunc?: (reason?: protos.google.rpc.IStatus) => void;
 
   constructor(request: AppendRowRequest) {
     this.request = request;
+    this.retryAttempts = 0;
     this.promise = new Promise((resolve, reject) => {
       this.resolveFunc = resolve;
       this.rejectFunc = reject;
     });
+  }
+
+  _increaseRetryAttempts(): number {
+    return this.retryAttempts++;
   }
 
   _markDone(err: Error | null, response?: AppendRowsResponse) {

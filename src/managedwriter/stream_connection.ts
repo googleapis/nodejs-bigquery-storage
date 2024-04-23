@@ -108,9 +108,14 @@ export class StreamConnection extends EventEmitter {
   private handleError = (err: gax.GoogleError) => {
     this.trace('on error', err, JSON.stringify(err));
     if (this.shouldReconnect(err)) {
-      err.message = 'reconnect triggered due to: ' + err.message;
-      this.ackAllPendingWrites(err);
+      const retrySettings = this._writeClient['_retrySettings'];
       this.reconnect();
+      if (retrySettings.enableWriteRetries) {
+        this.resendAllPendingWrites();
+      } else {
+        err.message = 'reconnect triggered due to: ' + err.message;
+        this.ackAllPendingWrites(err);
+      }
       return;
     }
     if (this.isPermanentError(err)) {
@@ -180,8 +185,9 @@ export class StreamConnection extends EventEmitter {
     }
     // This header is required so that the BigQuery Storage API
     // knows which region to route the request to.
-    callOptions.otherArgs.headers['x-goog-request-params'] =
-      `write_stream=${streamId}`;
+    callOptions.otherArgs.headers[
+      'x-goog-request-params'
+    ] = `write_stream=${streamId}`;
     return callOptions;
   }
 
@@ -248,6 +254,14 @@ export class StreamConnection extends EventEmitter {
     return null;
   }
 
+  private resendAllPendingWrites() {
+    let pw = this._pendingWrites.pop();
+    while (pw) {
+      this.send(pw);
+      pw = this._pendingWrites.pop();
+    }
+  }
+
   private ackAllPendingWrites(
     err: Error | null,
     result?:
@@ -300,6 +314,13 @@ export class StreamConnection extends EventEmitter {
       this.reconnect();
     }
     this.trace('sending pending write', pw);
+    const retrySettings = this._writeClient['_retrySettings'];
+    const tries = pw._increaseRetryAttempts();
+    if (tries > retrySettings.maxRetryAttempts) {
+      pw._markDone(
+        new Error(`pending write max retries reached: ${tries} attempts`)
+      );
+    }
     try {
       this._connection?.write(request, err => {
         this.trace('wrote pending write', err, this._pendingWrites.length);

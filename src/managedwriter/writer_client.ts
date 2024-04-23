@@ -23,6 +23,10 @@ import {StreamConnection} from './stream_connection';
 type StreamConnections = {
   connectionList: StreamConnection[];
 };
+type RetrySettings = {
+  enableWriteRetries: boolean;
+  maxRetryAttempts: number;
+};
 type CreateWriteStreamRequest =
   protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest;
 type BatchCommitWriteStreamsRequest =
@@ -55,6 +59,7 @@ export class WriterClient {
   private _client: BigQueryWriteClient;
   private _connections: StreamConnections;
   private _open: boolean;
+  private _retrySettings: RetrySettings;
 
   constructor(opts?: ClientOptions) {
     const baseOptions = {
@@ -69,6 +74,10 @@ export class WriterClient {
       connectionList: [],
     };
     this._open = false;
+    this._retrySettings = {
+      enableWriteRetries: false,
+      maxRetryAttempts: 4,
+    };
   }
 
   /**
@@ -100,6 +109,15 @@ export class WriterClient {
    */
   isOpen(): boolean {
     return this._open;
+  }
+
+  // Enables StreamConnections to automatically retry failed appends.
+  //
+  // Enabling retries is best suited for cases where users want to achieve at-least-once
+  // append semantics. Use of automatic retries may complicate patterns where the user
+  // is designing for exactly-once append semantics.
+  enableWriteRetries(enable: boolean) {
+    this._retrySettings.enableWriteRetries = enable;
   }
 
   /**

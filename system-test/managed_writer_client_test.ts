@@ -862,6 +862,155 @@ describe('managedwriter.WriterClient', () => {
     }
   });
 
+  describe('Flaky Scenarios', () => {
+    let flakyDatasetId: string;
+    const flakyRegion = 'us-east7';
+
+    let rowNum = 0;
+    const generateRows = (num: number) => {
+      const rows = [];
+      for (let i = 0; i < num; i++) {
+        rows.push({
+          customer_name: generateUuid(),
+          row_num: rowNum++,
+        });
+      }
+      return rows;
+    };
+
+    beforeEach(() => {
+      rowNum = 0;
+    });
+
+    before(async () => {
+      flakyDatasetId = generateUuid();
+      console.log('Flaky dataset id:', flakyDatasetId);
+      await bigquery.createDataset(flakyDatasetId, {
+        location: flakyRegion,
+      });
+    });
+
+    after(async () => {
+      console.log('Trying to delete flaky dataset id:', flakyDatasetId);
+      await bigquery
+        .dataset(flakyDatasetId)
+        .delete({force: true})
+        .catch(console.warn);
+    });
+
+    it('should manage to send data in scenario where every 10 request drops the connection', async () => {
+      bqWriteClient.initialize();
+      const client = new WriterClient();
+      client.enableWriteRetries(true);
+      client.setClient(bqWriteClient);
+
+      try {
+        const flakyTableId = generateUuid() + '_reconnect_on_close';
+        const [table] = await bigquery
+          .dataset(flakyDatasetId)
+          .createTable(flakyTableId, {
+            schema,
+            location: flakyRegion,
+          });
+        projectId = table.metadata.tableReference.projectId;
+        parent = `projects/${projectId}/datasets/${flakyDatasetId}/tables/${flakyTableId}`;
+
+        const connection = await client.createStreamConnection({
+          streamType: managedwriter.PendingStream,
+          destinationTable: parent,
+        });
+
+        connection.onConnectionError(err => {
+          console.log('flaky test error:', err);
+        });
+
+        const writer = new JSONWriter({
+          connection,
+          protoDescriptor,
+        });
+
+        const iterations = new Array(50).fill(1);
+        let offset = 0;
+        for (const _ of iterations) {
+          const rows = generateRows(10);
+          const pw = writer.appendRows(rows, offset);
+          try {
+            await pw.getResult();
+          } catch (err) {
+            console.error('found error trying to send rows');
+          }
+          offset += 10;
+        }
+
+        const res = await connection.finalize();
+        connection.close();
+        assert.equal(res?.rowCount, 500);
+
+        writer.close();
+      } finally {
+        client.close();
+      }
+    }).timeout(2 * 60 * 1000);
+
+    it('should manage to send data in scenario where opening the connection can fail more frequently', async () => {
+      bqWriteClient.initialize();
+      const client = new WriterClient();
+      client.enableWriteRetries(true);
+      client.setClient(bqWriteClient);
+
+      try {
+        const flakyTableId = generateUuid() + '_initial_connect_failure';
+        const [table] = await bigquery
+          .dataset(flakyDatasetId)
+          .createTable(flakyTableId, {
+            schema,
+            location: flakyRegion,
+          });
+        projectId = table.metadata.tableReference.projectId;
+        parent = `projects/${projectId}/datasets/${flakyDatasetId}/tables/${flakyTableId}`;
+
+        const connection = await client.createStreamConnection({
+          streamType: managedwriter.PendingStream,
+          destinationTable: parent,
+        });
+        client['_retrySettings'].maxRetryAttempts = 100; // aggresive retries
+
+        connection.onConnectionError(err => {
+          console.log('flaky conn error:', err);
+        });
+
+        const writer = new JSONWriter({
+          connection,
+          protoDescriptor,
+        });
+
+        const iterations = new Array(50).fill(1);
+        let offset = 0;
+        for (const _ of iterations) {
+          const rows = generateRows(10);
+          const pw = writer.appendRows(rows, offset);
+          try {
+            const res = await pw.getResult();
+            assert.equal(res.error, null);
+          } catch (err) {
+            console.error('found error trying to send rows', err);
+            throw err;
+          }
+          offset += 10;
+          connection.close(); // Close connection on every append to trigger reconnection
+        }
+
+        const res = await connection.finalize();
+        connection.close();
+        assert.equal(res?.rowCount, 500);
+
+        writer.close();
+      } finally {
+        client.close();
+      }
+    }).timeout(2 * 60 * 1000);
+  });
+
   describe('Error Scenarios', () => {
     it('send request with mismatched proto descriptor', async () => {
       bqWriteClient.initialize();
