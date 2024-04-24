@@ -87,7 +87,16 @@ export class StreamConnection extends EventEmitter {
     this._connection.on('error', this.handleError);
     this._connection.on('close', () => {
       this.trace('connection closed');
-      this.close();
+      this.reconnect();
+      const retrySettings = this._writeClient['_retrySettings'];
+      if (retrySettings.enableWriteRetries) {
+        this.resendAllPendingWrites();
+      } else {
+        const err = new Error(
+          'aborted due to failed connection, please retry the request'
+        );
+        this.ackAllPendingWrites(err);
+      }
     });
     this._connection.on('pause', () => {
       this.trace('connection paused');
@@ -107,17 +116,6 @@ export class StreamConnection extends EventEmitter {
 
   private handleError = (err: gax.GoogleError) => {
     this.trace('on error', err, JSON.stringify(err));
-    if (this.shouldReconnect(err)) {
-      const retrySettings = this._writeClient['_retrySettings'];
-      this.reconnect();
-      if (retrySettings.enableWriteRetries) {
-        this.resendAllPendingWrites();
-      } else {
-        err.message = 'reconnect triggered due to: ' + err.message;
-        this.ackAllPendingWrites(err);
-      }
-      return;
-    }
     if (this.isPermanentError(err)) {
       this.trace('found permanent error', err);
       this.ackAllPendingWrites(err);
@@ -131,20 +129,26 @@ export class StreamConnection extends EventEmitter {
         err,
         nextPendingWrite
       );
-      this.ackNextPendingWrite(err);
+      if (!this.isRetryableError(err)) {
+        this.ackNextPendingWrite(err);
+        return;
+      }
+      const retrySettings = this._writeClient['_retrySettings'];
+      if (!retrySettings.enableWriteRetries) {
+        this.ackNextPendingWrite(err);
+      }
       return;
     }
     this.emit('error', err);
   };
 
-  private shouldReconnect(err: gax.GoogleError): boolean {
+  private isRetryableError(err: gax.GoogleError): boolean {
     const reconnectionErrorCodes = [
-      gax.Status.UNAVAILABLE,
-      gax.Status.RESOURCE_EXHAUSTED,
       gax.Status.ABORTED,
+      gax.Status.UNAVAILABLE,
       gax.Status.CANCELLED,
-      gax.Status.DEADLINE_EXCEEDED,
       gax.Status.INTERNAL,
+      gax.Status.DEADLINE_EXCEEDED,
     ];
     return !!err.code && reconnectionErrorCodes.includes(err.code);
   }
@@ -248,7 +252,7 @@ export class StreamConnection extends EventEmitter {
 
   private getNextPendingWrite(): PendingWrite | null {
     if (this._pendingWrites.length > 0) {
-      return this._pendingWrites[0];
+      return this._pendingWrites[this._pendingWrites.length - 1];
     }
     return null;
   }

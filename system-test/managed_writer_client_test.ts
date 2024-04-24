@@ -24,6 +24,7 @@ import * as protobuf from 'protobufjs';
 import {ClientOptions} from 'google-gax';
 import * as customerRecordProtoJson from '../samples/customer_record.json';
 import {JSONEncoder} from '../src/managedwriter/encoder';
+import {PendingWrite} from '../src/managedwriter/pending_write';
 
 const sandbox = sinon.createSandbox();
 afterEach(() => sandbox.restore());
@@ -884,7 +885,6 @@ describe('managedwriter.WriterClient', () => {
 
     before(async () => {
       flakyDatasetId = generateUuid();
-      console.log('Flaky dataset id:', flakyDatasetId);
       await bigquery.createDataset(flakyDatasetId, {
         location: flakyRegion,
       });
@@ -898,7 +898,7 @@ describe('managedwriter.WriterClient', () => {
         .catch(console.warn);
     });
 
-    it('should manage to send data in scenario where every 10 request drops the connection', async () => {
+    it('should manage to send data in sequence scenario where every 10 request drops the connection', async () => {
       bqWriteClient.initialize();
       const client = new WriterClient();
       client.enableWriteRetries(true);
@@ -946,6 +946,61 @@ describe('managedwriter.WriterClient', () => {
         connection.close();
         assert.equal(res?.rowCount, 500);
 
+        writer.close();
+      } finally {
+        client.close();
+      }
+    }).timeout(2 * 60 * 1000);
+
+    it('should manage to send data in parallel in scenario where every 10 request drops the connection', async () => {
+      bqWriteClient.initialize();
+      const client = new WriterClient();
+      client.enableWriteRetries(true);
+      client.setClient(bqWriteClient);
+
+      try {
+        const flakyTableId = generateUuid() + '_reconnect_on_close';
+        const [table] = await bigquery
+          .dataset(flakyDatasetId)
+          .createTable(flakyTableId, {
+            schema,
+            location: flakyRegion,
+          });
+        projectId = table.metadata.tableReference.projectId;
+        parent = `projects/${projectId}/datasets/${flakyDatasetId}/tables/${flakyTableId}`;
+
+        const connection = await client.createStreamConnection({
+          streamId: managedwriter.DefaultStream,
+          destinationTable: parent,
+        });
+        client['_retrySettings'].maxRetryAttempts = 10;
+
+        connection.onConnectionError(err => {
+          console.log('flaky test error:', err);
+        });
+
+        const writer = new JSONWriter({
+          connection,
+          protoDescriptor,
+        });
+
+        const pendingWrites: PendingWrite[] = [];
+        const iterations = new Array(50).fill(1);
+        for (const _ of iterations) {
+          const rows = generateRows(10);
+          const pw = writer.appendRows(rows);
+          pendingWrites.push(pw);
+        }
+
+        await Promise.all(pendingWrites.map(pw => pw.getResult()));
+
+        const [rows] = await bigquery.query(
+          `SELECT * FROM \`${projectId}.${flakyDatasetId}.${flakyTableId}\` order by row_num`
+        );
+
+        // allow some level of duplication. On testing we saw around 0-2 dup appendRequest
+        assert.strictEqual(rows.length >= 500 && rows.length <= 520, true);
+        connection.close();
         writer.close();
       } finally {
         client.close();
@@ -1237,7 +1292,7 @@ describe('managedwriter.WriterClient', () => {
       }
     });
 
-    it('should trigger reconnection given some specific errors', async () => {
+    it('should trigger reconnection when connection closes from the server', async () => {
       bqWriteClient.initialize();
       const client = new WriterClient();
       client.setClient(bqWriteClient);
@@ -1274,51 +1329,9 @@ describe('managedwriter.WriterClient', () => {
         );
         await pw.getResult();
 
-        const reconnectErrorCases: gax.GoogleError[] = [
-          {
-            code: gax.Status.ABORTED,
-            msg: 'Closing the stream because it has been inactive',
-          },
-          {
-            code: gax.Status.RESOURCE_EXHAUSTED,
-            msg: 'read econnreset',
-          },
-          {
-            code: gax.Status.ABORTED,
-            msg: 'service is currently unavailable',
-          },
-          {
-            code: gax.Status.RESOURCE_EXHAUSTED,
-            msg: 'bandwidth exhausted',
-          },
-          {
-            code: gax.Status.RESOURCE_EXHAUSTED,
-            msg: 'memory limit exceeded',
-          },
-          {
-            code: gax.Status.CANCELLED,
-            msg: 'any',
-          },
-          {
-            code: gax.Status.DEADLINE_EXCEEDED,
-            msg: 'a msg',
-          },
-          {
-            code: gax.Status.INTERNAL,
-            msg: 'received RST_STREAM with code',
-          },
-        ].map(err => {
-          const gerr = new gax.GoogleError(err.msg);
-          gerr.code = err.code;
-          return gerr;
-        });
-        for (const gerr of reconnectErrorCases) {
-          const conn = connection['_connection'] as gax.CancellableStream; // private method
-          conn.emit('error', gerr);
-          assert.equal(reconnectedCalled, true);
-
-          reconnectedCalled = false; // reset flag
-        }
+        const conn = connection['_connection'] as gax.CancellableStream; // private method
+        conn.emit('close');
+        assert.equal(reconnectedCalled, true);
 
         writer.close();
       } finally {
@@ -1429,24 +1442,22 @@ describe('managedwriter.WriterClient', () => {
           foundError = err as gax.GoogleError;
         });
 
-        // Simulate server sending RESOURCE_EXHAUSTED error on a write
+        // Simulate server sending ABORTED error on a write
         const conn = connection['_connection'] as gax.CancellableStream; // private method
         // swallow ack for the last appendRow call, so we can simulate it failing
         conn.removeAllListeners('data');
         await new Promise(resolve => conn.once('data', resolve));
         conn.addListener('data', connection['handleData']);
 
-        const gerr = new gax.GoogleError('memory limit exceeded');
-        gerr.code = gax.Status.RESOURCE_EXHAUSTED;
-        conn.emit('error', gerr);
         // simulate server closing conn.
+        conn.emit('close');
         await sleep(100);
         conn.destroy();
         await sleep(100);
 
         // should throw error of reconnection
         assert.notEqual(foundError, null);
-        assert.equal(foundError!.message.includes('reconnect'), true);
+        assert.equal(foundError!.message.includes('retry'), true);
 
         connection.close();
         writer.close();
