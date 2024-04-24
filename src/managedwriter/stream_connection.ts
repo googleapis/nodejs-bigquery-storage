@@ -87,15 +87,17 @@ export class StreamConnection extends EventEmitter {
     this._connection.on('error', this.handleError);
     this._connection.on('close', () => {
       this.trace('connection closed');
-      this.reconnect();
-      const retrySettings = this._writeClient['_retrySettings'];
-      if (retrySettings.enableWriteRetries) {
-        this.resendAllPendingWrites();
-      } else {
-        const err = new Error(
-          'aborted due to failed connection, please retry the request'
-        );
-        this.ackAllPendingWrites(err);
+      if (this.hasPendingWrites()) {
+        this.reconnect();
+        const retrySettings = this._writeClient['_retrySettings'];
+        if (retrySettings.enableWriteRetries) {
+          this.resendAllPendingWrites();
+        } else {
+          const err = new Error(
+            'aborted due to failed connection, please retry the request'
+          );
+          this.ackAllPendingWrites(err);
+        }
       }
     });
     this._connection.on('pause', () => {
@@ -196,8 +198,7 @@ export class StreamConnection extends EventEmitter {
 
   private handleData = (response: AppendRowsResponse) => {
     this.trace('data arrived', response);
-    const pw = this.getNextPendingWrite();
-    if (!pw) {
+    if (!this.hasPendingWrites()) {
       this.trace('data arrived with no pending write available', response);
       return;
     }
@@ -250,6 +251,10 @@ export class StreamConnection extends EventEmitter {
     return this._streamId;
   };
 
+  private hasPendingWrites(): boolean {
+    return this._pendingWrites.length > 0;
+  }
+
   private getNextPendingWrite(): PendingWrite | null {
     if (this._pendingWrites.length > 0) {
       return this._pendingWrites[this._pendingWrites.length - 1];
@@ -271,10 +276,8 @@ export class StreamConnection extends EventEmitter {
       | protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse
       | undefined
   ) {
-    let nextPendingWrite = this.getNextPendingWrite();
-    while (nextPendingWrite) {
+    while (this.hasPendingWrites()) {
       this.ackNextPendingWrite(err, result);
-      nextPendingWrite = this.getNextPendingWrite();
     }
   }
 

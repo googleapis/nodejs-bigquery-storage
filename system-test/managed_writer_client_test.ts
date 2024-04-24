@@ -891,7 +891,6 @@ describe('managedwriter.WriterClient', () => {
     });
 
     after(async () => {
-      console.log('Trying to delete flaky dataset id:', flakyDatasetId);
       await bigquery
         .dataset(flakyDatasetId)
         .delete({force: true})
@@ -1292,7 +1291,7 @@ describe('managedwriter.WriterClient', () => {
       }
     });
 
-    it('should trigger reconnection when connection closes from the server', async () => {
+    it('should trigger reconnection when connection closes and there are pending writes', async () => {
       bqWriteClient.initialize();
       const client = new WriterClient();
       client.setClient(bqWriteClient);
@@ -1331,6 +1330,13 @@ describe('managedwriter.WriterClient', () => {
 
         const conn = connection['_connection'] as gax.CancellableStream; // private method
         conn.emit('close');
+
+        assert.equal(reconnectedCalled, false);
+
+        // add a fake pending write
+        connection['_pendingWrites'].push(new PendingWrite({}));
+        conn.emit('close');
+
         assert.equal(reconnectedCalled, true);
 
         writer.close();
