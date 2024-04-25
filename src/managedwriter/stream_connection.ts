@@ -131,12 +131,12 @@ export class StreamConnection extends EventEmitter {
         err,
         nextPendingWrite
       );
-      if (!this.isRetryableError(err)) {
-        this.ackNextPendingWrite(err);
-        return;
-      }
       const retrySettings = this._writeClient['_retrySettings'];
-      if (!retrySettings.enableWriteRetries) {
+      if (this.isRetryableError(err) && retrySettings.enableWriteRetries) {
+        process.nextTick(() => {
+          this.resendNextPendingWrite();
+        });
+      } else {
         this.ackNextPendingWrite(err);
       }
       return;
@@ -263,10 +263,15 @@ export class StreamConnection extends EventEmitter {
   }
 
   private resendAllPendingWrites() {
-    let pw = this._pendingWrites.pop();
-    while (pw) {
+    while (this.hasPendingWrites()) {
+      this.resendNextPendingWrite();
+    }
+  }
+
+  private resendNextPendingWrite() {
+    const pw = this._pendingWrites.pop();
+    if (pw) {
       this.send(pw);
-      pw = this._pendingWrites.pop();
     }
   }
 
