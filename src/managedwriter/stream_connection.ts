@@ -141,6 +141,9 @@ export class StreamConnection extends EventEmitter {
       }
       return;
     }
+    if (this.isRetryableError(err) && this.listenerCount('error') === 0) {
+      return;
+    }
     this.emit('error', err);
   };
 

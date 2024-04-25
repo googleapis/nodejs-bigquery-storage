@@ -1444,10 +1444,6 @@ describe('managedwriter.WriterClient', () => {
           destinationTable: parent,
         });
 
-        connection.onConnectionError(err => {
-          console.log('idle conn err', err);
-        });
-
         const writer = new JSONWriter({
           connection,
           protoDescriptor,
