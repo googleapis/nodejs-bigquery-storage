@@ -922,10 +922,6 @@ describe('managedwriter.WriterClient', () => {
             destinationTable: parent,
           });
 
-          connection.onConnectionError(err => {
-            console.log('flaky test error:', err);
-          });
-
           const writer = new JSONWriter({
             connection,
             protoDescriptor,
@@ -958,6 +954,7 @@ describe('managedwriter.WriterClient', () => {
         bqWriteClient.initialize();
         const client = new WriterClient();
         client.enableWriteRetries(true);
+        client.setMaxRetryAttempts(100); // aggresive retries
         client.setClient(bqWriteClient);
 
         try {
@@ -974,11 +971,6 @@ describe('managedwriter.WriterClient', () => {
           const connection = await client.createStreamConnection({
             streamType: managedwriter.PendingStream,
             destinationTable: parent,
-          });
-          client['_retrySettings'].maxRetryAttempts = 100; // aggresive retries
-
-          connection.onConnectionError(err => {
-            console.log('flaky conn error:', err);
           });
 
           const writer = new JSONWriter({
@@ -1018,6 +1010,7 @@ describe('managedwriter.WriterClient', () => {
         bqWriteClient.initialize();
         const client = new WriterClient();
         client.enableWriteRetries(true);
+        client.setMaxRetryAttempts(10);
         client.setClient(bqWriteClient);
 
         try {
@@ -1034,11 +1027,6 @@ describe('managedwriter.WriterClient', () => {
           const connection = await client.createStreamConnection({
             streamType: managedwriter.PendingStream,
             destinationTable: parent,
-          });
-          client['_retrySettings'].maxRetryAttempts = 10;
-
-          connection.onConnectionError(err => {
-            console.log('flaky test error:', err);
           });
 
           const writer = new JSONWriter({
@@ -1108,10 +1096,6 @@ describe('managedwriter.WriterClient', () => {
                 return false;
               }
             );
-
-          connection.onConnectionError(err => {
-            console.log('flaky test error:', err);
-          });
 
           const writer = new JSONWriter({
             connection,

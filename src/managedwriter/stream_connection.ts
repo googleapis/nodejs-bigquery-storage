@@ -118,12 +118,6 @@ export class StreamConnection extends EventEmitter {
 
   private handleError = (err: gax.GoogleError) => {
     this.trace('on error', err, JSON.stringify(err));
-    if (this.isPermanentError(err)) {
-      this.trace('found permanent error', err);
-      this.ackAllPendingWrites(err);
-      this.emit('error', err);
-      return;
-    }
     const nextPendingWrite = this.getNextPendingWrite();
     if (nextPendingWrite) {
       this.trace(
@@ -139,7 +133,6 @@ export class StreamConnection extends EventEmitter {
       } else {
         this.ackNextPendingWrite(err);
       }
-      return;
     }
     if (this.isRetryableError(err) && this.listenerCount('error') === 0) {
       return;
@@ -148,14 +141,14 @@ export class StreamConnection extends EventEmitter {
   };
 
   private isRetryableError(err: gax.GoogleError): boolean {
-    const reconnectionErrorCodes = [
+    const errorCodes = [
       gax.Status.ABORTED,
       gax.Status.UNAVAILABLE,
       gax.Status.CANCELLED,
       gax.Status.INTERNAL,
       gax.Status.DEADLINE_EXCEEDED,
     ];
-    return !!err.code && reconnectionErrorCodes.includes(err.code);
+    return !!err.code && errorCodes.includes(err.code);
   }
 
   private isConnectionClosed() {
@@ -163,22 +156,6 @@ export class StreamConnection extends EventEmitter {
       return this._connection.destroyed || this._connection.closed;
     }
     return true;
-  }
-
-  private isPermanentError(err: gax.GoogleError): boolean {
-    if (err.code === gax.Status.INVALID_ARGUMENT) {
-      const storageErrors = parseStorageErrors(err);
-      for (const storageError of storageErrors) {
-        if (
-          storageError.errorMessage?.includes(
-            'Schema mismatch due to extra fields in user schema'
-          )
-        ) {
-          return true;
-        }
-      }
-    }
-    return false;
   }
 
   private resolveCallOptions(
@@ -323,11 +300,6 @@ export class StreamConnection extends EventEmitter {
   }
 
   private send(pw: PendingWrite) {
-    const request = pw.getRequest();
-    if (this.isConnectionClosed()) {
-      this.reconnect();
-    }
-    this.trace('sending pending write', pw);
     const retrySettings = this._writeClient['_retrySettings'];
     const tries = pw._increaseRetryAttempts();
     if (tries > retrySettings.maxRetryAttempts) {
@@ -335,7 +307,12 @@ export class StreamConnection extends EventEmitter {
         new Error(`pending write max retries reached: ${tries} attempts`)
       );
     }
+    if (this.isConnectionClosed()) {
+      this.reconnect();
+    }
+    this.trace('sending pending write', pw);
     try {
+      const request = pw.getRequest();
       this._connection?.write(request, err => {
         this.trace('wrote pending write', err, this._pendingWrites.length);
         if (err) {

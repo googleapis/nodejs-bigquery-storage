@@ -111,13 +111,27 @@ export class WriterClient {
     return this._open;
   }
 
-  // Enables StreamConnections to automatically retry failed appends.
-  //
-  // Enabling retries is best suited for cases where users want to achieve at-least-once
-  // append semantics. Use of automatic retries may complicate patterns where the user
-  // is designing for exactly-once append semantics.
+  /**
+   * Enables StreamConnections to automatically retry failed appends.
+   *
+   * Enabling retries is best suited for cases where users want to achieve at-least-once
+   * append semantics. Use of automatic retries may complicate patterns where the user
+   * is designing for exactly-once append semantics.
+   */
   enableWriteRetries(enable: boolean) {
     this._retrySettings.enableWriteRetries = enable;
+  }
+
+  /**
+   * Change max retries attempts on child StreamConnections.
+   *
+   * The default valuen is to retry 4 times.
+   *
+   * Only valid right now when write retries are enabled.
+   * @see enableWriteRetries.
+   */
+  setMaxRetryAttempts(retryAttempts: number) {
+    this._retrySettings.maxRetryAttempts = retryAttempts;
   }
 
   /**
