@@ -1069,6 +1069,7 @@ describe('managedwriter.WriterClient', () => {
           });
 
           let numCalls = 0;
+          let numSucess = 0;
           const conn = connection['_connection'] as gax.CancellableStream;
           sandbox
             .stub(conn, 'write')
@@ -1080,10 +1081,18 @@ describe('managedwriter.WriterClient', () => {
                 const req = chunk as AppendRowRequest;
                 cb && cb(null);
                 numCalls++;
+                if (!req.writeStream){
+                  return false;
+                }
                 if (numCalls % 10 === 0) {
-                  const quotaErr = new gax.GoogleError('quota error');
-                  quotaErr.code = gax.Status.UNAVAILABLE;
-                  conn.emit('error', quotaErr);
+                  const res: AppendRowsResponse = {
+                    writeStream: req.writeStream,
+                    error: {
+                      code: gax.Status.RESOURCE_EXHAUSTED,
+                      message: 'quota error',
+                    },
+                  };
+                  conn?.emit('data', res);
                 } else {
                   const res: AppendRowsResponse = {
                     writeStream: req.writeStream,
@@ -1092,6 +1101,7 @@ describe('managedwriter.WriterClient', () => {
                     },
                   };
                   conn?.emit('data', res);
+                  numSucess++;
                 }
                 return false;
               }
@@ -1115,7 +1125,7 @@ describe('managedwriter.WriterClient', () => {
           await Promise.all(pendingWrites.map(pw => pw.getResult()));
 
           connection.close();
-          assert.equal(numCalls, 56);
+          assert.equal(numSucess, 50);
 
           writer.close();
         } finally {
@@ -1600,16 +1610,18 @@ describe('managedwriter.WriterClient', () => {
     );
 
     for (const dataset of datasets) {
-      const [metadata] = await dataset.getMetadata();
-      const creationTime = Number(metadata.creationTime);
+      try {
+        console.log('getting data for dataset', dataset.id);
+        const [metadata] = await dataset.getMetadata();
+        const creationTime = Number(metadata.creationTime);
 
-      if (isResourceStale(creationTime)) {
-        try {
-          await dataset.delete({force: true});
-        } catch (e) {
-          console.log(`dataset(${dataset.id}).delete() failed`);
-          console.log(e);
-        }
+        //if (isResourceStale(creationTime)) {
+        console.log('deleting dataset', dataset.id);
+        await dataset.delete({force: true});
+        //}
+      } catch (e) {
+        console.log(`dataset(${dataset.id}).delete() failed`);
+        console.log(e);
       }
     }
   }

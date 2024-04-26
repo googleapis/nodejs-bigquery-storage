@@ -124,21 +124,25 @@ export class StreamConnection extends EventEmitter {
         err,
         nextPendingWrite
       );
-      const retrySettings = this._writeClient['_retrySettings'];
-      if (this.isRetryableError(err) && retrySettings.enableWriteRetries) {
-        if (!this.isConnectionClosed()) {
-          const pw = this._pendingWrites.pop()!;
-          this.send(pw);
-        }
-      } else {
-        this.ackNextPendingWrite(err);
-      }
+      this.handleRetry(err);
     }
     if (this.isRetryableError(err) && this.listenerCount('error') === 0) {
       return;
     }
     this.emit('error', err);
   };
+
+  private handleRetry(err: gax.GoogleError) {
+    const retrySettings = this._writeClient['_retrySettings'];
+    if (this.isRetryableError(err) && retrySettings.enableWriteRetries) {
+      if (!this.isConnectionClosed()) {
+        const pw = this._pendingWrites.pop()!;
+        this.send(pw);
+      }
+    } else {
+      this.ackNextPendingWrite(err);
+    }
+  }
 
   private isRetryableError(err: gax.GoogleError): boolean {
     const errorCodes = [
@@ -147,6 +151,7 @@ export class StreamConnection extends EventEmitter {
       gax.Status.CANCELLED,
       gax.Status.INTERNAL,
       gax.Status.DEADLINE_EXCEEDED,
+      gax.Status.RESOURCE_EXHAUSTED,
     ];
     return !!err.code && errorCodes.includes(err.code);
   }
@@ -184,6 +189,15 @@ export class StreamConnection extends EventEmitter {
     }
     if (response.updatedSchema) {
       this.emit('schemaUpdated', response.updatedSchema);
+    }
+    const rerr = response.error;
+    if (rerr) {
+      const gerr = new gax.GoogleError(rerr.message!);
+      gerr.code = rerr.code!;
+      if (this.isRetryableError(gerr)) {
+        this.handleRetry(gerr);
+        return;
+      }
     }
     this.ackNextPendingWrite(null, response);
   };
