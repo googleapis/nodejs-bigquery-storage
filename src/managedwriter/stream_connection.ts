@@ -55,6 +55,7 @@ export class StreamConnection extends EventEmitter {
   private _streamId: string;
   private _writeClient: WriterClient;
   private _connection?: gax.CancellableStream | null;
+  private _lastConnectionError?: gax.GoogleError | null;
   private _callOptions?: gax.CallOptions;
   private _pendingWrites: PendingWrite[];
 
@@ -75,6 +76,7 @@ export class StreamConnection extends EventEmitter {
     if (this.isOpen()) {
       this.close();
     }
+    this._lastConnectionError = null;
     const callOptions = this.resolveCallOptions(
       this._streamId,
       this._callOptions
@@ -85,11 +87,14 @@ export class StreamConnection extends EventEmitter {
     this._connection.on('data', this.handleData);
     this._connection.on('error', this.handleError);
     this._connection.on('close', () => {
-      this.trace('connection closed');
+      this.trace('connection closed', this._lastConnectionError);
       if (this.hasPendingWrites()) {
-        this.reconnect();
         const retrySettings = this._writeClient['_retrySettings'];
-        if (retrySettings.enableWriteRetries) {
+        if (
+          this.isRetryableError(this._lastConnectionError) &&
+          retrySettings.enableWriteRetries
+        ) {
+          this.reconnect();
           this.resendAllPendingWrites();
         } else {
           const err = new Error(
@@ -117,6 +122,7 @@ export class StreamConnection extends EventEmitter {
 
   private handleError = (err: gax.GoogleError) => {
     this.trace('on error', err, JSON.stringify(err));
+    this._lastConnectionError = err;
     const nextPendingWrite = this.getNextPendingWrite();
     if (nextPendingWrite) {
       this.trace(
@@ -144,7 +150,10 @@ export class StreamConnection extends EventEmitter {
     }
   }
 
-  private isRetryableError(err: gax.GoogleError): boolean {
+  private isRetryableError(err?: gax.GoogleError | null): boolean {
+    if (!err) {
+      return false;
+    }
     const errorCodes = [
       gax.Status.ABORTED,
       gax.Status.UNAVAILABLE,
@@ -188,6 +197,15 @@ export class StreamConnection extends EventEmitter {
     }
     if (response.updatedSchema) {
       this.emit('schemaUpdated', response.updatedSchema);
+    }
+    const responseErr = response.error;
+    if (responseErr) {
+      const gerr = new gax.GoogleError(responseErr.message!);
+      gerr.code = responseErr.code!;
+      if (this.isRetryableError(gerr)) {
+        this.handleRetry(gerr);
+        return;
+      }
     }
     this.ackNextPendingWrite(null, response);
   };

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import * as assert from 'assert';
-import {describe, it, xit} from 'mocha';
+import {describe, it} from 'mocha';
 import * as uuid from 'uuid';
 import * as gax from 'google-gax';
 import * as sinon from 'sinon';
@@ -1059,7 +1059,7 @@ describe('managedwriter.WriterClient', () => {
         }
       }).timeout(2 * 60 * 1000);
 
-      xit('every 10 request there is a RESOURCE_EXAUSTED quota error', async () => {
+      it('every 10 request there is a in stream INTERNAL error', async () => {
         bqWriteClient.initialize();
         const client = new WriterClient();
         client.enableWriteRetries(true);
@@ -1091,8 +1091,8 @@ describe('managedwriter.WriterClient', () => {
                   const res: AppendRowsResponse = {
                     writeStream: req.writeStream,
                     error: {
-                      code: gax.Status.RESOURCE_EXHAUSTED,
-                      message: 'quota error',
+                      code: gax.Status.INTERNAL,
+                      message: 'internal error',
                     },
                   };
                   conn?.emit('data', res);
@@ -1368,6 +1368,7 @@ describe('managedwriter.WriterClient', () => {
     it('should trigger reconnection when connection closes and there are pending writes', async () => {
       bqWriteClient.initialize();
       const client = new WriterClient();
+      client.enableWriteRetries(true);
       client.setClient(bqWriteClient);
 
       const connection = await client.createStreamConnection({
@@ -1403,12 +1404,17 @@ describe('managedwriter.WriterClient', () => {
         await pw.getResult();
 
         const conn = connection['_connection'] as gax.CancellableStream; // private method
+
+        const gerr = new gax.GoogleError('aborted');
+        gerr.code = gax.Status.ABORTED;
+        conn.emit('error', gerr);
         conn.emit('close');
 
         assert.equal(reconnectedCalled, false);
 
         // add a fake pending write
         connection['_pendingWrites'].push(new PendingWrite({}));
+        conn.emit('error', gerr);
         conn.emit('close');
 
         assert.equal(reconnectedCalled, true);
