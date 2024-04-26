@@ -171,7 +171,7 @@ export class WriterClient {
       destinationTable?: string;
       streamType?: WriteStreamType;
     },
-    options?: CallOptions
+    options?: CallOptions & {traceId?: string}
   ): Promise<StreamConnection> {
     await this.initialize();
     const {streamId, streamType, destinationTable} = request;

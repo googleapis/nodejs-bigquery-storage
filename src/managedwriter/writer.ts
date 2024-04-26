@@ -167,6 +167,7 @@ export class Writer {
     }
     const request: AppendRowRequest = {
       writeStream: this._streamConnection.getStreamId(),
+      traceId: this._streamConnection.traceId(),
       protoRows: {
         rows,
         writerSchema: {
