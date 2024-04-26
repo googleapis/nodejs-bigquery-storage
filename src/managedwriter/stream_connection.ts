@@ -151,7 +151,6 @@ export class StreamConnection extends EventEmitter {
       gax.Status.CANCELLED,
       gax.Status.INTERNAL,
       gax.Status.DEADLINE_EXCEEDED,
-      gax.Status.RESOURCE_EXHAUSTED,
     ];
     return !!err.code && errorCodes.includes(err.code);
   }
@@ -189,15 +188,6 @@ export class StreamConnection extends EventEmitter {
     }
     if (response.updatedSchema) {
       this.emit('schemaUpdated', response.updatedSchema);
-    }
-    const rerr = response.error;
-    if (rerr) {
-      const gerr = new gax.GoogleError(rerr.message!);
-      gerr.code = rerr.code!;
-      if (this.isRetryableError(gerr)) {
-        this.handleRetry(gerr);
-        return;
-      }
     }
     this.ackNextPendingWrite(null, response);
   };

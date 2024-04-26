@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import * as assert from 'assert';
-import {describe, it} from 'mocha';
+import {describe, it, xit} from 'mocha';
 import * as uuid from 'uuid';
 import * as gax from 'google-gax';
 import * as sinon from 'sinon';
@@ -929,6 +929,7 @@ describe('managedwriter.WriterClient', () => {
 
           const iterations = new Array(50).fill(1);
           let offset = 0;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           for (const _ of iterations) {
             const rows = generateRows(10);
             const pw = writer.appendRows(rows, offset);
@@ -980,6 +981,7 @@ describe('managedwriter.WriterClient', () => {
 
           const iterations = new Array(50).fill(1);
           let offset = 0;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           for (const _ of iterations) {
             const rows = generateRows(10);
             const pw = writer.appendRows(rows, offset);
@@ -1037,6 +1039,7 @@ describe('managedwriter.WriterClient', () => {
           const pendingWrites: PendingWrite[] = [];
           const iterations = new Array(50).fill(1);
           let offset = 0;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           for (const _ of iterations) {
             const rows = generateRows(10);
             const pw = writer.appendRows(rows, offset);
@@ -1056,7 +1059,7 @@ describe('managedwriter.WriterClient', () => {
         }
       }).timeout(2 * 60 * 1000);
 
-      it('every 10 request there is a quota error', async () => {
+      xit('every 10 request there is a RESOURCE_EXAUSTED quota error', async () => {
         bqWriteClient.initialize();
         const client = new WriterClient();
         client.enableWriteRetries(true);
@@ -1115,6 +1118,7 @@ describe('managedwriter.WriterClient', () => {
           const pendingWrites: PendingWrite[] = [];
           const iterations = new Array(50).fill(1);
           let offset = 0;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           for (const _ of iterations) {
             const rows = generateRows(10);
             const pw = writer.appendRows(rows, offset);
@@ -1611,14 +1615,12 @@ describe('managedwriter.WriterClient', () => {
 
     for (const dataset of datasets) {
       try {
-        console.log('getting data for dataset', dataset.id);
         const [metadata] = await dataset.getMetadata();
         const creationTime = Number(metadata.creationTime);
 
-        //if (isResourceStale(creationTime)) {
-        console.log('deleting dataset', dataset.id);
-        await dataset.delete({force: true});
-        //}
+        if (isResourceStale(creationTime)) {
+          await dataset.delete({force: true});
+        }
       } catch (e) {
         console.log(`dataset(${dataset.id}).delete() failed`);
         console.log(e);
