@@ -1036,10 +1036,10 @@ describe('managedwriter.WriterClient', () => {
 
           const pendingWrites: PendingWrite[] = [];
           const iterations = new Array(50).fill(1);
-          let offset = 10;
+          let offset = 0;
           for (const _ of iterations) {
             const rows = generateRows(10);
-            const pw = writer.appendRows(rows);
+            const pw = writer.appendRows(rows, offset);
             pendingWrites.push(pw);
             offset += 10;
           }
@@ -1104,10 +1104,10 @@ describe('managedwriter.WriterClient', () => {
 
           const pendingWrites: PendingWrite[] = [];
           const iterations = new Array(50).fill(1);
-          let offset = 10;
+          let offset = 0;
           for (const _ of iterations) {
             const rows = generateRows(10);
-            const pw = writer.appendRows(rows);
+            const pw = writer.appendRows(rows, offset);
             pendingWrites.push(pw);
             offset += 10;
           }

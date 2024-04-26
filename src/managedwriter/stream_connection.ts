@@ -126,9 +126,10 @@ export class StreamConnection extends EventEmitter {
       );
       const retrySettings = this._writeClient['_retrySettings'];
       if (this.isRetryableError(err) && retrySettings.enableWriteRetries) {
-        process.nextTick(() => {
-          this.resendNextPendingWrite();
-        });
+        if (!this.isConnectionClosed()) {
+          const pw = this._pendingWrites.pop()!;
+          this.send(pw);
+        }
       } else {
         this.ackNextPendingWrite(err);
       }
@@ -176,7 +177,7 @@ export class StreamConnection extends EventEmitter {
   }
 
   private handleData = (response: AppendRowsResponse) => {
-    this.trace('data arrived', response);
+    this.trace('data arrived', response, this._pendingWrites.length);
     if (!this.hasPendingWrites()) {
       this.trace('data arrived with no pending write available', response);
       return;
@@ -242,15 +243,12 @@ export class StreamConnection extends EventEmitter {
   }
 
   private resendAllPendingWrites() {
-    while (this.hasPendingWrites()) {
-      this.resendNextPendingWrite();
-    }
-  }
-
-  private resendNextPendingWrite() {
-    const pw = this._pendingWrites.pop();
-    if (pw) {
-      this.send(pw);
+    const pendingWrites = [...this._pendingWrites]; // copy array;
+    let pw = pendingWrites.pop();
+    while (pw) {
+      this._pendingWrites.pop(); // remove from real queue
+      this.send(pw); // .send immediately adds to the queue
+      pw = pendingWrites.pop();
     }
   }
 
@@ -273,6 +271,7 @@ export class StreamConnection extends EventEmitter {
   ) {
     const pw = this._pendingWrites.pop();
     if (pw) {
+      this.trace('ack pending write:', pw, err, result);
       pw._markDone(err, result);
     }
   }
@@ -312,13 +311,13 @@ export class StreamConnection extends EventEmitter {
     this.trace('sending pending write', pw);
     try {
       const request = pw.getRequest();
+      this._pendingWrites.unshift(pw);
       this._connection?.write(request, err => {
         this.trace('wrote pending write', err, this._pendingWrites.length);
         if (err) {
           pw._markDone(err); //TODO: add retries
           return;
         }
-        this._pendingWrites.unshift(pw);
       });
     } catch (err) {
       pw._markDone(err as Error);
