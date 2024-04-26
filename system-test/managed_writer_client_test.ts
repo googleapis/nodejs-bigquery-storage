@@ -1081,7 +1081,7 @@ describe('managedwriter.WriterClient', () => {
                 const req = chunk as AppendRowRequest;
                 cb && cb(null);
                 numCalls++;
-                if (!req.writeStream){
+                if (!req.writeStream) {
                   return false;
                 }
                 if (numCalls % 10 === 0) {
