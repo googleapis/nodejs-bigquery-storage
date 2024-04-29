@@ -358,9 +358,7 @@ export class StreamConnection extends EventEmitter {
    */
   reconnect() {
     this.trace(
-      'reconnect called with',
-      this._pendingWrites.length,
-      'pending writes'
+      `reconnect called with ${this._pendingWrites.length} pending writes`
     );
     this.close();
     this.open();
