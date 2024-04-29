@@ -101,7 +101,7 @@ export class StreamConnection extends EventEmitter {
   }
 
   traceId(): string {
-    const base = `nodejs-managedwriter:${pkg.version}`;
+    const base = `nodejs-writer:${pkg.version}`;
     if (this._callOptions && this._callOptions.traceId) {
       return `${base} ${this._callOptions.traceId}`;
     }
