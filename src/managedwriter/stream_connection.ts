@@ -17,7 +17,7 @@ import {EventEmitter} from 'events';
 import * as protos from '../../protos/protos';
 import * as pkg from '../../package.json';
 
-import {WriterClient} from './writer_client';
+import {CallOptions, WriterClient} from './writer_client';
 import {PendingWrite} from './pending_write';
 import {logger} from './logger';
 import {parseStorageErrors} from './error';
@@ -57,13 +57,13 @@ export class StreamConnection extends EventEmitter {
   private _streamId: string;
   private _writeClient: WriterClient;
   private _connection?: gax.CancellableStream | null;
-  private _callOptions?: gax.CallOptions & {traceId?: string};
+  private _callOptions?: CallOptions;
   private _pendingWrites: PendingWrite[];
 
   constructor(
     streamId: string,
     writeClient: WriterClient,
-    options?: gax.CallOptions & {traceId?: string}
+    options?: CallOptions
   ) {
     super();
     this._streamId = streamId;
@@ -101,11 +101,11 @@ export class StreamConnection extends EventEmitter {
   }
 
   traceId(): string {
-    const base = `nodejs-managedwriter:${pkg.version}`
-    if (this._callOptions && this._callOptions.traceId){
+    const base = `nodejs-managedwriter:${pkg.version}`;
+    if (this._callOptions && this._callOptions.traceId) {
       return `${base} ${this._callOptions.traceId}`;
     }
-    return base;  
+    return base;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

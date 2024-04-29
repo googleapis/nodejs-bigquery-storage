@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import * as gax from 'google-gax';
-import type {CallOptions, ClientOptions} from 'google-gax';
+import type {ClientOptions} from 'google-gax';
 import * as protos from '../../protos/protos';
 
 import {BigQueryWriteClient} from '../v1';
@@ -37,6 +37,9 @@ type FinalizeWriteStreamRequest =
   protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest;
 type FinalizeWriteStreamResponse =
   protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse;
+export type CallOptions = gax.CallOptions & {
+  traceId?: string;
+};
 
 /**
  *  BigQuery Write API Client.
@@ -171,7 +174,7 @@ export class WriterClient {
       destinationTable?: string;
       streamType?: WriteStreamType;
     },
-    options?: CallOptions & {traceId?: string}
+    options?: CallOptions
   ): Promise<StreamConnection> {
     await this.initialize();
     const {streamId, streamType, destinationTable} = request;
