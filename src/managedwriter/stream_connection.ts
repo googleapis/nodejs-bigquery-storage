@@ -357,7 +357,11 @@ export class StreamConnection extends EventEmitter {
    * Re open appendRows BiDi gRPC connection.
    */
   reconnect() {
-    this.trace('reconnect called');
+    this.trace(
+      'reconnect called with',
+      this._pendingWrites.length,
+      'pending writes'
+    );
     this.close();
     this.open();
   }
