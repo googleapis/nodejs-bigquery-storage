@@ -15,9 +15,8 @@
 import * as gax from 'google-gax';
 import {EventEmitter} from 'events';
 import * as protos from '../../protos/protos';
-import * as pkg from '../../package.json';
 
-import {CallOptions, WriterClient} from './writer_client';
+import {WriterClient} from './writer_client';
 import {PendingWrite} from './pending_write';
 import {logger} from './logger';
 import {parseStorageErrors} from './error';
@@ -57,13 +56,13 @@ export class StreamConnection extends EventEmitter {
   private _streamId: string;
   private _writeClient: WriterClient;
   private _connection?: gax.CancellableStream | null;
-  private _callOptions?: CallOptions;
+  private _callOptions?: gax.CallOptions;
   private _pendingWrites: PendingWrite[];
 
   constructor(
     streamId: string,
     writeClient: WriterClient,
-    options?: CallOptions
+    options?: gax.CallOptions
   ) {
     super();
     this._streamId = streamId;
@@ -98,14 +97,6 @@ export class StreamConnection extends EventEmitter {
     this._connection.on('end', () => {
       this.trace('connection ended');
     });
-  }
-
-  traceId(): string {
-    const base = `nodejs-writer:${pkg.version}`;
-    if (this._callOptions && this._callOptions.traceId) {
-      return `${base} ${this._callOptions.traceId}`;
-    }
-    return base;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
