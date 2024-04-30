@@ -265,12 +265,12 @@ export class StreamConnection extends EventEmitter {
   }
 
   private resendAllPendingWrites() {
-    const pendingWrites = [...this._pendingWrites]; // copy array;
-    let pw = pendingWrites.pop();
+    const pendingWritesToRetry = [...this._pendingWrites]; // copy array;
+    let pw = pendingWritesToRetry.pop();
     while (pw) {
       this._pendingWrites.pop(); // remove from real queue
       this.send(pw); // .send immediately adds to the queue
-      pw = pendingWrites.pop();
+      pw = pendingWritesToRetry.pop();
     }
   }
 
@@ -321,7 +321,7 @@ export class StreamConnection extends EventEmitter {
 
   private send(pw: PendingWrite) {
     const retrySettings = this._writeClient['_retrySettings'];
-    const tries = pw._increaseRetryAttempts();
+    const tries = pw._increaseAttempts();
     if (tries > retrySettings.maxRetryAttempts) {
       pw._markDone(
         new Error(`pending write max retries reached: ${tries} attempts`)
