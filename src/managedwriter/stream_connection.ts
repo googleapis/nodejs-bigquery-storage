@@ -393,7 +393,6 @@ export class StreamConnection extends EventEmitter {
   async flushRows(request?: {
     offset?: IInt64Value['value'];
   }): Promise<FlushRowsResponse | null> {
-    this.close();
     if (this.isDefaultStream()) {
       return null;
     }
