@@ -160,7 +160,7 @@ export class Writer {
     offsetValue?: IInt64Value['value']
   ): PendingWrite {
     let offset: AppendRowRequest['offset'];
-    if (offsetValue || offsetValue === 0) {
+    if (offsetValue !== undefined && offsetValue !== null) {
       offset = {
         value: offsetValue,
       };

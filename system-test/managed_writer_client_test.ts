@@ -1078,7 +1078,7 @@ describe('managedwriter.WriterClient', () => {
             .stub(conn, 'write')
             .callsFake(
               (
-                chunk: any,
+                chunk: unknown,
                 cb?: ((error: Error | null | undefined) => void) | undefined
               ): boolean => {
                 const req = chunk as AppendRowRequest;

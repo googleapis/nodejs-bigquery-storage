@@ -42,10 +42,27 @@ export class PendingWrite {
     });
   }
 
+  /**
+   * Increase number of attempts and return current value.
+   *
+   * @private
+   * @internal
+   * @returns {number} current number of attempts
+   */
   _increaseAttempts(): number {
     return this.attempts++;
   }
 
+  /**
+   * Resolve pending write with error or AppendRowResponse.
+   * This resolves the promise accessed via GetResult()
+   *
+   * @see GetResult
+   *
+   * @private
+   * @internal
+   * @returns {number} current number of attempts
+   */
   _markDone(err: Error | null, response?: AppendRowsResponse) {
     if (err) {
       this.rejectFunc && this.rejectFunc(err);

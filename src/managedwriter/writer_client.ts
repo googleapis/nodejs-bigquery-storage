@@ -59,7 +59,12 @@ export class WriterClient {
   private _client: BigQueryWriteClient;
   private _connections: StreamConnections;
   private _open: boolean;
-  private _retrySettings: RetrySettings;
+  /**
+   * Retry settings, only internal for now.
+   * @private
+   * @internal
+   */
+  _retrySettings: RetrySettings;
 
   constructor(opts?: ClientOptions) {
     const baseOptions = {

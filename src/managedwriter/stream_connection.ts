@@ -89,17 +89,18 @@ export class StreamConnection extends EventEmitter {
     this._connection.on('close', () => {
       this.trace('connection closed', this._lastConnectionError);
       if (this.hasPendingWrites()) {
-        const retrySettings = this._writeClient['_retrySettings'];
+        const retrySettings = this._writeClient._retrySettings;
         if (
-          this.isRetryableError(this._lastConnectionError) &&
-          retrySettings.enableWriteRetries
+          retrySettings.enableWriteRetries &&
+          this.isRetryableError(this._lastConnectionError)
         ) {
           this.reconnect();
           this.resendAllPendingWrites();
         } else {
-          const err = new Error(
+          const err = new gax.GoogleError(
             'aborted due to failed connection, please retry the request'
           );
+          err.code = gax.Status.ABORTED;
           this.ackAllPendingWrites(err);
         }
       }
@@ -132,15 +133,15 @@ export class StreamConnection extends EventEmitter {
       );
       this.handleRetry(err);
     }
-    if (this.isRetryableError(err) && this.listenerCount('error') === 0) {
+    if (this.listenerCount('error') === 0 && this.isRetryableError(err)) {
       return;
     }
     this.emit('error', err);
   };
 
   private handleRetry(err: gax.GoogleError) {
-    const retrySettings = this._writeClient['_retrySettings'];
-    if (this.isRetryableError(err) && retrySettings.enableWriteRetries) {
+    const retrySettings = this._writeClient._retrySettings;
+    if (retrySettings.enableWriteRetries && this.isRetryableError(err)) {
       if (!this.isConnectionClosed()) {
         const pw = this._pendingWrites.pop()!;
         this.send(pw);
@@ -320,7 +321,7 @@ export class StreamConnection extends EventEmitter {
   }
 
   private send(pw: PendingWrite) {
-    const retrySettings = this._writeClient['_retrySettings'];
+    const retrySettings = this._writeClient._retrySettings;
     const tries = pw._increaseAttempts();
     if (tries > retrySettings.maxRetryAttempts) {
       pw._markDone(
