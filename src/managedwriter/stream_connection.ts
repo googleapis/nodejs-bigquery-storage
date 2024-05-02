@@ -98,9 +98,9 @@ export class StreamConnection extends EventEmitter {
           this.resendAllPendingWrites();
         } else {
           const err = new gax.GoogleError(
-            'aborted due to failed connection, please retry the request'
+            'Connection failure, please retry the request'
           );
-          err.code = gax.Status.ABORTED;
+          err.code = gax.Status.UNAVAILABLE;
           this.ackAllPendingWrites(err);
         }
       }
