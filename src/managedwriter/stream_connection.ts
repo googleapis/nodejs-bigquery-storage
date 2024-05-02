@@ -327,6 +327,7 @@ export class StreamConnection extends EventEmitter {
       pw._markDone(
         new Error(`pending write max retries reached: ${tries} attempts`)
       );
+      return;
     }
     if (this.isConnectionClosed()) {
       this.reconnect();
