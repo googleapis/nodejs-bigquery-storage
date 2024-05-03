@@ -62,7 +62,6 @@ function main(
       });
       console.log(`Stream created: ${streamId}`);
 
-      // Append data to the given stream.
       const connection = await writeClient.createStreamConnection({
         streamId,
       });
