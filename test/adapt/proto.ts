@@ -207,6 +207,64 @@ describe('Adapt Protos', () => {
       const decoded = NestedProto.decode(serialized).toJSON();
       assert.deepEqual(raw, decoded);
     });
+
+    it('range', () => {
+      const schema = {
+        fields: [
+          {
+            name: 'range_ts',
+            type: 'RANGE',
+            rangeElementType: {
+              type: 'TIMESTAMP',
+            },
+          },
+          {
+            name: 'range_dt',
+            type: 'RANGE',
+            rangeElementType: {
+              type: 'DATETIME',
+            },
+          },
+          {
+            name: 'range_d',
+            type: 'RANGE',
+            rangeElementType: {
+              type: 'DATE',
+            },
+          },
+        ],
+      };
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
+        storageSchema,
+        'Test'
+      );
+      assert.notEqual(protoDescriptor, null);
+      if (!protoDescriptor) {
+        throw Error('null proto descriptor set');
+      }
+      const TestProto = Type.fromDescriptor(protoDescriptor);
+      const raw = {
+        range_dt: {
+          start: '2024-04-05T15:45:58.981Z',
+          end: '2024-04-05T16:45:58.981Z',
+        },
+        // The value is the number of days since the Unix epoch (1970-01-01)
+        range_d: {
+          start: new Date('2024-04-01').getTime() / (1000 * 60 * 60 * 24),
+          end: new Date('2024-04-05').getTime() / (1000 * 60 * 60 * 24),
+        },
+        // The value is given in microseconds since the Unix epoch (1970-01-01)
+        range_ts: {
+          start: new Date('2024-04-05T15:45:58.981Z').getTime() * 1000,
+          end: new Date('2024-04-05T16:45:58.981Z').getTime() * 1000,
+        },
+      };
+      const serialized = TestProto.encode(raw).finish();
+      const decoded = TestProto.decode(serialized).toJSON();
+      assert.deepEqual(raw, decoded);
+    });
   });
 
   describe('Proto descriptor normalization', () => {

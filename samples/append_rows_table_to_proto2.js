@@ -202,6 +202,16 @@ function main(
       };
       rows.push(row);
 
+      // Row 16
+      row = {
+        row_num: 16,
+        range_col: {
+          start: new Date('2022-01-09T03:49:46.564Z'),
+          end: new Date('2022-01-09T04:49:46.564Z'),
+        },
+      };
+      rows.push(row);
+
       offsetValue = 12;
 
       // Send batch.
