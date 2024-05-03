@@ -98,6 +98,12 @@ async function bigqueryStorageWriteQuickstart() {
   }
 }
 // [END bigquerystorage_write_quickstart]
+
+// This is a workaround to show Storage Write API as example
+// on the README of this repo.
+// We still keep the bigquerystorage_quickstart sample to use
+// the Read API, as that's what is being used in all languages.
+
 // eslint-disable-next-line no-func-assign
 bigqueryStorageWriteQuickstart = () => {};
 bigqueryStorageWriteQuickstart();
