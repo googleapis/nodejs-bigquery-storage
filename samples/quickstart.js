@@ -14,6 +14,91 @@
 
 'use strict';
 
+// [START bigquerystorage_write_quickstart]
+const {adapt, managedwriter} = require('@google-cloud/bigquery-storage');
+const {WriterClient, JSONWriter} = managedwriter;
+const {BigQuery} = require('@google-cloud/bigquery');
+
+async function bigqueryStorageWriteQuickstart() {
+  /**
+   * TODO(developer): Uncomment the following lines before ru nning the sample.
+   */
+  const projectId = 'my_project';
+  const datasetId = 'my_dataset';
+  const tableId = 'my_table';
+
+  const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
+  const writeClient = new WriterClient({projectId});
+  const bigquery = new BigQuery({projectId: projectId});
+
+  try {
+    const dataset = bigquery.dataset(datasetId);
+    const table = await dataset.table(tableId);
+    const [metadata] = await table.getMetadata();
+    const {schema} = metadata;
+    const storageSchema =
+      adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+    const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
+      storageSchema,
+      'root'
+    );
+
+    const connection = await writeClient.createStreamConnection({
+      streamId: managedwriter.DefaultStream,
+      destinationTable,
+    });
+    const streamId = connection.getStreamId();
+
+    const writer = new JSONWriter({
+      streamId,
+      connection,
+      protoDescriptor,
+    });
+
+    let rows = [];
+    const pendingWrites = [];
+
+    // Row 1
+    let row = {
+      row_num: 1,
+      customer_name: 'Octavia',
+    };
+    rows.push(row);
+
+    // Row 2
+    row = {
+      row_num: 2,
+      customer_name: 'Turing',
+    };
+    rows.push(row);
+
+    // Send batch.
+    let pw = writer.appendRows(rows);
+    pendingWrites.push(pw);
+
+    rows = [];
+
+    // Row 3
+    row = {
+      row_num: 3,
+      customer_name: 'Bell',
+    };
+    rows.push(row);
+
+    // Send batch.
+    pw = writer.appendRows(rows);
+    pendingWrites.push(pw);
+
+    const results = await Promise.all(pendingWrites.map(pw => pw.getResult()));
+    console.log('Write results:', results);
+  } catch (err) {
+    console.log(err);
+  } finally {
+    writeClient.close();
+  }
+}
+// [END bigquerystorage_write_quickstart]
+
 // sample-metadata:
 //   title: BigQuery Storage Quickstart
 //   description: Read data from a table via read stream.
