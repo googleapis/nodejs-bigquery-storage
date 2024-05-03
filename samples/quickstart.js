@@ -98,6 +98,7 @@ async function bigqueryStorageWriteQuickstart() {
   }
 }
 // [END bigquerystorage_write_quickstart]
+// eslint-disable-next-line no-func-assign
 bigqueryStorageWriteQuickstart = () => {};
 bigqueryStorageWriteQuickstart();
 
