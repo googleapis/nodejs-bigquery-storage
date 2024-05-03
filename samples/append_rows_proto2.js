@@ -56,14 +56,16 @@ function main(
     const writeClient = new WriterClient({projectId});
 
     try {
-      // Append data to the given stream.
-      const connection = await writeClient.createStreamConnection({
+      const streamId = await writeClient.createWriteStream({
         streamType,
         destinationTable,
       });
-
-      const streamId = connection.getStreamId();
       console.log(`Stream created: ${streamId}`);
+
+      // Append data to the given stream.
+      const connection = await writeClient.createStreamConnection({
+        streamId,
+      });
 
       const writer = new Writer({
         connection,
