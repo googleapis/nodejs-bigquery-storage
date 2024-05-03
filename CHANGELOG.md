@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.6.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.5.0...v4.6.0) (2024-05-03)
+
+
+### Features
+
+* Add support for RANGE type with Write API and adapt pkg ([#437](https://github.com/googleapis/nodejs-bigquery-storage/issues/437)) ([51924ab](https://github.com/googleapis/nodejs-bigquery-storage/commit/51924ab3639253ff79654d90fbada368f5fd5e18))
+* Enable write retry and nack pending writes on reconnect ([#443](https://github.com/googleapis/nodejs-bigquery-storage/issues/443)) ([ce4f88c](https://github.com/googleapis/nodejs-bigquery-storage/commit/ce4f88c668afb8ebf1d5b7ad57f1c4e245a1a8f8))
+
 ## [4.5.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.4.0...v4.5.0) (2024-04-15)
 
 
