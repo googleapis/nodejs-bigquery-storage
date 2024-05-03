@@ -16,6 +16,7 @@ import {isDeepStrictEqual} from 'util';
 import * as protos from '../../protos/protos';
 import {PendingWrite} from './pending_write';
 import {StreamConnection} from './stream_connection';
+const version = require('../../../package.json').version;
 
 type AppendRowRequest =
   protos.google.cloud.bigquery.storage.v1.IAppendRowsRequest;
@@ -76,6 +77,12 @@ export interface WriterOptions {
    * field path like 'foo.bar'.
    */
   missingValueInterpretations?: MissingValueInterpretationMap;
+
+  /**
+   * Trace ID allows instruments requests to the service with a custom trace prefix.
+   * This is generally for diagnostic purposes only.
+   */
+  traceId?: string;
 }
 
 /**
@@ -89,6 +96,7 @@ export class Writer {
   private _protoDescriptor: DescriptorProto;
   private _streamConnection: StreamConnection;
   private _defaultMissingValueInterpretation?: MissingValueInterpretation;
+  private _traceId?: string;
   private _missingValueInterpretations?: MissingValueInterpretationMap;
 
   /**
@@ -99,15 +107,25 @@ export class Writer {
    */
   constructor(params: WriterOptions) {
     const {
+      traceId,
       connection,
       protoDescriptor,
       missingValueInterpretations,
       defaultMissingValueInterpretation,
     } = params;
+    this._traceId = traceId;
     this._streamConnection = connection;
     this._protoDescriptor = new DescriptorProto(protoDescriptor);
     this._defaultMissingValueInterpretation = defaultMissingValueInterpretation;
     this._missingValueInterpretations = missingValueInterpretations;
+  }
+
+  traceId(): string {
+    const base = `nodejs-writer:${version}`;
+    if (this._traceId) {
+      return `${base} ${this._traceId}`;
+    }
+    return base;
   }
 
   /**
@@ -167,6 +185,7 @@ export class Writer {
     }
     const request: AppendRowRequest = {
       writeStream: this._streamConnection.getStreamId(),
+      traceId: this.traceId(),
       protoRows: {
         rows,
         writerSchema: {
