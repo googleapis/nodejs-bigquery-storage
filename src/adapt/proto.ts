@@ -92,10 +92,34 @@ function convertStorageSchemaToFileDescriptorInternal(
   for (const field of schema.fields ?? []) {
     fNumber += 1;
     const currentScope = `${scope}_${field.name}`;
-    if (field.type === TableFieldSchema.Type.STRUCT) {
-      const subSchema: TableSchema = {
-        fields: field.fields,
-      };
+    if (
+      field.type === TableFieldSchema.Type.STRUCT ||
+      field.type === TableFieldSchema.Type.RANGE
+    ) {
+      let subSchema: TableSchema = {};
+      switch (field.type) {
+        case TableFieldSchema.Type.STRUCT:
+          subSchema = {
+            fields: field.fields,
+          };
+          break;
+        case TableFieldSchema.Type.RANGE:
+          subSchema = {
+            fields: [
+              {
+                name: 'start',
+                type: field.rangeElementType?.type,
+                mode: 'NULLABLE',
+              },
+              {
+                name: 'end',
+                type: field.rangeElementType?.type,
+                mode: 'NULLABLE',
+              },
+            ],
+          };
+      }
+
       const fd = convertStorageSchemaToFileDescriptorInternal(
         subSchema,
         currentScope,
@@ -227,7 +251,10 @@ function convertTableFieldSchemaToFieldDescriptorProto(
   }
   const label = convertModeToLabel(field.mode, useProto3);
   let fdp: FieldDescriptorProto;
-  if (type === TableFieldSchema.Type.STRUCT) {
+  if (
+    type === TableFieldSchema.Type.STRUCT ||
+    type === TableFieldSchema.Type.RANGE
+  ) {
     fdp = new FieldDescriptorProto({
       name: name,
       number: fNumber,
