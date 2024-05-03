@@ -98,6 +98,7 @@ async function bigqueryStorageWriteQuickstart() {
   }
 }
 // [END bigquerystorage_write_quickstart]
+bigqueryStorageWriteQuickstart = null;
 
 // sample-metadata:
 //   title: BigQuery Storage Quickstart
