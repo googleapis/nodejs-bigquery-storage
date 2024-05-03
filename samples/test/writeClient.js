@@ -307,20 +307,6 @@ describe('writeClient', () => {
           if (name === 'numeric_col' || name === 'bignumeric_col') {
             value = value.toNumber();
           }
-          if (name === 'range_col') {
-            // Parse range while not supported on @google-cloud/bigquery pkg
-            const [start, end] = value
-              .replace('[', '')
-              .replace(')', '')
-              .split(',');
-
-            const dtStart = new Date(start / 1000);
-            const dtEnd = new Date(end / 1000);
-            value = {
-              start: BigQuery.timestamp(dtStart).value,
-              end: BigQuery.timestamp(dtEnd).value,
-            };
-          }
           return {[name]: value};
         });
     });
