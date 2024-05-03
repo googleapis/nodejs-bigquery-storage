@@ -25,6 +25,7 @@ import {ClientOptions} from 'google-gax';
 import * as customerRecordProtoJson from '../samples/customer_record.json';
 import {JSONEncoder} from '../src/managedwriter/encoder';
 import {PendingWrite} from '../src/managedwriter/pending_write';
+import * as pkg from '../package.json';
 
 const sandbox = sinon.createSandbox();
 afterEach(() => sandbox.restore());
@@ -42,7 +43,7 @@ type DescriptorProto = protos.google.protobuf.IDescriptorProto;
 type IInt64Value = protos.google.protobuf.IInt64Value;
 type AppendRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse;
-type AppendRowRequest =
+type AppendRowsRequest =
   protos.google.cloud.bigquery.storage.v1.IAppendRowsRequest;
 
 const FieldDescriptorProtoType =
@@ -371,6 +372,68 @@ describe('managedwriter.WriterClient', () => {
           writeStreams: [streamId],
         });
         assert.equal(commitResponse.streamErrors?.length, 0);
+      } finally {
+        client.close();
+      }
+    });
+  });
+
+  describe('StreamConnection', () => {
+    it('should pass traceId on AppendRequests', async () => {
+      bqWriteClient.initialize();
+      const client = new WriterClient();
+      client.setClient(bqWriteClient);
+
+      // Row 1
+      const row1 = {
+        customer_name: 'Lovelace',
+        row_num: 1,
+      };
+
+      // Row 2
+      const row2 = {
+        customer_name: 'Turing',
+        row_num: 2,
+      };
+
+      try {
+        const connection = await client.createStreamConnection({
+          streamId: managedwriter.DefaultStream,
+          destinationTable: parent,
+        });
+        let writer = new JSONWriter({
+          connection,
+          protoDescriptor,
+        });
+
+        let pw1 = await writer.appendRows([row1, row2]);
+        let pw2 = await writer.appendRows([row1, row2]);
+        await Promise.all([pw1.getResult(), pw2.getResult()]);
+
+        let requests = [pw1.getRequest(), pw2.getRequest()];
+        requests.every(req => {
+          assert.notEqual(req.traceId, null);
+          assert.strictEqual(req.traceId, `nodejs-writer:${pkg.version}`);
+        });
+
+        writer = new JSONWriter({
+          traceId: 'foo',
+          connection,
+          protoDescriptor,
+        });
+
+        pw1 = await writer.appendRows([row1, row2]);
+        pw2 = await writer.appendRows([row1, row2]);
+        await Promise.all([pw1.getResult(), pw2.getResult()]);
+
+        requests = [pw1.getRequest(), pw2.getRequest()];
+        requests.every(req => {
+          assert.notEqual(req.traceId, null);
+          assert.strictEqual(req.traceId, `nodejs-writer:${pkg.version} foo`);
+        });
+
+        writer.close();
+        client.close();
       } finally {
         client.close();
       }
@@ -1081,7 +1144,7 @@ describe('managedwriter.WriterClient', () => {
                 chunk: unknown,
                 cb?: ((error: Error | null | undefined) => void) | undefined
               ): boolean => {
-                const req = chunk as AppendRowRequest;
+                const req = chunk as AppendRowsRequest;
                 cb && cb(null);
                 numCalls++;
                 if (!req.writeStream) {
