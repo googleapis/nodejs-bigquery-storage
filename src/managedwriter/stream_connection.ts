@@ -19,7 +19,6 @@ import * as protos from '../../protos/protos';
 import {WriterClient} from './writer_client';
 import {PendingWrite} from './pending_write';
 import {logger} from './logger';
-import {parseStorageErrors} from './error';
 
 type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type IInt64Value = protos.google.protobuf.IInt64Value;
@@ -56,6 +55,7 @@ export class StreamConnection extends EventEmitter {
   private _streamId: string;
   private _writeClient: WriterClient;
   private _connection?: gax.CancellableStream | null;
+  private _lastConnectionError?: gax.GoogleError | null;
   private _callOptions?: gax.CallOptions;
   private _pendingWrites: PendingWrite[];
 
@@ -76,6 +76,7 @@ export class StreamConnection extends EventEmitter {
     if (this.isOpen()) {
       this.close();
     }
+    this._lastConnectionError = null;
     const callOptions = this.resolveCallOptions(
       this._streamId,
       this._callOptions
@@ -86,7 +87,23 @@ export class StreamConnection extends EventEmitter {
     this._connection.on('data', this.handleData);
     this._connection.on('error', this.handleError);
     this._connection.on('close', () => {
-      this.trace('connection closed');
+      this.trace('connection closed', this._lastConnectionError);
+      if (this.hasPendingWrites()) {
+        const retrySettings = this._writeClient._retrySettings;
+        if (
+          retrySettings.enableWriteRetries &&
+          this.isRetryableError(this._lastConnectionError)
+        ) {
+          this.reconnect();
+          this.resendAllPendingWrites();
+        } else {
+          const err = new gax.GoogleError(
+            'Connection failure, please retry the request'
+          );
+          err.code = gax.Status.UNAVAILABLE;
+          this.ackAllPendingWrites(err);
+        }
+      }
     });
     this._connection.on('pause', () => {
       this.trace('connection paused');
@@ -106,62 +123,53 @@ export class StreamConnection extends EventEmitter {
 
   private handleError = (err: gax.GoogleError) => {
     this.trace('on error', err, JSON.stringify(err));
-    if (this.shouldReconnect(err)) {
-      this.reconnect();
-      return;
-    }
-    let nextPendingWrite = this.getNextPendingWrite();
-    if (this.isPermanentError(err)) {
-      this.trace('found permanent error', err);
-      while (nextPendingWrite) {
-        this.ackNextPendingWrite(err);
-        nextPendingWrite = this.getNextPendingWrite();
-      }
-      this.emit('error', err);
-      return;
-    }
-    if (this.isRequestError(err) && nextPendingWrite) {
+    this._lastConnectionError = err;
+    const nextPendingWrite = this.getNextPendingWrite();
+    if (nextPendingWrite) {
       this.trace(
         'found request error with pending write',
         err,
         nextPendingWrite
       );
-      this.ackNextPendingWrite(err);
+      this.handleRetry(err);
+    }
+    if (this.listenerCount('error') === 0 && this.isRetryableError(err)) {
       return;
     }
     this.emit('error', err);
   };
 
-  private shouldReconnect(err: gax.GoogleError): boolean {
-    const reconnectionErrorCodes = [
-      gax.Status.UNAVAILABLE,
-      gax.Status.RESOURCE_EXHAUSTED,
-      gax.Status.ABORTED,
-      gax.Status.CANCELLED,
-      gax.Status.DEADLINE_EXCEEDED,
-      gax.Status.INTERNAL,
-    ];
-    return !!err.code && reconnectionErrorCodes.includes(err.code);
-  }
-
-  private isPermanentError(err: gax.GoogleError): boolean {
-    if (err.code === gax.Status.INVALID_ARGUMENT) {
-      const storageErrors = parseStorageErrors(err);
-      for (const storageError of storageErrors) {
-        if (
-          storageError.errorMessage?.includes(
-            'Schema mismatch due to extra fields in user schema'
-          )
-        ) {
-          return true;
-        }
+  private handleRetry(err: gax.GoogleError) {
+    const retrySettings = this._writeClient._retrySettings;
+    if (retrySettings.enableWriteRetries && this.isRetryableError(err)) {
+      if (!this.isConnectionClosed()) {
+        const pw = this._pendingWrites.pop()!;
+        this.send(pw);
       }
+    } else {
+      this.ackNextPendingWrite(err);
     }
-    return false;
   }
 
-  private isRequestError(err: gax.GoogleError): boolean {
-    return err.code === gax.Status.INVALID_ARGUMENT;
+  private isRetryableError(err?: gax.GoogleError | null): boolean {
+    if (!err) {
+      return false;
+    }
+    const errorCodes = [
+      gax.Status.ABORTED,
+      gax.Status.UNAVAILABLE,
+      gax.Status.CANCELLED,
+      gax.Status.INTERNAL,
+      gax.Status.DEADLINE_EXCEEDED,
+    ];
+    return !!err.code && errorCodes.includes(err.code);
+  }
+
+  private isConnectionClosed() {
+    if (this._connection) {
+      return this._connection.destroyed || this._connection.closed;
+    }
+    return true;
   }
 
   private resolveCallOptions(
@@ -183,14 +191,22 @@ export class StreamConnection extends EventEmitter {
   }
 
   private handleData = (response: AppendRowsResponse) => {
-    this.trace('data arrived', response);
-    const pw = this.getNextPendingWrite();
-    if (!pw) {
+    this.trace('data arrived', response, this._pendingWrites.length);
+    if (!this.hasPendingWrites()) {
       this.trace('data arrived with no pending write available', response);
       return;
     }
     if (response.updatedSchema) {
       this.emit('schemaUpdated', response.updatedSchema);
+    }
+    const responseErr = response.error;
+    if (responseErr) {
+      const gerr = new gax.GoogleError(responseErr.message!);
+      gerr.code = responseErr.code!;
+      if (this.isRetryableError(gerr)) {
+        this.handleRetry(gerr);
+        return;
+      }
     }
     this.ackNextPendingWrite(null, response);
   };
@@ -238,11 +254,36 @@ export class StreamConnection extends EventEmitter {
     return this._streamId;
   };
 
+  private hasPendingWrites(): boolean {
+    return this._pendingWrites.length > 0;
+  }
+
   private getNextPendingWrite(): PendingWrite | null {
     if (this._pendingWrites.length > 0) {
-      return this._pendingWrites[0];
+      return this._pendingWrites[this._pendingWrites.length - 1];
     }
     return null;
+  }
+
+  private resendAllPendingWrites() {
+    const pendingWritesToRetry = [...this._pendingWrites]; // copy array;
+    let pw = pendingWritesToRetry.pop();
+    while (pw) {
+      this._pendingWrites.pop(); // remove from real queue
+      this.send(pw); // .send immediately adds to the queue
+      pw = pendingWritesToRetry.pop();
+    }
+  }
+
+  private ackAllPendingWrites(
+    err: Error | null,
+    result?:
+      | protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse
+      | undefined
+  ) {
+    while (this.hasPendingWrites()) {
+      this.ackNextPendingWrite(err, result);
+    }
   }
 
   private ackNextPendingWrite(
@@ -253,6 +294,7 @@ export class StreamConnection extends EventEmitter {
   ) {
     const pw = this._pendingWrites.pop();
     if (pw) {
+      this.trace('ack pending write:', pw, err, result);
       pw._markDone(err, result);
     }
   }
@@ -279,23 +321,27 @@ export class StreamConnection extends EventEmitter {
   }
 
   private send(pw: PendingWrite) {
-    const request = pw.getRequest();
-    if (!this._connection) {
-      pw._markDone(new Error('connection closed'));
+    const retrySettings = this._writeClient._retrySettings;
+    const tries = pw._increaseAttempts();
+    if (tries > retrySettings.maxRetryAttempts) {
+      pw._markDone(
+        new Error(`pending write max retries reached: ${tries} attempts`)
+      );
       return;
     }
-    if (this._connection.destroyed || this._connection.closed) {
+    if (this.isConnectionClosed()) {
       this.reconnect();
     }
     this.trace('sending pending write', pw);
     try {
-      this._connection.write(request, err => {
+      const request = pw.getRequest();
+      this._pendingWrites.unshift(pw);
+      this._connection?.write(request, err => {
         this.trace('wrote pending write', err, this._pendingWrites.length);
         if (err) {
           pw._markDone(err); //TODO: add retries
           return;
         }
-        this._pendingWrites.unshift(pw);
       });
     } catch (err) {
       pw._markDone(err as Error);
@@ -306,14 +352,16 @@ export class StreamConnection extends EventEmitter {
    * Check if connection is open and ready to send requests.
    */
   isOpen(): boolean {
-    return !!this._connection;
+    return !this.isConnectionClosed();
   }
 
   /**
-   * Reconnect and re send inflight requests.
+   * Re open appendRows BiDi gRPC connection.
    */
   reconnect() {
-    this.trace('reconnect called');
+    this.trace(
+      `reconnect called with ${this._pendingWrites.length} pending writes`
+    );
     this.close();
     this.open();
   }
@@ -347,7 +395,6 @@ export class StreamConnection extends EventEmitter {
   async flushRows(request?: {
     offset?: IInt64Value['value'];
   }): Promise<FlushRowsResponse | null> {
-    this.close();
     if (this.isDefaultStream()) {
       return null;
     }
