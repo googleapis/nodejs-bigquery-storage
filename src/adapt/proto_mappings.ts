@@ -67,8 +67,8 @@ export const bqTypeToFieldTypeMap: Record<
   TYPE_UNSPECIFIED: null,
   [TableFieldSchema.Type.INTERVAL]: null,
   INTERVAL: null,
-  [TableFieldSchema.Type.RANGE]: null,
-  RANGE: null,
+  [TableFieldSchema.Type.RANGE]: FieldDescriptorProto.Type.TYPE_MESSAGE,
+  RANGE: FieldDescriptorProto.Type.TYPE_MESSAGE,
 };
 
 export const bqModeToFieldLabelMapProto2: Record<

@@ -212,6 +212,18 @@ function main(
       };
       serializedRows.push(SampleData.encode(row).finish());
 
+      // Row 16
+      const timestampStart = new Date('2022-01-09T03:49:46.564Z').getTime();
+      const timestampEnd = new Date('2022-01-09T04:49:46.564Z').getTime();
+      row = {
+        rowNum: 16,
+        rangeCol: {
+          start: timestampStart * 1000,
+          end: timestampEnd * 1000,
+        },
+      };
+      serializedRows.push(SampleData.encode(row).finish());
+
       offsetValue = 12;
 
       // Send batch.
