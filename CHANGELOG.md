@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.7.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.6.0...v4.7.0) (2024-05-03)
+
+
+### Features
+
+* Add trace id ([#447](https://github.com/googleapis/nodejs-bigquery-storage/issues/447)) ([19b38a0](https://github.com/googleapis/nodejs-bigquery-storage/commit/19b38a009947f93eb06fd3b127bc23ee3dee2594))
+
 ## [4.6.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.5.0...v4.6.0) (2024-05-03)
 
 
