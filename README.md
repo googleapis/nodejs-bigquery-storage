@@ -10,51 +10,19 @@
 
 
 
-Client for the BigQuery Storage API
+> Node.js idiomatic client for [BigQuery Storage][product-docs].
 
+The BigQuery Storage product is divided into two major APIs: Write and Read API. 
+Both BigQuery Storage APIs does not provide functionality related to managing 
+BigQuery resources such as datasets, jobs, or tables.
 
-A comprehensive list of changes in each version may be found in
-[the CHANGELOG](https://github.com/googleapis/nodejs-bigquery-storage/blob/main/CHANGELOG.md).
+The BigQuery Storage Write API is a unified data-ingestion API for BigQuery. 
+It combines streaming ingestion and batch loading into a single high-performance API.
+You can use the Storage Write API to stream records into BigQuery in real time or 
+to batch process an arbitrarily large number of records and commit them in a single 
+atomic operation. 
 
-* [Google BigQuery Storage Node.js Client API Reference][client-docs]
-* [Google BigQuery Storage Documentation][product-docs]
-* [github.com/googleapis/nodejs-bigquery-storage](https://github.com/googleapis/nodejs-bigquery-storage)
-
-Read more about the client libraries for Cloud APIs, including the older
-Google APIs Client Libraries, in [Client Libraries Explained][explained].
-
-[explained]: https://cloud.google.com/apis/docs/client-libraries-explained
-
-**Table of contents:**
-
-
-* [Quickstart](#quickstart)
-  * [Before you begin](#before-you-begin)
-  * [Installing the client library](#installing-the-client-library)
-  * [Using the client library](#using-the-client-library)
-* [Samples](#samples)
-* [Versioning](#versioning)
-* [Contributing](#contributing)
-* [License](#license)
-
-## Quickstart
-
-### Before you begin
-
-1.  [Select or create a Cloud Platform project][projects].
-1.  [Enable billing for your project][billing].
-1.  [Enable the Google BigQuery Storage API][enable_api].
-1.  [Set up authentication with a service account][auth] so you can access the
-    API from your local workstation.
-
-### Installing the client library
-
-```bash
-npm install @google-cloud/bigquery-storage
-```
-
-
-### Using the client library
+Read more in our [introduction guide](https://cloud.google.com/bigquery/docs/write-api).
 
 ```javascript
 const {adapt, managedwriter} = require('@google-cloud/bigquery-storage');
@@ -63,8 +31,8 @@ const {BigQuery} = require('@google-cloud/bigquery');
 
 async function bigqueryStorageWriteQuickstart() {
   /**
-   * TODO(developer): Uncomment the following lines before ru nning the sample.
-   */
+  * TODO(developer): Uncomment the following lines before ru nning the sample.
+  */
   const projectId = 'my_project';
   const datasetId = 'my_dataset';
   const tableId = 'my_table';
@@ -138,6 +106,179 @@ async function bigqueryStorageWriteQuickstart() {
   } finally {
     writeClient.close();
   }
+}
+```
+
+The BigQuery Storage Read API provides fast access to BigQuery-managed storage by 
+using an rpc-based protocol. When you use the Storage Read API, structured data is 
+sent over the wire in a binary serialization format. This allows for additional 
+parallelism among multiple consumers for a set of results.
+
+Read more how to [use the BigQuery Storage Read API](https://cloud.google.com/bigquery/docs/reference/storage).
+
+See sample code on the [Quickstart section][quickstart].
+
+
+A comprehensive list of changes in each version may be found in
+[the CHANGELOG](https://github.com/googleapis/nodejs-bigquery-storage/blob/main/CHANGELOG.md).
+
+* [Google BigQuery Storage Node.js Client API Reference][client-docs]
+* [Google BigQuery Storage Documentation][product-docs]
+* [github.com/googleapis/nodejs-bigquery-storage](https://github.com/googleapis/nodejs-bigquery-storage)
+
+Read more about the client libraries for Cloud APIs, including the older
+Google APIs Client Libraries, in [Client Libraries Explained][explained].
+
+[explained]: https://cloud.google.com/apis/docs/client-libraries-explained
+
+**Table of contents:**
+
+
+* [Quickstart](#quickstart)
+  * [Before you begin](#before-you-begin)
+  * [Installing the client library](#installing-the-client-library)
+  * [Using the client library](#using-the-client-library)
+* [Samples](#samples)
+* [Versioning](#versioning)
+* [Contributing](#contributing)
+* [License](#license)
+
+## Quickstart
+
+### Before you begin
+
+1.  [Select or create a Cloud Platform project][projects].
+1.  [Enable billing for your project][billing].
+1.  [Enable the Google BigQuery Storage API][enable_api].
+1.  [Set up authentication with a service account][auth] so you can access the
+    API from your local workstation.
+
+### Installing the client library
+
+```bash
+npm install @google-cloud/bigquery-storage
+```
+
+
+### Using the client library
+
+```javascript
+
+// The read stream contains blocks of Avro-encoded bytes. We use the
+// 'avsc' library to decode these blocks. Install avsc with the following
+// command: npm install avsc
+const avro = require('avsc');
+
+// See reference documentation at
+// https://cloud.google.com/bigquery/docs/reference/storage
+const {BigQueryReadClient} = require('@google-cloud/bigquery-storage');
+
+const client = new BigQueryReadClient();
+
+async function bigqueryStorageQuickstart() {
+  // Get current project ID. The read session is created in this project.
+  // This project can be different from that which contains the table.
+  const myProjectId = await client.getProjectId();
+
+  // This example reads baby name data from the public datasets.
+  const projectId = 'bigquery-public-data';
+  const datasetId = 'usa_names';
+  const tableId = 'usa_1910_current';
+
+  const tableReference = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
+
+  const parent = `projects/${myProjectId}`;
+
+  /* We limit the output columns to a subset of those allowed in the table,
+   * and set a simple filter to only report names from the state of
+   * Washington (WA).
+   */
+  const readOptions = {
+    selectedFields: ['name', 'number', 'state'],
+    rowRestriction: 'state = "WA"',
+  };
+
+  let tableModifiers = null;
+  const snapshotSeconds = 0;
+
+  // Set a snapshot time if it's been specified.
+  if (snapshotSeconds > 0) {
+    tableModifiers = {snapshotTime: {seconds: snapshotSeconds}};
+  }
+
+  // API request.
+  const request = {
+    parent,
+    readSession: {
+      table: tableReference,
+      // This API can also deliver data serialized in Apache Arrow format.
+      // This example leverages Apache Avro.
+      dataFormat: 'AVRO',
+      readOptions,
+      tableModifiers,
+    },
+  };
+
+  const [session] = await client.createReadSession(request);
+
+  const schema = JSON.parse(session.avroSchema.schema);
+
+  const avroType = avro.Type.forSchema(schema);
+
+  /* The offset requested must be less than the last
+   * row read from ReadRows. Requesting a larger offset is
+   * undefined.
+   */
+  let offset = 0;
+
+  const readRowsRequest = {
+    // Required stream name and optional offset. Offset requested must be less than
+    // the last row read from readRows(). Requesting a larger offset is undefined.
+    readStream: session.streams[0].name,
+    offset,
+  };
+
+  const names = new Set();
+  const states = [];
+
+  /* We'll use only a single stream for reading data from the table. Because
+   * of dynamic sharding, this will yield all the rows in the table. However,
+   * if you wanted to fan out multiple readers you could do so by having a
+   * reader process each individual stream.
+   */
+  client
+    .readRows(readRowsRequest)
+    .on('error', console.error)
+    .on('data', data => {
+      offset = data.avroRows.serializedBinaryRows.offset;
+
+      try {
+        // Decode all rows in buffer
+        let pos;
+        do {
+          const decodedData = avroType.decode(
+            data.avroRows.serializedBinaryRows,
+            pos
+          );
+
+          if (decodedData.value) {
+            names.add(decodedData.value.name);
+
+            if (!states.includes(decodedData.value.state)) {
+              states.push(decodedData.value.state);
+            }
+          }
+
+          pos = decodedData.offset;
+        } while (pos > 0);
+      } catch (error) {
+        console.log(error);
+      }
+    })
+    .on('end', () => {
+      console.log(`Got ${names.size} unique names in states: ${states}`);
+      console.log(`Last offset: ${offset}`);
+    });
 }
 
 ```
