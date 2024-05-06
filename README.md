@@ -10,7 +10,7 @@
 
 
 
-> Node.js idiomatic client for [BigQuery Storage][product-docs].
+> Node.js idiomatic client for [BigQuery Storage](https://cloud.google.com/bigquery).
 
 The BigQuery Storage product is divided into two major APIs: Write and Read API. 
 Both BigQuery Storage APIs does not provide functionality related to managing 
@@ -39,6 +39,7 @@ async function bigqueryStorageWriteQuickstart() {
 
   const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
   const writeClient = new WriterClient({projectId});
+  writeClient.enableWriteRetries(true);
   const bigquery = new BigQuery({projectId: projectId});
 
   try {
@@ -116,7 +117,7 @@ parallelism among multiple consumers for a set of results.
 
 Read more how to [use the BigQuery Storage Read API](https://cloud.google.com/bigquery/docs/reference/storage).
 
-See sample code on the [Quickstart section][quickstart].
+See sample code on the [Quickstart section](#quickstart).
 
 
 A comprehensive list of changes in each version may be found in
