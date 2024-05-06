@@ -36,17 +36,13 @@ function main(
     const writeClient = new WriterClient({projectId});
 
     try {
-      const streamId = await writeClient.createWriteStream({
+      const writeStream = await writeClient.createFullWriteStream({
         streamType,
         destinationTable,
       });
+      const streamId = writeStream.name;
       console.log(`Stream created: ${streamId}`);
 
-      // Get table schema from WriteStream metadata.
-      const writeStream = await writeClient.getWriteStream({
-        streamId,
-        view: 'FULL',
-      });
       const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
         writeStream.tableSchema,
         'root'
