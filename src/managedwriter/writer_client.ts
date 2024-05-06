@@ -17,7 +17,12 @@ import type {CallOptions, ClientOptions} from 'google-gax';
 import * as protos from '../../protos/protos';
 
 import {BigQueryWriteClient} from '../v1';
-import {WriteStreamType, DefaultStream, streamTypeToEnum} from './stream_types';
+import {
+  WriteStreamType,
+  DefaultStream,
+  streamTypeToEnum,
+  WriteStream,
+} from './stream_types';
 import {StreamConnection} from './stream_connection';
 
 type StreamConnections = {
@@ -29,6 +34,9 @@ type RetrySettings = {
 };
 type CreateWriteStreamRequest =
   protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest;
+type GetWriteStreamRequest =
+  protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest;
+type WriteStreamView = protos.google.cloud.bigquery.storage.v1.WriteStreamView;
 type BatchCommitWriteStreamsRequest =
   protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest;
 type BatchCommitWriteStreamsResponse =
@@ -181,6 +189,41 @@ export class WriterClient {
     } catch {
       throw new Error('Stream connection failed');
     }
+  }
+
+  /**
+   * Gets information about a write stream.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.streamId
+   *   Required. Name of the stream to get, in the form of
+   *   `projects/{project}/datasets/{dataset}/tables/{table}/streams/{stream}`
+   * @param {WriteStreamView} request.view
+   *   Indicates whether to get full or partial view of the WriteStream. If
+   *   not set, view returned will be basic.
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {Promise<WriteStream>}} - The promise which resolves to the WriteStream.
+   */
+  async getWriteStream(
+    request: {
+      streamId: string;
+      view?: WriteStreamView;
+    },
+    options?: CallOptions
+  ): Promise<WriteStream> {
+    await this.initialize();
+    const {streamId, view} = request;
+    const getReq: GetWriteStreamRequest = {
+      name: streamId,
+      view,
+    };
+    const [response] = await this._client.getWriteStream(getReq, options);
+    if (typeof [response] === undefined) {
+      throw new gax.GoogleError(`${response}`);
+    }
+    return response;
   }
 
   /**
