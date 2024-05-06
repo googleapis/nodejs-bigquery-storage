@@ -36,7 +36,7 @@ function main(
     const writeClient = new WriterClient({projectId: projectId});
 
     try {
-      const writeStream = await writeClient.createFullWriteStream({
+      const writeStream = await writeClient.createWriteStreamFullResponse({
         streamType,
         destinationTable,
       });

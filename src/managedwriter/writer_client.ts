@@ -173,7 +173,7 @@ export class WriterClient {
     },
     options?: CallOptions
   ): Promise<string> {
-    const stream = await this.createFullWriteStream(request, options);
+    const stream = await this.createWriteStreamFullResponse(request, options);
     if (stream.name) {
       return stream.name;
     }
@@ -199,7 +199,7 @@ export class WriterClient {
    *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
    * @returns {Promise<WriteStream>}} - The promise which resolves to the WriteStream.
    */
-  async createFullWriteStream(
+  async createWriteStreamFullResponse(
     request: {
       streamType: WriteStreamType;
       destinationTable: string;

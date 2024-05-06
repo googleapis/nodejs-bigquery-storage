@@ -55,7 +55,7 @@ function main(
     const streamType = managedwriter.PendingStream;
     const writeClient = new WriterClient({projectId});
     try {
-      const writeStream = await writeClient.createFullWriteStream({
+      const writeStream = await writeClient.createWriteStreamFullResponse({
         streamType,
         destinationTable,
       });
