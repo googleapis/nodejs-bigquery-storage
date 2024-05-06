@@ -49,13 +49,15 @@ function main(
         'root'
       );
 
-      const connection = await writeClient.createStreamConnection({
+      const streamId = await writeClient.createWriteStream({
         streamType,
         destinationTable,
       });
-
-      const streamId = connection.getStreamId();
       console.log(`Stream created: ${streamId}`);
+
+      const connection = await writeClient.createStreamConnection({
+        streamId,
+      });
 
       const writer = new JSONWriter({
         streamId,
