@@ -320,7 +320,7 @@ export class WriterClient {
     }
     if (destinationTable) {
       if (streamType) {
-        const streamId = await this.createWriteStream({
+        streamId = await this.createWriteStream({
           streamType,
           destinationTable,
         });

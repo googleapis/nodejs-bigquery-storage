@@ -187,7 +187,6 @@ describe('Adapt Schemas', () => {
       if (!storageSchema) {
         throw Error('null storage schema');
       }
-      console.log('storageSchema', storageSchema);
       assert.deepEqual(storageSchema, {
         fields: [
           {
