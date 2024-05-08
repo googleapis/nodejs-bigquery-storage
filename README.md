@@ -13,8 +13,8 @@
 > Node.js idiomatic client for [BigQuery Storage](https://cloud.google.com/bigquery).
 
 The BigQuery Storage product is divided into two major APIs: Write and Read API. 
-Both BigQuery Storage APIs does not provide functionality related to managing 
-BigQuery resources such as datasets, jobs, or tables.
+BigQuery Storage API does not provide functionality related to managing BigQuery 
+resources such as datasets, jobs, or tables.
 
 The BigQuery Storage Write API is a unified data-ingestion API for BigQuery. 
 It combines streaming ingestion and batch loading into a single high-performance API.
@@ -24,33 +24,29 @@ atomic operation.
 
 Read more in our [introduction guide](https://cloud.google.com/bigquery/docs/write-api).
 
+Using a system provided default stream, this code sample demonstrates using the 
+schema of a destination stream/table to construct a writer, and send several 
+batches of row data to the table.
+
 ```javascript
 const {adapt, managedwriter} = require('@google-cloud/bigquery-storage');
 const {WriterClient, JSONWriter} = managedwriter;
-const {BigQuery} = require('@google-cloud/bigquery');
 
-async function bigqueryStorageWriteQuickstart() {
-  /**
-  * TODO(developer): Uncomment the following lines before ru nning the sample.
-  */
+async function appendJSONRowsDefaultStream() {      
   const projectId = 'my_project';
   const datasetId = 'my_dataset';
   const tableId = 'my_table';
 
   const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
   const writeClient = new WriterClient({projectId});
-  writeClient.enableWriteRetries(true);
-  const bigquery = new BigQuery({projectId: projectId});
 
   try {
-    const dataset = bigquery.dataset(datasetId);
-    const table = await dataset.table(tableId);
-    const [metadata] = await table.getMetadata();
-    const {schema} = metadata;
-    const storageSchema =
-      adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+    const writeStream = await writeClient.getWriteStream({
+      streamId: `${destinationTable}/streams/_default`,
+      view: 'FULL'
+    });
     const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
-      storageSchema,
+      writeStream.tableSchema,
       'root'
     );
 
@@ -100,7 +96,9 @@ async function bigqueryStorageWriteQuickstart() {
     pw = writer.appendRows(rows);
     pendingWrites.push(pw);
 
-    const results = await Promise.all(pendingWrites.map(pw => pw.getResult()));
+    const results = await Promise.all(
+      pendingWrites.map(pw => pw.getResult())
+    );
     console.log('Write results:', results);
   } catch (err) {
     console.log(err);
@@ -111,7 +109,7 @@ async function bigqueryStorageWriteQuickstart() {
 ```
 
 The BigQuery Storage Read API provides fast access to BigQuery-managed storage by 
-using an rpc-based protocol. When you use the Storage Read API, structured data is 
+using an gRPC based protocol. When you use the Storage Read API, structured data is 
 sent over the wire in a binary serialization format. This allows for additional 
 parallelism among multiple consumers for a set of results.
 
