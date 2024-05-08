@@ -14,6 +14,7 @@
 
 import * as protos from '../../protos/protos';
 import {bqTypeToFieldTypeMap, convertModeToLabel} from './proto_mappings';
+import {normalizeFieldType} from './schema_mappings';
 
 type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type TableFieldSchema =
@@ -92,12 +93,13 @@ function convertStorageSchemaToFileDescriptorInternal(
   for (const field of schema.fields ?? []) {
     fNumber += 1;
     const currentScope = `${scope}_${field.name}`;
+    const normalizedType = normalizeFieldType(field);
     if (
-      field.type === TableFieldSchema.Type.STRUCT ||
-      field.type === TableFieldSchema.Type.RANGE
+      normalizedType === TableFieldSchema.Type.STRUCT ||
+      normalizedType === TableFieldSchema.Type.RANGE
     ) {
       let subSchema: TableSchema = {};
-      switch (field.type) {
+      switch (normalizedType) {
         case TableFieldSchema.Type.STRUCT:
           subSchema = {
             fields: field.fields,
@@ -245,7 +247,7 @@ function convertTableFieldSchemaToFieldDescriptorProto(
   useProto3: boolean
 ): FieldDescriptorProto {
   const name = field.name;
-  const type = field.type;
+  const type = normalizeFieldType(field);
   if (!type) {
     throw Error(`table field ${name} missing type`);
   }

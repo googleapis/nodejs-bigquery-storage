@@ -17,7 +17,12 @@ import type {CallOptions, ClientOptions} from 'google-gax';
 import * as protos from '../../protos/protos';
 
 import {BigQueryWriteClient} from '../v1';
-import {WriteStreamType, DefaultStream, streamTypeToEnum} from './stream_types';
+import {
+  WriteStreamType,
+  DefaultStream,
+  streamTypeToEnum,
+  WriteStream,
+} from './stream_types';
 import {StreamConnection} from './stream_connection';
 
 type StreamConnections = {
@@ -29,6 +34,9 @@ type RetrySettings = {
 };
 type CreateWriteStreamRequest =
   protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest;
+type GetWriteStreamRequest =
+  protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest;
+type WriteStreamView = protos.google.cloud.bigquery.storage.v1.WriteStreamView;
 type BatchCommitWriteStreamsRequest =
   protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest;
 type BatchCommitWriteStreamsResponse =
@@ -140,7 +148,9 @@ export class WriterClient {
   }
 
   /**
-   * Creates a write stream to the given table.
+   * Creates a write stream to the given table and return just the
+   * streamId.
+   *
    * Additionally, every table has a special stream named DefaultStream
    * to which data can be written. This stream doesn't need to be created using
    * createWriteStream. It is a stream that can be used simultaneously by any
@@ -156,10 +166,46 @@ export class WriterClient {
    *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
    * @returns {Promise<string>}} - The promise which resolves to the streamId.
    */
-  async createWriteStream(request: {
-    streamType: WriteStreamType;
-    destinationTable: string;
-  }): Promise<string> {
+  async createWriteStream(
+    request: {
+      streamType: WriteStreamType;
+      destinationTable: string;
+    },
+    options?: CallOptions
+  ): Promise<string> {
+    const stream = await this.createWriteStreamFullResponse(request, options);
+    if (stream.name) {
+      return stream.name;
+    }
+    return '';
+  }
+
+  /**
+   * Creates a write stream to the given table and return all
+   * information about it.
+   *
+   * Additionally, every table has a special stream named DefaultStream
+   * to which data can be written. This stream doesn't need to be created using
+   * createWriteStream. It is a stream that can be used simultaneously by any
+   * number of clients. Data written to this stream is considered committed as
+   * soon as an acknowledgement is received.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.streamType
+   *   Required. The type of stream to create.
+   * @param {string} request.destinationTable
+   *   Required. Reference to the table to which the stream belongs, in the format
+   *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
+   * @returns {Promise<WriteStream>}} - The promise which resolves to the WriteStream.
+   */
+  async createWriteStreamFullResponse(
+    request: {
+      streamType: WriteStreamType;
+      destinationTable: string;
+    },
+    options?: CallOptions
+  ): Promise<WriteStream> {
     await this.initialize();
     const {streamType, destinationTable} = request;
     const createReq: CreateWriteStreamRequest = {
@@ -168,19 +214,46 @@ export class WriterClient {
         type: streamTypeToEnum(streamType),
       },
     };
-    const [response] = await this._client.createWriteStream(createReq);
+    const [response] = await this._client.createWriteStream(createReq, options);
     if (typeof [response] === undefined) {
       throw new gax.GoogleError(`${response}`);
     }
-    try {
-      if (response.name) {
-        const streamId = response.name;
-        return streamId;
-      }
-      return '';
-    } catch {
-      throw new Error('Stream connection failed');
+    return response;
+  }
+
+  /**
+   * Gets information about a write stream.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.streamId
+   *   Required. Name of the stream to get, in the form of
+   *   `projects/{project}/datasets/{dataset}/tables/{table}/streams/{stream}`
+   * @param {WriteStreamView} request.view
+   *   Indicates whether to get full or partial view of the WriteStream. If
+   *   not set, view returned will be basic.
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {Promise<WriteStream>}} - The promise which resolves to the WriteStream.
+   */
+  async getWriteStream(
+    request: {
+      streamId: string;
+      view?: WriteStreamView;
+    },
+    options?: CallOptions
+  ): Promise<WriteStream> {
+    await this.initialize();
+    const {streamId, view} = request;
+    const getReq: GetWriteStreamRequest = {
+      name: streamId,
+      view,
+    };
+    const [response] = await this._client.getWriteStream(getReq, options);
+    if (typeof [response] === undefined) {
+      throw new gax.GoogleError(`${response}`);
     }
+    return response;
   }
 
   /**

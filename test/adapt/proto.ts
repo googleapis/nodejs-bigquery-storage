@@ -19,6 +19,10 @@ import * as adapt from '../../src/adapt';
 import * as messagesJSON from '../../samples/testdata/messages.json';
 import * as protos from '../../protos/protos';
 
+type TableFieldSchema =
+  protos.google.cloud.bigquery.storage.v1.ITableFieldSchema;
+const TableFieldSchema =
+  protos.google.cloud.bigquery.storage.v1.TableFieldSchema;
 const DescriptorProto = protos.google.protobuf.DescriptorProto;
 const {Root, Type} = protobuf;
 
@@ -259,6 +263,62 @@ describe('Adapt Protos', () => {
         range_ts: {
           start: new Date('2024-04-05T15:45:58.981Z').getTime() * 1000,
           end: new Date('2024-04-05T16:45:58.981Z').getTime() * 1000,
+        },
+      };
+      const serialized = TestProto.encode(raw).finish();
+      const decoded = TestProto.decode(serialized).toJSON();
+      assert.deepEqual(raw, decoded);
+    });
+
+    it('convert both string and numeric value of table schema field type', () => {
+      const schema: TableFieldSchema = {
+        fields: [
+          {
+            name: 'rowNum',
+            type: TableFieldSchema.Type.NUMERIC,
+            mode: 'NULLABLE',
+            description: '',
+          },
+          {
+            name: 'range',
+            type: 'RANGE',
+            mode: 'NULLABLE',
+            description: '',
+            rangeElementType: {
+              type: 'TIMESTAMP',
+            },
+          },
+          {
+            name: 'nested',
+            type: TableFieldSchema.Type.STRUCT,
+            mode: 'REQUIRED',
+            description: '',
+            fields: [
+              {
+                name: 'integer',
+                mode: 'REQUIRED',
+                description: '',
+                type: TableFieldSchema.Type.INT64,
+              },
+            ],
+          },
+        ],
+      };
+      const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
+        schema,
+        'root'
+      );
+      if (!protoDescriptor) {
+        throw Error('null proto descriptor set');
+      }
+      const TestProto = Type.fromDescriptor(protoDescriptor);
+      const raw = {
+        rowNum: '1',
+        range: {
+          start: new Date('2024-04-05T15:45:58.981Z').getTime() * 1000,
+        },
+        nested: {
+          integer: 10,
         },
       };
       const serialized = TestProto.encode(raw).finish();
