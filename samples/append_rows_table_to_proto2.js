@@ -22,7 +22,6 @@ function main(
   // [START bigquerystorage_jsonstreamwriter_pending]
   const {adapt, managedwriter} = require('@google-cloud/bigquery-storage');
   const {WriterClient, JSONWriter} = managedwriter;
-  const {BigQuery} = require('@google-cloud/bigquery');
 
   async function appendRowsPendingStream() {
     /**
@@ -35,25 +34,19 @@ function main(
     const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
     const streamType = managedwriter.PendingStream;
     const writeClient = new WriterClient({projectId: projectId});
-    const bigquery = new BigQuery({projectId: projectId});
 
     try {
-      const dataset = bigquery.dataset(datasetId);
-      const table = await dataset.table(tableId);
-      const [metadata] = await table.getMetadata();
-      const {schema} = metadata;
-      const storageSchema =
-        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
-      const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
-        storageSchema,
-        'root'
-      );
-
-      const streamId = await writeClient.createWriteStream({
+      const writeStream = await writeClient.createWriteStreamFullResponse({
         streamType,
         destinationTable,
       });
+      const streamId = writeStream.name;
       console.log(`Stream created: ${streamId}`);
+
+      const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
+        writeStream.tableSchema,
+        'root'
+      );
 
       const connection = await writeClient.createStreamConnection({
         streamId,
