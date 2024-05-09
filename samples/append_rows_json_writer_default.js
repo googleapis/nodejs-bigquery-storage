@@ -22,7 +22,6 @@ function main(
   // [START bigquerystorage_jsonstreamwriter_default]
   const {adapt, managedwriter} = require('@google-cloud/bigquery-storage');
   const {WriterClient, JSONWriter} = managedwriter;
-  const {BigQuery} = require('@google-cloud/bigquery');
 
   async function appendJSONRowsDefaultStream() {
     /**
@@ -34,17 +33,14 @@ function main(
 
     const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
     const writeClient = new WriterClient({projectId});
-    const bigquery = new BigQuery({projectId: projectId});
 
     try {
-      const dataset = bigquery.dataset(datasetId);
-      const table = await dataset.table(tableId);
-      const [metadata] = await table.getMetadata();
-      const {schema} = metadata;
-      const storageSchema =
-        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const writeStream = await writeClient.getWriteStream({
+        streamId: `${destinationTable}/streams/_default`,
+        view: 'FULL',
+      });
       const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
-        storageSchema,
+        writeStream.tableSchema,
         'root'
       );
 
