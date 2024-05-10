@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.8.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.7.0...v4.8.0) (2024-05-10)
+
+
+### Features
+
+* Add getWriteStream and createWriteStreamFullResponse methods ([#453](https://github.com/googleapis/nodejs-bigquery-storage/issues/453)) ([27dce6a](https://github.com/googleapis/nodejs-bigquery-storage/commit/27dce6a763c07a9fab70a18f15305e92fdbea5f1))
+
 ## [4.7.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.6.0...v4.7.0) (2024-05-03)
 
 
