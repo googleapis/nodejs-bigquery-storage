@@ -13,6 +13,8 @@
 // limitations under the License.
 
 import * as assert from 'assert';
+import {readFileSync} from 'fs';
+import * as path from 'path';
 import {describe, it} from 'mocha';
 import * as uuid from 'uuid';
 import * as gax from 'google-gax';
@@ -25,7 +27,10 @@ import {ClientOptions} from 'google-gax';
 import * as customerRecordProtoJson from '../samples/customer_record.json';
 import {JSONEncoder} from '../src/managedwriter/encoder';
 import {PendingWrite} from '../src/managedwriter/pending_write';
-import * as pkg from '../package.json';
+
+const pkg = JSON.parse(
+  readFileSync(path.resolve(__dirname, '../../package.json'), 'utf-8')
+);
 
 const sandbox = sinon.createSandbox();
 afterEach(() => sandbox.restore());
