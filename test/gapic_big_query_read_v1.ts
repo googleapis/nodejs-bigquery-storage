@@ -578,6 +578,50 @@ describe('v1.BigQueryReadClient', () => {
       assert(actualHeaderRequestParams.includes(expectedHeaderRequestParams));
     });
 
+    it('invokes readRows without error and gaxServerStreamingRetries enabled', async () => {
+      const client = new bigqueryreadModule.v1.BigQueryReadClient({
+        gaxServerStreamingRetries: true,
+      });
+      client.initialize();
+      const request = generateSampleMessage(
+        new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest()
+      );
+      const defaultValue1 = getTypeDefaultValue(
+        '.google.cloud.bigquery.storage.v1.ReadRowsRequest',
+        ['readStream']
+      );
+      request.readStream = defaultValue1;
+      const expectedHeaderRequestParams = `read_stream=${defaultValue1}`;
+      const expectedResponse = generateSampleMessage(
+        new protos.google.cloud.bigquery.storage.v1.ReadRowsResponse()
+      );
+      client.innerApiCalls.readRows = stubServerStreamingCall(expectedResponse);
+      const stream = client.readRows(request);
+      const promise = new Promise((resolve, reject) => {
+        stream.on(
+          'data',
+          (
+            response: protos.google.cloud.bigquery.storage.v1.ReadRowsResponse
+          ) => {
+            resolve(response);
+          }
+        );
+        stream.on('error', (err: Error) => {
+          reject(err);
+        });
+      });
+      const response = await promise;
+      assert.deepStrictEqual(response, expectedResponse);
+      const actualRequest = (
+        client.innerApiCalls.readRows as SinonStub
+      ).getCall(0).args[0];
+      assert.deepStrictEqual(actualRequest, request);
+      const actualHeaderRequestParams = (
+        client.innerApiCalls.readRows as SinonStub
+      ).getCall(0).args[1].otherArgs.headers['x-goog-request-params'];
+      assert(actualHeaderRequestParams.includes(expectedHeaderRequestParams));
+    });
+
     it('invokes readRows with error', async () => {
       const client = new bigqueryreadModule.v1.BigQueryReadClient({
         credentials: {client_email: 'bogus', private_key: 'bogus'},
@@ -656,6 +700,12 @@ describe('v1.BigQueryReadClient', () => {
         });
       });
       await assert.rejects(promise, expectedError);
+    });
+    it('should create a client with gaxServerStreamingRetries enabled', () => {
+      const client = new bigqueryreadModule.v1.BigQueryReadClient({
+        gaxServerStreamingRetries: true,
+      });
+      assert(client);
     });
   });
 

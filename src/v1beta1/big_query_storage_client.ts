@@ -218,7 +218,7 @@ export class BigQueryStorageClient {
       readRows: new this._gaxModule.StreamDescriptor(
         this._gaxModule.StreamType.SERVER_STREAMING,
         !!opts.fallback,
-        /* gaxStreamingRetries: */ false
+        !!opts.gaxServerStreamingRetries
       ),
     };
 
