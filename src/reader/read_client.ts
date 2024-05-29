@@ -61,6 +61,7 @@ export class ReadClient {
     const baseOptions = {
       'grpc.keepalive_time_ms': 30 * 1000,
       'grpc.keepalive_timeout_ms': 10 * 1000,
+      'grpc.use_local_subchannel_pool': 0,
     };
     this._client = new BigQueryReadClient({
       ...baseOptions,
@@ -101,12 +102,25 @@ export class ReadClient {
   }
 
   /**
-   * Creates a write stream to the given table.
-   * Additionally, every table has a special stream named DefaultStream
-   * to which data can be written. This stream doesn't need to be created using
-   * createWriteStream. It is a stream that can be used simultaneously by any
-   * number of clients. Data written to this stream is considered committed as
-   * soon as an acknowledgement is received.
+   * Creates a new read session. A read session divides the contents of a
+   * BigQuery table into one or more streams, which can then be used to read
+   * data from the table. The read session also specifies properties of the
+   * data to be read, such as a list of columns or a push-down filter describing
+   * the rows to be returned.
+   *
+   * A particular row can be read by at most one stream. When the caller has
+   * reached the end of each stream in the session, then all the data in the
+   * table has been read.
+   *
+   * Data is assigned to each stream such that roughly the same number of
+   * rows can be read from each stream. Because the server-side unit for
+   * assigning data is collections of rows, the API does not guarantee that
+   * each stream will return the same number or rows. Additionally, the
+   * limits are enforced based on the number of pre-filtered rows, so some
+   * filters can lead to lopsided assignments.
+   *
+   * Read sessions automatically expire 6 hours after they are created and do
+   * not require manual clean-up by the caller.
    *
    * @param {Object} request
    *   The request object that will be sent.
@@ -147,29 +161,19 @@ export class ReadClient {
     if (typeof [response] === undefined) {
       throw new gax.GoogleError(`${response}`);
     }
-    try {
-      return response;
-    } catch {
-      throw new Error('Stream connection failed');
-    }
+    return response;
   }
 
   /**
-   * Creates a write stream to the given table.
-   * Additionally, every table has a special stream named DefaultStream
-   * to which data can be written. This stream doesn't need to be created using
-   * createWriteStream. It is a stream that can be used simultaneously by any
-   * number of clients. Data written to this stream is considered committed as
-   * soon as an acknowledgement is received.
+   * Creates a ReadStream to the given stream name and ReadSession.
    *
    * @param {Object} request
    *   The request object that will be sent.
    * @param {string} request.streamName
-   *   Required. The type of stream to create.
-   * @param {string} request.offset
-   *   Required. Reference to the table to which the stream belongs, in the format
-   *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
-   * @returns {Promise<string>}} - The promise which resolves to the streamId.
+   *   Required. The id/name of read stream to read from.
+   * @param {string} request.session
+   *   Required. Reference to the ReadSession. See `createReadSession`.
+   * @returns {Promise<string>}} - The promise which resolves to the `ReadStream`.
    */
   async createReadStream(
     request: {

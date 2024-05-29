@@ -129,7 +129,9 @@ export class TableReader {
         }
       }
     }
-    const joined = Readable.from(mergeStreams(this._readStreams));
+    const joined = Readable.from(
+      mergeStreams(this._readStreams.map(r => r.getRowsStream()))
+    );
     this.trace('joined streams', joined);
     const stream = joined as ResourceStream<TableRow>;
     return [stream, session];
@@ -150,12 +152,8 @@ export class TableReader {
     const [stream, session] = await this.getRowsStream(options);
     return new Promise<RowsResponse>((resolve, reject) => {
       const rows: TableRow[] = [];
-      stream.on('readable', () => {
-        let data;
-        while ((data = stream.read()) !== null) {
-          this.trace('row arrived', data);
-          rows.push(data);
-        }
+      stream.on('data', (data: TableRow) => {
+        rows.push(data);
       });
       stream.on('error', err => {
         this.trace('reject called on joined stream', err);

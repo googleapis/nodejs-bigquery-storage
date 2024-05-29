@@ -18,7 +18,7 @@ import * as protos from '../../protos/protos';
 
 import {ReadClient} from './read_client';
 import {logger} from '../util/logger';
-import {Readable} from 'stream';
+import {Readable, Transform} from 'stream';
 
 type ReadSession = protos.google.cloud.bigquery.storage.v1.IReadSession;
 type ReadRowsResponse =
@@ -28,6 +28,12 @@ export type RemoveListener = {
   off: () => void;
 };
 
+interface TableRow {
+  f?: Array<{
+    v?: any;
+  }>;
+}
+
 /**
  * ReadStream is responsible for reading data from a GRPC read stream
  * connection against the Storage Read API readRows method.
@@ -36,12 +42,12 @@ export type RemoveListener = {
  * @extends EventEmitter
  * @memberof reader
  */
-export class ReadStream extends Readable {
+export class ReadStream {
   private _streamName: string;
   private _offset: number;
-  private _maxRows: number;
   private _readClient: ReadClient;
   private _session: ReadSession;
+  private _readStream?: Readable;
   private _connection?: gax.CancellableStream | null;
   private _callOptions?: gax.CallOptions;
 
@@ -51,29 +57,12 @@ export class ReadStream extends Readable {
     readClient: ReadClient,
     options?: gax.CallOptions
   ) {
-    super({
-      objectMode: true,
-    });
     this._streamName = streamName;
     this._session = session;
     this._offset = 0;
-    this._maxRows = 10;
     this._readClient = readClient;
     this._callOptions = options;
     this.open();
-  }
-
-  _read(_?: number | undefined) {
-    if (this.readableLength === 0) {
-      this.trace('read called with zero rows', this._connection?.isPaused());
-      if (this._connection && this._connection.isPaused()) {
-        this._connection.resume();
-        this._connection.read();
-      }
-      return null;
-    }
-    this.trace('read called with existing rows', this.isPaused());
-    return undefined;
   }
 
   open() {
@@ -89,7 +78,16 @@ export class ReadStream extends Readable {
       this._callOptions
     );
     this._connection = connection;
-    this._connection.on('data', this.handleData);
+    const parseTransform = new Transform({
+      objectMode: true,
+      highWaterMark: 100,
+      transform: (response: ReadRowsResponse, _, callback) => {
+        const rows = this.parseReadRowsResponse(response);
+        rows.forEach(r => parseTransform.push(r));
+        callback(null);
+      },
+    });
+    this._readStream = this._connection.pipe(parseTransform);
     this._connection.on('error', this.handleError);
     this._connection.on('close', () => {
       this.trace('connection closed');
@@ -97,13 +95,11 @@ export class ReadStream extends Readable {
     this._connection.on('pause', () => {
       this.trace('connection paused');
     });
-    this._connection.on('resume', () => {
+    this._connection.on('resume', async () => {
       this.trace('connection resumed');
-      this.resume();
     });
     this._connection.on('end', () => {
       this.trace('connection ended');
-      this.push(null);
       this.close();
     });
   }
@@ -124,7 +120,7 @@ export class ReadStream extends Readable {
       this.reconnect();
       return;
     }
-    this.emit('error', err);
+    this._readStream?.emit('error', err);
   };
 
   private shouldRetry(err: gax.GoogleError): boolean {
@@ -139,49 +135,48 @@ export class ReadStream extends Readable {
     return !!err.code && reconnectionErrorCodes.includes(err.code);
   }
 
-  private handleData = (response: ReadRowsResponse) => {
-    //this.trace('data arrived', response);
-    if (
-      response.arrowRecordBatch &&
-      response.arrowRecordBatch.serializedRecordBatch &&
-      response.rowCount
-    ) {
-      const rowCount = parseInt(response.rowCount as string, 10);
-      const batch = response.arrowRecordBatch;
-      this.trace(
-        'found ',
-        rowCount,
-        ' rows serialized in ',
-        batch.serializedRecordBatch?.length,
-        'bytes',
-        this.readableFlowing
-      );
-
-      this._offset += rowCount;
-
-      const buf = Buffer.concat([
-        this._session.arrowSchema?.serializedSchema as Uint8Array,
-        batch.serializedRecordBatch as Uint8Array,
-      ]);
-      const r = RecordBatchReader.from(buf);
-      for (const recordBatch of r.readAll()) {
-        for (const row of recordBatch) {
-          this.push({
-            f: row.toArray().map(fieldValue => {
-              return {
-                v: fieldValue,
-              };
-            }),
-          });
-        }
-      }
-      this.resume();
-      /* TODO: backpressure ?
-      if (this.readableLength > this._maxRows) {
-        this._connection?.pause();
-      }*/
+  private parseReadRowsResponse(response: ReadRowsResponse): TableRow[] {
+    if (!response.arrowRecordBatch || !response.rowCount) {
+      return [];
     }
-  };
+    if (!response.arrowRecordBatch.serializedRecordBatch) {
+      return [];
+    }
+
+    const rowCount = parseInt(response.rowCount as string, 10);
+    const batch = response.arrowRecordBatch;
+    this.trace(
+      'found ',
+      rowCount,
+      ' rows serialized in ',
+      batch.serializedRecordBatch?.length,
+      'bytes'
+    );
+
+    this._offset += rowCount;
+
+    const buf = Buffer.concat([
+      this._session.arrowSchema?.serializedSchema as Uint8Array,
+      batch.serializedRecordBatch as Uint8Array,
+    ]);
+    const r = RecordBatchReader.from(buf);
+    const batches = r.readAll();
+    const rows = [];
+    for (const recordBatch of batches) {
+      const rrows = [];
+      for (const row of recordBatch) {
+        rrows.push({
+          f: row.toArray().map(fieldValue => {
+            return {
+              v: fieldValue,
+            };
+          }),
+        });
+      }
+      rows.push(...rrows);
+    }
+    return rows;
+  }
 
   /**
    * Get the name of the read stream associated with this connection.
@@ -191,7 +186,7 @@ export class ReadStream extends Readable {
   };
 
   getRowsStream(): Readable {
-    return this;
+    return this._readStream!;
   }
 
   /**
