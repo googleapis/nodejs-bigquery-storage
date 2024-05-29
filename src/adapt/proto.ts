@@ -14,6 +14,7 @@
 
 import * as protos from '../../protos/protos';
 import {bqTypeToFieldTypeMap, convertModeToLabel} from './proto_mappings';
+import {normalizeFieldType} from './schema_mappings';
 
 type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type TableFieldSchema =
@@ -92,10 +93,35 @@ function convertStorageSchemaToFileDescriptorInternal(
   for (const field of schema.fields ?? []) {
     fNumber += 1;
     const currentScope = `${scope}_${field.name}`;
-    if (field.type === TableFieldSchema.Type.STRUCT) {
-      const subSchema: TableSchema = {
-        fields: field.fields,
-      };
+    const normalizedType = normalizeFieldType(field);
+    if (
+      normalizedType === TableFieldSchema.Type.STRUCT ||
+      normalizedType === TableFieldSchema.Type.RANGE
+    ) {
+      let subSchema: TableSchema = {};
+      switch (normalizedType) {
+        case TableFieldSchema.Type.STRUCT:
+          subSchema = {
+            fields: field.fields,
+          };
+          break;
+        case TableFieldSchema.Type.RANGE:
+          subSchema = {
+            fields: [
+              {
+                name: 'start',
+                type: field.rangeElementType?.type,
+                mode: 'NULLABLE',
+              },
+              {
+                name: 'end',
+                type: field.rangeElementType?.type,
+                mode: 'NULLABLE',
+              },
+            ],
+          };
+      }
+
       const fd = convertStorageSchemaToFileDescriptorInternal(
         subSchema,
         currentScope,
@@ -221,13 +247,16 @@ function convertTableFieldSchemaToFieldDescriptorProto(
   useProto3: boolean
 ): FieldDescriptorProto {
   const name = field.name;
-  const type = field.type;
+  const type = normalizeFieldType(field);
   if (!type) {
     throw Error(`table field ${name} missing type`);
   }
   const label = convertModeToLabel(field.mode, useProto3);
   let fdp: FieldDescriptorProto;
-  if (type === TableFieldSchema.Type.STRUCT) {
+  if (
+    type === TableFieldSchema.Type.STRUCT ||
+    type === TableFieldSchema.Type.RANGE
+  ) {
     fdp = new FieldDescriptorProto({
       name: name,
       number: fNumber,

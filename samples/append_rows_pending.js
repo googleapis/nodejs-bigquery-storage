@@ -55,13 +55,13 @@ function main(
     const streamType = managedwriter.PendingStream;
     const writeClient = new WriterClient({projectId});
     try {
-      const streamId = await writeClient.createWriteStream({
+      const writeStream = await writeClient.createWriteStreamFullResponse({
         streamType,
         destinationTable,
       });
+      const streamId = writeStream.name;
       console.log(`Stream created: ${streamId}`);
 
-      // Append data to the given stream.
       const connection = await writeClient.createStreamConnection({
         streamId,
       });

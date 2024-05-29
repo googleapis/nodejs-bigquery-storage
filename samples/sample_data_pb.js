@@ -31,6 +31,7 @@ $root.SampleData = (function () {
    * @property {Array.<number|Long>|null} [int64List] SampleData int64List
    * @property {SampleData.ISampleStruct|null} [structCol] SampleData structCol
    * @property {Array.<SampleData.ISampleStruct>|null} [structList] SampleData structList
+   * @property {SampleData.ISampleRange|null} [rangeCol] SampleData rangeCol
    * @property {number|Long} rowNum SampleData rowNum
    */
 
@@ -177,6 +178,14 @@ $root.SampleData = (function () {
   SampleData.prototype.structList = $util.emptyArray;
 
   /**
+   * SampleData rangeCol.
+   * @member {SampleData.ISampleRange|null|undefined} rangeCol
+   * @memberof SampleData
+   * @instance
+   */
+  SampleData.prototype.rangeCol = null;
+
+  /**
    * SampleData rowNum.
    * @member {number|Long} rowNum
    * @memberof SampleData
@@ -286,7 +295,15 @@ $root.SampleData = (function () {
           message.structList[i],
           writer.uint32(/* id 15, wireType 2 =*/ 122).fork()
         ).ldelim();
-    writer.uint32(/* id 16, wireType 0 =*/ 128).int64(message.rowNum);
+    if (
+      message.rangeCol != null &&
+      Object.hasOwnProperty.call(message, 'rangeCol')
+    )
+      $root.SampleData.SampleRange.encode(
+        message.rangeCol,
+        writer.uint32(/* id 16, wireType 2 =*/ 130).fork()
+      ).ldelim();
+    writer.uint32(/* id 17, wireType 0 =*/ 136).int64(message.rowNum);
     return writer;
   };
 
@@ -394,6 +411,13 @@ $root.SampleData = (function () {
           break;
         }
         case 16: {
+          message.rangeCol = $root.SampleData.SampleRange.decode(
+            reader,
+            reader.uint32()
+          );
+          break;
+        }
+        case 17: {
           message.rowNum = reader.int64();
           break;
         }
@@ -524,6 +548,10 @@ $root.SampleData = (function () {
         if (error) return 'structList.' + error;
       }
     }
+    if (message.rangeCol != null && message.hasOwnProperty('rangeCol')) {
+      var error = $root.SampleData.SampleRange.verify(message.rangeCol);
+      if (error) return 'rangeCol.' + error;
+    }
     if (
       !$util.isInteger(message.rowNum) &&
       !(
@@ -562,9 +590,8 @@ $root.SampleData = (function () {
       message.float64Col = Number(object.float64Col);
     if (object.int64Col != null)
       if ($util.Long)
-        (message.int64Col = $util.Long.fromValue(
-          object.int64Col
-        )).unsigned = false;
+        (message.int64Col = $util.Long.fromValue(object.int64Col)).unsigned =
+          false;
       else if (typeof object.int64Col === 'string')
         message.int64Col = parseInt(object.int64Col, 10);
       else if (typeof object.int64Col === 'number')
@@ -577,9 +604,8 @@ $root.SampleData = (function () {
     if (object.stringCol != null) message.stringCol = String(object.stringCol);
     if (object.dateCol != null)
       if ($util.Long)
-        (message.dateCol = $util.Long.fromValue(
-          object.dateCol
-        )).unsigned = false;
+        (message.dateCol = $util.Long.fromValue(object.dateCol)).unsigned =
+          false;
       else if (typeof object.dateCol === 'string')
         message.dateCol = parseInt(object.dateCol, 10);
       else if (typeof object.dateCol === 'number')
@@ -650,6 +676,13 @@ $root.SampleData = (function () {
         );
       }
     }
+    if (object.rangeCol != null) {
+      if (typeof object.rangeCol !== 'object')
+        throw TypeError('.SampleData.rangeCol: object expected');
+      message.rangeCol = $root.SampleData.SampleRange.fromObject(
+        object.rangeCol
+      );
+    }
     if (object.rowNum != null)
       if ($util.Long)
         (message.rowNum = $util.Long.fromValue(object.rowNum)).unsigned = false;
@@ -696,8 +729,8 @@ $root.SampleData = (function () {
           options.longs === String
             ? long.toString()
             : options.longs === Number
-            ? long.toNumber()
-            : long;
+              ? long.toNumber()
+              : long;
       } else object.int64Col = options.longs === String ? '0' : 0;
       object.stringCol = '';
       if ($util.Long) {
@@ -706,8 +739,8 @@ $root.SampleData = (function () {
           options.longs === String
             ? long.toString()
             : options.longs === Number
-            ? long.toNumber()
-            : long;
+              ? long.toNumber()
+              : long;
       } else object.dateCol = options.longs === String ? '0' : 0;
       object.datetimeCol = '';
       object.geographyCol = '';
@@ -720,18 +753,19 @@ $root.SampleData = (function () {
           options.longs === String
             ? long.toString()
             : options.longs === Number
-            ? long.toNumber()
-            : long;
+              ? long.toNumber()
+              : long;
       } else object.timestampCol = options.longs === String ? '0' : 0;
       object.structCol = null;
+      object.rangeCol = null;
       if ($util.Long) {
         var long = new $util.Long(0, 0, false);
         object.rowNum =
           options.longs === String
             ? long.toString()
             : options.longs === Number
-            ? long.toNumber()
-            : long;
+              ? long.toNumber()
+              : long;
       } else object.rowNum = options.longs === String ? '0' : 0;
     }
     if (message.boolCol != null && message.hasOwnProperty('boolCol'))
@@ -741,8 +775,8 @@ $root.SampleData = (function () {
         options.bytes === String
           ? $util.base64.encode(message.bytesCol, 0, message.bytesCol.length)
           : options.bytes === Array
-          ? Array.prototype.slice.call(message.bytesCol)
-          : message.bytesCol;
+            ? Array.prototype.slice.call(message.bytesCol)
+            : message.bytesCol;
     if (message.float64Col != null && message.hasOwnProperty('float64Col'))
       object.float64Col =
         options.json && !isFinite(message.float64Col)
@@ -759,11 +793,11 @@ $root.SampleData = (function () {
           options.longs === String
             ? $util.Long.prototype.toString.call(message.int64Col)
             : options.longs === Number
-            ? new $util.LongBits(
-                message.int64Col.low >>> 0,
-                message.int64Col.high >>> 0
-              ).toNumber()
-            : message.int64Col;
+              ? new $util.LongBits(
+                  message.int64Col.low >>> 0,
+                  message.int64Col.high >>> 0
+                ).toNumber()
+              : message.int64Col;
     if (message.stringCol != null && message.hasOwnProperty('stringCol'))
       object.stringCol = message.stringCol;
     if (message.dateCol != null && message.hasOwnProperty('dateCol'))
@@ -775,11 +809,11 @@ $root.SampleData = (function () {
           options.longs === String
             ? $util.Long.prototype.toString.call(message.dateCol)
             : options.longs === Number
-            ? new $util.LongBits(
-                message.dateCol.low >>> 0,
-                message.dateCol.high >>> 0
-              ).toNumber()
-            : message.dateCol;
+              ? new $util.LongBits(
+                  message.dateCol.low >>> 0,
+                  message.dateCol.high >>> 0
+                ).toNumber()
+              : message.dateCol;
     if (message.datetimeCol != null && message.hasOwnProperty('datetimeCol'))
       object.datetimeCol = message.datetimeCol;
     if (message.geographyCol != null && message.hasOwnProperty('geographyCol'))
@@ -804,11 +838,11 @@ $root.SampleData = (function () {
           options.longs === String
             ? $util.Long.prototype.toString.call(message.timestampCol)
             : options.longs === Number
-            ? new $util.LongBits(
-                message.timestampCol.low >>> 0,
-                message.timestampCol.high >>> 0
-              ).toNumber()
-            : message.timestampCol;
+              ? new $util.LongBits(
+                  message.timestampCol.low >>> 0,
+                  message.timestampCol.high >>> 0
+                ).toNumber()
+              : message.timestampCol;
     if (message.int64List && message.int64List.length) {
       object.int64List = [];
       for (var j = 0; j < message.int64List.length; ++j)
@@ -822,11 +856,11 @@ $root.SampleData = (function () {
             options.longs === String
               ? $util.Long.prototype.toString.call(message.int64List[j])
               : options.longs === Number
-              ? new $util.LongBits(
-                  message.int64List[j].low >>> 0,
-                  message.int64List[j].high >>> 0
-                ).toNumber()
-              : message.int64List[j];
+                ? new $util.LongBits(
+                    message.int64List[j].low >>> 0,
+                    message.int64List[j].high >>> 0
+                  ).toNumber()
+                : message.int64List[j];
     }
     if (message.structCol != null && message.hasOwnProperty('structCol'))
       object.structCol = $root.SampleData.SampleStruct.toObject(
@@ -841,6 +875,11 @@ $root.SampleData = (function () {
           options
         );
     }
+    if (message.rangeCol != null && message.hasOwnProperty('rangeCol'))
+      object.rangeCol = $root.SampleData.SampleRange.toObject(
+        message.rangeCol,
+        options
+      );
     if (message.rowNum != null && message.hasOwnProperty('rowNum'))
       if (typeof message.rowNum === 'number')
         object.rowNum =
@@ -850,11 +889,11 @@ $root.SampleData = (function () {
           options.longs === String
             ? $util.Long.prototype.toString.call(message.rowNum)
             : options.longs === Number
-            ? new $util.LongBits(
-                message.rowNum.low >>> 0,
-                message.rowNum.high >>> 0
-              ).toNumber()
-            : message.rowNum;
+              ? new $util.LongBits(
+                  message.rowNum.low >>> 0,
+                  message.rowNum.high >>> 0
+                ).toNumber()
+              : message.rowNum;
     return object;
   };
 
@@ -1076,8 +1115,8 @@ $root.SampleData = (function () {
             options.longs === String
               ? long.toString()
               : options.longs === Number
-              ? long.toNumber()
-              : long;
+                ? long.toNumber()
+                : long;
         } else object.subIntCol = options.longs === String ? '0' : 0;
       if (message.subIntCol != null && message.hasOwnProperty('subIntCol'))
         if (typeof message.subIntCol === 'number')
@@ -1090,11 +1129,11 @@ $root.SampleData = (function () {
             options.longs === String
               ? $util.Long.prototype.toString.call(message.subIntCol)
               : options.longs === Number
-              ? new $util.LongBits(
-                  message.subIntCol.low >>> 0,
-                  message.subIntCol.high >>> 0
-                ).toNumber()
-              : message.subIntCol;
+                ? new $util.LongBits(
+                    message.subIntCol.low >>> 0,
+                    message.subIntCol.high >>> 0
+                  ).toNumber()
+                : message.subIntCol;
       return object;
     };
 
@@ -1125,6 +1164,303 @@ $root.SampleData = (function () {
     };
 
     return SampleStruct;
+  })();
+
+  SampleData.SampleRange = (function () {
+    /**
+     * Properties of a SampleRange.
+     * @memberof SampleData
+     * @interface ISampleRange
+     * @property {number|Long|null} [start] SampleRange start
+     * @property {number|Long|null} [end] SampleRange end
+     */
+
+    /**
+     * Constructs a new SampleRange.
+     * @memberof SampleData
+     * @classdesc Represents a SampleRange.
+     * @implements ISampleRange
+     * @constructor
+     * @param {SampleData.ISampleRange=} [properties] Properties to set
+     */
+    function SampleRange(properties) {
+      if (properties)
+        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+          if (properties[keys[i]] != null) this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * SampleRange start.
+     * @member {number|Long} start
+     * @memberof SampleData.SampleRange
+     * @instance
+     */
+    SampleRange.prototype.start = $util.Long
+      ? $util.Long.fromBits(0, 0, false)
+      : 0;
+
+    /**
+     * SampleRange end.
+     * @member {number|Long} end
+     * @memberof SampleData.SampleRange
+     * @instance
+     */
+    SampleRange.prototype.end = $util.Long
+      ? $util.Long.fromBits(0, 0, false)
+      : 0;
+
+    /**
+     * Creates a new SampleRange instance using the specified properties.
+     * @function create
+     * @memberof SampleData.SampleRange
+     * @static
+     * @param {SampleData.ISampleRange=} [properties] Properties to set
+     * @returns {SampleData.SampleRange} SampleRange instance
+     */
+    SampleRange.create = function create(properties) {
+      return new SampleRange(properties);
+    };
+
+    /**
+     * Encodes the specified SampleRange message. Does not implicitly {@link SampleData.SampleRange.verify|verify} messages.
+     * @function encode
+     * @memberof SampleData.SampleRange
+     * @static
+     * @param {SampleData.ISampleRange} message SampleRange message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    SampleRange.encode = function encode(message, writer) {
+      if (!writer) writer = $Writer.create();
+      if (message.start != null && Object.hasOwnProperty.call(message, 'start'))
+        writer.uint32(/* id 1, wireType 0 =*/ 8).int64(message.start);
+      if (message.end != null && Object.hasOwnProperty.call(message, 'end'))
+        writer.uint32(/* id 2, wireType 0 =*/ 16).int64(message.end);
+      return writer;
+    };
+
+    /**
+     * Encodes the specified SampleRange message, length delimited. Does not implicitly {@link SampleData.SampleRange.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof SampleData.SampleRange
+     * @static
+     * @param {SampleData.ISampleRange} message SampleRange message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    SampleRange.encodeDelimited = function encodeDelimited(message, writer) {
+      return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a SampleRange message from the specified reader or buffer.
+     * @function decode
+     * @memberof SampleData.SampleRange
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {SampleData.SampleRange} SampleRange
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    SampleRange.decode = function decode(reader, length) {
+      if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
+      var end = length === undefined ? reader.len : reader.pos + length,
+        message = new $root.SampleData.SampleRange();
+      while (reader.pos < end) {
+        var tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1: {
+            message.start = reader.int64();
+            break;
+          }
+          case 2: {
+            message.end = reader.int64();
+            break;
+          }
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+      return message;
+    };
+
+    /**
+     * Decodes a SampleRange message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof SampleData.SampleRange
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {SampleData.SampleRange} SampleRange
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    SampleRange.decodeDelimited = function decodeDelimited(reader) {
+      if (!(reader instanceof $Reader)) reader = new $Reader(reader);
+      return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a SampleRange message.
+     * @function verify
+     * @memberof SampleData.SampleRange
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    SampleRange.verify = function verify(message) {
+      if (typeof message !== 'object' || message === null)
+        return 'object expected';
+      if (message.start != null && message.hasOwnProperty('start'))
+        if (
+          !$util.isInteger(message.start) &&
+          !(
+            message.start &&
+            $util.isInteger(message.start.low) &&
+            $util.isInteger(message.start.high)
+          )
+        )
+          return 'start: integer|Long expected';
+      if (message.end != null && message.hasOwnProperty('end'))
+        if (
+          !$util.isInteger(message.end) &&
+          !(
+            message.end &&
+            $util.isInteger(message.end.low) &&
+            $util.isInteger(message.end.high)
+          )
+        )
+          return 'end: integer|Long expected';
+      return null;
+    };
+
+    /**
+     * Creates a SampleRange message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof SampleData.SampleRange
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {SampleData.SampleRange} SampleRange
+     */
+    SampleRange.fromObject = function fromObject(object) {
+      if (object instanceof $root.SampleData.SampleRange) return object;
+      var message = new $root.SampleData.SampleRange();
+      if (object.start != null)
+        if ($util.Long)
+          (message.start = $util.Long.fromValue(object.start)).unsigned = false;
+        else if (typeof object.start === 'string')
+          message.start = parseInt(object.start, 10);
+        else if (typeof object.start === 'number') message.start = object.start;
+        else if (typeof object.start === 'object')
+          message.start = new $util.LongBits(
+            object.start.low >>> 0,
+            object.start.high >>> 0
+          ).toNumber();
+      if (object.end != null)
+        if ($util.Long)
+          (message.end = $util.Long.fromValue(object.end)).unsigned = false;
+        else if (typeof object.end === 'string')
+          message.end = parseInt(object.end, 10);
+        else if (typeof object.end === 'number') message.end = object.end;
+        else if (typeof object.end === 'object')
+          message.end = new $util.LongBits(
+            object.end.low >>> 0,
+            object.end.high >>> 0
+          ).toNumber();
+      return message;
+    };
+
+    /**
+     * Creates a plain object from a SampleRange message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof SampleData.SampleRange
+     * @static
+     * @param {SampleData.SampleRange} message SampleRange
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    SampleRange.toObject = function toObject(message, options) {
+      if (!options) options = {};
+      var object = {};
+      if (options.defaults) {
+        if ($util.Long) {
+          var long = new $util.Long(0, 0, false);
+          object.start =
+            options.longs === String
+              ? long.toString()
+              : options.longs === Number
+                ? long.toNumber()
+                : long;
+        } else object.start = options.longs === String ? '0' : 0;
+        if ($util.Long) {
+          var long = new $util.Long(0, 0, false);
+          object.end =
+            options.longs === String
+              ? long.toString()
+              : options.longs === Number
+                ? long.toNumber()
+                : long;
+        } else object.end = options.longs === String ? '0' : 0;
+      }
+      if (message.start != null && message.hasOwnProperty('start'))
+        if (typeof message.start === 'number')
+          object.start =
+            options.longs === String ? String(message.start) : message.start;
+        else
+          object.start =
+            options.longs === String
+              ? $util.Long.prototype.toString.call(message.start)
+              : options.longs === Number
+                ? new $util.LongBits(
+                    message.start.low >>> 0,
+                    message.start.high >>> 0
+                  ).toNumber()
+                : message.start;
+      if (message.end != null && message.hasOwnProperty('end'))
+        if (typeof message.end === 'number')
+          object.end =
+            options.longs === String ? String(message.end) : message.end;
+        else
+          object.end =
+            options.longs === String
+              ? $util.Long.prototype.toString.call(message.end)
+              : options.longs === Number
+                ? new $util.LongBits(
+                    message.end.low >>> 0,
+                    message.end.high >>> 0
+                  ).toNumber()
+                : message.end;
+      return object;
+    };
+
+    /**
+     * Converts this SampleRange to JSON.
+     * @function toJSON
+     * @memberof SampleData.SampleRange
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    SampleRange.prototype.toJSON = function toJSON() {
+      return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Gets the default type url for SampleRange
+     * @function getTypeUrl
+     * @memberof SampleData.SampleRange
+     * @static
+     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns {string} The default type url
+     */
+    SampleRange.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+      if (typeUrlPrefix === undefined) {
+        typeUrlPrefix = 'type.googleapis.com';
+      }
+      return typeUrlPrefix + '/SampleData.SampleRange';
+    };
+
+    return SampleRange;
   })();
 
   return SampleData;

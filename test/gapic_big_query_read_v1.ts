@@ -102,7 +102,7 @@ describe('v1.BigQueryReadClient', () => {
     });
 
     if (
-      typeof process !== 'undefined' &&
+      typeof process === 'object' &&
       typeof process.emitWarning === 'function'
     ) {
       it('throws DeprecationWarning if static servicePath is used', () => {
@@ -138,6 +138,41 @@ describe('v1.BigQueryReadClient', () => {
       const servicePath = client.apiEndpoint;
       assert.strictEqual(servicePath, 'bigquerystorage.example.com');
     });
+
+    if (typeof process === 'object' && 'env' in process) {
+      describe('GOOGLE_CLOUD_UNIVERSE_DOMAIN environment variable', () => {
+        it('sets apiEndpoint from environment variable', () => {
+          const saved = process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'];
+          process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'] = 'example.com';
+          const client = new bigqueryreadModule.v1.BigQueryReadClient();
+          const servicePath = client.apiEndpoint;
+          assert.strictEqual(servicePath, 'bigquerystorage.example.com');
+          if (saved) {
+            process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'] = saved;
+          } else {
+            delete process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'];
+          }
+        });
+
+        it('value configured in code has priority over environment variable', () => {
+          const saved = process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'];
+          process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'] = 'example.com';
+          const client = new bigqueryreadModule.v1.BigQueryReadClient({
+            universeDomain: 'configured.example.com',
+          });
+          const servicePath = client.apiEndpoint;
+          assert.strictEqual(
+            servicePath,
+            'bigquerystorage.configured.example.com'
+          );
+          if (saved) {
+            process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'] = saved;
+          } else {
+            delete process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'];
+          }
+        });
+      });
+    }
     it('does not allow setting both universeDomain and universe_domain', () => {
       assert.throws(() => {
         new bigqueryreadModule.v1.BigQueryReadClient({
@@ -543,6 +578,50 @@ describe('v1.BigQueryReadClient', () => {
       assert(actualHeaderRequestParams.includes(expectedHeaderRequestParams));
     });
 
+    it('invokes readRows without error and gaxServerStreamingRetries enabled', async () => {
+      const client = new bigqueryreadModule.v1.BigQueryReadClient({
+        gaxServerStreamingRetries: true,
+      });
+      client.initialize();
+      const request = generateSampleMessage(
+        new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest()
+      );
+      const defaultValue1 = getTypeDefaultValue(
+        '.google.cloud.bigquery.storage.v1.ReadRowsRequest',
+        ['readStream']
+      );
+      request.readStream = defaultValue1;
+      const expectedHeaderRequestParams = `read_stream=${defaultValue1}`;
+      const expectedResponse = generateSampleMessage(
+        new protos.google.cloud.bigquery.storage.v1.ReadRowsResponse()
+      );
+      client.innerApiCalls.readRows = stubServerStreamingCall(expectedResponse);
+      const stream = client.readRows(request);
+      const promise = new Promise((resolve, reject) => {
+        stream.on(
+          'data',
+          (
+            response: protos.google.cloud.bigquery.storage.v1.ReadRowsResponse
+          ) => {
+            resolve(response);
+          }
+        );
+        stream.on('error', (err: Error) => {
+          reject(err);
+        });
+      });
+      const response = await promise;
+      assert.deepStrictEqual(response, expectedResponse);
+      const actualRequest = (
+        client.innerApiCalls.readRows as SinonStub
+      ).getCall(0).args[0];
+      assert.deepStrictEqual(actualRequest, request);
+      const actualHeaderRequestParams = (
+        client.innerApiCalls.readRows as SinonStub
+      ).getCall(0).args[1].otherArgs.headers['x-goog-request-params'];
+      assert(actualHeaderRequestParams.includes(expectedHeaderRequestParams));
+    });
+
     it('invokes readRows with error', async () => {
       const client = new bigqueryreadModule.v1.BigQueryReadClient({
         credentials: {client_email: 'bogus', private_key: 'bogus'},
@@ -621,6 +700,12 @@ describe('v1.BigQueryReadClient', () => {
         });
       });
       await assert.rejects(promise, expectedError);
+    });
+    it('should create a client with gaxServerStreamingRetries enabled', () => {
+      const client = new bigqueryreadModule.v1.BigQueryReadClient({
+        gaxServerStreamingRetries: true,
+      });
+      assert(client);
     });
   });
 

@@ -67,10 +67,14 @@
           "type": "SampleStruct",
           "id": 15
         },
+        "range_col": {
+          "type": "SampleRange",
+          "id": 16
+        },
         "row_num": {
           "rule": "required",
           "type": "int64",
-          "id": 16
+          "id": 17
         }
       },
       "nested": {
@@ -79,6 +83,18 @@
             "sub_int_col": {
               "type": "int64",
               "id": 1
+            }
+          }
+        },
+        "SampleRange": {
+          "fields": {
+            "start": {
+              "type": "int64",
+              "id": 1
+            },
+            "end": {
+              "type": "int64",
+              "id": 2
             }
           }
         }

@@ -1,5 +1,55 @@
 # Changelog
 
+## [4.8.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.7.0...v4.8.0) (2024-05-10)
+
+
+### Features
+
+* Add getWriteStream and createWriteStreamFullResponse methods ([#453](https://github.com/googleapis/nodejs-bigquery-storage/issues/453)) ([27dce6a](https://github.com/googleapis/nodejs-bigquery-storage/commit/27dce6a763c07a9fab70a18f15305e92fdbea5f1))
+
+## [4.7.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.6.0...v4.7.0) (2024-05-03)
+
+
+### Features
+
+* Add trace id ([#447](https://github.com/googleapis/nodejs-bigquery-storage/issues/447)) ([19b38a0](https://github.com/googleapis/nodejs-bigquery-storage/commit/19b38a009947f93eb06fd3b127bc23ee3dee2594))
+
+## [4.6.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.5.0...v4.6.0) (2024-05-03)
+
+
+### Features
+
+* Add support for RANGE type with Write API and adapt pkg ([#437](https://github.com/googleapis/nodejs-bigquery-storage/issues/437)) ([51924ab](https://github.com/googleapis/nodejs-bigquery-storage/commit/51924ab3639253ff79654d90fbada368f5fd5e18))
+* Enable write retry and nack pending writes on reconnect ([#443](https://github.com/googleapis/nodejs-bigquery-storage/issues/443)) ([ce4f88c](https://github.com/googleapis/nodejs-bigquery-storage/commit/ce4f88c668afb8ebf1d5b7ad57f1c4e245a1a8f8))
+
+## [4.5.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.4.0...v4.5.0) (2024-04-15)
+
+
+### Features
+
+* Add several fields to manage state of database encryption update ([#433](https://github.com/googleapis/nodejs-bigquery-storage/issues/433)) ([cf51780](https://github.com/googleapis/nodejs-bigquery-storage/commit/cf51780f991bc9befb87a812946f977cc8db9350))
+* Auto convert numbers ([#436](https://github.com/googleapis/nodejs-bigquery-storage/issues/436)) ([f0505e7](https://github.com/googleapis/nodejs-bigquery-storage/commit/f0505e7e32baca2eb9133161aa7161bf58e38a28))
+
+
+### Bug Fixes
+
+* Auto convert nested fields ([#438](https://github.com/googleapis/nodejs-bigquery-storage/issues/438)) ([0ba5b7d](https://github.com/googleapis/nodejs-bigquery-storage/commit/0ba5b7d592299f47ae285ce15b11157ee9e0207e))
+* Destroy internal grpc conn when closed ([#439](https://github.com/googleapis/nodejs-bigquery-storage/issues/439)) ([e7731bf](https://github.com/googleapis/nodejs-bigquery-storage/commit/e7731bf8f2b35c143a02bcd560fb4afb97936f0c))
+* Trigger reconnection on INTERNAL status error ([#435](https://github.com/googleapis/nodejs-bigquery-storage/issues/435)) ([f555322](https://github.com/googleapis/nodejs-bigquery-storage/commit/f5553220b9b9fe5289f9a1c394d3f964c016f07d))
+
+## [4.4.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.3.0...v4.4.0) (2024-03-21)
+
+
+### Features
+
+* Add support for missing value interpretation ([#428](https://github.com/googleapis/nodejs-bigquery-storage/issues/428)) ([1a3e4ba](https://github.com/googleapis/nodejs-bigquery-storage/commit/1a3e4bac76ef65e353e8bf6fb6780dbf8d0c887e))
+* Automatically convert date/datetime/timestamps ([#422](https://github.com/googleapis/nodejs-bigquery-storage/issues/422)) ([cbc7e94](https://github.com/googleapis/nodejs-bigquery-storage/commit/cbc7e94dfd6f79c038ed4b74c814a84c90a42be0))
+
+
+### Bug Fixes
+
+* Handle more scenarios for stream reconnection ([#429](https://github.com/googleapis/nodejs-bigquery-storage/issues/429)) ([e6f9323](https://github.com/googleapis/nodejs-bigquery-storage/commit/e6f93234906bb9f3346c80943660d04b36206d23))
+
 ## [4.3.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.2.1...v4.3.0) (2024-02-20)
 
 

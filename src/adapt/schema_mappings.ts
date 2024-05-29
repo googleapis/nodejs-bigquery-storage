@@ -44,12 +44,26 @@ export const fieldTypeMap: Record<string, StorageTableFieldType> = {
     protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.DATETIME,
   INTERVAL:
     protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.INTERVAL,
+  RANGE: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.RANGE,
   RECORD: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.STRUCT,
   STRUCT: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.STRUCT,
   JSON: protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.JSON,
   GEOGRAPHY:
     protos.google.cloud.bigquery.storage.v1.TableFieldSchema.Type.GEOGRAPHY,
 };
+
+export function normalizeFieldType(
+  field: StorageTableField
+): StorageTableField['type'] {
+  if (field.type) {
+    const ftype = fieldTypeMap[field.type];
+    if (!ftype) {
+      return field.type;
+    }
+    return ftype;
+  }
+  return field.type;
+}
 
 export const modeMap: Record<string, StorageTableField['mode']> = {
   NULLABLE:

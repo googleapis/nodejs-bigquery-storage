@@ -1120,6 +1120,13 @@
                               "options": {
                                 "(google.api.field_behavior)": "OPTIONAL"
                               }
+                            },
+                            "rangeElementType": {
+                              "type": "FieldElementType",
+                              "id": 11,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
                             }
                           },
                           "nested": {
@@ -1140,7 +1147,8 @@
                                 "NUMERIC": 12,
                                 "BIGNUMERIC": 13,
                                 "INTERVAL": 14,
-                                "JSON": 15
+                                "JSON": 15,
+                                "RANGE": 16
                               }
                             },
                             "Mode": {
@@ -1149,6 +1157,17 @@
                                 "NULLABLE": 1,
                                 "REQUIRED": 2,
                                 "REPEATED": 3
+                              }
+                            },
+                            "FieldElementType": {
+                              "fields": {
+                                "type": {
+                                  "type": "Type",
+                                  "id": 1,
+                                  "options": {
+                                    "(google.api.field_behavior)": "REQUIRED"
+                                  }
+                                }
                               }
                             }
                           }
@@ -2757,8 +2776,20 @@
                   1001
                 ],
                 [
+                  1002,
+                  1002
+                ],
+                [
+                  9990,
+                  9990
+                ],
+                [
                   9995,
                   9999
+                ],
+                [
+                  10000,
+                  10000
                 ]
               ],
               "reserved": [
@@ -3153,6 +3184,11 @@
               "id": 1050,
               "extend": "google.protobuf.ServiceOptions"
             },
+            "apiVersion": {
+              "type": "string",
+              "id": 525000001,
+              "extend": "google.protobuf.ServiceOptions"
+            },
             "CommonLanguageSettings": {
               "fields": {
                 "referenceDocsUri": {
@@ -3261,6 +3297,10 @@
                 "protoReferenceDocumentationUri": {
                   "type": "string",
                   "id": 110
+                },
+                "restReferenceDocumentationUri": {
+                  "type": "string",
+                  "id": 111
                 }
               }
             },
@@ -3436,7 +3476,10 @@
               "rule": "repeated",
               "type": "google.api.FieldBehavior",
               "id": 1052,
-              "extend": "google.protobuf.FieldOptions"
+              "extend": "google.protobuf.FieldOptions",
+              "options": {
+                "packed": false
+              }
             },
             "FieldBehavior": {
               "values": {

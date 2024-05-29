@@ -56,14 +56,15 @@ function main(
     const writeClient = new WriterClient({projectId});
 
     try {
-      // Append data to the given stream.
-      const connection = await writeClient.createStreamConnection({
+      const streamId = await writeClient.createWriteStream({
         streamType,
         destinationTable,
       });
-
-      const streamId = connection.getStreamId();
       console.log(`Stream created: ${streamId}`);
+
+      const connection = await writeClient.createStreamConnection({
+        streamId,
+      });
 
       const writer = new Writer({
         connection,
@@ -209,6 +210,18 @@ function main(
       row = {
         rowNum: 15,
         structList: [{subIntCol: 100}, {subIntCol: 101}],
+      };
+      serializedRows.push(SampleData.encode(row).finish());
+
+      // Row 16
+      const timestampStart = new Date('2022-01-09T03:49:46.564Z').getTime();
+      const timestampEnd = new Date('2022-01-09T04:49:46.564Z').getTime();
+      row = {
+        rowNum: 16,
+        rangeCol: {
+          start: timestampStart * 1000,
+          end: timestampEnd * 1000,
+        },
       };
       serializedRows.push(SampleData.encode(row).finish());
 

@@ -13,7 +13,9 @@
 // limitations under the License.
 
 import * as assert from 'assert';
-import {describe, it, xit} from 'mocha';
+import {readFileSync} from 'fs';
+import * as path from 'path';
+import {describe, it} from 'mocha';
 import * as uuid from 'uuid';
 import * as gax from 'google-gax';
 import * as sinon from 'sinon';
@@ -24,6 +26,11 @@ import * as protobuf from 'protobufjs';
 import {ClientOptions} from 'google-gax';
 import * as customerRecordProtoJson from '../samples/customer_record.json';
 import {JSONEncoder} from '../src/managedwriter/encoder';
+import {PendingWrite} from '../src/managedwriter/pending_write';
+
+const pkg = JSON.parse(
+  readFileSync(path.resolve(__dirname, '../../package.json'), 'utf-8')
+);
 
 const sandbox = sinon.createSandbox();
 afterEach(() => sandbox.restore());
@@ -41,6 +48,8 @@ type DescriptorProto = protos.google.protobuf.IDescriptorProto;
 type IInt64Value = protos.google.protobuf.IInt64Value;
 type AppendRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse;
+type AppendRowsRequest =
+  protos.google.cloud.bigquery.storage.v1.IAppendRowsRequest;
 
 const FieldDescriptorProtoType =
   protos.google.protobuf.FieldDescriptorProto.Type;
@@ -50,6 +59,11 @@ const bigquery = new BigQuery();
 const generateUuid = () =>
   `${GCLOUD_TESTS_PREFIX}_${uuid.v4()}`.replace(/-/gi, '_');
 const datasetId = generateUuid();
+
+const sleep = (ms: number) =>
+  new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
 
 const root = protobuf.Root.fromJSON(customerRecordProtoJson);
 if (!root) {
@@ -369,22 +383,98 @@ describe('managedwriter.WriterClient', () => {
     });
   });
 
+  describe('StreamConnection', () => {
+    it('should pass traceId on AppendRequests', async () => {
+      bqWriteClient.initialize();
+      const client = new WriterClient();
+      client.setClient(bqWriteClient);
+
+      // Row 1
+      const row1 = {
+        customer_name: 'Lovelace',
+        row_num: 1,
+      };
+
+      // Row 2
+      const row2 = {
+        customer_name: 'Turing',
+        row_num: 2,
+      };
+
+      try {
+        const connection = await client.createStreamConnection({
+          streamId: managedwriter.DefaultStream,
+          destinationTable: parent,
+        });
+        let writer = new JSONWriter({
+          connection,
+          protoDescriptor,
+        });
+
+        let pw1 = await writer.appendRows([row1, row2]);
+        let pw2 = await writer.appendRows([row1, row2]);
+        await Promise.all([pw1.getResult(), pw2.getResult()]);
+
+        let requests = [pw1.getRequest(), pw2.getRequest()];
+        requests.every(req => {
+          assert.notEqual(req.traceId, null);
+          assert.strictEqual(req.traceId, `nodejs-writer:${pkg.version}`);
+        });
+
+        writer = new JSONWriter({
+          traceId: 'foo',
+          connection,
+          protoDescriptor,
+        });
+
+        pw1 = await writer.appendRows([row1, row2]);
+        pw2 = await writer.appendRows([row1, row2]);
+        await Promise.all([pw1.getResult(), pw2.getResult()]);
+
+        requests = [pw1.getRequest(), pw2.getRequest()];
+        requests.every(req => {
+          assert.notEqual(req.traceId, null);
+          assert.strictEqual(req.traceId, `nodejs-writer:${pkg.version} foo`);
+        });
+
+        writer.close();
+        client.close();
+      } finally {
+        client.close();
+      }
+    });
+  });
+
   describe('JSONEncoder', () => {
     it('should automatically convert date/datetime/timestamps to expect BigQuery format', () => {
-      const updatedSchema = {
+      const updatedSchema: TableSchema = {
         fields: [
           ...(schema.fields || []),
           {
             name: 'customer_birthday',
             type: 'DATE',
+            mode: 'REQUIRED',
           },
           {
-            name: 'customer_created_at',
-            type: 'DATETIME',
+            name: 'customer_metadata',
+            type: 'RECORD',
+            mode: 'REQUIRED',
+            fields: [
+              {
+                name: 'customer_created_at',
+                type: 'DATETIME',
+                mode: 'REQUIRED',
+              },
+              {
+                name: 'customer_updated_at',
+                type: 'TIMESTAMP',
+              },
+            ],
           },
           {
-            name: 'customer_updated_at',
+            name: 'customer_last_purchase_dates',
             type: 'TIMESTAMP',
+            mode: 'REPEATED',
           },
         ],
       };
@@ -401,8 +491,14 @@ describe('managedwriter.WriterClient', () => {
         customer_name: 'Ada Lovelace',
         row_num: 1,
         customer_birthday: new Date('1815-12-10'),
-        customer_created_at: new Date('2022-01-09T03:49:46.564Z'),
-        customer_updated_at: new Date('2023-01-09T03:49:46.564Z'),
+        customer_metadata: {
+          customer_created_at: new Date('2022-01-09T03:49:46.564Z'),
+          customer_updated_at: new Date('2023-01-09T03:49:46.564Z'),
+        },
+        customer_last_purchase_dates: [
+          new Date('2022-01-09T03:49:46.564Z'),
+          new Date('2023-01-09T03:49:46.564Z'),
+        ],
       };
 
       // Row 2
@@ -410,8 +506,82 @@ describe('managedwriter.WriterClient', () => {
         customer_name: 'Alan Turing',
         row_num: 2,
         customer_birthday: new Date('1912-07-23'),
-        customer_created_at: new Date('2022-01-09T03:49:46.564Z'),
-        customer_updated_at: new Date('2023-01-09T03:49:46.564Z'),
+        customer_metadata: {
+          customer_created_at: new Date('2022-01-09T03:49:46.564Z'),
+          customer_updated_at: new Date('2023-01-09T03:49:46.564Z'),
+        },
+        customer_last_purchase_dates: [
+          new Date('2022-01-09T03:49:46.564Z'),
+          new Date('2023-01-09T03:49:46.564Z'),
+        ],
+      };
+
+      const Proto = Type.fromDescriptor(protoDescriptor);
+      const encoded = encoder.encodeRows([row1, row2]);
+
+      const encodedRow1 = encoded[0];
+      const decodedRow1 = Proto.decode(encodedRow1).toJSON();
+      assert.deepEqual(decodedRow1, {
+        customer_name: 'Ada Lovelace',
+        row_num: '1',
+        customer_birthday: -56270,
+        customer_metadata: {
+          customer_created_at: '2022-01-09 03:49:46.564',
+          customer_updated_at: '1673236186564000',
+        },
+        customer_last_purchase_dates: ['1641700186564000', '1673236186564000'],
+      });
+
+      const encodedRow2 = encoded[1];
+      const decodedRow2 = Proto.decode(encodedRow2).toJSON();
+      assert.deepEqual(decodedRow2, {
+        customer_name: 'Alan Turing',
+        row_num: '2',
+        customer_birthday: -20981,
+        customer_metadata: {
+          customer_created_at: '2022-01-09 03:49:46.564',
+          customer_updated_at: '1673236186564000',
+        },
+        customer_last_purchase_dates: ['1641700186564000', '1673236186564000'],
+      });
+    });
+
+    it('should automatically convert numeric/bignumeric to expect BigQuery format', () => {
+      const updatedSchema = {
+        fields: [
+          ...(schema.fields || []),
+          {
+            name: 'customer_points',
+            type: 'NUMERIC',
+          },
+          {
+            name: 'customer_funds',
+            type: 'BIGNUMERIC',
+          },
+        ],
+      };
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(updatedSchema);
+      const protoDescriptor: DescriptorProto =
+        adapt.convertStorageSchemaToProto2Descriptor(storageSchema, 'root');
+      const encoder = new JSONEncoder({
+        protoDescriptor,
+      });
+
+      // accept plain integers and bigint
+      const row1 = {
+        customer_name: 'Ada Lovelace',
+        row_num: 1,
+        customer_points: 1234,
+        customer_funds: BigInt(123456789),
+      };
+
+      // accept floats
+      const row2 = {
+        customer_name: 'Alan Turing',
+        row_num: 2,
+        customer_points: 1234.56,
+        customer_funds: '123456789.001234', // still accept in string
       };
 
       const Proto = Type.fromDescriptor(protoDescriptor);
@@ -422,9 +592,8 @@ describe('managedwriter.WriterClient', () => {
       assert.deepEqual(decodedRow1, {
         customer_name: 'Ada Lovelace',
         row_num: 1,
-        customer_birthday: -56270,
-        customer_created_at: '2022-01-09 03:49:46.564',
-        customer_updated_at: 1673236186564000,
+        customer_points: '1234',
+        customer_funds: '123456789',
       });
 
       const encodedRow2 = encoded[1];
@@ -432,9 +601,8 @@ describe('managedwriter.WriterClient', () => {
       assert.deepEqual(decodedRow2, {
         customer_name: 'Alan Turing',
         row_num: 2,
-        customer_birthday: -20981,
-        customer_created_at: '2022-01-09 03:49:46.564',
-        customer_updated_at: 1673236186564000,
+        customer_points: '1234.56',
+        customer_funds: '123456789.001234',
       });
     });
   });
@@ -765,6 +933,280 @@ describe('managedwriter.WriterClient', () => {
     }
   });
 
+  describe('Flaky Scenarios', () => {
+    let flakyDatasetId: string;
+    const flakyRegion = 'us-east7';
+
+    let rowNum = 0;
+    const generateRows = (num: number) => {
+      const rows = [];
+      for (let i = 0; i < num; i++) {
+        rows.push({
+          customer_name: generateUuid(),
+          row_num: rowNum++,
+        });
+      }
+      return rows;
+    };
+
+    beforeEach(() => {
+      rowNum = 0;
+    });
+
+    before(async () => {
+      flakyDatasetId = generateUuid();
+      await bigquery.createDataset(flakyDatasetId, {
+        location: flakyRegion,
+      });
+    });
+
+    after(async () => {
+      await bigquery
+        .dataset(flakyDatasetId)
+        .delete({force: true})
+        .catch(console.warn);
+    });
+
+    describe('should manage to send data in sequence scenario', () => {
+      it('every 10 request drops the connection', async () => {
+        bqWriteClient.initialize();
+        const client = new WriterClient();
+        client.enableWriteRetries(true);
+        client.setClient(bqWriteClient);
+
+        try {
+          const flakyTableId = generateUuid() + '_reconnect_on_close';
+          const [table] = await bigquery
+            .dataset(flakyDatasetId)
+            .createTable(flakyTableId, {
+              schema,
+              location: flakyRegion,
+            });
+          projectId = table.metadata.tableReference.projectId;
+          parent = `projects/${projectId}/datasets/${flakyDatasetId}/tables/${flakyTableId}`;
+
+          const connection = await client.createStreamConnection({
+            streamType: managedwriter.PendingStream,
+            destinationTable: parent,
+          });
+
+          const writer = new JSONWriter({
+            connection,
+            protoDescriptor,
+          });
+
+          const iterations = new Array(50).fill(1);
+          let offset = 0;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          for (const _ of iterations) {
+            const rows = generateRows(10);
+            const pw = writer.appendRows(rows, offset);
+            try {
+              await pw.getResult();
+            } catch (err) {
+              console.error('found error trying to send rows');
+            }
+            offset += 10;
+          }
+
+          const res = await connection.finalize();
+          connection.close();
+          assert.equal(res?.rowCount, 500);
+
+          writer.close();
+        } finally {
+          client.close();
+        }
+      }).timeout(2 * 60 * 1000);
+
+      it('opening the connection can fail more frequently', async () => {
+        bqWriteClient.initialize();
+        const client = new WriterClient();
+        client.enableWriteRetries(true);
+        client.setMaxRetryAttempts(100); // aggresive retries
+        client.setClient(bqWriteClient);
+
+        try {
+          const flakyTableId = generateUuid() + '_initial_connect_failure';
+          const [table] = await bigquery
+            .dataset(flakyDatasetId)
+            .createTable(flakyTableId, {
+              schema,
+              location: flakyRegion,
+            });
+          projectId = table.metadata.tableReference.projectId;
+          parent = `projects/${projectId}/datasets/${flakyDatasetId}/tables/${flakyTableId}`;
+
+          const connection = await client.createStreamConnection({
+            streamType: managedwriter.PendingStream,
+            destinationTable: parent,
+          });
+
+          const writer = new JSONWriter({
+            connection,
+            protoDescriptor,
+          });
+
+          const iterations = new Array(50).fill(1);
+          let offset = 0;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          for (const _ of iterations) {
+            const rows = generateRows(10);
+            const pw = writer.appendRows(rows, offset);
+            try {
+              const res = await pw.getResult();
+              assert.equal(res.error, null);
+            } catch (err) {
+              console.error('found error trying to send rows', err);
+              throw err;
+            }
+            offset += 10;
+            connection.close(); // Close connection on every append to trigger reconnection
+          }
+
+          const res = await connection.finalize();
+          connection.close();
+          assert.equal(res?.rowCount, 500);
+
+          writer.close();
+        } finally {
+          client.close();
+        }
+      }).timeout(2 * 60 * 1000);
+    });
+
+    describe('should manage to send data in parallel', () => {
+      it('every 10 request drops the connection', async () => {
+        bqWriteClient.initialize();
+        const client = new WriterClient();
+        client.enableWriteRetries(true);
+        client.setMaxRetryAttempts(10);
+        client.setClient(bqWriteClient);
+
+        try {
+          const flakyTableId = generateUuid() + '_reconnect_on_close';
+          const [table] = await bigquery
+            .dataset(flakyDatasetId)
+            .createTable(flakyTableId, {
+              schema,
+              location: flakyRegion,
+            });
+          projectId = table.metadata.tableReference.projectId;
+          parent = `projects/${projectId}/datasets/${flakyDatasetId}/tables/${flakyTableId}`;
+
+          const connection = await client.createStreamConnection({
+            streamType: managedwriter.PendingStream,
+            destinationTable: parent,
+          });
+
+          const writer = new JSONWriter({
+            connection,
+            protoDescriptor,
+          });
+
+          const pendingWrites: PendingWrite[] = [];
+          const iterations = new Array(50).fill(1);
+          let offset = 0;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          for (const _ of iterations) {
+            const rows = generateRows(10);
+            const pw = writer.appendRows(rows, offset);
+            pendingWrites.push(pw);
+            offset += 10;
+          }
+
+          await Promise.all(pendingWrites.map(pw => pw.getResult()));
+
+          const res = await connection.finalize();
+          connection.close();
+          assert.equal(res?.rowCount, 500);
+
+          writer.close();
+        } finally {
+          client.close();
+        }
+      }).timeout(2 * 60 * 1000);
+
+      it('every 10 request there is a in stream INTERNAL error', async () => {
+        bqWriteClient.initialize();
+        const client = new WriterClient();
+        client.enableWriteRetries(true);
+        client.setClient(bqWriteClient);
+
+        try {
+          const connection = await client.createStreamConnection({
+            streamType: managedwriter.PendingStream,
+            destinationTable: parent,
+          });
+
+          let numCalls = 0;
+          let numSucess = 0;
+          const conn = connection['_connection'] as gax.CancellableStream;
+          sandbox
+            .stub(conn, 'write')
+            .callsFake(
+              (
+                chunk: unknown,
+                cb?: ((error: Error | null | undefined) => void) | undefined
+              ): boolean => {
+                const req = chunk as AppendRowsRequest;
+                cb && cb(null);
+                numCalls++;
+                if (!req.writeStream) {
+                  return false;
+                }
+                if (numCalls % 10 === 0) {
+                  const res: AppendRowsResponse = {
+                    writeStream: req.writeStream,
+                    error: {
+                      code: gax.Status.INTERNAL,
+                      message: 'internal error',
+                    },
+                  };
+                  conn?.emit('data', res);
+                } else {
+                  const res: AppendRowsResponse = {
+                    writeStream: req.writeStream,
+                    appendResult: {
+                      offset: req.offset,
+                    },
+                  };
+                  conn?.emit('data', res);
+                  numSucess++;
+                }
+                return false;
+              }
+            );
+
+          const writer = new JSONWriter({
+            connection,
+            protoDescriptor,
+          });
+
+          const pendingWrites: PendingWrite[] = [];
+          const iterations = new Array(50).fill(1);
+          let offset = 0;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          for (const _ of iterations) {
+            const rows = generateRows(10);
+            const pw = writer.appendRows(rows, offset);
+            pendingWrites.push(pw);
+            offset += 10;
+          }
+
+          await Promise.all(pendingWrites.map(pw => pw.getResult()));
+
+          connection.close();
+          assert.equal(numSucess, 50);
+
+          writer.close();
+        } finally {
+          client.close();
+        }
+      }).timeout(2 * 60 * 1000);
+    });
+  });
+
   describe('Error Scenarios', () => {
     it('send request with mismatched proto descriptor', async () => {
       bqWriteClient.initialize();
@@ -991,9 +1433,10 @@ describe('managedwriter.WriterClient', () => {
       }
     });
 
-    it('should trigger reconnection given some specific errors', async () => {
+    it('should trigger reconnection when connection closes and there are pending writes', async () => {
       bqWriteClient.initialize();
       const client = new WriterClient();
+      client.enableWriteRetries(true);
       client.setClient(bqWriteClient);
 
       const connection = await client.createStreamConnection({
@@ -1028,47 +1471,21 @@ describe('managedwriter.WriterClient', () => {
         );
         await pw.getResult();
 
-        const reconnectErrorCases: gax.GoogleError[] = [
-          {
-            code: gax.Status.ABORTED,
-            msg: 'Closing the stream because it has been inactive',
-          },
-          {
-            code: gax.Status.RESOURCE_EXHAUSTED,
-            msg: 'read econnreset',
-          },
-          {
-            code: gax.Status.ABORTED,
-            msg: 'service is currently unavailable',
-          },
-          {
-            code: gax.Status.RESOURCE_EXHAUSTED,
-            msg: 'bandwidth exhausted',
-          },
-          {
-            code: gax.Status.RESOURCE_EXHAUSTED,
-            msg: 'memory limit exceeded',
-          },
-          {
-            code: gax.Status.CANCELLED,
-            msg: 'any',
-          },
-          {
-            code: gax.Status.DEADLINE_EXCEEDED,
-            msg: 'a msg',
-          },
-        ].map(err => {
-          const gerr = new gax.GoogleError(err.msg);
-          gerr.code = err.code;
-          return gerr;
-        });
-        for (const gerr of reconnectErrorCases) {
-          const conn = connection['_connection'] as gax.CancellableStream; // private method
-          conn.emit('error', gerr);
-          assert.equal(reconnectedCalled, true);
+        const conn = connection['_connection'] as gax.CancellableStream; // private method
 
-          reconnectedCalled = false; // reset flag
-        }
+        const gerr = new gax.GoogleError('aborted');
+        gerr.code = gax.Status.ABORTED;
+        conn.emit('error', gerr);
+        conn.emit('close');
+
+        assert.equal(reconnectedCalled, false);
+
+        // add a fake pending write
+        connection['_pendingWrites'].push(new PendingWrite({}));
+        conn.emit('error', gerr);
+        conn.emit('close');
+
+        assert.equal(reconnectedCalled, true);
 
         writer.close();
       } finally {
@@ -1076,7 +1493,7 @@ describe('managedwriter.WriterClient', () => {
       }
     });
 
-    xit('reconnect on idle connection', async () => {
+    it('reconnect on idle connection', async () => {
       bqWriteClient.initialize();
       const client = new WriterClient();
       client.setClient(bqWriteClient);
@@ -1099,10 +1516,6 @@ describe('managedwriter.WriterClient', () => {
           destinationTable: parent,
         });
 
-        connection.onConnectionError(err => {
-          console.log('idle conn err', err);
-        });
-
         const writer = new JSONWriter({
           connection,
           protoDescriptor,
@@ -1111,15 +1524,17 @@ describe('managedwriter.WriterClient', () => {
         let pw = writer.appendRows([row1, row2], 0);
         await pw.getResult();
 
-        const sleep = (ms: number) =>
-          new Promise(resolve => {
-            setTimeout(resolve, ms);
-          });
-        const minutes = 10;
-        for (let i = 0; i <= minutes; i++) {
-          console.log('sleeping for a minute: ', minutes - i, 'to go');
-          await sleep(60 * 1000);
-        }
+        // Simulate server sending ABORT error as the conn was idle
+        const conn = connection['_connection'] as gax.CancellableStream; // private method
+        const gerr = new gax.GoogleError(
+          'Closing the stream because it has been inactive for 600 seconds'
+        );
+        gerr.code = gax.Status.ABORTED;
+        conn.emit('error', gerr);
+        // simulate server closing conn.
+        await sleep(100);
+        conn.destroy();
+        await sleep(100);
 
         const row3 = {
           customer_name: 'Test',
@@ -1138,7 +1553,68 @@ describe('managedwriter.WriterClient', () => {
       } finally {
         client.close();
       }
-    }).timeout(20 * 60 * 1000);
+    }).timeout(20 * 1000);
+
+    it('should mark any pending writes with error if connection was closed', async () => {
+      bqWriteClient.initialize();
+      const client = new WriterClient();
+      client.setClient(bqWriteClient);
+
+      const row1 = {
+        customer_name: 'Ada Lovelace',
+        row_num: 1,
+      };
+
+      try {
+        const connection = await client.createStreamConnection({
+          streamType: managedwriter.PendingStream,
+          destinationTable: parent,
+        });
+
+        const writer = new JSONWriter({
+          connection,
+          protoDescriptor,
+        });
+
+        const pw1 = writer.appendRows([row1], 0);
+        await pw1.getResult();
+
+        // Try to append a new row
+        const row2 = {
+          customer_name: 'Test',
+          row_num: 2,
+          customer_email: 'test@example.com',
+        };
+
+        let foundError: gax.GoogleError | null = null;
+        const pw2 = writer.appendRows([row2], 1);
+        pw2.getResult().catch(err => {
+          foundError = err as gax.GoogleError;
+        });
+
+        // Simulate server sending ABORTED error on a write
+        const conn = connection['_connection'] as gax.CancellableStream; // private method
+        // swallow ack for the last appendRow call, so we can simulate it failing
+        conn.removeAllListeners('data');
+        await new Promise(resolve => conn.once('data', resolve));
+        conn.addListener('data', connection['handleData']);
+
+        // simulate server closing conn.
+        conn.emit('close');
+        await sleep(100);
+        conn.destroy();
+        await sleep(100);
+
+        // should throw error of reconnection
+        assert.notEqual(foundError, null);
+        assert.equal(foundError!.message.includes('retry'), true);
+
+        connection.close();
+        writer.close();
+      } finally {
+        client.close();
+      }
+    });
   });
 
   describe('close', () => {
@@ -1173,6 +1649,7 @@ describe('managedwriter.WriterClient', () => {
           destinationTable: parent,
         });
         const connection = await client.createStreamConnection({streamId});
+        const internalConn = connection['_connection']!;
         const writer = new Writer({
           connection,
           protoDescriptor,
@@ -1188,6 +1665,7 @@ describe('managedwriter.WriterClient', () => {
         writer.close();
         client.close();
         assert.strictEqual(client.isOpen(), false);
+        assert.strictEqual(internalConn.destroyed, true);
       } finally {
         client.close();
       }
@@ -1212,7 +1690,6 @@ describe('managedwriter.WriterClient', () => {
     for (const dataset of datasets) {
       const [metadata] = await dataset.getMetadata();
       const creationTime = Number(metadata.creationTime);
-
       if (isResourceStale(creationTime)) {
         try {
           await dataset.delete({force: true});
