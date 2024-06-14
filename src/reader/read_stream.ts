@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import * as gax from 'google-gax';
-import {RecordBatchReader} from 'apache-arrow';
 import * as protos from '../../protos/protos';
 
 import {ReadClient} from './read_client';
@@ -27,12 +26,6 @@ type ReadRowsResponse =
 export type RemoveListener = {
   off: () => void;
 };
-
-interface TableRow {
-  f?: Array<{
-    v?: any;
-  }>;
-}
 
 /**
  * ReadStream is responsible for reading data from a GRPC read stream
@@ -78,16 +71,14 @@ export class ReadStream {
       this._callOptions
     );
     this._connection = connection;
-    const parseTransform = new Transform({
+    const passthrough = new Transform({
       objectMode: true,
-      highWaterMark: 100,
       transform: (response: ReadRowsResponse, _, callback) => {
-        const rows = this.parseReadRowsResponse(response);
-        rows.forEach(r => parseTransform.push(r));
-        callback(null);
+        this.processReadRowsResponse(response);
+        callback(null, response);
       },
     });
-    this._readStream = this._connection.pipe(parseTransform);
+    this._readStream = this._connection.pipe(passthrough);
     this._connection.on('error', this.handleError);
     this._connection.on('close', () => {
       this.trace('connection closed');
@@ -135,47 +126,12 @@ export class ReadStream {
     return !!err.code && reconnectionErrorCodes.includes(err.code);
   }
 
-  private parseReadRowsResponse(response: ReadRowsResponse): TableRow[] {
-    if (!response.arrowRecordBatch || !response.rowCount) {
-      return [];
+  private processReadRowsResponse(response: ReadRowsResponse) {
+    if (!response.rowCount) {
+      return;
     }
-    if (!response.arrowRecordBatch.serializedRecordBatch) {
-      return [];
-    }
-
     const rowCount = parseInt(response.rowCount as string, 10);
-    const batch = response.arrowRecordBatch;
-    this.trace(
-      'found ',
-      rowCount,
-      ' rows serialized in ',
-      batch.serializedRecordBatch?.length,
-      'bytes'
-    );
-
     this._offset += rowCount;
-
-    const buf = Buffer.concat([
-      this._session.arrowSchema?.serializedSchema as Uint8Array,
-      batch.serializedRecordBatch as Uint8Array,
-    ]);
-    const r = RecordBatchReader.from(buf);
-    const batches = r.readAll();
-    const rows = [];
-    for (const recordBatch of batches) {
-      const rrows = [];
-      for (const row of recordBatch) {
-        rrows.push({
-          f: row.toArray().map(fieldValue => {
-            return {
-              v: fieldValue,
-            };
-          }),
-        });
-      }
-      rows.push(...rrows);
-    }
-    return rows;
   }
 
   /**
@@ -184,6 +140,10 @@ export class ReadStream {
   getStreamName = (): string => {
     return this._streamName;
   };
+
+  getReadSession(): ReadSession {
+    return this._session;
+  }
 
   getRowsStream(): Readable {
     return this._readStream!;

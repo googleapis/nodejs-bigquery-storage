@@ -12,26 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {ReadStream} from './read_stream';
-import * as protos from '../../protos/protos';
-import {TableReference, ReadClient} from './read_client';
-import {Readable} from 'stream';
-import {logger} from '../util/logger';
 import {ResourceStream} from '@google-cloud/paginator';
 
-type ReadSession = protos.google.cloud.bigquery.storage.v1.IReadSession;
-type DataFormat = protos.google.cloud.bigquery.storage.v1.DataFormat;
-const DataFormat = protos.google.cloud.bigquery.storage.v1.DataFormat;
-interface ListParams {
-  /**
-   * Row limit of the table.
-   */
-  maxResults?: number;
-  /**
-   * Subset of fields to return, supports select into sub fields. Example: selected_fields = "a,e.d.f";
-   */
-  selectedFields?: string;
-}
+import * as protos from '../../protos/protos';
+import {TableReference, ReadClient} from './read_client';
+import {logger} from '../util/logger';
+import {ArrowRecordBatchTableRowTransform} from './arrow_transform';
+import {ArrowTableReader} from './arrow_reader';
+
+type ReadSessionInfo = protos.google.cloud.bigquery.storage.v1.IReadSession;
+
 interface TableCell {
   v?: any;
 }
@@ -52,11 +42,19 @@ interface TableDataList {
   totalRows?: string;
 }
 
-type GetRowsOptions = ListParams & {
+type GetRowsOptions = {
+  /**
+   * Row limit of the table.
+   */
+  maxResults?: number;
+  /**
+   * Subset of fields to return, supports select into sub fields. Example: selected_fields = "a,e.d.f";
+   */
+  selectedFields?: string;
   autoPaginate?: boolean;
   maxApiCalls?: number;
 };
-type RowsResponse = any[] | [any[], ReadSession | null, TableDataList];
+type RowsResponse = any[] | [any[], ReadSessionInfo | null, TableDataList];
 
 /**
  * A BigQuery Storage API Reader that can be used to reader data into BigQuery Table
@@ -66,8 +64,7 @@ type RowsResponse = any[] | [any[], ReadSession | null, TableDataList];
  * @memberof reader
  */
 export class TableReader {
-  private _readClient: ReadClient;
-  private _readStreams: ReadStream[];
+  private _arrowReader: ArrowTableReader;
   private _table: TableReference;
 
   /**
@@ -79,8 +76,7 @@ export class TableReader {
    */
   constructor(readClient: ReadClient, table: TableReference) {
     this._table = table;
-    this._readClient = readClient;
-    this._readStreams = [];
+    this._arrowReader = new ArrowTableReader(readClient, table);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -93,48 +89,18 @@ export class TableReader {
     );
   }
 
+  getSessionInfo(): ReadSessionInfo | undefined | null {
+    return this._arrowReader.getSessionInfo();
+  }
+
   async getRowsStream(
     options?: GetRowsOptions
-  ): Promise<[ResourceStream<TableRow>, ReadSession]> {
+  ): Promise<ResourceStream<TableRow>> {
     this.trace('getRowsStream', options);
-    const session = await this._readClient.createReadSession({
-      parent: `projects/${this._table.projectId}`,
-      table: `projects/${this._table.projectId}/datasets/${this._table.datasetId}/tables/${this._table.tableId}`,
-      dataFormat: DataFormat.ARROW,
-      selectedFields: options?.selectedFields?.split(','),
-    });
-    this.trace(
-      'session created',
-      session.name,
-      session.streams,
-      session.estimatedRowCount
-    );
-
-    this._readStreams = [];
-    for (const readStream of session.streams || []) {
-      const r = await this._readClient.createReadStream(
-        {
-          streamName: readStream.name!,
-          session,
-        },
-        options
-      );
-      this._readStreams.push(r);
-    }
-
-    async function* mergeStreams(readables: Readable[]) {
-      for (const readable of readables) {
-        for await (const chunk of readable) {
-          yield chunk;
-        }
-      }
-    }
-    const joined = Readable.from(
-      mergeStreams(this._readStreams.map(r => r.getRowsStream()))
-    );
-    this.trace('joined streams', joined);
-    const stream = joined as ResourceStream<TableRow>;
-    return [stream, session];
+    const stream = await this._arrowReader.getRecordBatchStream(options);
+    return stream.pipe(
+      new ArrowRecordBatchTableRowTransform()
+    ) as ResourceStream<TableRow>;
   }
 
   /**
@@ -149,7 +115,8 @@ export class TableReader {
    */
   async getRows(options?: GetRowsOptions): Promise<RowsResponse> {
     this.trace('getRows', options);
-    const [stream, session] = await this.getRowsStream(options);
+    const stream = await this.getRowsStream(options);
+    const session = this.getSessionInfo();
     return new Promise<RowsResponse>((resolve, reject) => {
       const rows: TableRow[] = [];
       stream.on('data', (data: TableRow) => {
@@ -161,14 +128,12 @@ export class TableReader {
       });
       stream.on('end', () => {
         this.trace('resolve called on joined stream');
-        resolve([rows, session, {rows, totalRows: session.estimatedRowCount}]);
+        resolve([rows, session, {rows, totalRows: session?.estimatedRowCount}]);
       });
     });
   }
 
   close() {
-    this._readStreams.forEach(rs => {
-      rs.close();
-    });
+    this._arrowReader.close();
   }
 }

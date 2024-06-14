@@ -14,11 +14,12 @@
 
 import * as gax from 'google-gax';
 import type {CallOptions, ClientOptions} from 'google-gax';
-import * as protos from '../../protos/protos';
 
+import * as protos from '../../protos/protos';
 import {BigQueryReadClient} from '../v1';
 import {ReadStream} from './read_stream';
 import {TableReader} from './table_reader';
+import {ArrowTableReader} from './arrow_reader';
 
 type CreateReadSessionRequest =
   protos.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest;
@@ -197,6 +198,14 @@ export class ReadClient {
   }): Promise<TableReader> {
     await this.initialize();
     const reader = new TableReader(this, params.table);
+    return reader;
+  }
+
+  async createArrowTableReader(params: {
+    table: TableReference;
+  }): Promise<ArrowTableReader> {
+    await this.initialize();
+    const reader = new ArrowTableReader(this, params.table);
     return reader;
   }
 
