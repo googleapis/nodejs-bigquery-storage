@@ -118,7 +118,7 @@ See sample code on the [Quickstart section](#quickstart).
 * [Before you begin](#before-you-begin)
 * [Samples](#samples)
   * [Append_rows_buffered](#append_rows_buffered)
-  * [Append_rows_json_writer_commited](#append_rows_json_writer_commited)
+  * [Append_rows_json_writer_committed](#append_rows_json_writer_committed)
   * [Append_rows_json_writer_default](#append_rows_json_writer_default)
   * [Append_rows_pending](#append_rows_pending)
   * [Append_rows_proto2](#append_rows_proto2)
@@ -159,16 +159,16 @@ __Usage:__
 
 
 
-### Append_rows_json_writer_commited
+### Append_rows_json_writer_committed
 
-View the [source code](https://github.com/googleapis/nodejs-bigquery-storage/blob/main/samples/append_rows_json_writer_commited.js).
+View the [source code](https://github.com/googleapis/nodejs-bigquery-storage/blob/main/samples/append_rows_json_writer_committed.js).
 
-[![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/nodejs-bigquery-storage&page=editor&open_in_editor=samples/append_rows_json_writer_commited.js,samples/README.md)
+[![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/nodejs-bigquery-storage&page=editor&open_in_editor=samples/append_rows_json_writer_committed.js,samples/README.md)
 
 __Usage:__
 
 
-`node samples/append_rows_json_writer_commited.js`
+`node samples/append_rows_json_writer_committed.js`
 
 
 -----
