@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.9.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.8.0...v4.9.0) (2024-07-02)
+
+
+### Features
+
+* Update Nodejs generator to send API versions in headers for GAPICs ([#459](https://github.com/googleapis/nodejs-bigquery-storage/issues/459)) ([9dca0d3](https://github.com/googleapis/nodejs-bigquery-storage/commit/9dca0d3fa35d4eebec5f845151d1ea8a2b3ba837))
+
+
+### Bug Fixes
+
+* Typo - commited -&gt; committed ([#468](https://github.com/googleapis/nodejs-bigquery-storage/issues/468)) ([672ab7d](https://github.com/googleapis/nodejs-bigquery-storage/commit/672ab7d2846e9379bb6320e8e39e8d53b9d8199e))
+
 ## [4.8.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.7.0...v4.8.0) (2024-05-10)
 
 
