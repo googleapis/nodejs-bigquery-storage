@@ -27,6 +27,7 @@ import {ClientOptions} from 'google-gax';
 import * as customerRecordProtoJson from '../samples/customer_record.json';
 import {JSONEncoder} from '../src/managedwriter/encoder';
 import {PendingWrite} from '../src/managedwriter/pending_write';
+import { parseRpcStatusStorageErrors } from '../src/managedwriter/error';
 
 const pkg = JSON.parse(
   readFileSync(path.resolve(__dirname, '../../package.json'), 'utf-8')
@@ -1284,6 +1285,80 @@ describe('managedwriter.WriterClient', () => {
         writer.close();
       } finally {
         client.close();
+      }
+    });
+    it.only('should throw an error and parse it when the offset already exists', async() => {
+      let BQ_INSERT_DATA_CHUNK_COUNT = 1.5; // have a floating number as a chunk count to force an error
+      bqWriteClient.initialize();
+      const client = new WriterClient();
+      client.setClient(bqWriteClient);
+      try{
+        const writeStream = await client.createWriteStreamFullResponse({
+          streamType: managedwriter.CommittedStream,
+          destinationTable: parent,
+        });
+        if (writeStream.name == null) {
+          throw new Error('writeStream undefined');
+        }
+        const streamId = writeStream.name;
+        if (writeStream.tableSchema == null) {
+          throw new Error('table schema undefined');
+        }
+        const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(writeStream.tableSchema, 'root');
+        const connection = await client.createStreamConnection({streamId: streamId});
+        const writer = new managedwriter.JSONWriter({
+          connection,
+          protoDescriptor,
+        });
+        let rows = [];
+        // Row 1
+        let row = {
+          row_num: 1,
+          customer_name: 'Octavia',
+        };
+        rows.push(row);
+  
+        // Row 2
+        row = {
+          row_num: 2,
+          customer_name: 'Turing',
+        };
+        rows.push(row);
+  
+        row = {
+          row_num: 3,
+          customer_name: 'Frank',
+        };
+        rows.push(row);
+        let data = rows;
+        let currentOffset = 0;
+        while (currentOffset < data.length) {
+          const dataChunk = data.slice(
+            currentOffset,
+            currentOffset + BQ_INSERT_DATA_CHUNK_COUNT,
+          );
+          const pw = writer.appendRows(dataChunk, currentOffset);
+          const result = await pw.getResult();
+          currentOffset = Number.parseInt(
+            result.appendResult?.offset?.value?.toString() ?? '0',
+            10,
+          );
+            currentOffset += BQ_INSERT_DATA_CHUNK_COUNT;
+
+        type StorageError = protos.google.cloud.bigquery.storage.v1.IStorageError;
+        if (result.error !== undefined ){
+          const errs: StorageError[] = parseRpcStatusStorageErrors(result!.error!);
+          assert.equal(errs.length, 1);
+          assert.equal(errs[0].code, 8);
+          assert.match(errs[0]!.errorMessage!, /The offset is within stream, expected offset 3/)
+
+  
+        }
+        
+        }
+      }
+      finally{
+        client.close()
       }
     });
 
