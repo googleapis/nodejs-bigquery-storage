@@ -174,7 +174,7 @@ describe('writeClient', () => {
     projectId = table.metadata.tableReference.projectId;
 
     const output = execSync(
-      `node append_rows_json_writer_commited ${projectId} ${datasetId} ${tableId}`
+      `node append_rows_json_writer_committed ${projectId} ${datasetId} ${tableId}`
     );
 
     assert.match(output, /Stream created:/);

@@ -19,11 +19,11 @@ function main(
   datasetId = 'my_dataset',
   tableId = 'my_table'
 ) {
-  // [START bigquerystorage_jsonstreamwriter_commited]
+  // [START bigquerystorage_jsonstreamwriter_committed]
   const {adapt, managedwriter} = require('@google-cloud/bigquery-storage');
   const {WriterClient, JSONWriter} = managedwriter;
 
-  async function appendJSONRowsCommitedStream() {
+  async function appendJSONRowsCommittedStream() {
     /**
      * TODO(developer): Uncomment the following lines before running the sample.
      */
@@ -105,8 +105,8 @@ function main(
       writeClient.close();
     }
   }
-  // [END bigquerystorage_jsonstreamwriter_commited]
-  appendJSONRowsCommitedStream();
+  // [END bigquerystorage_jsonstreamwriter_committed]
+  appendJSONRowsCommittedStream();
 }
 process.on('unhandledRejection', err => {
   console.error(err.message);

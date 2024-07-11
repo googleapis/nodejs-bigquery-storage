@@ -1683,8 +1683,8 @@ describe('managedwriter.WriterClient', () => {
 
   async function deleteDatasets() {
     let [datasets] = await bigquery.getDatasets();
-    datasets = datasets.filter(
-      dataset => dataset.id?.includes(GCLOUD_TESTS_PREFIX)
+    datasets = datasets.filter(dataset =>
+      dataset.id?.includes(GCLOUD_TESTS_PREFIX)
     );
 
     for (const dataset of datasets) {
