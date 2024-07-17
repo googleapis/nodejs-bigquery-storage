@@ -102,14 +102,12 @@ export class TableReader {
   }
 
   /**
-   * @callback RowsCallback
-   * @param {?Error} err Request error, if any.
-   * @param {array} rows The rows.
-   * @param {object} apiResponse The full API response.
-   */
-  /**
-   * @typedef {array} RowsResponse
-   * @property {array} 0 The rows.
+   * Retrieves table data as rows in same format
+   * as tabledata.list BigQuery v2 API.
+   * Extra parameters returned contain Storage Read API specific information
+   * like ReadSession and totalRows count.
+   *
+   * @param {options} GetRowsOptions
    */
   async getRows(options?: GetRowsOptions): Promise<RowsResponse> {
     this.trace('getRows', options);

@@ -49,7 +49,7 @@ function main(
       });
 
       console.log('table', table.dataset.projectId, table.dataset.id, table.id);
-      const treader = await readClient.createTableReader({table});
+      const treader = await readClient.createTableReader({table: dstTableRef});
       const [rawRows] = await treader.getRows();
       const rows = BigQuery.mergeSchemaWithRows_(md.schema, rawRows, {});
       rows.forEach(row => {
