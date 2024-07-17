@@ -31,7 +31,7 @@ const DataFormat = protos.google.cloud.bigquery.storage.v1.DataFormat;
 
 /**
  * A BigQuery Storage API Reader that can be used to read data
- * from BigQuery Tables using the Storage API.
+ * from BigQuery Tables using the Storage API in Arrow format.
  *
  * @class
  * @memberof reader
@@ -41,11 +41,11 @@ export class ArrowTableReader {
   private _session: ReadSession;
 
   /**
-   * Creates a new Reader instance.
+   * Creates a new ArrowTableReader instance. Usually created via
+   * ReadClient.createArrowTableReader().
    *
-   * @param {Object} params - The parameters for the JSONWriter.
-   * @param {TableReference} params.table - The stream connection
-   *   to the BigQuery streaming insert operation.
+   * @param {ReadClient} readClient - Storage Read Client.
+   * @param {TableReference} table - target table to read data from.
    */
   constructor(readClient: ReadClient, table: TableReference) {
     this._table = table;
@@ -66,6 +66,11 @@ export class ArrowTableReader {
     return this._session.getSessionInfo();
   }
 
+  /**
+   * Get a byte stream of Arrow Record Batch.
+   * 
+   * @param {GetStreamOptions} options    
+   */
   async getRawStream(
     options?: GetStreamOptions
   ): Promise<ResourceStream<Uint8Array>> {
@@ -76,6 +81,11 @@ export class ArrowTableReader {
     return stream.pipe(new ArrowRawTransform()) as ResourceStream<Uint8Array>;
   }
 
+  /**
+   * Get a stream of Arrow RecordBatch objects.
+   * 
+   * @param {GetStreamOptions} options    
+   */
   async getRecordBatchStream(
     options?: GetStreamOptions
   ): Promise<ResourceStream<RecordBatch>> {

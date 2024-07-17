@@ -51,8 +51,6 @@ type GetRowsOptions = {
    * Subset of fields to return, supports select into sub fields. Example: selected_fields = "a,e.d.f";
    */
   selectedFields?: string;
-  autoPaginate?: boolean;
-  maxApiCalls?: number;
 };
 type RowsResponse = any[] | [any[], ReadSessionInfo | null, TableDataList];
 
@@ -93,10 +91,10 @@ export class TableReader {
     return this._arrowReader.getSessionInfo();
   }
 
-  async getRowsStream(
+  async getRowStream(
     options?: GetRowsOptions
   ): Promise<ResourceStream<TableRow>> {
-    this.trace('getRowsStream', options);
+    this.trace('getRowStream', options);
     const stream = await this._arrowReader.getRecordBatchStream(options);
     return stream.pipe(
       new ArrowRecordBatchTableRowTransform()
@@ -115,7 +113,7 @@ export class TableReader {
    */
   async getRows(options?: GetRowsOptions): Promise<RowsResponse> {
     this.trace('getRows', options);
-    const stream = await this.getRowsStream(options);
+    const stream = await this.getRowStream(options);
     const session = this.getSessionInfo();
     return new Promise<RowsResponse>((resolve, reject) => {
       const rows: TableRow[] = [];

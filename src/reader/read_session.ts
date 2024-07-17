@@ -36,10 +36,17 @@ export type GetStreamOptions = {
    * Subset of fields to return, supports select into sub fields. Example: selected_fields = "a,e.d.f";
    */
   selectedFields?: string;
-  autoPaginate?: boolean;
-  maxApiCalls?: number;
 };
 
+/**
+ * A ReadSession represents a Read Session from the BigQuery
+ * Storage Read API.
+ * 
+ * Read more on:https://cloud.google.com/bigquery/docs/reference/storage/rpc/google.cloud.bigquery.storage.v1#readsession
+ *
+ * @class
+ * @memberof reader
+ */
 export class ReadSession {
   private _info: ReadSessionInfo | null;
   private _table: TableReference;
@@ -90,6 +97,12 @@ export class ReadSession {
     return session;
   }
 
+  /**
+   * Get a merged stream of ReadRowsResponse from all ReadStream
+   * under this ReadSession.
+   * 
+   * @param {GetStreamOptions} options    
+   */
   async getStream(
     options?: GetStreamOptions
   ): Promise<ResourceStream<ReadRowsResponse>> {

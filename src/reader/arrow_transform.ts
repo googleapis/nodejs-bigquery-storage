@@ -24,6 +24,11 @@ type ReadRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IReadRowsResponse;
 type ReadSession = protos.google.cloud.bigquery.storage.v1.IReadSession;
 
+/**
+ * ArrowRawTransform implements a node stream Transform that reads
+ * ReadRowsResponse from BigQuery Storage Read API and convert
+ * a raw Arrow Record Batch.
+ */
 export class ArrowRawTransform extends Transform {
   constructor() {
     super({
@@ -49,6 +54,12 @@ export class ArrowRawTransform extends Transform {
     callback(null, response.arrowRecordBatch?.serializedRecordBatch);
   }
 }
+
+/**
+ * ArrowRecordReaderTransform implements a node stream Transform that reads
+ * a byte stream of raw Arrow Record Batch and convert to a stream of Arrow
+ * RecordBatchStreamReader.
+ */
 export class ArrowRecordReaderTransform extends Transform {
   private session: ReadSession;
 
@@ -73,6 +84,10 @@ export class ArrowRecordReaderTransform extends Transform {
   }
 }
 
+/**
+ * ArrowRecordBatchTransform implements a node stream Transform that reads
+ * a RecordBatchStreamReader and convert a stream of Arrow RecordBatch.
+ */
 export class ArrowRecordBatchTransform extends Transform {
   constructor() {
     super({
@@ -93,6 +108,10 @@ export class ArrowRecordBatchTransform extends Transform {
   }
 }
 
+/**
+ * ArrowRecordBatchTableRowTransform implements a node stream Transform that reads
+ * an Arrow RecordBatch and convert a stream of BigQuery TableRow.
+ */
 export class ArrowRecordBatchTableRowTransform extends Transform {
   constructor() {
     super({
@@ -105,7 +124,6 @@ export class ArrowRecordBatchTableRowTransform extends Transform {
     _: BufferEncoding,
     callback: TransformCallback
   ): void {
-    //console.log('transform ArrowRecordBatchTableRowTransform', batch)
     const rows = new Array(batch.numRows);
     for (let i = 0; i < batch.numRows; i++) {
       rows[i] = {
