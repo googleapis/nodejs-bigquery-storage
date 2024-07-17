@@ -17,12 +17,20 @@ import {
   RecordBatchReader,
   RecordBatch,
   RecordBatchStreamReader,
+  Vector,
 } from 'apache-arrow';
 import * as protos from '../../protos/protos';
 
 type ReadRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IReadRowsResponse;
 type ReadSession = protos.google.cloud.bigquery.storage.v1.IReadSession;
+
+interface TableCell {
+  v?: any;
+}
+interface TableRow {
+  f?: Array<TableCell>;
+}
 
 /**
  * ArrowRawTransform implements a node stream Transform that reads
@@ -132,11 +140,12 @@ export class ArrowRecordBatchTableRowTransform extends Transform {
     }
     for (let j = 0; j < batch.numCols; j++) {
       const column = batch.selectAt([j]);
+      const columnName = column.schema.fields[0].name;
       for (let i = 0; i < batch.numRows; i++) {
         const fieldData = column.get(i);
-        const fieldValue = fieldData?.toArray()[0];
+        const fieldValue = fieldData?.toJSON()[columnName];
         rows[i].f[j] = {
-          v: fieldValue,
+          v: convertArrowValue(fieldValue),
         };
       }
     }
@@ -145,4 +154,23 @@ export class ArrowRecordBatchTableRowTransform extends Transform {
     }
     callback(null);
   }
+}
+
+function convertArrowValue(fieldValue: any): any {
+  if (typeof fieldValue === 'object') {
+    if (fieldValue instanceof Vector) {
+      const arr = fieldValue.toJSON();
+      return arr.map((v: any) => {
+        return {v: convertArrowValue(v)};
+      });
+    }
+    const tableRow: TableRow = {f: []};
+    Object.keys(fieldValue).forEach(key => {
+      tableRow.f?.push({
+        v: convertArrowValue(fieldValue[key]),
+      });
+    });
+    return tableRow;
+  }
+  return fieldValue;
 }
