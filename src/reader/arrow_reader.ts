@@ -68,8 +68,8 @@ export class ArrowTableReader {
 
   /**
    * Get a byte stream of Arrow Record Batch.
-   * 
-   * @param {GetStreamOptions} options    
+   *
+   * @param {GetStreamOptions} options
    */
   async getRawStream(
     options?: GetStreamOptions
@@ -83,8 +83,8 @@ export class ArrowTableReader {
 
   /**
    * Get a stream of Arrow RecordBatch objects.
-   * 
-   * @param {GetStreamOptions} options    
+   *
+   * @param {GetStreamOptions} options
    */
   async getRecordBatchStream(
     options?: GetStreamOptions

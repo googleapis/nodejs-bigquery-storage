@@ -41,7 +41,7 @@ export type GetStreamOptions = {
 /**
  * A ReadSession represents a Read Session from the BigQuery
  * Storage Read API.
- * 
+ *
  * Read more on:https://cloud.google.com/bigquery/docs/reference/storage/rpc/google.cloud.bigquery.storage.v1#readsession
  *
  * @class
@@ -100,8 +100,8 @@ export class ReadSession {
   /**
    * Get a merged stream of ReadRowsResponse from all ReadStream
    * under this ReadSession.
-   * 
-   * @param {GetStreamOptions} options    
+   *
+   * @param {GetStreamOptions} options
    */
   async getStream(
     options?: GetStreamOptions
