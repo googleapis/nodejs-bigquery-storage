@@ -15,10 +15,7 @@
 import * as assert from 'assert';
 import {describe, it} from 'mocha';
 import * as protos from '../../protos/protos';
-import {
-  RecordBatchStreamWriter,
-  tableFromArrays,
-} from 'apache-arrow';
+import {RecordBatchStreamWriter, tableFromArrays} from 'apache-arrow';
 import {Readable} from 'stream';
 import {
   ArrowRawTransform,
@@ -58,19 +55,22 @@ describe('Arrow Transform', () => {
       ],
     };
     const table = tableFromArrays({
-      name: ['Ada Lovelace', 'Alan Turing'],
-      row: [1, 2],
+      name: ['Ada Lovelace', 'Alan Turing', 'Bell'],
+      row: [1, 2, 3],
       arr: [
         [10, 20],
         [20, 30],
+        [30, 40],
       ],
       rec: [
         {key: 'foo', value: 'bar'},
         {key: 'test', value: 'baz'},
+        {key: 'a key', value: 'a value'},
       ],
       recs: [
         [{num: 10}, {num: 20}],
         [{num: 20}, {num: 30}],
+        [{num: 30}, {num: 40}],
       ],
     });
     const writer = RecordBatchStreamWriter.writeAll(table);
@@ -88,25 +88,17 @@ describe('Arrow Transform', () => {
 
     const pipeline = Readable.from([response])
       .pipe(new ArrowRawTransform())
-      .pipe(
-        new ArrowRecordReaderTransform({
-          arrowSchema: {
-            serializedSchema,
-          },
-        })
-      )
+      .pipe(new ArrowRecordReaderTransform({arrowSchema: {serializedSchema}}))
       .pipe(new ArrowRecordBatchTransform())
       .pipe(new ArrowRecordBatchTableRowTransform());
 
-    const promise = new Promise<any[]>(resolve => {
+    const consumeRows = new Promise<any[]>(resolve => {
       const rows: any[] = [];
       pipeline
-        .on('data', data => {
-          rows.push(data);
-        })
+        .on('data', data => rows.push(data))
         .on('end', () => resolve(rows));
     });
-    const tableRows = await promise;
+    const tableRows = await consumeRows;
     const rows = BigQuery.mergeSchemaWithRows_(schema, tableRows, {
       wrapIntegers: false,
     });
@@ -124,6 +116,13 @@ describe('Arrow Transform', () => {
         arr: [20, 30],
         rec: {key: 'test', value: 'baz'},
         recs: [{num: 20}, {num: 30}],
+      },
+      {
+        name: 'Bell',
+        row: 3,
+        arr: [30, 40],
+        rec: {key: 'a key', value: 'a value'},
+        recs: [{num: 30}, {num: 40}],
       },
     ]);
   });

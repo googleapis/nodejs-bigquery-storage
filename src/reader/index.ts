@@ -26,5 +26,7 @@
 
 export {ReadClient} from './read_client';
 export {TableReader} from './table_reader';
+export {ArrowTableReader} from './arrow_reader';
 export {ReadStream} from './read_stream';
+export {DataFormat, ArrowFormat, AvroFormat} from './data_format';
 export {setLogFunction} from '../util/logger';

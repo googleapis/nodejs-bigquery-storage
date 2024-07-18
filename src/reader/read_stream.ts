@@ -107,14 +107,17 @@ export class ReadStream {
 
   private handleError = (err: gax.GoogleError) => {
     this.trace('on error', err, JSON.stringify(err));
-    if (this.shouldRetry(err)) {
+    if (this.isRetryableError(err)) {
       this.reconnect();
       return;
     }
     this._readStream?.emit('error', err);
   };
 
-  private shouldRetry(err: gax.GoogleError): boolean {
+  private isRetryableError(err?: gax.GoogleError | null): boolean {
+    if (!err) {
+      return false;
+    }
     const reconnectionErrorCodes = [
       gax.Status.ABORTED,
       gax.Status.CANCELLED,
@@ -153,7 +156,10 @@ export class ReadStream {
    * Check if connection is open and ready to read data.
    */
   isOpen(): boolean {
-    return !!this._connection;
+    if (this._connection) {
+      return !(this._connection.destroyed || this._connection.closed);
+    }
+    return false;
   }
 
   /**
@@ -174,6 +180,7 @@ export class ReadStream {
     }
     this._connection.end();
     this._connection.removeAllListeners();
+    this._connection.destroy();
     this._connection = null;
   }
 }

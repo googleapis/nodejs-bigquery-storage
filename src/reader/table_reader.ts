@@ -52,7 +52,7 @@ type GetRowsOptions = {
    */
   selectedFields?: string;
 };
-type RowsResponse = any[] | [any[], ReadSessionInfo | null, TableDataList];
+type RowsResponse = [any[], ReadSessionInfo | null, TableDataList];
 
 /**
  * A BigQuery Storage API Reader that can be used to reader data into BigQuery Table
@@ -124,7 +124,8 @@ export class TableReader {
       });
       stream.on('end', () => {
         this.trace('resolve called on joined stream');
-        resolve([rows, session, {rows, totalRows: session?.estimatedRowCount}]);
+        const totalRows = `${session?.estimatedRowCount ?? 0}`;
+        resolve([rows, session ?? null, {rows, totalRows}]);
       });
     });
   }

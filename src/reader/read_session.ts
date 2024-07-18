@@ -18,14 +18,13 @@ import {Readable} from 'stream';
 import {ReadStream} from './read_stream';
 import * as protos from '../../protos/protos';
 import {TableReference, ReadClient} from './read_client';
+import {DataFormat} from './data_format';
 import {logger} from '../util/logger';
 
 type ReadRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IReadRowsResponse;
 type ReadSessionInfo = protos.google.cloud.bigquery.storage.v1.IReadSession;
 const ReadSessionInfo = protos.google.cloud.bigquery.storage.v1.ReadSession;
-type DataFormat = protos.google.cloud.bigquery.storage.v1.DataFormat;
-const DataFormat = protos.google.cloud.bigquery.storage.v1.DataFormat;
 
 export type GetStreamOptions = {
   /**
@@ -94,6 +93,18 @@ export class ReadSession {
       session.estimatedRowCount
     );
     this._info = session;
+
+    this._readStreams = [];
+    for (const readStream of session.streams || []) {
+      const r = await this._readClient.createReadStream(
+        {
+          streamName: readStream.name!,
+          session,
+        },
+        options
+      );
+      this._readStreams.push(r);
+    }
     return session;
   }
 
@@ -108,34 +119,15 @@ export class ReadSession {
   ): Promise<ResourceStream<ReadRowsResponse>> {
     this.trace('getStream', options);
 
-    const session = await this.getOrCreateSession(options);
-    this._readStreams = [];
-    for (const readStream of session.streams || []) {
-      const r = await this._readClient.createReadStream(
-        {
-          streamName: readStream.name!,
-          session,
-        },
-        options
-      );
-      this._readStreams.push(r);
-    }
+    await this.getOrCreateSession(options);
 
-    async function* mergeStreams(readables: Readable[]) {
-      for (const readable of readables) {
-        for await (const chunk of readable) {
-          yield chunk;
-        }
-      }
-    }
-    const joined = Readable.from(
-      mergeStreams(
-        this._readStreams.map(r => {
-          const stream = r.getRowsStream();
-          return stream;
-        })
-      )
+    const mergedStream = mergeStreams(
+      this._readStreams.map(r => {
+        const stream = r.getRowsStream();
+        return stream;
+      })
     );
+    const joined = Readable.from(mergedStream);
     this.trace('joined streams', joined);
     const stream = joined as ResourceStream<ReadRowsResponse>;
     return stream;
@@ -145,5 +137,18 @@ export class ReadSession {
     this._readStreams.forEach(rs => {
       rs.close();
     });
+  }
+}
+
+async function* mergeStreams(readables: Readable[]) {
+  for (const readable of readables) {
+    try {
+      for await (const chunk of readable) {
+        yield chunk;
+      }
+    } catch (err) {
+      console.log('mergeStream err', err);
+      throw err;
+    }
   }
 }

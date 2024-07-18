@@ -20,11 +20,11 @@ import {BigQueryReadClient} from '../v1';
 import {ReadStream} from './read_stream';
 import {TableReader} from './table_reader';
 import {ArrowTableReader} from './arrow_reader';
+import {DataFormat} from './data_format';
 
 type CreateReadSessionRequest =
   protos.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest;
 type ReadSession = protos.google.cloud.bigquery.storage.v1.IReadSession;
-type DataFormat = protos.google.cloud.bigquery.storage.v1.DataFormat;
 
 export type TableReference = {
   /**
@@ -130,9 +130,6 @@ export class ReadClient {
    *   of `projects/{project}`.
    * @param {string} request.table
    *   Parent table that all the streams should belong to, in the form
-   *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
-   * @param {TableReference} request.table
-   *   Reference to the table to which the stream belongs, in the format
    *   of `projects/{project}/datasets/{dataset}/tables/{table}`.
    * @returns {Promise<string>}} - The promise which resolves to the streamId.
    */

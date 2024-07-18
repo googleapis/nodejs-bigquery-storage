@@ -24,10 +24,9 @@ import {
   ArrowRecordReaderTransform,
 } from './arrow_transform';
 import {ReadSession, GetStreamOptions} from './read_session';
+import {ArrowFormat} from './data_format';
 
 type ReadSessionInfo = protos.google.cloud.bigquery.storage.v1.IReadSession;
-type DataFormat = protos.google.cloud.bigquery.storage.v1.DataFormat;
-const DataFormat = protos.google.cloud.bigquery.storage.v1.DataFormat;
 
 /**
  * A BigQuery Storage API Reader that can be used to read data
@@ -49,7 +48,7 @@ export class ArrowTableReader {
    */
   constructor(readClient: ReadClient, table: TableReference) {
     this._table = table;
-    this._session = new ReadSession(readClient, table, DataFormat.ARROW);
+    this._session = new ReadSession(readClient, table, ArrowFormat);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -71,13 +70,11 @@ export class ArrowTableReader {
    *
    * @param {GetStreamOptions} options
    */
-  async getRawStream(
+  async getStream(
     options?: GetStreamOptions
   ): Promise<ResourceStream<Uint8Array>> {
-    this.trace('getRawStream', options);
-
+    this.trace('getStream', options);
     const stream = await this._session.getStream(options);
-
     return stream.pipe(new ArrowRawTransform()) as ResourceStream<Uint8Array>;
   }
 
