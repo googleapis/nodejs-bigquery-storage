@@ -28,7 +28,7 @@ import {RecordBatch, Table, tableFromIPC} from 'apache-arrow';
 
 type ReadRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IReadRowsResponse;
-const {ReadClient, TableReader, ArrowFormat, AvroFormat} = reader;
+const {ReadClient, ArrowFormat, AvroFormat} = reader;
 
 const sandbox = sinon.createSandbox();
 afterEach(() => sandbox.restore());
@@ -217,9 +217,6 @@ describe('reader.ReaderClient', () => {
 
         reader.close();
         client.close();
-      } catch (err) {
-        console.error('failed', err);
-        throw err;
       } finally {
         client.close();
       }
@@ -256,9 +253,6 @@ describe('reader.ReaderClient', () => {
 
         reader.close();
         client.close();
-      } catch (err) {
-        console.error('failed', err);
-        throw err;
       } finally {
         client.close();
       }
