@@ -30,3 +30,6 @@ export {ArrowTableReader} from './arrow_reader';
 export {ReadStream} from './read_stream';
 export {DataFormat, ArrowFormat, AvroFormat} from './data_format';
 export {setLogFunction} from '../util/logger';
+
+// polyfill array.at for Node < 14. Remove after Node 14 is deprecated.
+import 'core-js/full/array/at';

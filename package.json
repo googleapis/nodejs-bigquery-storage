@@ -29,6 +29,7 @@
   "dependencies": {
     "@google-cloud/paginator": "^5.0.0",
     "apache-arrow": "^14.0.2",
+    "core-js": "^3.37.1",
     "extend": "^3.0.2",
     "google-auth-library": "^9.6.3",
     "google-gax": "^4.3.1"
