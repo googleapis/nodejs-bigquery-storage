@@ -110,7 +110,7 @@ export class ReadStream {
       this.reconnect();
       return;
     }
-    this._readStream?.emit('error', err);    
+    this._readStream?.emit('error', err);
   };
 
   private isRetryableError(err?: gax.GoogleError | null): boolean {
@@ -174,15 +174,15 @@ export class ReadStream {
    * Close the read stream connection.
    */
   close() {
-    if (this._connection) {      
+    if (this._connection) {
       this._connection.end();
       this._connection.removeAllListeners();
       this._connection.destroy();
       this._connection = null;
     }
-    if (this._readStream){
-      this._readStream.destroy();     
-      this._readStream = undefined; 
+    if (this._readStream) {
+      this._readStream.destroy();
+      this._readStream = undefined;
     }
   }
 }
