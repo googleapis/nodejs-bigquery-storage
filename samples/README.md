@@ -125,6 +125,7 @@ See sample code on the [Quickstart section](#quickstart).
   * [Append_rows_table_to_proto2](#append_rows_table_to_proto2)
   * [Customer_record_pb](#customer_record_pb)
   * [BigQuery Storage Quickstart](#bigquery-storage-quickstart)
+  * [Read_rows](#read_rows)
   * [Sample_data_pb](#sample_data_pb)
 
 ## Before you begin
@@ -273,6 +274,23 @@ __Usage:__
 
 
 `node quickstart.js`
+
+
+-----
+
+
+
+
+### Read_rows
+
+View the [source code](https://github.com/googleapis/nodejs-bigquery-storage/blob/main/samples/read_rows.js).
+
+[![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/nodejs-bigquery-storage&page=editor&open_in_editor=samples/read_rows.js,samples/README.md)
+
+__Usage:__
+
+
+`node samples/read_rows.js`
 
 
 -----
