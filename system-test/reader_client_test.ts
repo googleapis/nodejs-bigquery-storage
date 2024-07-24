@@ -43,6 +43,11 @@ const generateUuid = () =>
   `${GCLOUD_TESTS_PREFIX}_${uuid.v4()}`.replace(/-/gi, '_');
 const datasetId = generateUuid();
 
+const sleep = (ms: number) =>
+  new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+
 const root = protobuf.Root.fromJSON(customerRecordProtoJson);
 if (!root) {
   throw Error('Proto must not be undefined');
@@ -216,7 +221,6 @@ describe('reader.ReaderClient', () => {
         assert.equal(table.numCols, 2);
 
         reader.close();
-        client.close();
       } finally {
         client.close();
       }
@@ -252,7 +256,6 @@ describe('reader.ReaderClient', () => {
         assert.equal(table.numCols, 2);
 
         reader.close();
-        client.close();
       } finally {
         client.close();
       }
@@ -293,7 +296,6 @@ describe('reader.ReaderClient', () => {
         assert.equal(rows.length, 3);
 
         reader.close();
-        client.close();
       } finally {
         client.close();
       }
@@ -324,7 +326,6 @@ describe('reader.ReaderClient', () => {
         assert.equal(rows.length, 3);
 
         reader.close();
-        client.close();
       } finally {
         client.close();
       }
@@ -406,8 +407,6 @@ describe('reader.ReaderClient', () => {
         assert.equal(reconnectedCalled, true);
 
         reader.close();
-      } catch (err) {
-        console.log('scenario err', err);
       } finally {
         client.close();
       }
@@ -436,14 +435,19 @@ describe('reader.ReaderClient', () => {
           session,
           streamName: readStream.name!,
         });
+        await sleep(100);
+
         const internalConn = connection['_connection']!;
 
         connection.close();
+        assert.strictEqual(internalConn.destroyed, true);
+
         client.close();
         assert.strictEqual(client.isOpen(), false);
-        assert.strictEqual(internalConn.destroyed, true);
       } finally {
-        client.close();
+        if (client.isOpen()) {
+          client.close();
+        }
       }
     });
   });

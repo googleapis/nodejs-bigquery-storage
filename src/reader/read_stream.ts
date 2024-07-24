@@ -91,7 +91,6 @@ export class ReadStream {
     });
     this._connection.on('end', () => {
       this.trace('connection ended');
-      this.close();
     });
   }
 
@@ -111,7 +110,7 @@ export class ReadStream {
       this.reconnect();
       return;
     }
-    this._readStream?.emit('error', err);
+    this._readStream?.emit('error', err);    
   };
 
   private isRetryableError(err?: gax.GoogleError | null): boolean {
@@ -175,12 +174,15 @@ export class ReadStream {
    * Close the read stream connection.
    */
   close() {
-    if (!this._connection) {
-      return;
+    if (this._connection) {      
+      this._connection.end();
+      this._connection.removeAllListeners();
+      this._connection.destroy();
+      this._connection = null;
     }
-    this._connection.end();
-    this._connection.removeAllListeners();
-    this._connection.destroy();
-    this._connection = null;
+    if (this._readStream){
+      this._readStream.destroy();     
+      this._readStream = undefined; 
+    }
   }
 }
