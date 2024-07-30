@@ -36,7 +36,7 @@ type ReadSessionInfo = protos.google.cloud.bigquery.storage.v1.IReadSession;
  * @memberof reader
  */
 export class ArrowTableReader {
-  private _table: TableReference;
+  private _tableRef: TableReference;
   private _session: ReadSession;
 
   /**
@@ -46,16 +46,16 @@ export class ArrowTableReader {
    * @param {ReadClient} readClient - Storage Read Client.
    * @param {TableReference} table - target table to read data from.
    */
-  constructor(readClient: ReadClient, table: TableReference) {
-    this._table = table;
-    this._session = new ReadSession(readClient, table, ArrowFormat);
+  constructor(readClient: ReadClient, tableRef: TableReference) {
+    this._tableRef = tableRef;
+    this._session = new ReadSession(readClient, tableRef, ArrowFormat);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private trace(msg: string, ...otherArgs: any[]) {
     logger(
       'arrow_table_reader',
-      `[table: ${this._table.tableId}]`,
+      `[table: ${this._tableRef.tableId}]`,
       msg,
       ...otherArgs
     );

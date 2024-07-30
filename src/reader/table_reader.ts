@@ -63,7 +63,7 @@ type RowsResponse = [any[], ReadSessionInfo | null, TableDataList];
  */
 export class TableReader {
   private _arrowReader: ArrowTableReader;
-  private _table: TableReference;
+  private _tableRef: TableReference;
 
   /**
    * Creates a new Reader instance.
@@ -72,16 +72,16 @@ export class TableReader {
    * @param {TableReference} params.table - The stream connection
    *   to the BigQuery streaming insert operation.
    */
-  constructor(readClient: ReadClient, table: TableReference) {
-    this._table = table;
-    this._arrowReader = new ArrowTableReader(readClient, table);
+  constructor(readClient: ReadClient, tableRef: TableReference) {
+    this._tableRef = tableRef;
+    this._arrowReader = new ArrowTableReader(readClient, tableRef);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private trace(msg: string, ...otherArgs: any[]) {
     logger(
       'table_reader',
-      `[table: ${this._table.tableId}]`,
+      `[table: ${this._tableRef.tableId}]`,
       msg,
       ...otherArgs
     );

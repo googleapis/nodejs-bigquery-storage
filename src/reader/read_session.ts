@@ -48,19 +48,19 @@ export type GetStreamOptions = {
  */
 export class ReadSession {
   private _info: ReadSessionInfo | null;
-  private _table: TableReference;
+  private _tableRef: TableReference;
   private _format: DataFormat;
   private _readStreams: ReadStream[];
   private _readClient: ReadClient;
 
   constructor(
     readClient: ReadClient,
-    table: TableReference,
+    tableRef: TableReference,
     format: DataFormat
   ) {
     this._info = null;
     this._format = format;
-    this._table = table;
+    this._tableRef = tableRef;
     this._readClient = readClient;
     this._readStreams = [];
   }
@@ -81,8 +81,8 @@ export class ReadSession {
       return this._info;
     }
     const session = await this._readClient.createReadSession({
-      parent: `projects/${this._table.projectId}`,
-      table: `projects/${this._table.projectId}/datasets/${this._table.datasetId}/tables/${this._table.tableId}`,
+      parent: `projects/${this._tableRef.projectId}`,
+      table: `projects/${this._tableRef.projectId}/datasets/${this._tableRef.datasetId}/tables/${this._tableRef.tableId}`,
       dataFormat: this._format,
       selectedFields: options?.selectedFields?.split(','),
     });
@@ -142,13 +142,8 @@ export class ReadSession {
 
 async function* mergeStreams(readables: Readable[]) {
   for (const readable of readables) {
-    try {
-      for await (const chunk of readable) {
-        yield chunk;
-      }
-    } catch (err) {
-      console.log('mergeStream err', err);
-      throw err;
+    for await (const chunk of readable) {
+      yield chunk;
     }
   }
 }

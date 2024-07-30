@@ -56,7 +56,6 @@ export type TableReference = {
  */
 export class ReadClient {
   private _client: BigQueryReadClient;
-  private _open: boolean;
 
   constructor(opts?: ClientOptions) {
     const baseOptions = {
@@ -68,7 +67,6 @@ export class ReadClient {
       ...baseOptions,
       ...opts,
     });
-    this._open = false;
   }
 
   /**
@@ -84,7 +82,6 @@ export class ReadClient {
    */
   initialize = async (): Promise<void> => {
     await this._client.initialize();
-    this._open = true;
   };
 
   getClient = (): BigQueryReadClient => {
@@ -94,13 +91,6 @@ export class ReadClient {
   setClient = (client: BigQueryReadClient): void => {
     this._client = client;
   };
-
-  /**
-   * Check if client is open and ready to send requests.
-   */
-  isOpen(): boolean {
-    return this._open;
-  }
 
   /**
    * Creates a new read session. A read session divides the contents of a
@@ -208,6 +198,5 @@ export class ReadClient {
 
   close() {
     this._client.close();
-    this._open = false;
   }
 }

@@ -40,8 +40,8 @@ export class ReadStream {
   private _offset: number;
   private _readClient: ReadClient;
   private _session: ReadSession;
-  private _readStream?: Readable;
-  private _connection?: gax.CancellableStream | null;
+  private _readStream: Readable | null;
+  private _connection: gax.CancellableStream | null;
   private _callOptions?: gax.CallOptions;
 
   constructor(
@@ -54,6 +54,8 @@ export class ReadStream {
     this._session = session;
     this._offset = 0;
     this._readClient = readClient;
+    this._connection = null;
+    this._readStream = null;
     this._callOptions = options;
     this.open();
   }
@@ -182,7 +184,7 @@ export class ReadStream {
     }
     if (this._readStream) {
       this._readStream.destroy();
-      this._readStream = undefined;
+      this._readStream = null;
     }
   }
 }

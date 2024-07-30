@@ -443,11 +443,8 @@ describe('reader.ReaderClient', () => {
         assert.strictEqual(internalConn.destroyed, true);
 
         client.close();
-        assert.strictEqual(client.isOpen(), false);
       } finally {
-        if (client.isOpen()) {
-          client.close();
-        }
+        client.close();
       }
     });
   });
