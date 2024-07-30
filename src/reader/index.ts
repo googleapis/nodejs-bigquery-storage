@@ -1,4 +1,4 @@
-// Copyright 2023 Google LLC
+// Copyright 2024 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,25 +13,23 @@
 // limitations under the License.
 
 /**
- * Package managedwriter provides an EXPERIMENTAL thick client around the
- * BigQuery storage API's BigQueryWriteClient.
- * More information about this new write client may also be found in
- * the public documentation: https://cloud.google.com/bigquery/docs/write-api
+ * Package reader provides an EXPERIMENTAL thick client around the
+ * BigQuery storage API's BigQueryReadClient.
+ * More information about this new read client may also be found in
+ * the public documentation: https://cloud.google.com/bigquery/docs/read-api
  *
  * It is EXPERIMENTAL and subject to change or removal without notice. This is primarily to signal that this
  * package may still make breaking changes to existing methods and functionality.
  *
- * @namespace managedwriter
+ * @namespace reader
  */
 
-export {WriterClient} from './writer_client';
-export {Writer} from './writer';
-export {JSONWriter} from './json_writer';
-export {
-  DefaultStream,
-  BufferedStream,
-  CommittedStream,
-  PendingStream,
-} from './stream_types';
-export {parseStorageErrors} from './error';
+export {ReadClient} from './read_client';
+export {TableReader} from './table_reader';
+export {ArrowTableReader} from './arrow_reader';
+export {ReadStream} from './read_stream';
+export {DataFormat, ArrowFormat, AvroFormat} from './data_format';
 export {setLogFunction} from '../util/logger';
+
+// polyfill array.at for Node < 14. Remove after Node 14 is deprecated.
+import 'core-js/full/array/at';

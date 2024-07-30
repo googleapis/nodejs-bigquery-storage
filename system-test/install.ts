@@ -27,6 +27,7 @@ describe('📦 pack-n-play test', () => {
       packageDir: process.cwd(),
       sample: {
         description: 'TypeScript user can use the type definitions',
+        devDependencies: ['@types/web'],
         ts: readFileSync(
           './system-test/fixtures/sample/src/index.ts'
         ).toString(),
