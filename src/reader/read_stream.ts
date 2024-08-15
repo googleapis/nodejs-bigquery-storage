@@ -123,7 +123,6 @@ export class ReadStream {
       gax.Status.ABORTED,
       gax.Status.CANCELLED,
       gax.Status.DEADLINE_EXCEEDED,
-      gax.Status.FAILED_PRECONDITION,
       gax.Status.INTERNAL,
       gax.Status.UNAVAILABLE,
     ];
