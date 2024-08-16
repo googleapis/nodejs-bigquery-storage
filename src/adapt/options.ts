@@ -13,26 +13,33 @@
 // limitations under the License.
 
 export type AdaptOptions = {
-  changeSequenceNumberFieldName: string;
   addChangeSequenceNumber: boolean;
-  changeTypeFieldName: string;
   addChangeType: boolean;
 };
 
 export type AdaptOption = (opts: AdaptOptions) => AdaptOptions;
 
-export function withChangeType(fieldName?: string): AdaptOption {
+/**
+ * Add pseudocolumn `_CHANGE_TYPE` for BigQuery Change Data Capture.
+ * Used to define the type of change to be professed for each row.
+ * The pseudocolumn `_CHANGE_TYPE` only accepts the values UPSERT and DELETE.
+ * See more: https://cloud.google.com/bigquery/docs/change-data-capture#specify_changes_to_existing_records
+ */
+export function withChangeType(): AdaptOption {
   return (opts: AdaptOptions) => ({
     ...opts,
-    changeTypeFieldName: fieldName || 'changeType',
     addChangeType: true,
   });
 }
 
-export function withChangeSequenceNumber(fieldName?: string): AdaptOption {
+/**
+ * Add pseudocolumn `_CHANGE_SEQUENCE_NUMBER` for BigQuery Change Data Capture.
+ * Used to change behavior of ordering records with same primary key.
+ * See more: https://cloud.google.com/bigquery/docs/change-data-capture#manage_custom_ordering
+ */
+export function withChangeSequenceNumber(): AdaptOption {
   return (opts: AdaptOptions) => ({
     ...opts,
-    changeSequenceNumberFieldName: fieldName || 'changeSequenceNumber',
     addChangeSequenceNumber: true,
   });
 }

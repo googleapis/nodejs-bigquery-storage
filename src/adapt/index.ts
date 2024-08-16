@@ -19,7 +19,4 @@ export {
 
 export {convertBigQuerySchemaToStorageTableSchema} from './schema';
 
-export {
-  withChangeType,
-  withChangeSequenceNumber,
-} from './options';
+export {withChangeType, withChangeSequenceNumber} from './options';

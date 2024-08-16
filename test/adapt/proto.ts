@@ -95,8 +95,8 @@ describe('Adapt Protos', () => {
       const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
         storageSchema,
         'Test',
-        adapt.withChangeType('change'),
-        adapt.withChangeSequenceNumber('seq')
+        adapt.withChangeType(),
+        adapt.withChangeSequenceNumber()
       );
       assert.notEqual(protoDescriptor, null);
       if (!protoDescriptor) {
@@ -106,8 +106,8 @@ describe('Adapt Protos', () => {
       const raw = {
         id: 1,
         username: 'Alice',
-        change: 'INSERT',
-        seq: 'FF',
+        _CHANGE_TYPE: 'INSERT',
+        _CHANGE_SEQUENCE_NUMBER: 'FF',
       };
       const serialized = TestProto.encode(raw).finish();
       const decoded = TestProto.decode(serialized).toJSON();

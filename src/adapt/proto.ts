@@ -98,9 +98,7 @@ function convertStorageSchemaToFileDescriptorInternal(
   ...opts: AdaptOption[]
 ): FileDescriptorSet {
   let adaptOpts: AdaptOptions = {
-    changeSequenceNumberFieldName: 'changeSequenceNumber',
     addChangeSequenceNumber: false,
-    changeTypeFieldName: 'changeType',
     addChangeType: false,
   };
   opts.forEach(f => {
@@ -177,14 +175,11 @@ function convertStorageSchemaToFileDescriptorInternal(
           name: '_CHANGE_SEQUENCE_NUMBER',
           type: 'STRING',
           mode: 'REQUIRED',
-          description:
-            'pseudocolumn only accepts values, written in a fixed format written in hexadecimal, separated into sections by a forward slash',
         },
         991,
         scope,
         useProto3
       );
-      //fdp.jsonName = adaptOpts.changeSequenceNumberFieldName;
       fields.push(fdp);
     }
     if (adaptOpts.addChangeType) {
@@ -192,15 +187,12 @@ function convertStorageSchemaToFileDescriptorInternal(
         {
           name: '_CHANGE_TYPE',
           type: 'STRING',
-          mode: 'REQUIRED',          
-          description:
-            'pseudocolumn to indicate the type of change. Only accepts `INSERT`, `UPSERT` and `DELETE`',
+          mode: 'REQUIRED',
         },
         992,
         scope,
         useProto3
       );
-      fdp.jsonName = adaptOpts.changeTypeFieldName;
       fields.push(fdp);
     }
   }
@@ -330,7 +322,7 @@ function convertTableFieldSchemaToFieldDescriptorProto(
       type: pType,
       label: label,
       options: {
-        packed: shouldPackType(pType, label, useProto3),        
+        packed: shouldPackType(pType, label, useProto3),
       },
       proto3Optional: isProto3Optional(label, useProto3),
     });

@@ -836,7 +836,7 @@ describe('managedwriter.WriterClient', () => {
         adapt.convertStorageSchemaToProto2Descriptor(
           storageSchema,
           'root',
-          adapt.withChangeType('_CHANGE_TYPE')
+          adapt.withChangeType()
         );
 
       const row1 = {
