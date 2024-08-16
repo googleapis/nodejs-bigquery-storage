@@ -34,4 +34,4 @@ export {
   PendingStream,
 } from './stream_types';
 export {parseStorageErrors} from './error';
-export {setLogFunction} from './logger';
+export {setLogFunction} from '../util/logger';
