@@ -75,6 +75,45 @@ describe('Adapt Protos', () => {
       assert.deepEqual(raw, decoded);
     });
 
+    it('basic with CDC fields', () => {
+      const schema = {
+        fields: [
+          {
+            name: 'id',
+            type: 'INTEGER',
+            mode: 'NULLABLE',
+          },
+          {
+            name: 'username',
+            type: 'STRING',
+            mode: 'REQUIRED',
+          },
+        ],
+      };
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
+        storageSchema,
+        'Test',
+        adapt.withChangeType('change'),
+        adapt.withChangeSequenceNumber('seq')
+      );
+      assert.notEqual(protoDescriptor, null);
+      if (!protoDescriptor) {
+        throw Error('null proto descriptor set');
+      }
+      const TestProto = Type.fromDescriptor(protoDescriptor);
+      const raw = {
+        id: 1,
+        username: 'Alice',
+        change: 'INSERT',
+        seq: 'FF',
+      };
+      const serialized = TestProto.encode(raw).finish();
+      const decoded = TestProto.decode(serialized).toJSON();
+      assert.deepEqual(raw, decoded);
+    });
+
     it('nested struct', () => {
       const schema = {
         fields: [
