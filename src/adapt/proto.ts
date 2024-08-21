@@ -15,6 +15,7 @@
 import * as protos from '../../protos/protos';
 import {bqTypeToFieldTypeMap, convertModeToLabel} from './proto_mappings';
 import {normalizeFieldType} from './schema_mappings';
+import {AdaptOptions, AdaptOption} from './options';
 
 type TableSchema = protos.google.cloud.bigquery.storage.v1.ITableSchema;
 type TableFieldSchema =
@@ -59,12 +60,14 @@ const packedTypes: FieldDescriptorProtoType[] = [
  */
 export function convertStorageSchemaToProto2Descriptor(
   schema: TableSchema,
-  scope: string
+  scope: string,
+  ...opts: AdaptOption[]
 ): DescriptorProto {
   const fds = convertStorageSchemaToFileDescriptorInternal(
     schema,
     scope,
-    false
+    false,
+    ...opts
   );
   return normalizeDescriptorSet(fds);
 }
@@ -76,17 +79,32 @@ export function convertStorageSchemaToProto2Descriptor(
  */
 export function convertStorageSchemaToProto3Descriptor(
   schema: TableSchema,
-  scope: string
+  scope: string,
+  ...opts: AdaptOption[]
 ): DescriptorProto {
-  const fds = convertStorageSchemaToFileDescriptorInternal(schema, scope, true);
+  const fds = convertStorageSchemaToFileDescriptorInternal(
+    schema,
+    scope,
+    true,
+    ...opts
+  );
   return normalizeDescriptorSet(fds);
 }
 
 function convertStorageSchemaToFileDescriptorInternal(
   schema: TableSchema,
   scope: string,
-  useProto3: boolean
+  useProto3: boolean,
+  ...opts: AdaptOption[]
 ): FileDescriptorSet {
+  let adaptOpts: AdaptOptions = {
+    addChangeSequenceNumber: false,
+    addChangeType: false,
+  };
+  opts.forEach(f => {
+    adaptOpts = f(adaptOpts);
+  });
+
   let fNumber = 0;
   const fields: FieldDescriptorProto[] = [];
   const deps = new Map<string, FileDescriptorProto>();
@@ -144,6 +162,35 @@ function convertStorageSchemaToFileDescriptorInternal(
         field,
         fNumber,
         currentScope,
+        useProto3
+      );
+      fields.push(fdp);
+    }
+  }
+
+  if (adaptOpts) {
+    if (adaptOpts.addChangeSequenceNumber) {
+      const fdp = convertTableFieldSchemaToFieldDescriptorProto(
+        {
+          name: '_CHANGE_SEQUENCE_NUMBER',
+          type: 'STRING',
+          mode: 'REQUIRED',
+        },
+        991,
+        scope,
+        useProto3
+      );
+      fields.push(fdp);
+    }
+    if (adaptOpts.addChangeType) {
+      const fdp = convertTableFieldSchemaToFieldDescriptorProto(
+        {
+          name: '_CHANGE_TYPE',
+          type: 'STRING',
+          mode: 'REQUIRED',
+        },
+        992,
+        scope,
         useProto3
       );
       fields.push(fdp);
