@@ -174,7 +174,7 @@ describe('writeClient', () => {
     projectId = table.metadata.tableReference.projectId;
 
     const output = execSync(
-      `node append_rows_json_writer_commited ${projectId} ${datasetId} ${tableId}`
+      `node append_rows_json_writer_committed ${projectId} ${datasetId} ${tableId}`
     );
 
     assert.match(output, /Stream created:/);
@@ -241,10 +241,6 @@ describe('writeClient', () => {
     it('adapts BQ Schema to Proto descriptor', async () => {
       return testAppendRowsMultipleType('append_rows_table_to_proto2');
     });
-
-    it('using JSON Writer ', async () => {
-      return testAppendRowsMultipleType('append_rows_table_to_proto2');
-    });
   });
 
   async function testAppendRowsMultipleType(testFile) {
@@ -273,6 +269,13 @@ describe('writeClient', () => {
         mode: 'REPEATED',
         fields: [{name: 'sub_int_col', type: 'INTEGER'}],
       },
+      {
+        name: 'range_col',
+        type: 'RANGE',
+        rangeElementType: {
+          type: 'TIMESTAMP',
+        },
+      },
       {name: 'row_num', type: 'INTEGER', mode: 'REQUIRED'},
     ];
 
@@ -288,7 +291,7 @@ describe('writeClient', () => {
       `node ${testFile} ${projectId} ${datasetId} ${tableId}`
     );
     assert.match(output, /Stream created:/);
-    assert.match(output, /Row count: 15/);
+    assert.match(output, /Row count: 16/);
 
     let [rows] = await table.query(
       `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
@@ -308,7 +311,7 @@ describe('writeClient', () => {
         });
     });
 
-    assert.strictEqual(rows.length, 15);
+    assert.strictEqual(rows.length, 16);
     assert.deepInclude(rows, [
       {
         bool_col: true,
@@ -327,7 +330,7 @@ describe('writeClient', () => {
     assert.deepInclude(rows, [{float64_col: 987.6539916992188}, {row_num: 4}]);
     assert.deepInclude(rows, [{int64_col: 321}, {row_num: 5}]);
     assert.deepInclude(rows, [{string_col: 'octavia'}, {row_num: 6}]);
-    assert.deepInclude(rows, [{date_col: '5071-10-07'}, {row_num: 7}]);
+    assert.deepInclude(rows, [{date_col: '2019-02-07'}, {row_num: 7}]);
     assert.deepInclude(rows, [
       {datetime_col: '2019-02-17T11:24:00'},
       {row_num: 8},
@@ -340,7 +343,7 @@ describe('writeClient', () => {
     ]);
     assert.deepInclude(rows, [{time_col: '18:00:00'}, {row_num: 11}]);
     assert.deepInclude(rows, [
-      {timestamp_col: '1970-01-20T00:01:40.186564000Z'},
+      {timestamp_col: '2022-01-09T03:49:46.564Z'},
       {row_num: 12},
     ]);
     assert.deepInclude(rows, [{int64_list: [1999, 2001]}, {row_num: 13}]);
@@ -348,6 +351,15 @@ describe('writeClient', () => {
     assert.deepInclude(rows, [
       {struct_list: [{sub_int_col: 100}, {sub_int_col: 101}]},
       {row_num: 15},
+    ]);
+    assert.deepInclude(rows, [
+      {
+        range_col: {
+          start: '2022-01-09T03:49:46.564Z',
+          end: '2022-01-09T04:49:46.564Z',
+        },
+      },
+      {row_num: 16},
     ]);
   }
 

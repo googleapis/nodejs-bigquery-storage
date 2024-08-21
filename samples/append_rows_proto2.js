@@ -56,14 +56,15 @@ function main(
     const writeClient = new WriterClient({projectId});
 
     try {
-      // Append data to the given stream.
-      const connection = await writeClient.createStreamConnection({
+      const streamId = await writeClient.createWriteStream({
         streamType,
         destinationTable,
       });
-
-      const streamId = connection.getStreamId();
       console.log(`Stream created: ${streamId}`);
+
+      const connection = await writeClient.createStreamConnection({
+        streamId,
+      });
 
       const writer = new Writer({
         connection,
@@ -136,9 +137,10 @@ function main(
       serializedRows = [];
 
       // Row 7
+      const days = new Date('2019-02-07').getTime() / (1000 * 60 * 60 * 24);
       row = {
         rowNum: 7,
-        dateCol: 1132896,
+        dateCol: days, // The value is the number of days since the Unix epoch (1970-01-01)
       };
       serializedRows.push(SampleData.encode(row).finish());
 
@@ -172,10 +174,10 @@ function main(
       serializedRows.push(SampleData.encode(row).finish());
 
       // Row 12
-      const timestamp = 1641700186564;
+      const timestamp = new Date('2022-01-09T03:49:46.564Z').getTime();
       row = {
         rowNum: 12,
-        timestampCol: timestamp,
+        timestampCol: timestamp * 1000, // The value is given in microseconds since the Unix epoch (1970-01-01)
       };
       serializedRows.push(SampleData.encode(row).finish());
 
@@ -208,6 +210,18 @@ function main(
       row = {
         rowNum: 15,
         structList: [{subIntCol: 100}, {subIntCol: 101}],
+      };
+      serializedRows.push(SampleData.encode(row).finish());
+
+      // Row 16
+      const timestampStart = new Date('2022-01-09T03:49:46.564Z').getTime();
+      const timestampEnd = new Date('2022-01-09T04:49:46.564Z').getTime();
+      row = {
+        rowNum: 16,
+        rangeCol: {
+          start: timestampStart * 1000,
+          end: timestampEnd * 1000,
+        },
       };
       serializedRows.push(SampleData.encode(row).finish());
 

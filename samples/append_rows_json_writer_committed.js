@@ -19,12 +19,11 @@ function main(
   datasetId = 'my_dataset',
   tableId = 'my_table'
 ) {
-  // [START bigquerystorage_jsonstreamwriter_commited]
+  // [START bigquerystorage_jsonstreamwriter_committed]
   const {adapt, managedwriter} = require('@google-cloud/bigquery-storage');
   const {WriterClient, JSONWriter} = managedwriter;
-  const {BigQuery} = require('@google-cloud/bigquery');
 
-  async function appendJSONRowsCommitedStream() {
+  async function appendJSONRowsCommittedStream() {
     /**
      * TODO(developer): Uncomment the following lines before running the sample.
      */
@@ -35,27 +34,23 @@ function main(
     const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
     const streamType = managedwriter.CommittedStream;
     const writeClient = new WriterClient({projectId});
-    const bigquery = new BigQuery({projectId: projectId});
 
     try {
-      const dataset = bigquery.dataset(datasetId);
-      const table = await dataset.table(tableId);
-      const [metadata] = await table.getMetadata();
-      const {schema} = metadata;
-      const storageSchema =
-        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const writeStream = await writeClient.createWriteStreamFullResponse({
+        streamType,
+        destinationTable,
+      });
+      const streamId = writeStream.name;
+      console.log(`Stream created: ${streamId}`);
+
       const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
-        storageSchema,
+        writeStream.tableSchema,
         'root'
       );
 
       const connection = await writeClient.createStreamConnection({
-        streamType,
-        destinationTable,
+        streamId,
       });
-
-      const streamId = connection.getStreamId();
-      console.log(`Stream created: ${streamId}`);
 
       const writer = new JSONWriter({
         streamId,
@@ -104,21 +99,14 @@ function main(
 
       const {rowCount} = await connection.finalize();
       console.log(`Row count: ${rowCount}`);
-
-      const response = await writeClient.batchCommitWriteStream({
-        parent: destinationTable,
-        writeStreams: [streamId],
-      });
-
-      console.log(response);
     } catch (err) {
       console.log(err);
     } finally {
       writeClient.close();
     }
   }
-  // [END bigquerystorage_jsonstreamwriter_commited]
-  appendJSONRowsCommitedStream();
+  // [END bigquerystorage_jsonstreamwriter_committed]
+  appendJSONRowsCommittedStream();
 }
 process.on('unhandledRejection', err => {
   console.error(err.message);

@@ -58,6 +58,7 @@ describe('Adapt Schemas', () => {
         ],
       });
     });
+
     it('arrays', () => {
       const schema = {
         fields: [
@@ -98,6 +99,7 @@ describe('Adapt Schemas', () => {
         ],
       });
     });
+
     it('nested structs', () => {
       const schema = {
         fields: [
@@ -148,6 +150,68 @@ describe('Adapt Schemas', () => {
             description: 'second field',
             type: TableFieldSchema.Type.STRING,
             mode: TableFieldSchema.Mode.NULLABLE,
+          },
+        ],
+      });
+    });
+
+    it('range', () => {
+      const schema = {
+        fields: [
+          {
+            name: 'range_ts',
+            type: 'RANGE',
+            rangeElementType: {
+              type: 'TIMESTAMP',
+            },
+          },
+          {
+            name: 'range_dt',
+            type: 'RANGE',
+            rangeElementType: {
+              type: 'DATETIME',
+            },
+          },
+          {
+            name: 'range_d',
+            type: 'RANGE',
+            rangeElementType: {
+              type: 'DATE',
+            },
+          },
+        ],
+      };
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      assert.notEqual(storageSchema, null);
+      if (!storageSchema) {
+        throw Error('null storage schema');
+      }
+      assert.deepEqual(storageSchema, {
+        fields: [
+          {
+            name: 'range_ts',
+            type: TableFieldSchema.Type.RANGE,
+            mode: TableFieldSchema.Mode.NULLABLE,
+            rangeElementType: {
+              type: TableFieldSchema.Type.TIMESTAMP,
+            },
+          },
+          {
+            name: 'range_dt',
+            type: TableFieldSchema.Type.RANGE,
+            mode: TableFieldSchema.Mode.NULLABLE,
+            rangeElementType: {
+              type: TableFieldSchema.Type.DATETIME,
+            },
+          },
+          {
+            name: 'range_d',
+            type: TableFieldSchema.Type.RANGE,
+            mode: TableFieldSchema.Mode.NULLABLE,
+            rangeElementType: {
+              type: TableFieldSchema.Type.DATE,
+            },
           },
         ],
       });

@@ -1,4 +1,4 @@
-/*eslint-disable node/no-extraneous-require, eqeqeq, block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
+/*eslint-disable n/no-extraneous-require, eqeqeq, block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
 'use strict';
 
 var $protobuf = require('protobufjs/minimal');
@@ -224,8 +224,8 @@ $root.CustomerRecord = (function () {
           options.longs === String
             ? long.toString()
             : options.longs === Number
-            ? long.toNumber()
-            : long;
+              ? long.toNumber()
+              : long;
       } else object.rowNum = options.longs === String ? '0' : 0;
     }
     if (message.customerName != null && message.hasOwnProperty('customerName'))
@@ -239,11 +239,11 @@ $root.CustomerRecord = (function () {
           options.longs === String
             ? $util.Long.prototype.toString.call(message.rowNum)
             : options.longs === Number
-            ? new $util.LongBits(
-                message.rowNum.low >>> 0,
-                message.rowNum.high >>> 0
-              ).toNumber()
-            : message.rowNum;
+              ? new $util.LongBits(
+                  message.rowNum.low >>> 0,
+                  message.rowNum.high >>> 0
+                ).toNumber()
+              : message.rowNum;
     return object;
   };
 

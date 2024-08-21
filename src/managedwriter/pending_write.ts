@@ -28,18 +28,41 @@ type AppendRowRequest =
 export class PendingWrite {
   private request: AppendRowRequest;
   private response?: AppendRowsResponse;
+  private attempts: number;
   private promise: Promise<AppendRowsResponse>;
   private resolveFunc?: (response: AppendRowsResponse) => void;
   private rejectFunc?: (reason?: protos.google.rpc.IStatus) => void;
 
   constructor(request: AppendRowRequest) {
     this.request = request;
+    this.attempts = 0;
     this.promise = new Promise((resolve, reject) => {
       this.resolveFunc = resolve;
       this.rejectFunc = reject;
     });
   }
 
+  /**
+   * Increase number of attempts and return current value.
+   *
+   * @private
+   * @internal
+   * @returns {number} current number of attempts
+   */
+  _increaseAttempts(): number {
+    return this.attempts++;
+  }
+
+  /**
+   * Resolve pending write with error or AppendRowResponse.
+   * This resolves the promise accessed via GetResult()
+   *
+   * @see GetResult
+   *
+   * @private
+   * @internal
+   * @returns {number} current number of attempts
+   */
   _markDone(err: Error | null, response?: AppendRowsResponse) {
     if (err) {
       this.rejectFunc && this.rejectFunc(err);

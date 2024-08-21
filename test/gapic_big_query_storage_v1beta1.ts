@@ -1,4 +1,4 @@
-// Copyright 2023 Google LLC
+// Copyright 2024 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -89,16 +89,99 @@ function stubServerStreamingCall<ResponseType>(
 
 describe('v1beta1.BigQueryStorageClient', () => {
   describe('Common methods', () => {
-    it('has servicePath', () => {
-      const servicePath =
-        bigquerystorageModule.v1beta1.BigQueryStorageClient.servicePath;
-      assert(servicePath);
+    it('has apiEndpoint', () => {
+      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient();
+      const apiEndpoint = client.apiEndpoint;
+      assert.strictEqual(apiEndpoint, 'bigquerystorage.googleapis.com');
     });
 
-    it('has apiEndpoint', () => {
-      const apiEndpoint =
-        bigquerystorageModule.v1beta1.BigQueryStorageClient.apiEndpoint;
-      assert(apiEndpoint);
+    it('has universeDomain', () => {
+      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient();
+      const universeDomain = client.universeDomain;
+      assert.strictEqual(universeDomain, 'googleapis.com');
+    });
+
+    if (
+      typeof process === 'object' &&
+      typeof process.emitWarning === 'function'
+    ) {
+      it('throws DeprecationWarning if static servicePath is used', () => {
+        const stub = sinon.stub(process, 'emitWarning');
+        const servicePath =
+          bigquerystorageModule.v1beta1.BigQueryStorageClient.servicePath;
+        assert.strictEqual(servicePath, 'bigquerystorage.googleapis.com');
+        assert(stub.called);
+        stub.restore();
+      });
+
+      it('throws DeprecationWarning if static apiEndpoint is used', () => {
+        const stub = sinon.stub(process, 'emitWarning');
+        const apiEndpoint =
+          bigquerystorageModule.v1beta1.BigQueryStorageClient.apiEndpoint;
+        assert.strictEqual(apiEndpoint, 'bigquerystorage.googleapis.com');
+        assert(stub.called);
+        stub.restore();
+      });
+    }
+    it('sets apiEndpoint according to universe domain camelCase', () => {
+      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+        universeDomain: 'example.com',
+      });
+      const servicePath = client.apiEndpoint;
+      assert.strictEqual(servicePath, 'bigquerystorage.example.com');
+    });
+
+    it('sets apiEndpoint according to universe domain snakeCase', () => {
+      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+        universe_domain: 'example.com',
+      });
+      const servicePath = client.apiEndpoint;
+      assert.strictEqual(servicePath, 'bigquerystorage.example.com');
+    });
+
+    if (typeof process === 'object' && 'env' in process) {
+      describe('GOOGLE_CLOUD_UNIVERSE_DOMAIN environment variable', () => {
+        it('sets apiEndpoint from environment variable', () => {
+          const saved = process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'];
+          process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'] = 'example.com';
+          const client =
+            new bigquerystorageModule.v1beta1.BigQueryStorageClient();
+          const servicePath = client.apiEndpoint;
+          assert.strictEqual(servicePath, 'bigquerystorage.example.com');
+          if (saved) {
+            process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'] = saved;
+          } else {
+            delete process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'];
+          }
+        });
+
+        it('value configured in code has priority over environment variable', () => {
+          const saved = process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'];
+          process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'] = 'example.com';
+          const client =
+            new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+              universeDomain: 'configured.example.com',
+            });
+          const servicePath = client.apiEndpoint;
+          assert.strictEqual(
+            servicePath,
+            'bigquerystorage.configured.example.com'
+          );
+          if (saved) {
+            process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'] = saved;
+          } else {
+            delete process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'];
+          }
+        });
+      });
+    }
+    it('does not allow setting both universeDomain and universe_domain', () => {
+      assert.throws(() => {
+        new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+          universe_domain: 'example.com',
+          universeDomain: 'example.net',
+        });
+      });
     });
 
     it('has port', () => {
@@ -802,6 +885,52 @@ describe('v1beta1.BigQueryStorageClient', () => {
       assert(actualHeaderRequestParams.includes(expectedHeaderRequestParams));
     });
 
+    it('invokes readRows without error and gaxServerStreamingRetries enabled', async () => {
+      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+        gaxServerStreamingRetries: true,
+      });
+      client.initialize();
+      const request = generateSampleMessage(
+        new protos.google.cloud.bigquery.storage.v1beta1.ReadRowsRequest()
+      );
+      request.readPosition ??= {};
+      request.readPosition.stream ??= {};
+      const defaultValue1 = getTypeDefaultValue(
+        '.google.cloud.bigquery.storage.v1beta1.ReadRowsRequest',
+        ['readPosition', 'stream', 'name']
+      );
+      request.readPosition.stream.name = defaultValue1;
+      const expectedHeaderRequestParams = `read_position.stream.name=${defaultValue1}`;
+      const expectedResponse = generateSampleMessage(
+        new protos.google.cloud.bigquery.storage.v1beta1.ReadRowsResponse()
+      );
+      client.innerApiCalls.readRows = stubServerStreamingCall(expectedResponse);
+      const stream = client.readRows(request);
+      const promise = new Promise((resolve, reject) => {
+        stream.on(
+          'data',
+          (
+            response: protos.google.cloud.bigquery.storage.v1beta1.ReadRowsResponse
+          ) => {
+            resolve(response);
+          }
+        );
+        stream.on('error', (err: Error) => {
+          reject(err);
+        });
+      });
+      const response = await promise;
+      assert.deepStrictEqual(response, expectedResponse);
+      const actualRequest = (
+        client.innerApiCalls.readRows as SinonStub
+      ).getCall(0).args[0];
+      assert.deepStrictEqual(actualRequest, request);
+      const actualHeaderRequestParams = (
+        client.innerApiCalls.readRows as SinonStub
+      ).getCall(0).args[1].otherArgs.headers['x-goog-request-params'];
+      assert(actualHeaderRequestParams.includes(expectedHeaderRequestParams));
+    });
+
     it('invokes readRows with error', async () => {
       const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
         credentials: {client_email: 'bogus', private_key: 'bogus'},
@@ -884,6 +1013,12 @@ describe('v1beta1.BigQueryStorageClient', () => {
         });
       });
       await assert.rejects(promise, expectedError);
+    });
+    it('should create a client with gaxServerStreamingRetries enabled', () => {
+      const client = new bigquerystorageModule.v1beta1.BigQueryStorageClient({
+        gaxServerStreamingRetries: true,
+      });
+      assert(client);
     });
   });
 

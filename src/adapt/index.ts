@@ -18,3 +18,5 @@ export {
 } from './proto';
 
 export {convertBigQuerySchemaToStorageTableSchema} from './schema';
+
+export {withChangeType, withChangeSequenceNumber} from './options';

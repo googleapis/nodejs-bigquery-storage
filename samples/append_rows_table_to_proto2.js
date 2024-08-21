@@ -22,7 +22,6 @@ function main(
   // [START bigquerystorage_jsonstreamwriter_pending]
   const {adapt, managedwriter} = require('@google-cloud/bigquery-storage');
   const {WriterClient, JSONWriter} = managedwriter;
-  const {BigQuery} = require('@google-cloud/bigquery');
 
   async function appendRowsPendingStream() {
     /**
@@ -35,30 +34,25 @@ function main(
     const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
     const streamType = managedwriter.PendingStream;
     const writeClient = new WriterClient({projectId: projectId});
-    const bigquery = new BigQuery({projectId: projectId});
 
     try {
-      const dataset = bigquery.dataset(datasetId);
-      const table = await dataset.table(tableId);
-      const [metadata] = await table.getMetadata();
-      const {schema} = metadata;
-      const storageSchema =
-        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const writeStream = await writeClient.createWriteStreamFullResponse({
+        streamType,
+        destinationTable,
+      });
+      const streamId = writeStream.name;
+      console.log(`Stream created: ${streamId}`);
+
       const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
-        storageSchema,
+        writeStream.tableSchema,
         'root'
       );
 
       const connection = await writeClient.createStreamConnection({
-        streamType,
-        destinationTable,
+        streamId,
       });
 
-      const streamId = connection.getStreamId();
-      console.log(`Stream created: ${streamId}`);
-
       const writer = new JSONWriter({
-        streamId,
         connection,
         protoDescriptor,
       });
@@ -131,14 +125,14 @@ function main(
       // Row 7
       row = {
         row_num: 7,
-        date_col: 1132896,
+        date_col: new Date('2019-02-07'),
       };
       rows.push(row);
 
       // Row 8
       row = {
         row_num: 8,
-        datetime_col: bigquery.datetime('2019-02-17 11:24:00.000').value, // BigQuery civil time
+        datetime_col: new Date('2019-02-17T11:24:00.000Z'),
       };
       rows.push(row);
 
@@ -152,7 +146,7 @@ function main(
       // Row 10
       row = {
         row_num: 10,
-        numeric_col: '123456',
+        numeric_col: 123456,
         bignumeric_col: '99999999999999999999999999999.999999999',
       };
       rows.push(row);
@@ -167,7 +161,7 @@ function main(
       // Row 12
       row = {
         row_num: 12,
-        timestamp_col: 1641700186564,
+        timestamp_col: new Date('2022-01-09T03:49:46.564Z'),
       };
       rows.push(row);
 
@@ -200,6 +194,16 @@ function main(
       row = {
         row_num: 15,
         struct_list: [{sub_int_col: 100}, {sub_int_col: 101}],
+      };
+      rows.push(row);
+
+      // Row 16
+      row = {
+        row_num: 16,
+        range_col: {
+          start: new Date('2022-01-09T03:49:46.564Z'),
+          end: new Date('2022-01-09T04:49:46.564Z'),
+        },
       };
       rows.push(row);
 

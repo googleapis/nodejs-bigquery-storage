@@ -22,7 +22,6 @@ function main(
   // [START bigquerystorage_append_rows_buffered]
   const {adapt, managedwriter} = require('@google-cloud/bigquery-storage');
   const {WriterClient, JSONWriter} = managedwriter;
-  const {BigQuery} = require('@google-cloud/bigquery');
 
   async function appendRowsBuffered() {
     /**
@@ -35,27 +34,23 @@ function main(
     const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
     const streamType = managedwriter.BufferedStream;
     const writeClient = new WriterClient({projectId: projectId});
-    const bigquery = new BigQuery({projectId: projectId});
 
     try {
-      const dataset = bigquery.dataset(datasetId);
-      const table = await dataset.table(tableId);
-      const [metadata] = await table.getMetadata();
-      const {schema} = metadata;
-      const storageSchema =
-        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const writeStream = await writeClient.createWriteStreamFullResponse({
+        streamType,
+        destinationTable,
+      });
+      const streamId = writeStream.name;
+      console.log(`Stream created: ${streamId}`);
+
       const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
-        storageSchema,
+        writeStream.tableSchema,
         'root'
       );
 
       const connection = await writeClient.createStreamConnection({
-        streamType,
-        destinationTable,
+        streamId,
       });
-
-      const streamId = connection.getStreamId();
-      console.log(`Stream created: ${streamId}`);
 
       const writer = new JSONWriter({
         streamId,
