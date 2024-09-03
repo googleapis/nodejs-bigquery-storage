@@ -112,7 +112,8 @@ export class ReadStream {
       this.reconnect();
       return;
     }
-    this._readStream?.emit('error', err);
+    this._readStream?.destroy(err);
+    this._readStream = null;
   };
 
   private isRetryableError(err?: gax.GoogleError | null): boolean {

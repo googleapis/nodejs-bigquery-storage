@@ -330,6 +330,40 @@ describe('reader.ReaderClient', () => {
         client.close();
       }
     });
+
+    it('should allow to read a table with long running query', async () => {
+      bqReadClient.initialize();
+      const client = new ReadClient();
+      client.setClient(bqReadClient);
+
+      try {
+        const genTableId = generateUuid();
+        await bigquery.query(
+          `CREATE TABLE ${projectId}.${datasetId}.${genTableId} AS SELECT num FROM UNNEST(GENERATE_ARRAY(1,1000000)) as num`
+        );
+        const reader = await client.createTableReader({
+          table: {
+            projectId,
+            datasetId,
+            tableId: genTableId,
+          },
+        });
+
+        const [rows, session, response] = await reader.getRows();
+
+        assert.notEqual(session, null);
+        assert.equal(session?.dataFormat, ArrowFormat);
+
+        assert.notEqual(response.totalRows, null); // estimated row count
+        assert.equal(response.rows?.length, 1000000);
+
+        assert.equal(rows.length, 1000000);
+
+        reader.close();
+      } finally {
+        client.close();
+      }
+    }).timeout(30 * 1000);
   });
 
   describe('Error Scenarios', () => {
@@ -405,8 +439,6 @@ describe('reader.ReaderClient', () => {
         conn.emit('close');
 
         assert.equal(reconnectedCalled, true);
-
-        reader.close();
       } finally {
         client.close();
       }
