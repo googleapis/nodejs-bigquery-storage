@@ -127,6 +127,11 @@ describe('Adapt Protos', () => {
             type: 'STRING',
             mode: 'REQUIRED',
           },
+          {
+            name: 'foo_👍',
+            type: 'STRING',
+            mode: 'REQUIRED',
+          },
         ],
       };
       const storageSchema =
@@ -144,7 +149,7 @@ describe('Adapt Protos', () => {
         name: 'Flexible',
         field: [
           {
-            name: 'field1',
+            name: 'field_54m55Yil44Kz44Op44Og',
             number: 1,
             label: 'LABEL_OPTIONAL',
             type: 'TYPE_INT64',
@@ -153,7 +158,7 @@ describe('Adapt Protos', () => {
             },
           },
           {
-            name: 'field_name',
+            name: 'field_ZmllbGQtbmFtZQ',
             number: 2,
             label: 'LABEL_REQUIRED',
             type: 'TYPE_STRING',
@@ -161,13 +166,23 @@ describe('Adapt Protos', () => {
               '.google.cloud.bigquery.storage.v1.columnName': 'field-name',
             },
           },
+          {
+            name: 'field_Zm9vXCfkY0',
+            number: 3,
+            label: 'LABEL_REQUIRED',
+            type: 'TYPE_STRING',
+            options: {
+              '.google.cloud.bigquery.storage.v1.columnName': 'foo_👍',
+            },
+          },
         ],
       });
 
       const FlexibleProto = Type.fromDescriptor(protoDescriptor);
       const raw = {
-        field1: 1,
-        field_name: 'test',
+        field_54m55Yil44Kz44Op44Og: 1,
+        field_ZmllbGQtbmFtZQ: 'test',
+        field_Zm9vXCfkY0: 'foo',
       };
       const serialized = FlexibleProto.encode(raw).finish();
       const decoded = FlexibleProto.decode(serialized).toJSON();

@@ -313,7 +313,7 @@ function convertTableFieldSchemaToFieldDescriptorProto(
   }
   const isNameCompatible = isProtoCompatible(name);
   if (!isNameCompatible) {
-    name = generatePlaceholderFieldName(name, fNumber);
+    name = generatePlaceholderFieldName(name);
   }
   const type = normalizeFieldType(field);
   if (!type) {
@@ -358,11 +358,13 @@ function convertTableFieldSchemaToFieldDescriptorProto(
 }
 
 /** Checks if the field name is compatible with proto field naming convention.
+ *
+ * @internal
  * @param fieldName name for the field
  * @return true if the field name is comptaible with proto naming convention,
  *    otherwise, returns false.
  */
-function isProtoCompatible(fieldName: string): boolean {
+export function isProtoCompatible(fieldName: string): boolean {
   if (fieldName.length < 1) {
     return false;
   }
@@ -390,21 +392,20 @@ function isProtoCompatible(fieldName: string): boolean {
 /** Generates a placeholder name that consists of a sanitized field name with only valid characters.
  * If the field doesn't have any valid characters, we generate a placeholder name using the field number.
  * We replace all dashes with underscores as they are not allowed for proto field names.
+ *
+ * @internal
  * @param fieldName table field name
  * @param fNumber proto field number
  * @return the generated placeholder field name
  */
-function generatePlaceholderFieldName(
-  fieldName: string,
-  fNumber: number
-): string {
-  let sanitizedFieldName = fieldName
-    .replace(/[^a-zA-Z0-9-_]/g, '')
-    .replace(/-/g, '_');
-  if (sanitizedFieldName.length === 0) {
-    sanitizedFieldName = `field${fNumber}`;
-  }
-  return sanitizedFieldName;
+export function generatePlaceholderFieldName(fieldName: string): string {
+  return (
+    'field_' +
+    Buffer.from(fieldName)
+      .toString('base64')
+      .replace(/[^a-zA-Z0-9-_]/g, '')
+      .replace(/-/g, '_')
+  );
 }
 
 function shouldPackType(

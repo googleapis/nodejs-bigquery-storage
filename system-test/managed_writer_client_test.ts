@@ -956,15 +956,15 @@ describe('managedwriter.WriterClient', () => {
         adapt.convertStorageSchemaToProto2Descriptor(storageSchema, 'root');
 
       const row1 = {
-        field1: 1,
+        特別コラム: 1,
         second: 'second_value',
-        third_column: 'another_value',
+        'third-column': 'another_value',
       };
 
       const row2 = {
-        field1: 2,
+        特別コラム: 2,
         second: 'another_one',
-        third_column: 'yet_another',
+        'third-column': 'yet_another',
       };
 
       try {
