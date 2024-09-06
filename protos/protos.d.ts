@@ -1649,9 +1649,6 @@ export namespace google {
                         /** ReadRowsResponse schema. */
                         public schema?: ("avroSchema"|"arrowSchema");
 
-                        /** ReadRowsResponse _uncompressedByteSize. */
-                        public _uncompressedByteSize?: "uncompressedByteSize";
-
                         /**
                          * Creates a new ReadRowsResponse instance using the specified properties.
                          * @param [properties] Properties to set
@@ -3787,12 +3784,6 @@ export namespace google {
 
                             /** TableReadOptions outputFormatSerializationOptions. */
                             public outputFormatSerializationOptions?: ("arrowSerializationOptions"|"avroSerializationOptions");
-
-                            /** TableReadOptions _samplePercentage. */
-                            public _samplePercentage?: "samplePercentage";
-
-                            /** TableReadOptions _responseCompressionCodec. */
-                            public _responseCompressionCodec?: "responseCompressionCodec";
 
                             /**
                              * Creates a new TableReadOptions instance using the specified properties.
