@@ -114,6 +114,66 @@ describe('Adapt Protos', () => {
       assert.deepEqual(raw, decoded);
     });
 
+    it('basic with Flexible column fields', () => {
+      const schema = {
+        fields: [
+          {
+            name: '特別コラム',
+            type: 'INTEGER',
+            mode: 'NULLABLE',
+          },
+          {
+            name: 'field-name',
+            type: 'STRING',
+            mode: 'REQUIRED',
+          },
+        ],
+      };
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
+        storageSchema,
+        'Flexible'
+      );
+      assert.notEqual(protoDescriptor, null);
+
+      if (!protoDescriptor) {
+        throw Error('null proto descriptor set');
+      }
+      assert.deepEqual(JSON.parse(JSON.stringify(protoDescriptor)), {
+        name: 'Flexible',
+        field: [
+          {
+            name: 'field1',
+            number: 1,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_INT64',
+            options: {
+              '.google.cloud.bigquery.storage.v1.columnName': '特別コラム',
+            },
+          },
+          {
+            name: 'field_name',
+            number: 2,
+            label: 'LABEL_REQUIRED',
+            type: 'TYPE_STRING',
+            options: {
+              '.google.cloud.bigquery.storage.v1.columnName': 'field-name',
+            },
+          },
+        ],
+      });
+
+      const FlexibleProto = Type.fromDescriptor(protoDescriptor);
+      const raw = {
+        field1: 1,
+        field_name: 'test',
+      };
+      const serialized = FlexibleProto.encode(raw).finish();
+      const decoded = FlexibleProto.decode(serialized).toJSON();
+      assert.deepEqual(raw, decoded);
+    });
+
     it('nested struct', () => {
       const schema = {
         fields: [
