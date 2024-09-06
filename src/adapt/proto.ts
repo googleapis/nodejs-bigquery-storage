@@ -367,7 +367,7 @@ function isProtoCompatible(fieldName: string): boolean {
     return false;
   }
   const ch = fieldName.charAt(0);
-  if (!((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '_')) {
+  if (!((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch === '_')) {
     return false;
   }
   for (let i = 1; i < fieldName.length; i++) {
@@ -376,7 +376,7 @@ function isProtoCompatible(fieldName: string): boolean {
       !(
         (ch >= 'a' && ch <= 'z') ||
         (ch >= 'A' && ch <= 'Z') ||
-        ch == '_' ||
+        ch === '_' ||
         (ch >= '0' && ch <= '9')
       )
     ) {
