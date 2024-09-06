@@ -795,6 +795,131 @@ describe('managedwriter.WriterClient', () => {
         client.close();
       }
     }).timeout(30 * 1000);
+
+    it('Change data capture (CDC)', async () => {
+      bqWriteClient.initialize();
+      const client = new WriterClient();
+      client.setClient(bqWriteClient);
+
+      const schema: TableSchema = {
+        fields: [
+          {
+            name: 'id',
+            type: 'INTEGER',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'username',
+            type: 'STRING',
+            mode: 'REQUIRED',
+          },
+        ],
+      };
+      const [table] = await bigquery
+        .dataset(datasetId)
+        .createTable(tableId + '_cdc', {
+          schema,
+          clustering: {
+            fields: ['id'],
+          },
+          tableConstraints: {
+            primaryKey: {
+              columns: ['id'],
+            },
+          },
+        });
+      const parent = `projects/${projectId}/datasets/${datasetId}/tables/${table.id}`;
+
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const protoDescriptor: DescriptorProto =
+        adapt.convertStorageSchemaToProto2Descriptor(
+          storageSchema,
+          'root',
+          adapt.withChangeType()
+        );
+
+      const row1 = {
+        id: 1,
+        username: 'Alice',
+        _CHANGE_TYPE: 'INSERT',
+      };
+
+      const row2 = {
+        id: 2,
+        username: 'Bob',
+        _CHANGE_TYPE: 'INSERT',
+      };
+
+      try {
+        const insertConn = await client.createStreamConnection({
+          streamId: managedwriter.DefaultStream,
+          destinationTable: parent,
+        });
+
+        const writer = new JSONWriter({
+          connection: insertConn,
+          protoDescriptor,
+        });
+
+        let pw = writer.appendRows([row1, row2]);
+        let result = await pw.getResult();
+
+        let [rows] = await bigquery.query(
+          `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\` order by id`
+        );
+        assert.strictEqual(rows.length, 2);
+
+        const updaterConn = await client.createStreamConnection({
+          streamId: managedwriter.DefaultStream,
+          destinationTable: parent,
+        });
+
+        const updater = new JSONWriter({
+          connection: updaterConn,
+          protoDescriptor,
+        });
+
+        // Change Alice and send Charles
+        row1.username = 'Alice in Wonderlands';
+        row1._CHANGE_TYPE = 'UPSERT';
+
+        const row3 = {
+          id: 3,
+          username: 'Charles',
+          _CHANGE_TYPE: 'UPSERT',
+        };
+
+        pw = updater.appendRows([row1, row3]);
+        result = await pw.getResult();
+
+        [rows] = await bigquery.query(
+          `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\` order by id`
+        );
+        assert.strictEqual(rows.length, 3);
+
+        // Remove Bob
+        row2._CHANGE_TYPE = 'DELETE';
+
+        pw = updater.appendRows([row2]);
+        result = await pw.getResult();
+
+        [rows] = await bigquery.query(
+          `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\` order by id`
+        );
+        assert.strictEqual(rows.length, 2);
+
+        assert.deepStrictEqual(rows, [
+          {id: 1, username: 'Alice in Wonderlands'},
+          {id: 3, username: 'Charles'},
+        ]);
+
+        writer.close();
+        updater.close();
+      } finally {
+        client.close();
+      }
+    });
   });
 
   it('should fill default values when MissingValuesInterpretation is set', async () => {
