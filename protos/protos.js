@@ -3510,12 +3510,7 @@
                                 set: $util.oneOfSetter($oneOfFields)
                             });
     
-                            /**
-                             * ReadRowsResponse _uncompressedByteSize.
-                             * @member {"uncompressedByteSize"|undefined} _uncompressedByteSize
-                             * @memberof google.cloud.bigquery.storage.v1.ReadRowsResponse
-                             * @instance
-                             */
+                            // Virtual OneOf for proto3 optional field
                             Object.defineProperty(ReadRowsResponse.prototype, "_uncompressedByteSize", {
                                 get: $util.oneOfGetter($oneOfFields = ["uncompressedByteSize"]),
                                 set: $util.oneOfSetter($oneOfFields)
@@ -9045,23 +9040,13 @@
                                     set: $util.oneOfSetter($oneOfFields)
                                 });
     
-                                /**
-                                 * TableReadOptions _samplePercentage.
-                                 * @member {"samplePercentage"|undefined} _samplePercentage
-                                 * @memberof google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions
-                                 * @instance
-                                 */
+                                // Virtual OneOf for proto3 optional field
                                 Object.defineProperty(TableReadOptions.prototype, "_samplePercentage", {
                                     get: $util.oneOfGetter($oneOfFields = ["samplePercentage"]),
                                     set: $util.oneOfSetter($oneOfFields)
                                 });
     
-                                /**
-                                 * TableReadOptions _responseCompressionCodec.
-                                 * @member {"responseCompressionCodec"|undefined} _responseCompressionCodec
-                                 * @memberof google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions
-                                 * @instance
-                                 */
+                                // Virtual OneOf for proto3 optional field
                                 Object.defineProperty(TableReadOptions.prototype, "_responseCompressionCodec", {
                                     get: $util.oneOfGetter($oneOfFields = ["responseCompressionCodec"]),
                                     set: $util.oneOfSetter($oneOfFields)
