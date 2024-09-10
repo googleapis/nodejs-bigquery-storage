@@ -52,7 +52,7 @@
     "null-loader": "^4.0.0",
     "pack-n-play": "^2.0.0",
     "sinon": "^18.0.0",
-    "path-to-regexp": "^6.2.1",
+    "path-to-regexp": "6.2.2",
     "ts-loader": "^9.0.0",
     "typescript": "^5.1.6",
     "uuid": "^9.0.0",
