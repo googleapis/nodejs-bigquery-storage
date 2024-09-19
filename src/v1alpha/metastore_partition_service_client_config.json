@@ -24,27 +24,27 @@
       },
       "methods": {
         "BatchCreateMetastorePartitions": {
-          "timeout_millis": 120000,
+          "timeout_millis": 240000,
           "retry_codes_name": "unavailable",
           "retry_params_name": "default"
         },
         "BatchDeleteMetastorePartitions": {
-          "timeout_millis": 120000,
+          "timeout_millis": 240000,
           "retry_codes_name": "unavailable",
           "retry_params_name": "default"
         },
         "BatchUpdateMetastorePartitions": {
-          "timeout_millis": 120000,
+          "timeout_millis": 240000,
           "retry_codes_name": "unavailable",
           "retry_params_name": "default"
         },
         "ListMetastorePartitions": {
-          "timeout_millis": 120000,
+          "timeout_millis": 240000,
           "retry_codes_name": "unavailable",
           "retry_params_name": "default"
         },
         "StreamMetastorePartitions": {
-          "timeout_millis": 120000,
+          "timeout_millis": 240000,
           "retry_codes_name": "non_idempotent",
           "retry_params_name": "default"
         }
