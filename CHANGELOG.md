@@ -1,5 +1,19 @@
 # Changelog
 
+## [4.9.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.8.0...v4.9.0) (2024-09-12)
+
+
+### Features
+
+* Support BQ Storage Write CDC ([#473](https://github.com/googleapis/nodejs-bigquery-storage/issues/473)) ([8380ca8](https://github.com/googleapis/nodejs-bigquery-storage/commit/8380ca8896f6043aba7b756b2f974896bb42468e))
+* Support flexible columns on adapt package ([#474](https://github.com/googleapis/nodejs-bigquery-storage/issues/474)) ([c521cc5](https://github.com/googleapis/nodejs-bigquery-storage/commit/c521cc5b3085ca73ae490ec7436cec14d3ad53e5))
+* Update Nodejs generator to send API versions in headers for GAPICs ([#459](https://github.com/googleapis/nodejs-bigquery-storage/issues/459)) ([9dca0d3](https://github.com/googleapis/nodejs-bigquery-storage/commit/9dca0d3fa35d4eebec5f845151d1ea8a2b3ba837))
+
+
+### Bug Fixes
+
+* Typo - commited -&gt; committed ([#468](https://github.com/googleapis/nodejs-bigquery-storage/issues/468)) ([672ab7d](https://github.com/googleapis/nodejs-bigquery-storage/commit/672ab7d2846e9379bb6320e8e39e8d53b9d8199e))
+
 ## [4.8.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.7.0...v4.8.0) (2024-05-10)
 
 
