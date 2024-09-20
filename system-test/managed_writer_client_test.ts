@@ -920,6 +920,89 @@ describe('managedwriter.WriterClient', () => {
         client.close();
       }
     });
+
+    it('Flexible Columns and annotations', async () => {
+      bqWriteClient.initialize();
+      const client = new WriterClient();
+      client.setClient(bqWriteClient);
+
+      const schema: TableSchema = {
+        fields: [
+          {
+            name: '特別コラム',
+            type: 'INTEGER',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'second',
+            type: 'STRING',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'third-column',
+            type: 'STRING',
+            mode: 'REQUIRED',
+          },
+        ],
+      };
+      const [table] = await bigquery
+        .dataset(datasetId)
+        .createTable(tableId + '_flexible', {schema});
+      const parent = `projects/${projectId}/datasets/${datasetId}/tables/${table.id}`;
+
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const protoDescriptor: DescriptorProto =
+        adapt.convertStorageSchemaToProto2Descriptor(storageSchema, 'root');
+
+      const row1 = {
+        特別コラム: 1,
+        second: 'second_value',
+        'third-column': 'another_value',
+      };
+
+      const row2 = {
+        特別コラム: 2,
+        second: 'another_one',
+        'third-column': 'yet_another',
+      };
+
+      try {
+        const connection = await client.createStreamConnection({
+          streamId: managedwriter.DefaultStream,
+          destinationTable: parent,
+        });
+
+        const writer = new JSONWriter({
+          connection,
+          protoDescriptor,
+        });
+
+        const pw = writer.appendRows([row1, row2]);
+        await pw.getResult();
+
+        const [rows] = await bigquery.query(
+          `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\``
+        );
+        assert.strictEqual(rows.length, 2);
+        assert.deepStrictEqual(rows, [
+          {
+            特別コラム: 1,
+            second: 'second_value',
+            'third-column': 'another_value',
+          },
+          {
+            特別コラム: 2,
+            second: 'another_one',
+            'third-column': 'yet_another',
+          },
+        ]);
+
+        writer.close();
+      } finally {
+        client.close();
+      }
+    });
   });
 
   it('should fill default values when MissingValuesInterpretation is set', async () => {

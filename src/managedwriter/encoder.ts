@@ -14,7 +14,11 @@
 
 import * as protobuf from 'protobufjs';
 import * as protos from '../../protos/protos';
-import {normalizeDescriptor} from '../adapt/proto';
+import {
+  generatePlaceholderFieldName,
+  isProtoCompatible,
+  normalizeDescriptor,
+} from '../adapt/proto';
 import * as extend from 'extend';
 import {JSONObject, JSONValue} from './json_writer';
 
@@ -90,7 +94,17 @@ export class JSONEncoder {
 
   private convertRow(source: JSONObject, ptype: protobuf.Type): JSONObject {
     const row = extend(true, {}, source);
-    for (const key in row) {
+    const keys = Object.keys(row).map(key => {
+      if (!isProtoCompatible(key)) {
+        const newFieldName = generatePlaceholderFieldName(key);
+        // swap original key with placeholder field name
+        row[newFieldName] = row[key];
+        delete row[key];
+        return newFieldName;
+      }
+      return key;
+    });
+    for (const key of keys) {
       const value = row[key];
       if (value === null) {
         continue;

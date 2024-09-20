@@ -1,6 +1,6 @@
 {
   "name": "@google-cloud/bigquery-storage",
-  "version": "4.8.0",
+  "version": "4.9.0",
   "description": "Client for the BigQuery Storage API",
   "repository": "googleapis/nodejs-bigquery-storage",
   "license": "Apache-2.0",
@@ -55,6 +55,8 @@
     "null-loader": "^4.0.0",
     "pack-n-play": "^2.0.0",
     "sinon": "^18.0.0",
+    "nise": "6.0.0",
+    "path-to-regexp": "6.3.0",
     "ts-loader": "^9.0.0",
     "typescript": "^5.5.3",
     "uuid": "^9.0.0",
