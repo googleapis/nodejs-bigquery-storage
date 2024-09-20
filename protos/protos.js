@@ -11221,6 +11221,5202 @@
                         return v1;
                     })();
     
+                    storage.v1alpha = (function() {
+    
+                        /**
+                         * Namespace v1alpha.
+                         * @memberof google.cloud.bigquery.storage
+                         * @namespace
+                         */
+                        var v1alpha = {};
+    
+                        v1alpha.MetastorePartitionService = (function() {
+    
+                            /**
+                             * Constructs a new MetastorePartitionService service.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a MetastorePartitionService
+                             * @extends $protobuf.rpc.Service
+                             * @constructor
+                             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
+                             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
+                             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
+                             */
+                            function MetastorePartitionService(rpcImpl, requestDelimited, responseDelimited) {
+                                $protobuf.rpc.Service.call(this, rpcImpl, requestDelimited, responseDelimited);
+                            }
+    
+                            (MetastorePartitionService.prototype = Object.create($protobuf.rpc.Service.prototype)).constructor = MetastorePartitionService;
+    
+                            /**
+                             * Creates new MetastorePartitionService service using the specified rpc implementation.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @static
+                             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
+                             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
+                             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
+                             * @returns {MetastorePartitionService} RPC service. Useful where requests and/or responses are streamed.
+                             */
+                            MetastorePartitionService.create = function create(rpcImpl, requestDelimited, responseDelimited) {
+                                return new this(rpcImpl, requestDelimited, responseDelimited);
+                            };
+    
+                            /**
+                             * Callback as used by {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionService|batchCreateMetastorePartitions}.
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @typedef BatchCreateMetastorePartitionsCallback
+                             * @type {function}
+                             * @param {Error|null} error Error, if any
+                             * @param {google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse} [response] BatchCreateMetastorePartitionsResponse
+                             */
+    
+                            /**
+                             * Calls BatchCreateMetastorePartitions.
+                             * @function batchCreateMetastorePartitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @instance
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest} request BatchCreateMetastorePartitionsRequest message or plain object
+                             * @param {google.cloud.bigquery.storage.v1alpha.MetastorePartitionService.BatchCreateMetastorePartitionsCallback} callback Node-style callback called with the error, if any, and BatchCreateMetastorePartitionsResponse
+                             * @returns {undefined}
+                             * @variation 1
+                             */
+                            Object.defineProperty(MetastorePartitionService.prototype.batchCreateMetastorePartitions = function batchCreateMetastorePartitions(request, callback) {
+                                return this.rpcCall(batchCreateMetastorePartitions, $root.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest, $root.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse, request, callback);
+                            }, "name", { value: "BatchCreateMetastorePartitions" });
+    
+                            /**
+                             * Calls BatchCreateMetastorePartitions.
+                             * @function batchCreateMetastorePartitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @instance
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest} request BatchCreateMetastorePartitionsRequest message or plain object
+                             * @returns {Promise<google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse>} Promise
+                             * @variation 2
+                             */
+    
+                            /**
+                             * Callback as used by {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionService|batchDeleteMetastorePartitions}.
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @typedef BatchDeleteMetastorePartitionsCallback
+                             * @type {function}
+                             * @param {Error|null} error Error, if any
+                             * @param {google.protobuf.Empty} [response] Empty
+                             */
+    
+                            /**
+                             * Calls BatchDeleteMetastorePartitions.
+                             * @function batchDeleteMetastorePartitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @instance
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest} request BatchDeleteMetastorePartitionsRequest message or plain object
+                             * @param {google.cloud.bigquery.storage.v1alpha.MetastorePartitionService.BatchDeleteMetastorePartitionsCallback} callback Node-style callback called with the error, if any, and Empty
+                             * @returns {undefined}
+                             * @variation 1
+                             */
+                            Object.defineProperty(MetastorePartitionService.prototype.batchDeleteMetastorePartitions = function batchDeleteMetastorePartitions(request, callback) {
+                                return this.rpcCall(batchDeleteMetastorePartitions, $root.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest, $root.google.protobuf.Empty, request, callback);
+                            }, "name", { value: "BatchDeleteMetastorePartitions" });
+    
+                            /**
+                             * Calls BatchDeleteMetastorePartitions.
+                             * @function batchDeleteMetastorePartitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @instance
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest} request BatchDeleteMetastorePartitionsRequest message or plain object
+                             * @returns {Promise<google.protobuf.Empty>} Promise
+                             * @variation 2
+                             */
+    
+                            /**
+                             * Callback as used by {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionService|batchUpdateMetastorePartitions}.
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @typedef BatchUpdateMetastorePartitionsCallback
+                             * @type {function}
+                             * @param {Error|null} error Error, if any
+                             * @param {google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse} [response] BatchUpdateMetastorePartitionsResponse
+                             */
+    
+                            /**
+                             * Calls BatchUpdateMetastorePartitions.
+                             * @function batchUpdateMetastorePartitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @instance
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest} request BatchUpdateMetastorePartitionsRequest message or plain object
+                             * @param {google.cloud.bigquery.storage.v1alpha.MetastorePartitionService.BatchUpdateMetastorePartitionsCallback} callback Node-style callback called with the error, if any, and BatchUpdateMetastorePartitionsResponse
+                             * @returns {undefined}
+                             * @variation 1
+                             */
+                            Object.defineProperty(MetastorePartitionService.prototype.batchUpdateMetastorePartitions = function batchUpdateMetastorePartitions(request, callback) {
+                                return this.rpcCall(batchUpdateMetastorePartitions, $root.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest, $root.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse, request, callback);
+                            }, "name", { value: "BatchUpdateMetastorePartitions" });
+    
+                            /**
+                             * Calls BatchUpdateMetastorePartitions.
+                             * @function batchUpdateMetastorePartitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @instance
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest} request BatchUpdateMetastorePartitionsRequest message or plain object
+                             * @returns {Promise<google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse>} Promise
+                             * @variation 2
+                             */
+    
+                            /**
+                             * Callback as used by {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionService|listMetastorePartitions}.
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @typedef ListMetastorePartitionsCallback
+                             * @type {function}
+                             * @param {Error|null} error Error, if any
+                             * @param {google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse} [response] ListMetastorePartitionsResponse
+                             */
+    
+                            /**
+                             * Calls ListMetastorePartitions.
+                             * @function listMetastorePartitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @instance
+                             * @param {google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest} request ListMetastorePartitionsRequest message or plain object
+                             * @param {google.cloud.bigquery.storage.v1alpha.MetastorePartitionService.ListMetastorePartitionsCallback} callback Node-style callback called with the error, if any, and ListMetastorePartitionsResponse
+                             * @returns {undefined}
+                             * @variation 1
+                             */
+                            Object.defineProperty(MetastorePartitionService.prototype.listMetastorePartitions = function listMetastorePartitions(request, callback) {
+                                return this.rpcCall(listMetastorePartitions, $root.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest, $root.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse, request, callback);
+                            }, "name", { value: "ListMetastorePartitions" });
+    
+                            /**
+                             * Calls ListMetastorePartitions.
+                             * @function listMetastorePartitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @instance
+                             * @param {google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest} request ListMetastorePartitionsRequest message or plain object
+                             * @returns {Promise<google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse>} Promise
+                             * @variation 2
+                             */
+    
+                            /**
+                             * Callback as used by {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionService|streamMetastorePartitions}.
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @typedef StreamMetastorePartitionsCallback
+                             * @type {function}
+                             * @param {Error|null} error Error, if any
+                             * @param {google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse} [response] StreamMetastorePartitionsResponse
+                             */
+    
+                            /**
+                             * Calls StreamMetastorePartitions.
+                             * @function streamMetastorePartitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @instance
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsRequest} request StreamMetastorePartitionsRequest message or plain object
+                             * @param {google.cloud.bigquery.storage.v1alpha.MetastorePartitionService.StreamMetastorePartitionsCallback} callback Node-style callback called with the error, if any, and StreamMetastorePartitionsResponse
+                             * @returns {undefined}
+                             * @variation 1
+                             */
+                            Object.defineProperty(MetastorePartitionService.prototype.streamMetastorePartitions = function streamMetastorePartitions(request, callback) {
+                                return this.rpcCall(streamMetastorePartitions, $root.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest, $root.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse, request, callback);
+                            }, "name", { value: "StreamMetastorePartitions" });
+    
+                            /**
+                             * Calls StreamMetastorePartitions.
+                             * @function streamMetastorePartitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionService
+                             * @instance
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsRequest} request StreamMetastorePartitionsRequest message or plain object
+                             * @returns {Promise<google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse>} Promise
+                             * @variation 2
+                             */
+    
+                            return MetastorePartitionService;
+                        })();
+    
+                        v1alpha.CreateMetastorePartitionRequest = (function() {
+    
+                            /**
+                             * Properties of a CreateMetastorePartitionRequest.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface ICreateMetastorePartitionRequest
+                             * @property {string|null} [parent] CreateMetastorePartitionRequest parent
+                             * @property {google.cloud.bigquery.storage.v1alpha.IMetastorePartition|null} [metastorePartition] CreateMetastorePartitionRequest metastorePartition
+                             */
+    
+                            /**
+                             * Constructs a new CreateMetastorePartitionRequest.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a CreateMetastorePartitionRequest.
+                             * @implements ICreateMetastorePartitionRequest
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.ICreateMetastorePartitionRequest=} [properties] Properties to set
+                             */
+                            function CreateMetastorePartitionRequest(properties) {
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * CreateMetastorePartitionRequest parent.
+                             * @member {string} parent
+                             * @memberof google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest
+                             * @instance
+                             */
+                            CreateMetastorePartitionRequest.prototype.parent = "";
+    
+                            /**
+                             * CreateMetastorePartitionRequest metastorePartition.
+                             * @member {google.cloud.bigquery.storage.v1alpha.IMetastorePartition|null|undefined} metastorePartition
+                             * @memberof google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest
+                             * @instance
+                             */
+                            CreateMetastorePartitionRequest.prototype.metastorePartition = null;
+    
+                            /**
+                             * Creates a new CreateMetastorePartitionRequest instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.ICreateMetastorePartitionRequest=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest} CreateMetastorePartitionRequest instance
+                             */
+                            CreateMetastorePartitionRequest.create = function create(properties) {
+                                return new CreateMetastorePartitionRequest(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified CreateMetastorePartitionRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.ICreateMetastorePartitionRequest} message CreateMetastorePartitionRequest message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            CreateMetastorePartitionRequest.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.parent != null && Object.hasOwnProperty.call(message, "parent"))
+                                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.parent);
+                                if (message.metastorePartition != null && Object.hasOwnProperty.call(message, "metastorePartition"))
+                                    $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.encode(message.metastorePartition, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified CreateMetastorePartitionRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.ICreateMetastorePartitionRequest} message CreateMetastorePartitionRequest message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            CreateMetastorePartitionRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a CreateMetastorePartitionRequest message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest} CreateMetastorePartitionRequest
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            CreateMetastorePartitionRequest.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            message.parent = reader.string();
+                                            break;
+                                        }
+                                    case 2: {
+                                            message.metastorePartition = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.decode(reader, reader.uint32());
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a CreateMetastorePartitionRequest message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest} CreateMetastorePartitionRequest
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            CreateMetastorePartitionRequest.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a CreateMetastorePartitionRequest message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            CreateMetastorePartitionRequest.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.parent != null && message.hasOwnProperty("parent"))
+                                    if (!$util.isString(message.parent))
+                                        return "parent: string expected";
+                                if (message.metastorePartition != null && message.hasOwnProperty("metastorePartition")) {
+                                    var error = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.verify(message.metastorePartition);
+                                    if (error)
+                                        return "metastorePartition." + error;
+                                }
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a CreateMetastorePartitionRequest message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest} CreateMetastorePartitionRequest
+                             */
+                            CreateMetastorePartitionRequest.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest();
+                                if (object.parent != null)
+                                    message.parent = String(object.parent);
+                                if (object.metastorePartition != null) {
+                                    if (typeof object.metastorePartition !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest.metastorePartition: object expected");
+                                    message.metastorePartition = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.fromObject(object.metastorePartition);
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a CreateMetastorePartitionRequest message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest} message CreateMetastorePartitionRequest
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            CreateMetastorePartitionRequest.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.defaults) {
+                                    object.parent = "";
+                                    object.metastorePartition = null;
+                                }
+                                if (message.parent != null && message.hasOwnProperty("parent"))
+                                    object.parent = message.parent;
+                                if (message.metastorePartition != null && message.hasOwnProperty("metastorePartition"))
+                                    object.metastorePartition = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.toObject(message.metastorePartition, options);
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this CreateMetastorePartitionRequest to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            CreateMetastorePartitionRequest.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for CreateMetastorePartitionRequest
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            CreateMetastorePartitionRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest";
+                            };
+    
+                            return CreateMetastorePartitionRequest;
+                        })();
+    
+                        v1alpha.BatchCreateMetastorePartitionsRequest = (function() {
+    
+                            /**
+                             * Properties of a BatchCreateMetastorePartitionsRequest.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IBatchCreateMetastorePartitionsRequest
+                             * @property {string|null} [parent] BatchCreateMetastorePartitionsRequest parent
+                             * @property {Array.<google.cloud.bigquery.storage.v1alpha.ICreateMetastorePartitionRequest>|null} [requests] BatchCreateMetastorePartitionsRequest requests
+                             * @property {boolean|null} [skipExistingPartitions] BatchCreateMetastorePartitionsRequest skipExistingPartitions
+                             */
+    
+                            /**
+                             * Constructs a new BatchCreateMetastorePartitionsRequest.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a BatchCreateMetastorePartitionsRequest.
+                             * @implements IBatchCreateMetastorePartitionsRequest
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest=} [properties] Properties to set
+                             */
+                            function BatchCreateMetastorePartitionsRequest(properties) {
+                                this.requests = [];
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * BatchCreateMetastorePartitionsRequest parent.
+                             * @member {string} parent
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest
+                             * @instance
+                             */
+                            BatchCreateMetastorePartitionsRequest.prototype.parent = "";
+    
+                            /**
+                             * BatchCreateMetastorePartitionsRequest requests.
+                             * @member {Array.<google.cloud.bigquery.storage.v1alpha.ICreateMetastorePartitionRequest>} requests
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest
+                             * @instance
+                             */
+                            BatchCreateMetastorePartitionsRequest.prototype.requests = $util.emptyArray;
+    
+                            /**
+                             * BatchCreateMetastorePartitionsRequest skipExistingPartitions.
+                             * @member {boolean} skipExistingPartitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest
+                             * @instance
+                             */
+                            BatchCreateMetastorePartitionsRequest.prototype.skipExistingPartitions = false;
+    
+                            /**
+                             * Creates a new BatchCreateMetastorePartitionsRequest instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest} BatchCreateMetastorePartitionsRequest instance
+                             */
+                            BatchCreateMetastorePartitionsRequest.create = function create(properties) {
+                                return new BatchCreateMetastorePartitionsRequest(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified BatchCreateMetastorePartitionsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest} message BatchCreateMetastorePartitionsRequest message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            BatchCreateMetastorePartitionsRequest.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.parent != null && Object.hasOwnProperty.call(message, "parent"))
+                                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.parent);
+                                if (message.requests != null && message.requests.length)
+                                    for (var i = 0; i < message.requests.length; ++i)
+                                        $root.google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest.encode(message.requests[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                                if (message.skipExistingPartitions != null && Object.hasOwnProperty.call(message, "skipExistingPartitions"))
+                                    writer.uint32(/* id 3, wireType 0 =*/24).bool(message.skipExistingPartitions);
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified BatchCreateMetastorePartitionsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest} message BatchCreateMetastorePartitionsRequest message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            BatchCreateMetastorePartitionsRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a BatchCreateMetastorePartitionsRequest message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest} BatchCreateMetastorePartitionsRequest
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            BatchCreateMetastorePartitionsRequest.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            message.parent = reader.string();
+                                            break;
+                                        }
+                                    case 2: {
+                                            if (!(message.requests && message.requests.length))
+                                                message.requests = [];
+                                            message.requests.push($root.google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest.decode(reader, reader.uint32()));
+                                            break;
+                                        }
+                                    case 3: {
+                                            message.skipExistingPartitions = reader.bool();
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a BatchCreateMetastorePartitionsRequest message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest} BatchCreateMetastorePartitionsRequest
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            BatchCreateMetastorePartitionsRequest.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a BatchCreateMetastorePartitionsRequest message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            BatchCreateMetastorePartitionsRequest.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.parent != null && message.hasOwnProperty("parent"))
+                                    if (!$util.isString(message.parent))
+                                        return "parent: string expected";
+                                if (message.requests != null && message.hasOwnProperty("requests")) {
+                                    if (!Array.isArray(message.requests))
+                                        return "requests: array expected";
+                                    for (var i = 0; i < message.requests.length; ++i) {
+                                        var error = $root.google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest.verify(message.requests[i]);
+                                        if (error)
+                                            return "requests." + error;
+                                    }
+                                }
+                                if (message.skipExistingPartitions != null && message.hasOwnProperty("skipExistingPartitions"))
+                                    if (typeof message.skipExistingPartitions !== "boolean")
+                                        return "skipExistingPartitions: boolean expected";
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a BatchCreateMetastorePartitionsRequest message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest} BatchCreateMetastorePartitionsRequest
+                             */
+                            BatchCreateMetastorePartitionsRequest.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest();
+                                if (object.parent != null)
+                                    message.parent = String(object.parent);
+                                if (object.requests) {
+                                    if (!Array.isArray(object.requests))
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest.requests: array expected");
+                                    message.requests = [];
+                                    for (var i = 0; i < object.requests.length; ++i) {
+                                        if (typeof object.requests[i] !== "object")
+                                            throw TypeError(".google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest.requests: object expected");
+                                        message.requests[i] = $root.google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest.fromObject(object.requests[i]);
+                                    }
+                                }
+                                if (object.skipExistingPartitions != null)
+                                    message.skipExistingPartitions = Boolean(object.skipExistingPartitions);
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a BatchCreateMetastorePartitionsRequest message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest} message BatchCreateMetastorePartitionsRequest
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            BatchCreateMetastorePartitionsRequest.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.arrays || options.defaults)
+                                    object.requests = [];
+                                if (options.defaults) {
+                                    object.parent = "";
+                                    object.skipExistingPartitions = false;
+                                }
+                                if (message.parent != null && message.hasOwnProperty("parent"))
+                                    object.parent = message.parent;
+                                if (message.requests && message.requests.length) {
+                                    object.requests = [];
+                                    for (var j = 0; j < message.requests.length; ++j)
+                                        object.requests[j] = $root.google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest.toObject(message.requests[j], options);
+                                }
+                                if (message.skipExistingPartitions != null && message.hasOwnProperty("skipExistingPartitions"))
+                                    object.skipExistingPartitions = message.skipExistingPartitions;
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this BatchCreateMetastorePartitionsRequest to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            BatchCreateMetastorePartitionsRequest.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for BatchCreateMetastorePartitionsRequest
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            BatchCreateMetastorePartitionsRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest";
+                            };
+    
+                            return BatchCreateMetastorePartitionsRequest;
+                        })();
+    
+                        v1alpha.BatchCreateMetastorePartitionsResponse = (function() {
+    
+                            /**
+                             * Properties of a BatchCreateMetastorePartitionsResponse.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IBatchCreateMetastorePartitionsResponse
+                             * @property {Array.<google.cloud.bigquery.storage.v1alpha.IMetastorePartition>|null} [partitions] BatchCreateMetastorePartitionsResponse partitions
+                             */
+    
+                            /**
+                             * Constructs a new BatchCreateMetastorePartitionsResponse.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a BatchCreateMetastorePartitionsResponse.
+                             * @implements IBatchCreateMetastorePartitionsResponse
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse=} [properties] Properties to set
+                             */
+                            function BatchCreateMetastorePartitionsResponse(properties) {
+                                this.partitions = [];
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * BatchCreateMetastorePartitionsResponse partitions.
+                             * @member {Array.<google.cloud.bigquery.storage.v1alpha.IMetastorePartition>} partitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse
+                             * @instance
+                             */
+                            BatchCreateMetastorePartitionsResponse.prototype.partitions = $util.emptyArray;
+    
+                            /**
+                             * Creates a new BatchCreateMetastorePartitionsResponse instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse} BatchCreateMetastorePartitionsResponse instance
+                             */
+                            BatchCreateMetastorePartitionsResponse.create = function create(properties) {
+                                return new BatchCreateMetastorePartitionsResponse(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified BatchCreateMetastorePartitionsResponse message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse} message BatchCreateMetastorePartitionsResponse message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            BatchCreateMetastorePartitionsResponse.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.partitions != null && message.partitions.length)
+                                    for (var i = 0; i < message.partitions.length; ++i)
+                                        $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.encode(message.partitions[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified BatchCreateMetastorePartitionsResponse message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse} message BatchCreateMetastorePartitionsResponse message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            BatchCreateMetastorePartitionsResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a BatchCreateMetastorePartitionsResponse message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse} BatchCreateMetastorePartitionsResponse
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            BatchCreateMetastorePartitionsResponse.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            if (!(message.partitions && message.partitions.length))
+                                                message.partitions = [];
+                                            message.partitions.push($root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.decode(reader, reader.uint32()));
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a BatchCreateMetastorePartitionsResponse message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse} BatchCreateMetastorePartitionsResponse
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            BatchCreateMetastorePartitionsResponse.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a BatchCreateMetastorePartitionsResponse message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            BatchCreateMetastorePartitionsResponse.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.partitions != null && message.hasOwnProperty("partitions")) {
+                                    if (!Array.isArray(message.partitions))
+                                        return "partitions: array expected";
+                                    for (var i = 0; i < message.partitions.length; ++i) {
+                                        var error = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.verify(message.partitions[i]);
+                                        if (error)
+                                            return "partitions." + error;
+                                    }
+                                }
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a BatchCreateMetastorePartitionsResponse message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse} BatchCreateMetastorePartitionsResponse
+                             */
+                            BatchCreateMetastorePartitionsResponse.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse();
+                                if (object.partitions) {
+                                    if (!Array.isArray(object.partitions))
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse.partitions: array expected");
+                                    message.partitions = [];
+                                    for (var i = 0; i < object.partitions.length; ++i) {
+                                        if (typeof object.partitions[i] !== "object")
+                                            throw TypeError(".google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse.partitions: object expected");
+                                        message.partitions[i] = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.fromObject(object.partitions[i]);
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a BatchCreateMetastorePartitionsResponse message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse} message BatchCreateMetastorePartitionsResponse
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            BatchCreateMetastorePartitionsResponse.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.arrays || options.defaults)
+                                    object.partitions = [];
+                                if (message.partitions && message.partitions.length) {
+                                    object.partitions = [];
+                                    for (var j = 0; j < message.partitions.length; ++j)
+                                        object.partitions[j] = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.toObject(message.partitions[j], options);
+                                }
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this BatchCreateMetastorePartitionsResponse to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            BatchCreateMetastorePartitionsResponse.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for BatchCreateMetastorePartitionsResponse
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            BatchCreateMetastorePartitionsResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse";
+                            };
+    
+                            return BatchCreateMetastorePartitionsResponse;
+                        })();
+    
+                        v1alpha.BatchDeleteMetastorePartitionsRequest = (function() {
+    
+                            /**
+                             * Properties of a BatchDeleteMetastorePartitionsRequest.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IBatchDeleteMetastorePartitionsRequest
+                             * @property {string|null} [parent] BatchDeleteMetastorePartitionsRequest parent
+                             * @property {Array.<google.cloud.bigquery.storage.v1alpha.IMetastorePartitionValues>|null} [partitionValues] BatchDeleteMetastorePartitionsRequest partitionValues
+                             */
+    
+                            /**
+                             * Constructs a new BatchDeleteMetastorePartitionsRequest.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a BatchDeleteMetastorePartitionsRequest.
+                             * @implements IBatchDeleteMetastorePartitionsRequest
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest=} [properties] Properties to set
+                             */
+                            function BatchDeleteMetastorePartitionsRequest(properties) {
+                                this.partitionValues = [];
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * BatchDeleteMetastorePartitionsRequest parent.
+                             * @member {string} parent
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest
+                             * @instance
+                             */
+                            BatchDeleteMetastorePartitionsRequest.prototype.parent = "";
+    
+                            /**
+                             * BatchDeleteMetastorePartitionsRequest partitionValues.
+                             * @member {Array.<google.cloud.bigquery.storage.v1alpha.IMetastorePartitionValues>} partitionValues
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest
+                             * @instance
+                             */
+                            BatchDeleteMetastorePartitionsRequest.prototype.partitionValues = $util.emptyArray;
+    
+                            /**
+                             * Creates a new BatchDeleteMetastorePartitionsRequest instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest} BatchDeleteMetastorePartitionsRequest instance
+                             */
+                            BatchDeleteMetastorePartitionsRequest.create = function create(properties) {
+                                return new BatchDeleteMetastorePartitionsRequest(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified BatchDeleteMetastorePartitionsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest} message BatchDeleteMetastorePartitionsRequest message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            BatchDeleteMetastorePartitionsRequest.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.parent != null && Object.hasOwnProperty.call(message, "parent"))
+                                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.parent);
+                                if (message.partitionValues != null && message.partitionValues.length)
+                                    for (var i = 0; i < message.partitionValues.length; ++i)
+                                        $root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues.encode(message.partitionValues[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified BatchDeleteMetastorePartitionsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest} message BatchDeleteMetastorePartitionsRequest message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            BatchDeleteMetastorePartitionsRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a BatchDeleteMetastorePartitionsRequest message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest} BatchDeleteMetastorePartitionsRequest
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            BatchDeleteMetastorePartitionsRequest.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            message.parent = reader.string();
+                                            break;
+                                        }
+                                    case 2: {
+                                            if (!(message.partitionValues && message.partitionValues.length))
+                                                message.partitionValues = [];
+                                            message.partitionValues.push($root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues.decode(reader, reader.uint32()));
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a BatchDeleteMetastorePartitionsRequest message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest} BatchDeleteMetastorePartitionsRequest
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            BatchDeleteMetastorePartitionsRequest.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a BatchDeleteMetastorePartitionsRequest message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            BatchDeleteMetastorePartitionsRequest.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.parent != null && message.hasOwnProperty("parent"))
+                                    if (!$util.isString(message.parent))
+                                        return "parent: string expected";
+                                if (message.partitionValues != null && message.hasOwnProperty("partitionValues")) {
+                                    if (!Array.isArray(message.partitionValues))
+                                        return "partitionValues: array expected";
+                                    for (var i = 0; i < message.partitionValues.length; ++i) {
+                                        var error = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues.verify(message.partitionValues[i]);
+                                        if (error)
+                                            return "partitionValues." + error;
+                                    }
+                                }
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a BatchDeleteMetastorePartitionsRequest message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest} BatchDeleteMetastorePartitionsRequest
+                             */
+                            BatchDeleteMetastorePartitionsRequest.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest();
+                                if (object.parent != null)
+                                    message.parent = String(object.parent);
+                                if (object.partitionValues) {
+                                    if (!Array.isArray(object.partitionValues))
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest.partitionValues: array expected");
+                                    message.partitionValues = [];
+                                    for (var i = 0; i < object.partitionValues.length; ++i) {
+                                        if (typeof object.partitionValues[i] !== "object")
+                                            throw TypeError(".google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest.partitionValues: object expected");
+                                        message.partitionValues[i] = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues.fromObject(object.partitionValues[i]);
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a BatchDeleteMetastorePartitionsRequest message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest} message BatchDeleteMetastorePartitionsRequest
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            BatchDeleteMetastorePartitionsRequest.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.arrays || options.defaults)
+                                    object.partitionValues = [];
+                                if (options.defaults)
+                                    object.parent = "";
+                                if (message.parent != null && message.hasOwnProperty("parent"))
+                                    object.parent = message.parent;
+                                if (message.partitionValues && message.partitionValues.length) {
+                                    object.partitionValues = [];
+                                    for (var j = 0; j < message.partitionValues.length; ++j)
+                                        object.partitionValues[j] = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues.toObject(message.partitionValues[j], options);
+                                }
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this BatchDeleteMetastorePartitionsRequest to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            BatchDeleteMetastorePartitionsRequest.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for BatchDeleteMetastorePartitionsRequest
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            BatchDeleteMetastorePartitionsRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest";
+                            };
+    
+                            return BatchDeleteMetastorePartitionsRequest;
+                        })();
+    
+                        v1alpha.UpdateMetastorePartitionRequest = (function() {
+    
+                            /**
+                             * Properties of an UpdateMetastorePartitionRequest.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IUpdateMetastorePartitionRequest
+                             * @property {google.cloud.bigquery.storage.v1alpha.IMetastorePartition|null} [metastorePartition] UpdateMetastorePartitionRequest metastorePartition
+                             * @property {google.protobuf.IFieldMask|null} [updateMask] UpdateMetastorePartitionRequest updateMask
+                             */
+    
+                            /**
+                             * Constructs a new UpdateMetastorePartitionRequest.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents an UpdateMetastorePartitionRequest.
+                             * @implements IUpdateMetastorePartitionRequest
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IUpdateMetastorePartitionRequest=} [properties] Properties to set
+                             */
+                            function UpdateMetastorePartitionRequest(properties) {
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * UpdateMetastorePartitionRequest metastorePartition.
+                             * @member {google.cloud.bigquery.storage.v1alpha.IMetastorePartition|null|undefined} metastorePartition
+                             * @memberof google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest
+                             * @instance
+                             */
+                            UpdateMetastorePartitionRequest.prototype.metastorePartition = null;
+    
+                            /**
+                             * UpdateMetastorePartitionRequest updateMask.
+                             * @member {google.protobuf.IFieldMask|null|undefined} updateMask
+                             * @memberof google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest
+                             * @instance
+                             */
+                            UpdateMetastorePartitionRequest.prototype.updateMask = null;
+    
+                            /**
+                             * Creates a new UpdateMetastorePartitionRequest instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IUpdateMetastorePartitionRequest=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest} UpdateMetastorePartitionRequest instance
+                             */
+                            UpdateMetastorePartitionRequest.create = function create(properties) {
+                                return new UpdateMetastorePartitionRequest(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified UpdateMetastorePartitionRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IUpdateMetastorePartitionRequest} message UpdateMetastorePartitionRequest message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            UpdateMetastorePartitionRequest.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.metastorePartition != null && Object.hasOwnProperty.call(message, "metastorePartition"))
+                                    $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.encode(message.metastorePartition, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                                if (message.updateMask != null && Object.hasOwnProperty.call(message, "updateMask"))
+                                    $root.google.protobuf.FieldMask.encode(message.updateMask, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified UpdateMetastorePartitionRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IUpdateMetastorePartitionRequest} message UpdateMetastorePartitionRequest message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            UpdateMetastorePartitionRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes an UpdateMetastorePartitionRequest message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest} UpdateMetastorePartitionRequest
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            UpdateMetastorePartitionRequest.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            message.metastorePartition = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.decode(reader, reader.uint32());
+                                            break;
+                                        }
+                                    case 2: {
+                                            message.updateMask = $root.google.protobuf.FieldMask.decode(reader, reader.uint32());
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes an UpdateMetastorePartitionRequest message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest} UpdateMetastorePartitionRequest
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            UpdateMetastorePartitionRequest.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies an UpdateMetastorePartitionRequest message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            UpdateMetastorePartitionRequest.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.metastorePartition != null && message.hasOwnProperty("metastorePartition")) {
+                                    var error = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.verify(message.metastorePartition);
+                                    if (error)
+                                        return "metastorePartition." + error;
+                                }
+                                if (message.updateMask != null && message.hasOwnProperty("updateMask")) {
+                                    var error = $root.google.protobuf.FieldMask.verify(message.updateMask);
+                                    if (error)
+                                        return "updateMask." + error;
+                                }
+                                return null;
+                            };
+    
+                            /**
+                             * Creates an UpdateMetastorePartitionRequest message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest} UpdateMetastorePartitionRequest
+                             */
+                            UpdateMetastorePartitionRequest.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest();
+                                if (object.metastorePartition != null) {
+                                    if (typeof object.metastorePartition !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest.metastorePartition: object expected");
+                                    message.metastorePartition = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.fromObject(object.metastorePartition);
+                                }
+                                if (object.updateMask != null) {
+                                    if (typeof object.updateMask !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest.updateMask: object expected");
+                                    message.updateMask = $root.google.protobuf.FieldMask.fromObject(object.updateMask);
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from an UpdateMetastorePartitionRequest message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest} message UpdateMetastorePartitionRequest
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            UpdateMetastorePartitionRequest.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.defaults) {
+                                    object.metastorePartition = null;
+                                    object.updateMask = null;
+                                }
+                                if (message.metastorePartition != null && message.hasOwnProperty("metastorePartition"))
+                                    object.metastorePartition = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.toObject(message.metastorePartition, options);
+                                if (message.updateMask != null && message.hasOwnProperty("updateMask"))
+                                    object.updateMask = $root.google.protobuf.FieldMask.toObject(message.updateMask, options);
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this UpdateMetastorePartitionRequest to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            UpdateMetastorePartitionRequest.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for UpdateMetastorePartitionRequest
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            UpdateMetastorePartitionRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest";
+                            };
+    
+                            return UpdateMetastorePartitionRequest;
+                        })();
+    
+                        v1alpha.BatchUpdateMetastorePartitionsRequest = (function() {
+    
+                            /**
+                             * Properties of a BatchUpdateMetastorePartitionsRequest.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IBatchUpdateMetastorePartitionsRequest
+                             * @property {string|null} [parent] BatchUpdateMetastorePartitionsRequest parent
+                             * @property {Array.<google.cloud.bigquery.storage.v1alpha.IUpdateMetastorePartitionRequest>|null} [requests] BatchUpdateMetastorePartitionsRequest requests
+                             */
+    
+                            /**
+                             * Constructs a new BatchUpdateMetastorePartitionsRequest.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a BatchUpdateMetastorePartitionsRequest.
+                             * @implements IBatchUpdateMetastorePartitionsRequest
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest=} [properties] Properties to set
+                             */
+                            function BatchUpdateMetastorePartitionsRequest(properties) {
+                                this.requests = [];
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * BatchUpdateMetastorePartitionsRequest parent.
+                             * @member {string} parent
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest
+                             * @instance
+                             */
+                            BatchUpdateMetastorePartitionsRequest.prototype.parent = "";
+    
+                            /**
+                             * BatchUpdateMetastorePartitionsRequest requests.
+                             * @member {Array.<google.cloud.bigquery.storage.v1alpha.IUpdateMetastorePartitionRequest>} requests
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest
+                             * @instance
+                             */
+                            BatchUpdateMetastorePartitionsRequest.prototype.requests = $util.emptyArray;
+    
+                            /**
+                             * Creates a new BatchUpdateMetastorePartitionsRequest instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest} BatchUpdateMetastorePartitionsRequest instance
+                             */
+                            BatchUpdateMetastorePartitionsRequest.create = function create(properties) {
+                                return new BatchUpdateMetastorePartitionsRequest(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified BatchUpdateMetastorePartitionsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest} message BatchUpdateMetastorePartitionsRequest message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            BatchUpdateMetastorePartitionsRequest.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.parent != null && Object.hasOwnProperty.call(message, "parent"))
+                                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.parent);
+                                if (message.requests != null && message.requests.length)
+                                    for (var i = 0; i < message.requests.length; ++i)
+                                        $root.google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest.encode(message.requests[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified BatchUpdateMetastorePartitionsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest} message BatchUpdateMetastorePartitionsRequest message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            BatchUpdateMetastorePartitionsRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a BatchUpdateMetastorePartitionsRequest message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest} BatchUpdateMetastorePartitionsRequest
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            BatchUpdateMetastorePartitionsRequest.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            message.parent = reader.string();
+                                            break;
+                                        }
+                                    case 2: {
+                                            if (!(message.requests && message.requests.length))
+                                                message.requests = [];
+                                            message.requests.push($root.google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest.decode(reader, reader.uint32()));
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a BatchUpdateMetastorePartitionsRequest message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest} BatchUpdateMetastorePartitionsRequest
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            BatchUpdateMetastorePartitionsRequest.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a BatchUpdateMetastorePartitionsRequest message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            BatchUpdateMetastorePartitionsRequest.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.parent != null && message.hasOwnProperty("parent"))
+                                    if (!$util.isString(message.parent))
+                                        return "parent: string expected";
+                                if (message.requests != null && message.hasOwnProperty("requests")) {
+                                    if (!Array.isArray(message.requests))
+                                        return "requests: array expected";
+                                    for (var i = 0; i < message.requests.length; ++i) {
+                                        var error = $root.google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest.verify(message.requests[i]);
+                                        if (error)
+                                            return "requests." + error;
+                                    }
+                                }
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a BatchUpdateMetastorePartitionsRequest message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest} BatchUpdateMetastorePartitionsRequest
+                             */
+                            BatchUpdateMetastorePartitionsRequest.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest();
+                                if (object.parent != null)
+                                    message.parent = String(object.parent);
+                                if (object.requests) {
+                                    if (!Array.isArray(object.requests))
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest.requests: array expected");
+                                    message.requests = [];
+                                    for (var i = 0; i < object.requests.length; ++i) {
+                                        if (typeof object.requests[i] !== "object")
+                                            throw TypeError(".google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest.requests: object expected");
+                                        message.requests[i] = $root.google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest.fromObject(object.requests[i]);
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a BatchUpdateMetastorePartitionsRequest message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest} message BatchUpdateMetastorePartitionsRequest
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            BatchUpdateMetastorePartitionsRequest.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.arrays || options.defaults)
+                                    object.requests = [];
+                                if (options.defaults)
+                                    object.parent = "";
+                                if (message.parent != null && message.hasOwnProperty("parent"))
+                                    object.parent = message.parent;
+                                if (message.requests && message.requests.length) {
+                                    object.requests = [];
+                                    for (var j = 0; j < message.requests.length; ++j)
+                                        object.requests[j] = $root.google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest.toObject(message.requests[j], options);
+                                }
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this BatchUpdateMetastorePartitionsRequest to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            BatchUpdateMetastorePartitionsRequest.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for BatchUpdateMetastorePartitionsRequest
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            BatchUpdateMetastorePartitionsRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest";
+                            };
+    
+                            return BatchUpdateMetastorePartitionsRequest;
+                        })();
+    
+                        v1alpha.BatchUpdateMetastorePartitionsResponse = (function() {
+    
+                            /**
+                             * Properties of a BatchUpdateMetastorePartitionsResponse.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IBatchUpdateMetastorePartitionsResponse
+                             * @property {Array.<google.cloud.bigquery.storage.v1alpha.IMetastorePartition>|null} [partitions] BatchUpdateMetastorePartitionsResponse partitions
+                             */
+    
+                            /**
+                             * Constructs a new BatchUpdateMetastorePartitionsResponse.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a BatchUpdateMetastorePartitionsResponse.
+                             * @implements IBatchUpdateMetastorePartitionsResponse
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse=} [properties] Properties to set
+                             */
+                            function BatchUpdateMetastorePartitionsResponse(properties) {
+                                this.partitions = [];
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * BatchUpdateMetastorePartitionsResponse partitions.
+                             * @member {Array.<google.cloud.bigquery.storage.v1alpha.IMetastorePartition>} partitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse
+                             * @instance
+                             */
+                            BatchUpdateMetastorePartitionsResponse.prototype.partitions = $util.emptyArray;
+    
+                            /**
+                             * Creates a new BatchUpdateMetastorePartitionsResponse instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse} BatchUpdateMetastorePartitionsResponse instance
+                             */
+                            BatchUpdateMetastorePartitionsResponse.create = function create(properties) {
+                                return new BatchUpdateMetastorePartitionsResponse(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified BatchUpdateMetastorePartitionsResponse message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse} message BatchUpdateMetastorePartitionsResponse message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            BatchUpdateMetastorePartitionsResponse.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.partitions != null && message.partitions.length)
+                                    for (var i = 0; i < message.partitions.length; ++i)
+                                        $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.encode(message.partitions[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified BatchUpdateMetastorePartitionsResponse message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse} message BatchUpdateMetastorePartitionsResponse message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            BatchUpdateMetastorePartitionsResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a BatchUpdateMetastorePartitionsResponse message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse} BatchUpdateMetastorePartitionsResponse
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            BatchUpdateMetastorePartitionsResponse.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            if (!(message.partitions && message.partitions.length))
+                                                message.partitions = [];
+                                            message.partitions.push($root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.decode(reader, reader.uint32()));
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a BatchUpdateMetastorePartitionsResponse message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse} BatchUpdateMetastorePartitionsResponse
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            BatchUpdateMetastorePartitionsResponse.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a BatchUpdateMetastorePartitionsResponse message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            BatchUpdateMetastorePartitionsResponse.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.partitions != null && message.hasOwnProperty("partitions")) {
+                                    if (!Array.isArray(message.partitions))
+                                        return "partitions: array expected";
+                                    for (var i = 0; i < message.partitions.length; ++i) {
+                                        var error = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.verify(message.partitions[i]);
+                                        if (error)
+                                            return "partitions." + error;
+                                    }
+                                }
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a BatchUpdateMetastorePartitionsResponse message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse} BatchUpdateMetastorePartitionsResponse
+                             */
+                            BatchUpdateMetastorePartitionsResponse.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse();
+                                if (object.partitions) {
+                                    if (!Array.isArray(object.partitions))
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse.partitions: array expected");
+                                    message.partitions = [];
+                                    for (var i = 0; i < object.partitions.length; ++i) {
+                                        if (typeof object.partitions[i] !== "object")
+                                            throw TypeError(".google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse.partitions: object expected");
+                                        message.partitions[i] = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.fromObject(object.partitions[i]);
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a BatchUpdateMetastorePartitionsResponse message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse} message BatchUpdateMetastorePartitionsResponse
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            BatchUpdateMetastorePartitionsResponse.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.arrays || options.defaults)
+                                    object.partitions = [];
+                                if (message.partitions && message.partitions.length) {
+                                    object.partitions = [];
+                                    for (var j = 0; j < message.partitions.length; ++j)
+                                        object.partitions[j] = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.toObject(message.partitions[j], options);
+                                }
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this BatchUpdateMetastorePartitionsResponse to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            BatchUpdateMetastorePartitionsResponse.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for BatchUpdateMetastorePartitionsResponse
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            BatchUpdateMetastorePartitionsResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse";
+                            };
+    
+                            return BatchUpdateMetastorePartitionsResponse;
+                        })();
+    
+                        v1alpha.ListMetastorePartitionsRequest = (function() {
+    
+                            /**
+                             * Properties of a ListMetastorePartitionsRequest.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IListMetastorePartitionsRequest
+                             * @property {string|null} [parent] ListMetastorePartitionsRequest parent
+                             * @property {string|null} [filter] ListMetastorePartitionsRequest filter
+                             */
+    
+                            /**
+                             * Constructs a new ListMetastorePartitionsRequest.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a ListMetastorePartitionsRequest.
+                             * @implements IListMetastorePartitionsRequest
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest=} [properties] Properties to set
+                             */
+                            function ListMetastorePartitionsRequest(properties) {
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * ListMetastorePartitionsRequest parent.
+                             * @member {string} parent
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest
+                             * @instance
+                             */
+                            ListMetastorePartitionsRequest.prototype.parent = "";
+    
+                            /**
+                             * ListMetastorePartitionsRequest filter.
+                             * @member {string} filter
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest
+                             * @instance
+                             */
+                            ListMetastorePartitionsRequest.prototype.filter = "";
+    
+                            /**
+                             * Creates a new ListMetastorePartitionsRequest instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest} ListMetastorePartitionsRequest instance
+                             */
+                            ListMetastorePartitionsRequest.create = function create(properties) {
+                                return new ListMetastorePartitionsRequest(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified ListMetastorePartitionsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest} message ListMetastorePartitionsRequest message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            ListMetastorePartitionsRequest.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.parent != null && Object.hasOwnProperty.call(message, "parent"))
+                                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.parent);
+                                if (message.filter != null && Object.hasOwnProperty.call(message, "filter"))
+                                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.filter);
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified ListMetastorePartitionsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest} message ListMetastorePartitionsRequest message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            ListMetastorePartitionsRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a ListMetastorePartitionsRequest message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest} ListMetastorePartitionsRequest
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            ListMetastorePartitionsRequest.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            message.parent = reader.string();
+                                            break;
+                                        }
+                                    case 2: {
+                                            message.filter = reader.string();
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a ListMetastorePartitionsRequest message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest} ListMetastorePartitionsRequest
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            ListMetastorePartitionsRequest.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a ListMetastorePartitionsRequest message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            ListMetastorePartitionsRequest.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.parent != null && message.hasOwnProperty("parent"))
+                                    if (!$util.isString(message.parent))
+                                        return "parent: string expected";
+                                if (message.filter != null && message.hasOwnProperty("filter"))
+                                    if (!$util.isString(message.filter))
+                                        return "filter: string expected";
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a ListMetastorePartitionsRequest message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest} ListMetastorePartitionsRequest
+                             */
+                            ListMetastorePartitionsRequest.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest();
+                                if (object.parent != null)
+                                    message.parent = String(object.parent);
+                                if (object.filter != null)
+                                    message.filter = String(object.filter);
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a ListMetastorePartitionsRequest message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest} message ListMetastorePartitionsRequest
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            ListMetastorePartitionsRequest.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.defaults) {
+                                    object.parent = "";
+                                    object.filter = "";
+                                }
+                                if (message.parent != null && message.hasOwnProperty("parent"))
+                                    object.parent = message.parent;
+                                if (message.filter != null && message.hasOwnProperty("filter"))
+                                    object.filter = message.filter;
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this ListMetastorePartitionsRequest to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            ListMetastorePartitionsRequest.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for ListMetastorePartitionsRequest
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            ListMetastorePartitionsRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest";
+                            };
+    
+                            return ListMetastorePartitionsRequest;
+                        })();
+    
+                        v1alpha.ListMetastorePartitionsResponse = (function() {
+    
+                            /**
+                             * Properties of a ListMetastorePartitionsResponse.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IListMetastorePartitionsResponse
+                             * @property {google.cloud.bigquery.storage.v1alpha.IMetastorePartitionList|null} [partitions] ListMetastorePartitionsResponse partitions
+                             * @property {google.cloud.bigquery.storage.v1alpha.IStreamList|null} [streams] ListMetastorePartitionsResponse streams
+                             */
+    
+                            /**
+                             * Constructs a new ListMetastorePartitionsResponse.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a ListMetastorePartitionsResponse.
+                             * @implements IListMetastorePartitionsResponse
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse=} [properties] Properties to set
+                             */
+                            function ListMetastorePartitionsResponse(properties) {
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * ListMetastorePartitionsResponse partitions.
+                             * @member {google.cloud.bigquery.storage.v1alpha.IMetastorePartitionList|null|undefined} partitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse
+                             * @instance
+                             */
+                            ListMetastorePartitionsResponse.prototype.partitions = null;
+    
+                            /**
+                             * ListMetastorePartitionsResponse streams.
+                             * @member {google.cloud.bigquery.storage.v1alpha.IStreamList|null|undefined} streams
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse
+                             * @instance
+                             */
+                            ListMetastorePartitionsResponse.prototype.streams = null;
+    
+                            // OneOf field names bound to virtual getters and setters
+                            var $oneOfFields;
+    
+                            /**
+                             * ListMetastorePartitionsResponse response.
+                             * @member {"partitions"|"streams"|undefined} response
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse
+                             * @instance
+                             */
+                            Object.defineProperty(ListMetastorePartitionsResponse.prototype, "response", {
+                                get: $util.oneOfGetter($oneOfFields = ["partitions", "streams"]),
+                                set: $util.oneOfSetter($oneOfFields)
+                            });
+    
+                            /**
+                             * Creates a new ListMetastorePartitionsResponse instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse} ListMetastorePartitionsResponse instance
+                             */
+                            ListMetastorePartitionsResponse.create = function create(properties) {
+                                return new ListMetastorePartitionsResponse(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified ListMetastorePartitionsResponse message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse} message ListMetastorePartitionsResponse message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            ListMetastorePartitionsResponse.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.partitions != null && Object.hasOwnProperty.call(message, "partitions"))
+                                    $root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionList.encode(message.partitions, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                                if (message.streams != null && Object.hasOwnProperty.call(message, "streams"))
+                                    $root.google.cloud.bigquery.storage.v1alpha.StreamList.encode(message.streams, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified ListMetastorePartitionsResponse message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse} message ListMetastorePartitionsResponse message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            ListMetastorePartitionsResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a ListMetastorePartitionsResponse message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse} ListMetastorePartitionsResponse
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            ListMetastorePartitionsResponse.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            message.partitions = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionList.decode(reader, reader.uint32());
+                                            break;
+                                        }
+                                    case 2: {
+                                            message.streams = $root.google.cloud.bigquery.storage.v1alpha.StreamList.decode(reader, reader.uint32());
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a ListMetastorePartitionsResponse message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse} ListMetastorePartitionsResponse
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            ListMetastorePartitionsResponse.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a ListMetastorePartitionsResponse message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            ListMetastorePartitionsResponse.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                var properties = {};
+                                if (message.partitions != null && message.hasOwnProperty("partitions")) {
+                                    properties.response = 1;
+                                    {
+                                        var error = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionList.verify(message.partitions);
+                                        if (error)
+                                            return "partitions." + error;
+                                    }
+                                }
+                                if (message.streams != null && message.hasOwnProperty("streams")) {
+                                    if (properties.response === 1)
+                                        return "response: multiple values";
+                                    properties.response = 1;
+                                    {
+                                        var error = $root.google.cloud.bigquery.storage.v1alpha.StreamList.verify(message.streams);
+                                        if (error)
+                                            return "streams." + error;
+                                    }
+                                }
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a ListMetastorePartitionsResponse message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse} ListMetastorePartitionsResponse
+                             */
+                            ListMetastorePartitionsResponse.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse();
+                                if (object.partitions != null) {
+                                    if (typeof object.partitions !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse.partitions: object expected");
+                                    message.partitions = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionList.fromObject(object.partitions);
+                                }
+                                if (object.streams != null) {
+                                    if (typeof object.streams !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse.streams: object expected");
+                                    message.streams = $root.google.cloud.bigquery.storage.v1alpha.StreamList.fromObject(object.streams);
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a ListMetastorePartitionsResponse message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse} message ListMetastorePartitionsResponse
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            ListMetastorePartitionsResponse.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (message.partitions != null && message.hasOwnProperty("partitions")) {
+                                    object.partitions = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionList.toObject(message.partitions, options);
+                                    if (options.oneofs)
+                                        object.response = "partitions";
+                                }
+                                if (message.streams != null && message.hasOwnProperty("streams")) {
+                                    object.streams = $root.google.cloud.bigquery.storage.v1alpha.StreamList.toObject(message.streams, options);
+                                    if (options.oneofs)
+                                        object.response = "streams";
+                                }
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this ListMetastorePartitionsResponse to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            ListMetastorePartitionsResponse.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for ListMetastorePartitionsResponse
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            ListMetastorePartitionsResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse";
+                            };
+    
+                            return ListMetastorePartitionsResponse;
+                        })();
+    
+                        v1alpha.StreamMetastorePartitionsRequest = (function() {
+    
+                            /**
+                             * Properties of a StreamMetastorePartitionsRequest.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IStreamMetastorePartitionsRequest
+                             * @property {string|null} [parent] StreamMetastorePartitionsRequest parent
+                             * @property {Array.<google.cloud.bigquery.storage.v1alpha.IMetastorePartition>|null} [metastorePartitions] StreamMetastorePartitionsRequest metastorePartitions
+                             * @property {boolean|null} [skipExistingPartitions] StreamMetastorePartitionsRequest skipExistingPartitions
+                             */
+    
+                            /**
+                             * Constructs a new StreamMetastorePartitionsRequest.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a StreamMetastorePartitionsRequest.
+                             * @implements IStreamMetastorePartitionsRequest
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsRequest=} [properties] Properties to set
+                             */
+                            function StreamMetastorePartitionsRequest(properties) {
+                                this.metastorePartitions = [];
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * StreamMetastorePartitionsRequest parent.
+                             * @member {string} parent
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest
+                             * @instance
+                             */
+                            StreamMetastorePartitionsRequest.prototype.parent = "";
+    
+                            /**
+                             * StreamMetastorePartitionsRequest metastorePartitions.
+                             * @member {Array.<google.cloud.bigquery.storage.v1alpha.IMetastorePartition>} metastorePartitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest
+                             * @instance
+                             */
+                            StreamMetastorePartitionsRequest.prototype.metastorePartitions = $util.emptyArray;
+    
+                            /**
+                             * StreamMetastorePartitionsRequest skipExistingPartitions.
+                             * @member {boolean} skipExistingPartitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest
+                             * @instance
+                             */
+                            StreamMetastorePartitionsRequest.prototype.skipExistingPartitions = false;
+    
+                            /**
+                             * Creates a new StreamMetastorePartitionsRequest instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsRequest=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest} StreamMetastorePartitionsRequest instance
+                             */
+                            StreamMetastorePartitionsRequest.create = function create(properties) {
+                                return new StreamMetastorePartitionsRequest(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified StreamMetastorePartitionsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsRequest} message StreamMetastorePartitionsRequest message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            StreamMetastorePartitionsRequest.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.parent != null && Object.hasOwnProperty.call(message, "parent"))
+                                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.parent);
+                                if (message.metastorePartitions != null && message.metastorePartitions.length)
+                                    for (var i = 0; i < message.metastorePartitions.length; ++i)
+                                        $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.encode(message.metastorePartitions[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                                if (message.skipExistingPartitions != null && Object.hasOwnProperty.call(message, "skipExistingPartitions"))
+                                    writer.uint32(/* id 3, wireType 0 =*/24).bool(message.skipExistingPartitions);
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified StreamMetastorePartitionsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsRequest} message StreamMetastorePartitionsRequest message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            StreamMetastorePartitionsRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a StreamMetastorePartitionsRequest message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest} StreamMetastorePartitionsRequest
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            StreamMetastorePartitionsRequest.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            message.parent = reader.string();
+                                            break;
+                                        }
+                                    case 2: {
+                                            if (!(message.metastorePartitions && message.metastorePartitions.length))
+                                                message.metastorePartitions = [];
+                                            message.metastorePartitions.push($root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.decode(reader, reader.uint32()));
+                                            break;
+                                        }
+                                    case 3: {
+                                            message.skipExistingPartitions = reader.bool();
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a StreamMetastorePartitionsRequest message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest} StreamMetastorePartitionsRequest
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            StreamMetastorePartitionsRequest.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a StreamMetastorePartitionsRequest message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            StreamMetastorePartitionsRequest.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.parent != null && message.hasOwnProperty("parent"))
+                                    if (!$util.isString(message.parent))
+                                        return "parent: string expected";
+                                if (message.metastorePartitions != null && message.hasOwnProperty("metastorePartitions")) {
+                                    if (!Array.isArray(message.metastorePartitions))
+                                        return "metastorePartitions: array expected";
+                                    for (var i = 0; i < message.metastorePartitions.length; ++i) {
+                                        var error = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.verify(message.metastorePartitions[i]);
+                                        if (error)
+                                            return "metastorePartitions." + error;
+                                    }
+                                }
+                                if (message.skipExistingPartitions != null && message.hasOwnProperty("skipExistingPartitions"))
+                                    if (typeof message.skipExistingPartitions !== "boolean")
+                                        return "skipExistingPartitions: boolean expected";
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a StreamMetastorePartitionsRequest message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest} StreamMetastorePartitionsRequest
+                             */
+                            StreamMetastorePartitionsRequest.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest();
+                                if (object.parent != null)
+                                    message.parent = String(object.parent);
+                                if (object.metastorePartitions) {
+                                    if (!Array.isArray(object.metastorePartitions))
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest.metastorePartitions: array expected");
+                                    message.metastorePartitions = [];
+                                    for (var i = 0; i < object.metastorePartitions.length; ++i) {
+                                        if (typeof object.metastorePartitions[i] !== "object")
+                                            throw TypeError(".google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest.metastorePartitions: object expected");
+                                        message.metastorePartitions[i] = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.fromObject(object.metastorePartitions[i]);
+                                    }
+                                }
+                                if (object.skipExistingPartitions != null)
+                                    message.skipExistingPartitions = Boolean(object.skipExistingPartitions);
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a StreamMetastorePartitionsRequest message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest} message StreamMetastorePartitionsRequest
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            StreamMetastorePartitionsRequest.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.arrays || options.defaults)
+                                    object.metastorePartitions = [];
+                                if (options.defaults) {
+                                    object.parent = "";
+                                    object.skipExistingPartitions = false;
+                                }
+                                if (message.parent != null && message.hasOwnProperty("parent"))
+                                    object.parent = message.parent;
+                                if (message.metastorePartitions && message.metastorePartitions.length) {
+                                    object.metastorePartitions = [];
+                                    for (var j = 0; j < message.metastorePartitions.length; ++j)
+                                        object.metastorePartitions[j] = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.toObject(message.metastorePartitions[j], options);
+                                }
+                                if (message.skipExistingPartitions != null && message.hasOwnProperty("skipExistingPartitions"))
+                                    object.skipExistingPartitions = message.skipExistingPartitions;
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this StreamMetastorePartitionsRequest to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            StreamMetastorePartitionsRequest.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for StreamMetastorePartitionsRequest
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            StreamMetastorePartitionsRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest";
+                            };
+    
+                            return StreamMetastorePartitionsRequest;
+                        })();
+    
+                        v1alpha.StreamMetastorePartitionsResponse = (function() {
+    
+                            /**
+                             * Properties of a StreamMetastorePartitionsResponse.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IStreamMetastorePartitionsResponse
+                             * @property {number|Long|null} [totalPartitionsStreamedCount] StreamMetastorePartitionsResponse totalPartitionsStreamedCount
+                             * @property {number|Long|null} [totalPartitionsInsertedCount] StreamMetastorePartitionsResponse totalPartitionsInsertedCount
+                             */
+    
+                            /**
+                             * Constructs a new StreamMetastorePartitionsResponse.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a StreamMetastorePartitionsResponse.
+                             * @implements IStreamMetastorePartitionsResponse
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsResponse=} [properties] Properties to set
+                             */
+                            function StreamMetastorePartitionsResponse(properties) {
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * StreamMetastorePartitionsResponse totalPartitionsStreamedCount.
+                             * @member {number|Long} totalPartitionsStreamedCount
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse
+                             * @instance
+                             */
+                            StreamMetastorePartitionsResponse.prototype.totalPartitionsStreamedCount = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    
+                            /**
+                             * StreamMetastorePartitionsResponse totalPartitionsInsertedCount.
+                             * @member {number|Long} totalPartitionsInsertedCount
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse
+                             * @instance
+                             */
+                            StreamMetastorePartitionsResponse.prototype.totalPartitionsInsertedCount = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    
+                            /**
+                             * Creates a new StreamMetastorePartitionsResponse instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsResponse=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse} StreamMetastorePartitionsResponse instance
+                             */
+                            StreamMetastorePartitionsResponse.create = function create(properties) {
+                                return new StreamMetastorePartitionsResponse(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified StreamMetastorePartitionsResponse message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsResponse} message StreamMetastorePartitionsResponse message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            StreamMetastorePartitionsResponse.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.totalPartitionsStreamedCount != null && Object.hasOwnProperty.call(message, "totalPartitionsStreamedCount"))
+                                    writer.uint32(/* id 2, wireType 0 =*/16).int64(message.totalPartitionsStreamedCount);
+                                if (message.totalPartitionsInsertedCount != null && Object.hasOwnProperty.call(message, "totalPartitionsInsertedCount"))
+                                    writer.uint32(/* id 3, wireType 0 =*/24).int64(message.totalPartitionsInsertedCount);
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified StreamMetastorePartitionsResponse message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsResponse} message StreamMetastorePartitionsResponse message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            StreamMetastorePartitionsResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a StreamMetastorePartitionsResponse message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse} StreamMetastorePartitionsResponse
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            StreamMetastorePartitionsResponse.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 2: {
+                                            message.totalPartitionsStreamedCount = reader.int64();
+                                            break;
+                                        }
+                                    case 3: {
+                                            message.totalPartitionsInsertedCount = reader.int64();
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a StreamMetastorePartitionsResponse message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse} StreamMetastorePartitionsResponse
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            StreamMetastorePartitionsResponse.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a StreamMetastorePartitionsResponse message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            StreamMetastorePartitionsResponse.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.totalPartitionsStreamedCount != null && message.hasOwnProperty("totalPartitionsStreamedCount"))
+                                    if (!$util.isInteger(message.totalPartitionsStreamedCount) && !(message.totalPartitionsStreamedCount && $util.isInteger(message.totalPartitionsStreamedCount.low) && $util.isInteger(message.totalPartitionsStreamedCount.high)))
+                                        return "totalPartitionsStreamedCount: integer|Long expected";
+                                if (message.totalPartitionsInsertedCount != null && message.hasOwnProperty("totalPartitionsInsertedCount"))
+                                    if (!$util.isInteger(message.totalPartitionsInsertedCount) && !(message.totalPartitionsInsertedCount && $util.isInteger(message.totalPartitionsInsertedCount.low) && $util.isInteger(message.totalPartitionsInsertedCount.high)))
+                                        return "totalPartitionsInsertedCount: integer|Long expected";
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a StreamMetastorePartitionsResponse message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse} StreamMetastorePartitionsResponse
+                             */
+                            StreamMetastorePartitionsResponse.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse();
+                                if (object.totalPartitionsStreamedCount != null)
+                                    if ($util.Long)
+                                        (message.totalPartitionsStreamedCount = $util.Long.fromValue(object.totalPartitionsStreamedCount)).unsigned = false;
+                                    else if (typeof object.totalPartitionsStreamedCount === "string")
+                                        message.totalPartitionsStreamedCount = parseInt(object.totalPartitionsStreamedCount, 10);
+                                    else if (typeof object.totalPartitionsStreamedCount === "number")
+                                        message.totalPartitionsStreamedCount = object.totalPartitionsStreamedCount;
+                                    else if (typeof object.totalPartitionsStreamedCount === "object")
+                                        message.totalPartitionsStreamedCount = new $util.LongBits(object.totalPartitionsStreamedCount.low >>> 0, object.totalPartitionsStreamedCount.high >>> 0).toNumber();
+                                if (object.totalPartitionsInsertedCount != null)
+                                    if ($util.Long)
+                                        (message.totalPartitionsInsertedCount = $util.Long.fromValue(object.totalPartitionsInsertedCount)).unsigned = false;
+                                    else if (typeof object.totalPartitionsInsertedCount === "string")
+                                        message.totalPartitionsInsertedCount = parseInt(object.totalPartitionsInsertedCount, 10);
+                                    else if (typeof object.totalPartitionsInsertedCount === "number")
+                                        message.totalPartitionsInsertedCount = object.totalPartitionsInsertedCount;
+                                    else if (typeof object.totalPartitionsInsertedCount === "object")
+                                        message.totalPartitionsInsertedCount = new $util.LongBits(object.totalPartitionsInsertedCount.low >>> 0, object.totalPartitionsInsertedCount.high >>> 0).toNumber();
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a StreamMetastorePartitionsResponse message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse} message StreamMetastorePartitionsResponse
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            StreamMetastorePartitionsResponse.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.defaults) {
+                                    if ($util.Long) {
+                                        var long = new $util.Long(0, 0, false);
+                                        object.totalPartitionsStreamedCount = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                                    } else
+                                        object.totalPartitionsStreamedCount = options.longs === String ? "0" : 0;
+                                    if ($util.Long) {
+                                        var long = new $util.Long(0, 0, false);
+                                        object.totalPartitionsInsertedCount = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                                    } else
+                                        object.totalPartitionsInsertedCount = options.longs === String ? "0" : 0;
+                                }
+                                if (message.totalPartitionsStreamedCount != null && message.hasOwnProperty("totalPartitionsStreamedCount"))
+                                    if (typeof message.totalPartitionsStreamedCount === "number")
+                                        object.totalPartitionsStreamedCount = options.longs === String ? String(message.totalPartitionsStreamedCount) : message.totalPartitionsStreamedCount;
+                                    else
+                                        object.totalPartitionsStreamedCount = options.longs === String ? $util.Long.prototype.toString.call(message.totalPartitionsStreamedCount) : options.longs === Number ? new $util.LongBits(message.totalPartitionsStreamedCount.low >>> 0, message.totalPartitionsStreamedCount.high >>> 0).toNumber() : message.totalPartitionsStreamedCount;
+                                if (message.totalPartitionsInsertedCount != null && message.hasOwnProperty("totalPartitionsInsertedCount"))
+                                    if (typeof message.totalPartitionsInsertedCount === "number")
+                                        object.totalPartitionsInsertedCount = options.longs === String ? String(message.totalPartitionsInsertedCount) : message.totalPartitionsInsertedCount;
+                                    else
+                                        object.totalPartitionsInsertedCount = options.longs === String ? $util.Long.prototype.toString.call(message.totalPartitionsInsertedCount) : options.longs === Number ? new $util.LongBits(message.totalPartitionsInsertedCount.low >>> 0, message.totalPartitionsInsertedCount.high >>> 0).toNumber() : message.totalPartitionsInsertedCount;
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this StreamMetastorePartitionsResponse to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            StreamMetastorePartitionsResponse.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for StreamMetastorePartitionsResponse
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            StreamMetastorePartitionsResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse";
+                            };
+    
+                            return StreamMetastorePartitionsResponse;
+                        })();
+    
+                        v1alpha.BatchSizeTooLargeError = (function() {
+    
+                            /**
+                             * Properties of a BatchSizeTooLargeError.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IBatchSizeTooLargeError
+                             * @property {number|Long|null} [maxBatchSize] BatchSizeTooLargeError maxBatchSize
+                             * @property {string|null} [errorMessage] BatchSizeTooLargeError errorMessage
+                             */
+    
+                            /**
+                             * Constructs a new BatchSizeTooLargeError.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a BatchSizeTooLargeError.
+                             * @implements IBatchSizeTooLargeError
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchSizeTooLargeError=} [properties] Properties to set
+                             */
+                            function BatchSizeTooLargeError(properties) {
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * BatchSizeTooLargeError maxBatchSize.
+                             * @member {number|Long} maxBatchSize
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError
+                             * @instance
+                             */
+                            BatchSizeTooLargeError.prototype.maxBatchSize = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    
+                            /**
+                             * BatchSizeTooLargeError errorMessage.
+                             * @member {string} errorMessage
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError
+                             * @instance
+                             */
+                            BatchSizeTooLargeError.prototype.errorMessage = "";
+    
+                            /**
+                             * Creates a new BatchSizeTooLargeError instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchSizeTooLargeError=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError} BatchSizeTooLargeError instance
+                             */
+                            BatchSizeTooLargeError.create = function create(properties) {
+                                return new BatchSizeTooLargeError(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified BatchSizeTooLargeError message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchSizeTooLargeError} message BatchSizeTooLargeError message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            BatchSizeTooLargeError.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.maxBatchSize != null && Object.hasOwnProperty.call(message, "maxBatchSize"))
+                                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.maxBatchSize);
+                                if (message.errorMessage != null && Object.hasOwnProperty.call(message, "errorMessage"))
+                                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.errorMessage);
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified BatchSizeTooLargeError message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IBatchSizeTooLargeError} message BatchSizeTooLargeError message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            BatchSizeTooLargeError.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a BatchSizeTooLargeError message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError} BatchSizeTooLargeError
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            BatchSizeTooLargeError.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            message.maxBatchSize = reader.int64();
+                                            break;
+                                        }
+                                    case 2: {
+                                            message.errorMessage = reader.string();
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a BatchSizeTooLargeError message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError} BatchSizeTooLargeError
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            BatchSizeTooLargeError.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a BatchSizeTooLargeError message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            BatchSizeTooLargeError.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.maxBatchSize != null && message.hasOwnProperty("maxBatchSize"))
+                                    if (!$util.isInteger(message.maxBatchSize) && !(message.maxBatchSize && $util.isInteger(message.maxBatchSize.low) && $util.isInteger(message.maxBatchSize.high)))
+                                        return "maxBatchSize: integer|Long expected";
+                                if (message.errorMessage != null && message.hasOwnProperty("errorMessage"))
+                                    if (!$util.isString(message.errorMessage))
+                                        return "errorMessage: string expected";
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a BatchSizeTooLargeError message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError} BatchSizeTooLargeError
+                             */
+                            BatchSizeTooLargeError.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError();
+                                if (object.maxBatchSize != null)
+                                    if ($util.Long)
+                                        (message.maxBatchSize = $util.Long.fromValue(object.maxBatchSize)).unsigned = false;
+                                    else if (typeof object.maxBatchSize === "string")
+                                        message.maxBatchSize = parseInt(object.maxBatchSize, 10);
+                                    else if (typeof object.maxBatchSize === "number")
+                                        message.maxBatchSize = object.maxBatchSize;
+                                    else if (typeof object.maxBatchSize === "object")
+                                        message.maxBatchSize = new $util.LongBits(object.maxBatchSize.low >>> 0, object.maxBatchSize.high >>> 0).toNumber();
+                                if (object.errorMessage != null)
+                                    message.errorMessage = String(object.errorMessage);
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a BatchSizeTooLargeError message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError} message BatchSizeTooLargeError
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            BatchSizeTooLargeError.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.defaults) {
+                                    if ($util.Long) {
+                                        var long = new $util.Long(0, 0, false);
+                                        object.maxBatchSize = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                                    } else
+                                        object.maxBatchSize = options.longs === String ? "0" : 0;
+                                    object.errorMessage = "";
+                                }
+                                if (message.maxBatchSize != null && message.hasOwnProperty("maxBatchSize"))
+                                    if (typeof message.maxBatchSize === "number")
+                                        object.maxBatchSize = options.longs === String ? String(message.maxBatchSize) : message.maxBatchSize;
+                                    else
+                                        object.maxBatchSize = options.longs === String ? $util.Long.prototype.toString.call(message.maxBatchSize) : options.longs === Number ? new $util.LongBits(message.maxBatchSize.low >>> 0, message.maxBatchSize.high >>> 0).toNumber() : message.maxBatchSize;
+                                if (message.errorMessage != null && message.hasOwnProperty("errorMessage"))
+                                    object.errorMessage = message.errorMessage;
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this BatchSizeTooLargeError to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            BatchSizeTooLargeError.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for BatchSizeTooLargeError
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            BatchSizeTooLargeError.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError";
+                            };
+    
+                            return BatchSizeTooLargeError;
+                        })();
+    
+                        v1alpha.FieldSchema = (function() {
+    
+                            /**
+                             * Properties of a FieldSchema.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IFieldSchema
+                             * @property {string|null} [name] FieldSchema name
+                             * @property {string|null} [type] FieldSchema type
+                             */
+    
+                            /**
+                             * Constructs a new FieldSchema.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a FieldSchema.
+                             * @implements IFieldSchema
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IFieldSchema=} [properties] Properties to set
+                             */
+                            function FieldSchema(properties) {
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * FieldSchema name.
+                             * @member {string} name
+                             * @memberof google.cloud.bigquery.storage.v1alpha.FieldSchema
+                             * @instance
+                             */
+                            FieldSchema.prototype.name = "";
+    
+                            /**
+                             * FieldSchema type.
+                             * @member {string} type
+                             * @memberof google.cloud.bigquery.storage.v1alpha.FieldSchema
+                             * @instance
+                             */
+                            FieldSchema.prototype.type = "";
+    
+                            /**
+                             * Creates a new FieldSchema instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.FieldSchema
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IFieldSchema=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.FieldSchema} FieldSchema instance
+                             */
+                            FieldSchema.create = function create(properties) {
+                                return new FieldSchema(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified FieldSchema message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.FieldSchema.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.FieldSchema
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IFieldSchema} message FieldSchema message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            FieldSchema.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+                                if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+                                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.type);
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified FieldSchema message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.FieldSchema.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.FieldSchema
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IFieldSchema} message FieldSchema message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            FieldSchema.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a FieldSchema message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.FieldSchema
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.FieldSchema} FieldSchema
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            FieldSchema.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.FieldSchema();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            message.name = reader.string();
+                                            break;
+                                        }
+                                    case 2: {
+                                            message.type = reader.string();
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a FieldSchema message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.FieldSchema
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.FieldSchema} FieldSchema
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            FieldSchema.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a FieldSchema message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.FieldSchema
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            FieldSchema.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.name != null && message.hasOwnProperty("name"))
+                                    if (!$util.isString(message.name))
+                                        return "name: string expected";
+                                if (message.type != null && message.hasOwnProperty("type"))
+                                    if (!$util.isString(message.type))
+                                        return "type: string expected";
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a FieldSchema message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.FieldSchema
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.FieldSchema} FieldSchema
+                             */
+                            FieldSchema.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.FieldSchema)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.FieldSchema();
+                                if (object.name != null)
+                                    message.name = String(object.name);
+                                if (object.type != null)
+                                    message.type = String(object.type);
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a FieldSchema message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.FieldSchema
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.FieldSchema} message FieldSchema
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            FieldSchema.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.defaults) {
+                                    object.name = "";
+                                    object.type = "";
+                                }
+                                if (message.name != null && message.hasOwnProperty("name"))
+                                    object.name = message.name;
+                                if (message.type != null && message.hasOwnProperty("type"))
+                                    object.type = message.type;
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this FieldSchema to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.FieldSchema
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            FieldSchema.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for FieldSchema
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.FieldSchema
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            FieldSchema.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.FieldSchema";
+                            };
+    
+                            return FieldSchema;
+                        })();
+    
+                        v1alpha.StorageDescriptor = (function() {
+    
+                            /**
+                             * Properties of a StorageDescriptor.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IStorageDescriptor
+                             * @property {string|null} [locationUri] StorageDescriptor locationUri
+                             * @property {string|null} [inputFormat] StorageDescriptor inputFormat
+                             * @property {string|null} [outputFormat] StorageDescriptor outputFormat
+                             * @property {google.cloud.bigquery.storage.v1alpha.ISerDeInfo|null} [serdeInfo] StorageDescriptor serdeInfo
+                             */
+    
+                            /**
+                             * Constructs a new StorageDescriptor.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a StorageDescriptor.
+                             * @implements IStorageDescriptor
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStorageDescriptor=} [properties] Properties to set
+                             */
+                            function StorageDescriptor(properties) {
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * StorageDescriptor locationUri.
+                             * @member {string} locationUri
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StorageDescriptor
+                             * @instance
+                             */
+                            StorageDescriptor.prototype.locationUri = "";
+    
+                            /**
+                             * StorageDescriptor inputFormat.
+                             * @member {string} inputFormat
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StorageDescriptor
+                             * @instance
+                             */
+                            StorageDescriptor.prototype.inputFormat = "";
+    
+                            /**
+                             * StorageDescriptor outputFormat.
+                             * @member {string} outputFormat
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StorageDescriptor
+                             * @instance
+                             */
+                            StorageDescriptor.prototype.outputFormat = "";
+    
+                            /**
+                             * StorageDescriptor serdeInfo.
+                             * @member {google.cloud.bigquery.storage.v1alpha.ISerDeInfo|null|undefined} serdeInfo
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StorageDescriptor
+                             * @instance
+                             */
+                            StorageDescriptor.prototype.serdeInfo = null;
+    
+                            /**
+                             * Creates a new StorageDescriptor instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StorageDescriptor
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStorageDescriptor=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StorageDescriptor} StorageDescriptor instance
+                             */
+                            StorageDescriptor.create = function create(properties) {
+                                return new StorageDescriptor(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified StorageDescriptor message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StorageDescriptor.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StorageDescriptor
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStorageDescriptor} message StorageDescriptor message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            StorageDescriptor.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.locationUri != null && Object.hasOwnProperty.call(message, "locationUri"))
+                                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.locationUri);
+                                if (message.inputFormat != null && Object.hasOwnProperty.call(message, "inputFormat"))
+                                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.inputFormat);
+                                if (message.outputFormat != null && Object.hasOwnProperty.call(message, "outputFormat"))
+                                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.outputFormat);
+                                if (message.serdeInfo != null && Object.hasOwnProperty.call(message, "serdeInfo"))
+                                    $root.google.cloud.bigquery.storage.v1alpha.SerDeInfo.encode(message.serdeInfo, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified StorageDescriptor message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StorageDescriptor.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StorageDescriptor
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStorageDescriptor} message StorageDescriptor message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            StorageDescriptor.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a StorageDescriptor message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StorageDescriptor
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StorageDescriptor} StorageDescriptor
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            StorageDescriptor.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.StorageDescriptor();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            message.locationUri = reader.string();
+                                            break;
+                                        }
+                                    case 2: {
+                                            message.inputFormat = reader.string();
+                                            break;
+                                        }
+                                    case 3: {
+                                            message.outputFormat = reader.string();
+                                            break;
+                                        }
+                                    case 4: {
+                                            message.serdeInfo = $root.google.cloud.bigquery.storage.v1alpha.SerDeInfo.decode(reader, reader.uint32());
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a StorageDescriptor message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StorageDescriptor
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StorageDescriptor} StorageDescriptor
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            StorageDescriptor.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a StorageDescriptor message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StorageDescriptor
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            StorageDescriptor.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.locationUri != null && message.hasOwnProperty("locationUri"))
+                                    if (!$util.isString(message.locationUri))
+                                        return "locationUri: string expected";
+                                if (message.inputFormat != null && message.hasOwnProperty("inputFormat"))
+                                    if (!$util.isString(message.inputFormat))
+                                        return "inputFormat: string expected";
+                                if (message.outputFormat != null && message.hasOwnProperty("outputFormat"))
+                                    if (!$util.isString(message.outputFormat))
+                                        return "outputFormat: string expected";
+                                if (message.serdeInfo != null && message.hasOwnProperty("serdeInfo")) {
+                                    var error = $root.google.cloud.bigquery.storage.v1alpha.SerDeInfo.verify(message.serdeInfo);
+                                    if (error)
+                                        return "serdeInfo." + error;
+                                }
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a StorageDescriptor message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StorageDescriptor
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StorageDescriptor} StorageDescriptor
+                             */
+                            StorageDescriptor.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.StorageDescriptor)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.StorageDescriptor();
+                                if (object.locationUri != null)
+                                    message.locationUri = String(object.locationUri);
+                                if (object.inputFormat != null)
+                                    message.inputFormat = String(object.inputFormat);
+                                if (object.outputFormat != null)
+                                    message.outputFormat = String(object.outputFormat);
+                                if (object.serdeInfo != null) {
+                                    if (typeof object.serdeInfo !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.StorageDescriptor.serdeInfo: object expected");
+                                    message.serdeInfo = $root.google.cloud.bigquery.storage.v1alpha.SerDeInfo.fromObject(object.serdeInfo);
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a StorageDescriptor message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StorageDescriptor
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.StorageDescriptor} message StorageDescriptor
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            StorageDescriptor.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.defaults) {
+                                    object.locationUri = "";
+                                    object.inputFormat = "";
+                                    object.outputFormat = "";
+                                    object.serdeInfo = null;
+                                }
+                                if (message.locationUri != null && message.hasOwnProperty("locationUri"))
+                                    object.locationUri = message.locationUri;
+                                if (message.inputFormat != null && message.hasOwnProperty("inputFormat"))
+                                    object.inputFormat = message.inputFormat;
+                                if (message.outputFormat != null && message.hasOwnProperty("outputFormat"))
+                                    object.outputFormat = message.outputFormat;
+                                if (message.serdeInfo != null && message.hasOwnProperty("serdeInfo"))
+                                    object.serdeInfo = $root.google.cloud.bigquery.storage.v1alpha.SerDeInfo.toObject(message.serdeInfo, options);
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this StorageDescriptor to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StorageDescriptor
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            StorageDescriptor.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for StorageDescriptor
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StorageDescriptor
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            StorageDescriptor.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.StorageDescriptor";
+                            };
+    
+                            return StorageDescriptor;
+                        })();
+    
+                        v1alpha.SerDeInfo = (function() {
+    
+                            /**
+                             * Properties of a SerDeInfo.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface ISerDeInfo
+                             * @property {string|null} [name] SerDeInfo name
+                             * @property {string|null} [serializationLibrary] SerDeInfo serializationLibrary
+                             * @property {Object.<string,string>|null} [parameters] SerDeInfo parameters
+                             */
+    
+                            /**
+                             * Constructs a new SerDeInfo.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a SerDeInfo.
+                             * @implements ISerDeInfo
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.ISerDeInfo=} [properties] Properties to set
+                             */
+                            function SerDeInfo(properties) {
+                                this.parameters = {};
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * SerDeInfo name.
+                             * @member {string} name
+                             * @memberof google.cloud.bigquery.storage.v1alpha.SerDeInfo
+                             * @instance
+                             */
+                            SerDeInfo.prototype.name = "";
+    
+                            /**
+                             * SerDeInfo serializationLibrary.
+                             * @member {string} serializationLibrary
+                             * @memberof google.cloud.bigquery.storage.v1alpha.SerDeInfo
+                             * @instance
+                             */
+                            SerDeInfo.prototype.serializationLibrary = "";
+    
+                            /**
+                             * SerDeInfo parameters.
+                             * @member {Object.<string,string>} parameters
+                             * @memberof google.cloud.bigquery.storage.v1alpha.SerDeInfo
+                             * @instance
+                             */
+                            SerDeInfo.prototype.parameters = $util.emptyObject;
+    
+                            /**
+                             * Creates a new SerDeInfo instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.SerDeInfo
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.ISerDeInfo=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.SerDeInfo} SerDeInfo instance
+                             */
+                            SerDeInfo.create = function create(properties) {
+                                return new SerDeInfo(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified SerDeInfo message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.SerDeInfo.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.SerDeInfo
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.ISerDeInfo} message SerDeInfo message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            SerDeInfo.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+                                if (message.serializationLibrary != null && Object.hasOwnProperty.call(message, "serializationLibrary"))
+                                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.serializationLibrary);
+                                if (message.parameters != null && Object.hasOwnProperty.call(message, "parameters"))
+                                    for (var keys = Object.keys(message.parameters), i = 0; i < keys.length; ++i)
+                                        writer.uint32(/* id 3, wireType 2 =*/26).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.parameters[keys[i]]).ldelim();
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified SerDeInfo message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.SerDeInfo.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.SerDeInfo
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.ISerDeInfo} message SerDeInfo message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            SerDeInfo.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a SerDeInfo message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.SerDeInfo
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.SerDeInfo} SerDeInfo
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            SerDeInfo.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.SerDeInfo(), key, value;
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            message.name = reader.string();
+                                            break;
+                                        }
+                                    case 2: {
+                                            message.serializationLibrary = reader.string();
+                                            break;
+                                        }
+                                    case 3: {
+                                            if (message.parameters === $util.emptyObject)
+                                                message.parameters = {};
+                                            var end2 = reader.uint32() + reader.pos;
+                                            key = "";
+                                            value = "";
+                                            while (reader.pos < end2) {
+                                                var tag2 = reader.uint32();
+                                                switch (tag2 >>> 3) {
+                                                case 1:
+                                                    key = reader.string();
+                                                    break;
+                                                case 2:
+                                                    value = reader.string();
+                                                    break;
+                                                default:
+                                                    reader.skipType(tag2 & 7);
+                                                    break;
+                                                }
+                                            }
+                                            message.parameters[key] = value;
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a SerDeInfo message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.SerDeInfo
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.SerDeInfo} SerDeInfo
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            SerDeInfo.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a SerDeInfo message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.SerDeInfo
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            SerDeInfo.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.name != null && message.hasOwnProperty("name"))
+                                    if (!$util.isString(message.name))
+                                        return "name: string expected";
+                                if (message.serializationLibrary != null && message.hasOwnProperty("serializationLibrary"))
+                                    if (!$util.isString(message.serializationLibrary))
+                                        return "serializationLibrary: string expected";
+                                if (message.parameters != null && message.hasOwnProperty("parameters")) {
+                                    if (!$util.isObject(message.parameters))
+                                        return "parameters: object expected";
+                                    var key = Object.keys(message.parameters);
+                                    for (var i = 0; i < key.length; ++i)
+                                        if (!$util.isString(message.parameters[key[i]]))
+                                            return "parameters: string{k:string} expected";
+                                }
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a SerDeInfo message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.SerDeInfo
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.SerDeInfo} SerDeInfo
+                             */
+                            SerDeInfo.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.SerDeInfo)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.SerDeInfo();
+                                if (object.name != null)
+                                    message.name = String(object.name);
+                                if (object.serializationLibrary != null)
+                                    message.serializationLibrary = String(object.serializationLibrary);
+                                if (object.parameters) {
+                                    if (typeof object.parameters !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.SerDeInfo.parameters: object expected");
+                                    message.parameters = {};
+                                    for (var keys = Object.keys(object.parameters), i = 0; i < keys.length; ++i)
+                                        message.parameters[keys[i]] = String(object.parameters[keys[i]]);
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a SerDeInfo message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.SerDeInfo
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.SerDeInfo} message SerDeInfo
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            SerDeInfo.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.objects || options.defaults)
+                                    object.parameters = {};
+                                if (options.defaults) {
+                                    object.name = "";
+                                    object.serializationLibrary = "";
+                                }
+                                if (message.name != null && message.hasOwnProperty("name"))
+                                    object.name = message.name;
+                                if (message.serializationLibrary != null && message.hasOwnProperty("serializationLibrary"))
+                                    object.serializationLibrary = message.serializationLibrary;
+                                var keys2;
+                                if (message.parameters && (keys2 = Object.keys(message.parameters)).length) {
+                                    object.parameters = {};
+                                    for (var j = 0; j < keys2.length; ++j)
+                                        object.parameters[keys2[j]] = message.parameters[keys2[j]];
+                                }
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this SerDeInfo to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.SerDeInfo
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            SerDeInfo.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for SerDeInfo
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.SerDeInfo
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            SerDeInfo.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.SerDeInfo";
+                            };
+    
+                            return SerDeInfo;
+                        })();
+    
+                        v1alpha.MetastorePartition = (function() {
+    
+                            /**
+                             * Properties of a MetastorePartition.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IMetastorePartition
+                             * @property {Array.<string>|null} [values] MetastorePartition values
+                             * @property {google.protobuf.ITimestamp|null} [createTime] MetastorePartition createTime
+                             * @property {google.cloud.bigquery.storage.v1alpha.IStorageDescriptor|null} [storageDescriptor] MetastorePartition storageDescriptor
+                             * @property {Object.<string,string>|null} [parameters] MetastorePartition parameters
+                             * @property {Array.<google.cloud.bigquery.storage.v1alpha.IFieldSchema>|null} [fields] MetastorePartition fields
+                             */
+    
+                            /**
+                             * Constructs a new MetastorePartition.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a MetastorePartition.
+                             * @implements IMetastorePartition
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IMetastorePartition=} [properties] Properties to set
+                             */
+                            function MetastorePartition(properties) {
+                                this.values = [];
+                                this.parameters = {};
+                                this.fields = [];
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * MetastorePartition values.
+                             * @member {Array.<string>} values
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartition
+                             * @instance
+                             */
+                            MetastorePartition.prototype.values = $util.emptyArray;
+    
+                            /**
+                             * MetastorePartition createTime.
+                             * @member {google.protobuf.ITimestamp|null|undefined} createTime
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartition
+                             * @instance
+                             */
+                            MetastorePartition.prototype.createTime = null;
+    
+                            /**
+                             * MetastorePartition storageDescriptor.
+                             * @member {google.cloud.bigquery.storage.v1alpha.IStorageDescriptor|null|undefined} storageDescriptor
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartition
+                             * @instance
+                             */
+                            MetastorePartition.prototype.storageDescriptor = null;
+    
+                            /**
+                             * MetastorePartition parameters.
+                             * @member {Object.<string,string>} parameters
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartition
+                             * @instance
+                             */
+                            MetastorePartition.prototype.parameters = $util.emptyObject;
+    
+                            /**
+                             * MetastorePartition fields.
+                             * @member {Array.<google.cloud.bigquery.storage.v1alpha.IFieldSchema>} fields
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartition
+                             * @instance
+                             */
+                            MetastorePartition.prototype.fields = $util.emptyArray;
+    
+                            /**
+                             * Creates a new MetastorePartition instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartition
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IMetastorePartition=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.MetastorePartition} MetastorePartition instance
+                             */
+                            MetastorePartition.create = function create(properties) {
+                                return new MetastorePartition(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified MetastorePartition message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.MetastorePartition.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartition
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IMetastorePartition} message MetastorePartition message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            MetastorePartition.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.values != null && message.values.length)
+                                    for (var i = 0; i < message.values.length; ++i)
+                                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.values[i]);
+                                if (message.createTime != null && Object.hasOwnProperty.call(message, "createTime"))
+                                    $root.google.protobuf.Timestamp.encode(message.createTime, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                                if (message.storageDescriptor != null && Object.hasOwnProperty.call(message, "storageDescriptor"))
+                                    $root.google.cloud.bigquery.storage.v1alpha.StorageDescriptor.encode(message.storageDescriptor, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                                if (message.parameters != null && Object.hasOwnProperty.call(message, "parameters"))
+                                    for (var keys = Object.keys(message.parameters), i = 0; i < keys.length; ++i)
+                                        writer.uint32(/* id 4, wireType 2 =*/34).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.parameters[keys[i]]).ldelim();
+                                if (message.fields != null && message.fields.length)
+                                    for (var i = 0; i < message.fields.length; ++i)
+                                        $root.google.cloud.bigquery.storage.v1alpha.FieldSchema.encode(message.fields[i], writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified MetastorePartition message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.MetastorePartition.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartition
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IMetastorePartition} message MetastorePartition message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            MetastorePartition.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a MetastorePartition message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartition
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.MetastorePartition} MetastorePartition
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            MetastorePartition.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition(), key, value;
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            if (!(message.values && message.values.length))
+                                                message.values = [];
+                                            message.values.push(reader.string());
+                                            break;
+                                        }
+                                    case 2: {
+                                            message.createTime = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                                            break;
+                                        }
+                                    case 3: {
+                                            message.storageDescriptor = $root.google.cloud.bigquery.storage.v1alpha.StorageDescriptor.decode(reader, reader.uint32());
+                                            break;
+                                        }
+                                    case 4: {
+                                            if (message.parameters === $util.emptyObject)
+                                                message.parameters = {};
+                                            var end2 = reader.uint32() + reader.pos;
+                                            key = "";
+                                            value = "";
+                                            while (reader.pos < end2) {
+                                                var tag2 = reader.uint32();
+                                                switch (tag2 >>> 3) {
+                                                case 1:
+                                                    key = reader.string();
+                                                    break;
+                                                case 2:
+                                                    value = reader.string();
+                                                    break;
+                                                default:
+                                                    reader.skipType(tag2 & 7);
+                                                    break;
+                                                }
+                                            }
+                                            message.parameters[key] = value;
+                                            break;
+                                        }
+                                    case 5: {
+                                            if (!(message.fields && message.fields.length))
+                                                message.fields = [];
+                                            message.fields.push($root.google.cloud.bigquery.storage.v1alpha.FieldSchema.decode(reader, reader.uint32()));
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a MetastorePartition message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartition
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.MetastorePartition} MetastorePartition
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            MetastorePartition.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a MetastorePartition message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartition
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            MetastorePartition.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.values != null && message.hasOwnProperty("values")) {
+                                    if (!Array.isArray(message.values))
+                                        return "values: array expected";
+                                    for (var i = 0; i < message.values.length; ++i)
+                                        if (!$util.isString(message.values[i]))
+                                            return "values: string[] expected";
+                                }
+                                if (message.createTime != null && message.hasOwnProperty("createTime")) {
+                                    var error = $root.google.protobuf.Timestamp.verify(message.createTime);
+                                    if (error)
+                                        return "createTime." + error;
+                                }
+                                if (message.storageDescriptor != null && message.hasOwnProperty("storageDescriptor")) {
+                                    var error = $root.google.cloud.bigquery.storage.v1alpha.StorageDescriptor.verify(message.storageDescriptor);
+                                    if (error)
+                                        return "storageDescriptor." + error;
+                                }
+                                if (message.parameters != null && message.hasOwnProperty("parameters")) {
+                                    if (!$util.isObject(message.parameters))
+                                        return "parameters: object expected";
+                                    var key = Object.keys(message.parameters);
+                                    for (var i = 0; i < key.length; ++i)
+                                        if (!$util.isString(message.parameters[key[i]]))
+                                            return "parameters: string{k:string} expected";
+                                }
+                                if (message.fields != null && message.hasOwnProperty("fields")) {
+                                    if (!Array.isArray(message.fields))
+                                        return "fields: array expected";
+                                    for (var i = 0; i < message.fields.length; ++i) {
+                                        var error = $root.google.cloud.bigquery.storage.v1alpha.FieldSchema.verify(message.fields[i]);
+                                        if (error)
+                                            return "fields." + error;
+                                    }
+                                }
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a MetastorePartition message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartition
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.MetastorePartition} MetastorePartition
+                             */
+                            MetastorePartition.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition();
+                                if (object.values) {
+                                    if (!Array.isArray(object.values))
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.MetastorePartition.values: array expected");
+                                    message.values = [];
+                                    for (var i = 0; i < object.values.length; ++i)
+                                        message.values[i] = String(object.values[i]);
+                                }
+                                if (object.createTime != null) {
+                                    if (typeof object.createTime !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.MetastorePartition.createTime: object expected");
+                                    message.createTime = $root.google.protobuf.Timestamp.fromObject(object.createTime);
+                                }
+                                if (object.storageDescriptor != null) {
+                                    if (typeof object.storageDescriptor !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.MetastorePartition.storageDescriptor: object expected");
+                                    message.storageDescriptor = $root.google.cloud.bigquery.storage.v1alpha.StorageDescriptor.fromObject(object.storageDescriptor);
+                                }
+                                if (object.parameters) {
+                                    if (typeof object.parameters !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.MetastorePartition.parameters: object expected");
+                                    message.parameters = {};
+                                    for (var keys = Object.keys(object.parameters), i = 0; i < keys.length; ++i)
+                                        message.parameters[keys[i]] = String(object.parameters[keys[i]]);
+                                }
+                                if (object.fields) {
+                                    if (!Array.isArray(object.fields))
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.MetastorePartition.fields: array expected");
+                                    message.fields = [];
+                                    for (var i = 0; i < object.fields.length; ++i) {
+                                        if (typeof object.fields[i] !== "object")
+                                            throw TypeError(".google.cloud.bigquery.storage.v1alpha.MetastorePartition.fields: object expected");
+                                        message.fields[i] = $root.google.cloud.bigquery.storage.v1alpha.FieldSchema.fromObject(object.fields[i]);
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a MetastorePartition message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartition
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.MetastorePartition} message MetastorePartition
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            MetastorePartition.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.arrays || options.defaults) {
+                                    object.values = [];
+                                    object.fields = [];
+                                }
+                                if (options.objects || options.defaults)
+                                    object.parameters = {};
+                                if (options.defaults) {
+                                    object.createTime = null;
+                                    object.storageDescriptor = null;
+                                }
+                                if (message.values && message.values.length) {
+                                    object.values = [];
+                                    for (var j = 0; j < message.values.length; ++j)
+                                        object.values[j] = message.values[j];
+                                }
+                                if (message.createTime != null && message.hasOwnProperty("createTime"))
+                                    object.createTime = $root.google.protobuf.Timestamp.toObject(message.createTime, options);
+                                if (message.storageDescriptor != null && message.hasOwnProperty("storageDescriptor"))
+                                    object.storageDescriptor = $root.google.cloud.bigquery.storage.v1alpha.StorageDescriptor.toObject(message.storageDescriptor, options);
+                                var keys2;
+                                if (message.parameters && (keys2 = Object.keys(message.parameters)).length) {
+                                    object.parameters = {};
+                                    for (var j = 0; j < keys2.length; ++j)
+                                        object.parameters[keys2[j]] = message.parameters[keys2[j]];
+                                }
+                                if (message.fields && message.fields.length) {
+                                    object.fields = [];
+                                    for (var j = 0; j < message.fields.length; ++j)
+                                        object.fields[j] = $root.google.cloud.bigquery.storage.v1alpha.FieldSchema.toObject(message.fields[j], options);
+                                }
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this MetastorePartition to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartition
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            MetastorePartition.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for MetastorePartition
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartition
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            MetastorePartition.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.MetastorePartition";
+                            };
+    
+                            return MetastorePartition;
+                        })();
+    
+                        v1alpha.MetastorePartitionList = (function() {
+    
+                            /**
+                             * Properties of a MetastorePartitionList.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IMetastorePartitionList
+                             * @property {Array.<google.cloud.bigquery.storage.v1alpha.IMetastorePartition>|null} [partitions] MetastorePartitionList partitions
+                             */
+    
+                            /**
+                             * Constructs a new MetastorePartitionList.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a MetastorePartitionList.
+                             * @implements IMetastorePartitionList
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IMetastorePartitionList=} [properties] Properties to set
+                             */
+                            function MetastorePartitionList(properties) {
+                                this.partitions = [];
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * MetastorePartitionList partitions.
+                             * @member {Array.<google.cloud.bigquery.storage.v1alpha.IMetastorePartition>} partitions
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionList
+                             * @instance
+                             */
+                            MetastorePartitionList.prototype.partitions = $util.emptyArray;
+    
+                            /**
+                             * Creates a new MetastorePartitionList instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionList
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IMetastorePartitionList=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.MetastorePartitionList} MetastorePartitionList instance
+                             */
+                            MetastorePartitionList.create = function create(properties) {
+                                return new MetastorePartitionList(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified MetastorePartitionList message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionList.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionList
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IMetastorePartitionList} message MetastorePartitionList message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            MetastorePartitionList.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.partitions != null && message.partitions.length)
+                                    for (var i = 0; i < message.partitions.length; ++i)
+                                        $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.encode(message.partitions[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified MetastorePartitionList message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionList.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionList
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IMetastorePartitionList} message MetastorePartitionList message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            MetastorePartitionList.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a MetastorePartitionList message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionList
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.MetastorePartitionList} MetastorePartitionList
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            MetastorePartitionList.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionList();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            if (!(message.partitions && message.partitions.length))
+                                                message.partitions = [];
+                                            message.partitions.push($root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.decode(reader, reader.uint32()));
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a MetastorePartitionList message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionList
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.MetastorePartitionList} MetastorePartitionList
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            MetastorePartitionList.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a MetastorePartitionList message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionList
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            MetastorePartitionList.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.partitions != null && message.hasOwnProperty("partitions")) {
+                                    if (!Array.isArray(message.partitions))
+                                        return "partitions: array expected";
+                                    for (var i = 0; i < message.partitions.length; ++i) {
+                                        var error = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.verify(message.partitions[i]);
+                                        if (error)
+                                            return "partitions." + error;
+                                    }
+                                }
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a MetastorePartitionList message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionList
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.MetastorePartitionList} MetastorePartitionList
+                             */
+                            MetastorePartitionList.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionList)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionList();
+                                if (object.partitions) {
+                                    if (!Array.isArray(object.partitions))
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.MetastorePartitionList.partitions: array expected");
+                                    message.partitions = [];
+                                    for (var i = 0; i < object.partitions.length; ++i) {
+                                        if (typeof object.partitions[i] !== "object")
+                                            throw TypeError(".google.cloud.bigquery.storage.v1alpha.MetastorePartitionList.partitions: object expected");
+                                        message.partitions[i] = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.fromObject(object.partitions[i]);
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a MetastorePartitionList message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionList
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.MetastorePartitionList} message MetastorePartitionList
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            MetastorePartitionList.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.arrays || options.defaults)
+                                    object.partitions = [];
+                                if (message.partitions && message.partitions.length) {
+                                    object.partitions = [];
+                                    for (var j = 0; j < message.partitions.length; ++j)
+                                        object.partitions[j] = $root.google.cloud.bigquery.storage.v1alpha.MetastorePartition.toObject(message.partitions[j], options);
+                                }
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this MetastorePartitionList to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionList
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            MetastorePartitionList.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for MetastorePartitionList
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionList
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            MetastorePartitionList.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.MetastorePartitionList";
+                            };
+    
+                            return MetastorePartitionList;
+                        })();
+    
+                        v1alpha.ReadStream = (function() {
+    
+                            /**
+                             * Properties of a ReadStream.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IReadStream
+                             * @property {string|null} [name] ReadStream name
+                             */
+    
+                            /**
+                             * Constructs a new ReadStream.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a ReadStream.
+                             * @implements IReadStream
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IReadStream=} [properties] Properties to set
+                             */
+                            function ReadStream(properties) {
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * ReadStream name.
+                             * @member {string} name
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ReadStream
+                             * @instance
+                             */
+                            ReadStream.prototype.name = "";
+    
+                            /**
+                             * Creates a new ReadStream instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ReadStream
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IReadStream=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.ReadStream} ReadStream instance
+                             */
+                            ReadStream.create = function create(properties) {
+                                return new ReadStream(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified ReadStream message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.ReadStream.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ReadStream
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IReadStream} message ReadStream message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            ReadStream.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified ReadStream message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.ReadStream.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ReadStream
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IReadStream} message ReadStream message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            ReadStream.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a ReadStream message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ReadStream
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.ReadStream} ReadStream
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            ReadStream.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.ReadStream();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            message.name = reader.string();
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a ReadStream message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ReadStream
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.ReadStream} ReadStream
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            ReadStream.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a ReadStream message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ReadStream
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            ReadStream.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.name != null && message.hasOwnProperty("name"))
+                                    if (!$util.isString(message.name))
+                                        return "name: string expected";
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a ReadStream message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ReadStream
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.ReadStream} ReadStream
+                             */
+                            ReadStream.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.ReadStream)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.ReadStream();
+                                if (object.name != null)
+                                    message.name = String(object.name);
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a ReadStream message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ReadStream
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.ReadStream} message ReadStream
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            ReadStream.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.defaults)
+                                    object.name = "";
+                                if (message.name != null && message.hasOwnProperty("name"))
+                                    object.name = message.name;
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this ReadStream to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ReadStream
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            ReadStream.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for ReadStream
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.ReadStream
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            ReadStream.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.ReadStream";
+                            };
+    
+                            return ReadStream;
+                        })();
+    
+                        v1alpha.StreamList = (function() {
+    
+                            /**
+                             * Properties of a StreamList.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IStreamList
+                             * @property {Array.<google.cloud.bigquery.storage.v1alpha.IReadStream>|null} [streams] StreamList streams
+                             */
+    
+                            /**
+                             * Constructs a new StreamList.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a StreamList.
+                             * @implements IStreamList
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStreamList=} [properties] Properties to set
+                             */
+                            function StreamList(properties) {
+                                this.streams = [];
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * StreamList streams.
+                             * @member {Array.<google.cloud.bigquery.storage.v1alpha.IReadStream>} streams
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamList
+                             * @instance
+                             */
+                            StreamList.prototype.streams = $util.emptyArray;
+    
+                            /**
+                             * Creates a new StreamList instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamList
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStreamList=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StreamList} StreamList instance
+                             */
+                            StreamList.create = function create(properties) {
+                                return new StreamList(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified StreamList message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StreamList.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamList
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStreamList} message StreamList message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            StreamList.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.streams != null && message.streams.length)
+                                    for (var i = 0; i < message.streams.length; ++i)
+                                        $root.google.cloud.bigquery.storage.v1alpha.ReadStream.encode(message.streams[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified StreamList message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StreamList.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamList
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IStreamList} message StreamList message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            StreamList.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a StreamList message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamList
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StreamList} StreamList
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            StreamList.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.StreamList();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            if (!(message.streams && message.streams.length))
+                                                message.streams = [];
+                                            message.streams.push($root.google.cloud.bigquery.storage.v1alpha.ReadStream.decode(reader, reader.uint32()));
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a StreamList message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamList
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StreamList} StreamList
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            StreamList.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a StreamList message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamList
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            StreamList.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.streams != null && message.hasOwnProperty("streams")) {
+                                    if (!Array.isArray(message.streams))
+                                        return "streams: array expected";
+                                    for (var i = 0; i < message.streams.length; ++i) {
+                                        var error = $root.google.cloud.bigquery.storage.v1alpha.ReadStream.verify(message.streams[i]);
+                                        if (error)
+                                            return "streams." + error;
+                                    }
+                                }
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a StreamList message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamList
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.StreamList} StreamList
+                             */
+                            StreamList.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.StreamList)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.StreamList();
+                                if (object.streams) {
+                                    if (!Array.isArray(object.streams))
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.StreamList.streams: array expected");
+                                    message.streams = [];
+                                    for (var i = 0; i < object.streams.length; ++i) {
+                                        if (typeof object.streams[i] !== "object")
+                                            throw TypeError(".google.cloud.bigquery.storage.v1alpha.StreamList.streams: object expected");
+                                        message.streams[i] = $root.google.cloud.bigquery.storage.v1alpha.ReadStream.fromObject(object.streams[i]);
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a StreamList message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamList
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.StreamList} message StreamList
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            StreamList.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.arrays || options.defaults)
+                                    object.streams = [];
+                                if (message.streams && message.streams.length) {
+                                    object.streams = [];
+                                    for (var j = 0; j < message.streams.length; ++j)
+                                        object.streams[j] = $root.google.cloud.bigquery.storage.v1alpha.ReadStream.toObject(message.streams[j], options);
+                                }
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this StreamList to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamList
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            StreamList.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for StreamList
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.StreamList
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            StreamList.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.StreamList";
+                            };
+    
+                            return StreamList;
+                        })();
+    
+                        v1alpha.MetastorePartitionValues = (function() {
+    
+                            /**
+                             * Properties of a MetastorePartitionValues.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @interface IMetastorePartitionValues
+                             * @property {Array.<string>|null} [values] MetastorePartitionValues values
+                             */
+    
+                            /**
+                             * Constructs a new MetastorePartitionValues.
+                             * @memberof google.cloud.bigquery.storage.v1alpha
+                             * @classdesc Represents a MetastorePartitionValues.
+                             * @implements IMetastorePartitionValues
+                             * @constructor
+                             * @param {google.cloud.bigquery.storage.v1alpha.IMetastorePartitionValues=} [properties] Properties to set
+                             */
+                            function MetastorePartitionValues(properties) {
+                                this.values = [];
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * MetastorePartitionValues values.
+                             * @member {Array.<string>} values
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues
+                             * @instance
+                             */
+                            MetastorePartitionValues.prototype.values = $util.emptyArray;
+    
+                            /**
+                             * Creates a new MetastorePartitionValues instance using the specified properties.
+                             * @function create
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IMetastorePartitionValues=} [properties] Properties to set
+                             * @returns {google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues} MetastorePartitionValues instance
+                             */
+                            MetastorePartitionValues.create = function create(properties) {
+                                return new MetastorePartitionValues(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified MetastorePartitionValues message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IMetastorePartitionValues} message MetastorePartitionValues message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            MetastorePartitionValues.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.values != null && message.values.length)
+                                    for (var i = 0; i < message.values.length; ++i)
+                                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.values[i]);
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified MetastorePartitionValues message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.IMetastorePartitionValues} message MetastorePartitionValues message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            MetastorePartitionValues.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a MetastorePartitionValues message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues} MetastorePartitionValues
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            MetastorePartitionValues.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            if (!(message.values && message.values.length))
+                                                message.values = [];
+                                            message.values.push(reader.string());
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a MetastorePartitionValues message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues} MetastorePartitionValues
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            MetastorePartitionValues.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a MetastorePartitionValues message.
+                             * @function verify
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            MetastorePartitionValues.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.values != null && message.hasOwnProperty("values")) {
+                                    if (!Array.isArray(message.values))
+                                        return "values: array expected";
+                                    for (var i = 0; i < message.values.length; ++i)
+                                        if (!$util.isString(message.values[i]))
+                                            return "values: string[] expected";
+                                }
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a MetastorePartitionValues message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues} MetastorePartitionValues
+                             */
+                            MetastorePartitionValues.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues)
+                                    return object;
+                                var message = new $root.google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues();
+                                if (object.values) {
+                                    if (!Array.isArray(object.values))
+                                        throw TypeError(".google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues.values: array expected");
+                                    message.values = [];
+                                    for (var i = 0; i < object.values.length; ++i)
+                                        message.values[i] = String(object.values[i]);
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a MetastorePartitionValues message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues
+                             * @static
+                             * @param {google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues} message MetastorePartitionValues
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            MetastorePartitionValues.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (options.arrays || options.defaults)
+                                    object.values = [];
+                                if (message.values && message.values.length) {
+                                    object.values = [];
+                                    for (var j = 0; j < message.values.length; ++j)
+                                        object.values[j] = message.values[j];
+                                }
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this MetastorePartitionValues to JSON.
+                             * @function toJSON
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            MetastorePartitionValues.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for MetastorePartitionValues
+                             * @function getTypeUrl
+                             * @memberof google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            MetastorePartitionValues.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues";
+                            };
+    
+                            return MetastorePartitionValues;
+                        })();
+    
+                        return v1alpha;
+                    })();
+    
                     storage.v1beta1 = (function() {
     
                         /**
@@ -31701,6 +36897,225 @@
                 };
     
                 return Empty;
+            })();
+    
+            protobuf.FieldMask = (function() {
+    
+                /**
+                 * Properties of a FieldMask.
+                 * @memberof google.protobuf
+                 * @interface IFieldMask
+                 * @property {Array.<string>|null} [paths] FieldMask paths
+                 */
+    
+                /**
+                 * Constructs a new FieldMask.
+                 * @memberof google.protobuf
+                 * @classdesc Represents a FieldMask.
+                 * @implements IFieldMask
+                 * @constructor
+                 * @param {google.protobuf.IFieldMask=} [properties] Properties to set
+                 */
+                function FieldMask(properties) {
+                    this.paths = [];
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+    
+                /**
+                 * FieldMask paths.
+                 * @member {Array.<string>} paths
+                 * @memberof google.protobuf.FieldMask
+                 * @instance
+                 */
+                FieldMask.prototype.paths = $util.emptyArray;
+    
+                /**
+                 * Creates a new FieldMask instance using the specified properties.
+                 * @function create
+                 * @memberof google.protobuf.FieldMask
+                 * @static
+                 * @param {google.protobuf.IFieldMask=} [properties] Properties to set
+                 * @returns {google.protobuf.FieldMask} FieldMask instance
+                 */
+                FieldMask.create = function create(properties) {
+                    return new FieldMask(properties);
+                };
+    
+                /**
+                 * Encodes the specified FieldMask message. Does not implicitly {@link google.protobuf.FieldMask.verify|verify} messages.
+                 * @function encode
+                 * @memberof google.protobuf.FieldMask
+                 * @static
+                 * @param {google.protobuf.IFieldMask} message FieldMask message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                FieldMask.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.paths != null && message.paths.length)
+                        for (var i = 0; i < message.paths.length; ++i)
+                            writer.uint32(/* id 1, wireType 2 =*/10).string(message.paths[i]);
+                    return writer;
+                };
+    
+                /**
+                 * Encodes the specified FieldMask message, length delimited. Does not implicitly {@link google.protobuf.FieldMask.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof google.protobuf.FieldMask
+                 * @static
+                 * @param {google.protobuf.IFieldMask} message FieldMask message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                FieldMask.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+    
+                /**
+                 * Decodes a FieldMask message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof google.protobuf.FieldMask
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {google.protobuf.FieldMask} FieldMask
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                FieldMask.decode = function decode(reader, length) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FieldMask();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        switch (tag >>> 3) {
+                        case 1: {
+                                if (!(message.paths && message.paths.length))
+                                    message.paths = [];
+                                message.paths.push(reader.string());
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+    
+                /**
+                 * Decodes a FieldMask message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof google.protobuf.FieldMask
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {google.protobuf.FieldMask} FieldMask
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                FieldMask.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+    
+                /**
+                 * Verifies a FieldMask message.
+                 * @function verify
+                 * @memberof google.protobuf.FieldMask
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                FieldMask.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.paths != null && message.hasOwnProperty("paths")) {
+                        if (!Array.isArray(message.paths))
+                            return "paths: array expected";
+                        for (var i = 0; i < message.paths.length; ++i)
+                            if (!$util.isString(message.paths[i]))
+                                return "paths: string[] expected";
+                    }
+                    return null;
+                };
+    
+                /**
+                 * Creates a FieldMask message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof google.protobuf.FieldMask
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {google.protobuf.FieldMask} FieldMask
+                 */
+                FieldMask.fromObject = function fromObject(object) {
+                    if (object instanceof $root.google.protobuf.FieldMask)
+                        return object;
+                    var message = new $root.google.protobuf.FieldMask();
+                    if (object.paths) {
+                        if (!Array.isArray(object.paths))
+                            throw TypeError(".google.protobuf.FieldMask.paths: array expected");
+                        message.paths = [];
+                        for (var i = 0; i < object.paths.length; ++i)
+                            message.paths[i] = String(object.paths[i]);
+                    }
+                    return message;
+                };
+    
+                /**
+                 * Creates a plain object from a FieldMask message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof google.protobuf.FieldMask
+                 * @static
+                 * @param {google.protobuf.FieldMask} message FieldMask
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                FieldMask.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.arrays || options.defaults)
+                        object.paths = [];
+                    if (message.paths && message.paths.length) {
+                        object.paths = [];
+                        for (var j = 0; j < message.paths.length; ++j)
+                            object.paths[j] = message.paths[j];
+                    }
+                    return object;
+                };
+    
+                /**
+                 * Converts this FieldMask to JSON.
+                 * @function toJSON
+                 * @memberof google.protobuf.FieldMask
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                FieldMask.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+    
+                /**
+                 * Gets the default type url for FieldMask
+                 * @function getTypeUrl
+                 * @memberof google.protobuf.FieldMask
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                FieldMask.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/google.protobuf.FieldMask";
+                };
+    
+                return FieldMask;
             })();
     
             return protobuf;
