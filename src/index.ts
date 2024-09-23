@@ -20,6 +20,7 @@ import * as v1 from './v1';
 import * as v1beta1 from './v1beta1';
 import * as v1alpha from './v1alpha';
 import * as managedwriter from './managedwriter';
+import * as reader from './reader';
 const BigQueryReadClient = v1.BigQueryReadClient;
 type BigQueryReadClient = v1.BigQueryReadClient;
 const BigQueryWriteClient = v1.BigQueryWriteClient;
@@ -28,6 +29,8 @@ const BigQueryStorageClient = v1beta1.BigQueryStorageClient;
 type BigQueryStorageClient = v1beta1.BigQueryStorageClient;
 const WriterClient = managedwriter.WriterClient;
 type WriterClient = managedwriter.WriterClient;
+const ReadClient = reader.ReadClient;
+type ReadClient = reader.ReadClient;
 export {
   v1,
   BigQueryReadClient,
@@ -37,6 +40,8 @@ export {
   BigQueryWriteClient,
   managedwriter,
   WriterClient,
+  reader,
+  ReadClient,
 };
 // For compatibility with JavaScript libraries we need to provide this default export:
 // tslint:disable-next-line no-default-export
@@ -46,6 +51,8 @@ export default {
   BigQueryWriteClient,
   managedwriter,
   WriterClient,
+  reader,
+  ReadClient,
 };
 import * as protos from '../protos/protos';
 export {protos};
