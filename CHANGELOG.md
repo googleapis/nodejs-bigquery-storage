@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.10.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.9.0...v4.10.0) (2024-09-23)
+
+
+### Features
+
+* Add BigQuery Metastore Partition Service API version v1alpha ([b0cf365](https://github.com/googleapis/nodejs-bigquery-storage/commit/b0cf365d9dcb47ea40e2222aa7fb966396bff4b9))
+* Add wrapper for reading table data using Storage API ([#431](https://github.com/googleapis/nodejs-bigquery-storage/issues/431)) ([03f2b1f](https://github.com/googleapis/nodejs-bigquery-storage/commit/03f2b1f165f25f831f4a266419f3a6168ef2536c))
+
 ## [4.9.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.8.0...v4.9.0) (2024-09-12)
 
 
