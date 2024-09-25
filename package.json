@@ -1,7 +1,7 @@
 {
   "name": "@google-cloud/bigquery-storage",
   "version": "4.10.0",
-  "description": "Client for the BigQuery Storage API",
+  "description": "Client for the BigQuery Storage API test",
   "repository": "googleapis/nodejs-bigquery-storage",
   "license": "Apache-2.0",
   "author": "Google LLC",
