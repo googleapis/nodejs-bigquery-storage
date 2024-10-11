@@ -2048,6 +2048,9 @@ export namespace google {
                         /** AppendRowsRequest protoRows */
                         protoRows?: (google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData|null);
 
+                        /** AppendRowsRequest arrowRows */
+                        arrowRows?: (google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData|null);
+
                         /** AppendRowsRequest traceId */
                         traceId?: (string|null);
 
@@ -2076,6 +2079,9 @@ export namespace google {
                         /** AppendRowsRequest protoRows. */
                         public protoRows?: (google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData|null);
 
+                        /** AppendRowsRequest arrowRows. */
+                        public arrowRows?: (google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData|null);
+
                         /** AppendRowsRequest traceId. */
                         public traceId: string;
 
@@ -2086,7 +2092,7 @@ export namespace google {
                         public defaultMissingValueInterpretation: (google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation|keyof typeof google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation);
 
                         /** AppendRowsRequest rows. */
-                        public rows?: "protoRows";
+                        public rows?: ("protoRows"|"arrowRows");
 
                         /**
                          * Creates a new AppendRowsRequest instance using the specified properties.
@@ -2167,6 +2173,109 @@ export namespace google {
                     }
 
                     namespace AppendRowsRequest {
+
+                        /** Properties of an ArrowData. */
+                        interface IArrowData {
+
+                            /** ArrowData writerSchema */
+                            writerSchema?: (google.cloud.bigquery.storage.v1.IArrowSchema|null);
+
+                            /** ArrowData rows */
+                            rows?: (google.cloud.bigquery.storage.v1.IArrowRecordBatch|null);
+                        }
+
+                        /** Represents an ArrowData. */
+                        class ArrowData implements IArrowData {
+
+                            /**
+                             * Constructs a new ArrowData.
+                             * @param [properties] Properties to set
+                             */
+                            constructor(properties?: google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData);
+
+                            /** ArrowData writerSchema. */
+                            public writerSchema?: (google.cloud.bigquery.storage.v1.IArrowSchema|null);
+
+                            /** ArrowData rows. */
+                            public rows?: (google.cloud.bigquery.storage.v1.IArrowRecordBatch|null);
+
+                            /**
+                             * Creates a new ArrowData instance using the specified properties.
+                             * @param [properties] Properties to set
+                             * @returns ArrowData instance
+                             */
+                            public static create(properties?: google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData): google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData;
+
+                            /**
+                             * Encodes the specified ArrowData message. Does not implicitly {@link google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData.verify|verify} messages.
+                             * @param message ArrowData message or plain object to encode
+                             * @param [writer] Writer to encode to
+                             * @returns Writer
+                             */
+                            public static encode(message: google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                            /**
+                             * Encodes the specified ArrowData message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData.verify|verify} messages.
+                             * @param message ArrowData message or plain object to encode
+                             * @param [writer] Writer to encode to
+                             * @returns Writer
+                             */
+                            public static encodeDelimited(message: google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                            /**
+                             * Decodes an ArrowData message from the specified reader or buffer.
+                             * @param reader Reader or buffer to decode from
+                             * @param [length] Message length if known beforehand
+                             * @returns ArrowData
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData;
+
+                            /**
+                             * Decodes an ArrowData message from the specified reader or buffer, length delimited.
+                             * @param reader Reader or buffer to decode from
+                             * @returns ArrowData
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData;
+
+                            /**
+                             * Verifies an ArrowData message.
+                             * @param message Plain object to verify
+                             * @returns `null` if valid, otherwise the reason why it is not
+                             */
+                            public static verify(message: { [k: string]: any }): (string|null);
+
+                            /**
+                             * Creates an ArrowData message from a plain object. Also converts values to their respective internal types.
+                             * @param object Plain object
+                             * @returns ArrowData
+                             */
+                            public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData;
+
+                            /**
+                             * Creates a plain object from an ArrowData message. Also converts values to other types if specified.
+                             * @param message ArrowData
+                             * @param [options] Conversion options
+                             * @returns Plain object
+                             */
+                            public static toObject(message: google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                            /**
+                             * Converts this ArrowData to JSON.
+                             * @returns JSON object
+                             */
+                            public toJSON(): { [k: string]: any };
+
+                            /**
+                             * Gets the default type url for ArrowData
+                             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns The default type url
+                             */
+                            public static getTypeUrl(typeUrlPrefix?: string): string;
+                        }
 
                         /** Properties of a ProtoData. */
                         interface IProtoData {
