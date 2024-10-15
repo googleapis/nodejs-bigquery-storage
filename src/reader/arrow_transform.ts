@@ -17,7 +17,7 @@ import {
   RecordBatchReader,
   RecordBatch,
   RecordBatchStreamReader,
-  Vector,
+  DataType,
 } from 'apache-arrow';
 import * as protos from '../../protos/protos';
 
@@ -140,12 +140,13 @@ export class ArrowRecordBatchTableRowTransform extends Transform {
     }
     for (let j = 0; j < batch.numCols; j++) {
       const column = batch.selectAt([j]);
-      const columnName = column.schema.fields[0].name;
+      const field = column.schema.fields[0];
+      const columnName = field.name;
       for (let i = 0; i < batch.numRows; i++) {
         const fieldData = column.get(i);
         const fieldValue = fieldData?.toJSON()[columnName];
         rows[i].f[j] = {
-          v: convertArrowValue(fieldValue),
+          v: convertArrowValue(fieldValue, field.type as DataType),
         };
       }
     }
@@ -156,21 +157,33 @@ export class ArrowRecordBatchTableRowTransform extends Transform {
   }
 }
 
-function convertArrowValue(fieldValue: any): any {
-  if (typeof fieldValue === 'object') {
-    if (fieldValue instanceof Vector) {
-      const arr = fieldValue.toJSON();
-      return arr.map((v: any) => {
-        return {v: convertArrowValue(v)};
-      });
-    }
-    const tableRow: TableRow = {f: []};
+function convertArrowValue(fieldValue: any, type: DataType): any {
+  if (fieldValue === null) {
+    return null;
+  }
+  if (DataType.isList(type)) {
+    const arr = fieldValue.toJSON();
+    return arr.map((v: any) => {
+      return {v: convertArrowValue(v, type.children[0].type)};
+    });
+  }
+  if (DataType.isStruct(type)) {
+    const tableRow: TableRow = {};
     Object.keys(fieldValue).forEach(key => {
-      tableRow.f?.push({
-        v: convertArrowValue(fieldValue[key]),
+      const subtype = type.children.find(f => f.name === key);
+      if (!tableRow.f) {
+        tableRow.f = [];
+      }
+      tableRow.f.push({
+        v: convertArrowValue(fieldValue[key], subtype?.type as DataType),
       });
     });
     return tableRow;
+  }
+  if (DataType.isTimestamp(type)) {
+    // timestamp comes in microsecond, convert to nanoseconds
+    // to make it compatible with BigQuery.timestamp.
+    return fieldValue * 1000;
   }
   return fieldValue;
 }
