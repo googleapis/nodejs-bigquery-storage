@@ -164,6 +164,8 @@ function convertArrowValue(fieldValue: any, type: DataType): any {
   if (DataType.isList(type)) {
     const arr = fieldValue.toJSON();
     return arr.map((v: any) => {
+      // Arrays/lists in BigQuery have the same datatype for every element
+      // so getting the first one is all we need
       const elemType = type.children[0].type;
       return {v: convertArrowValue(v, elemType)};
     });
