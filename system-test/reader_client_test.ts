@@ -131,7 +131,7 @@ describe('reader.ReaderClient', () => {
           list: [1],
           metadata: {
             created_at: bigquery.timestamp('2020-04-27T18:07:25.356Z'),
-            updated_at: bigquery.timestamp('2020-04-27T18:07:25.356Z'),
+            updated_at: bigquery.timestamp('2020-04-27T20:07:25.356Z'),
           },
         },
         {
@@ -365,7 +365,7 @@ describe('reader.ReaderClient', () => {
                       v: 1588010845356000,
                     },
                     {
-                      v: 1588010845356000,
+                      v: 1588018045356000,
                     },
                   ],
                 },
@@ -451,7 +451,7 @@ describe('reader.ReaderClient', () => {
                 value: '2020-04-27T18:07:25.356Z',
               },
               updated_at: {
-                value: '2020-04-27T18:07:25.356Z',
+                value: '2020-04-27T20:07:25.356Z',
               },
             },
           },

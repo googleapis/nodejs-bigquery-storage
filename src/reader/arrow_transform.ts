@@ -164,18 +164,19 @@ function convertArrowValue(fieldValue: any, type: DataType): any {
   if (DataType.isList(type)) {
     const arr = fieldValue.toJSON();
     return arr.map((v: any) => {
-      return {v: convertArrowValue(v, type.children[0].type)};
+      const elemType = type.children[0].type;
+      return {v: convertArrowValue(v, elemType)};
     });
   }
   if (DataType.isStruct(type)) {
     const tableRow: TableRow = {};
     Object.keys(fieldValue).forEach(key => {
-      const subtype = type.children.find(f => f.name === key);
+      const elemType = type.children.find(f => f.name === key);
       if (!tableRow.f) {
         tableRow.f = [];
       }
       tableRow.f.push({
-        v: convertArrowValue(fieldValue[key], subtype?.type as DataType),
+        v: convertArrowValue(fieldValue[key], elemType?.type as DataType),
       });
     });
     return tableRow;
