@@ -72,6 +72,33 @@ describe('reader.ReaderClient', () => {
         type: 'INTEGER',
         mode: 'REQUIRED',
       },
+      {
+        name: 'optional',
+        type: 'STRING',
+        mode: 'NULLABLE',
+      },
+      {
+        name: 'list',
+        type: 'INT64',
+        mode: 'REPEATED',
+      },
+      {
+        name: 'metadata',
+        type: 'RECORD',
+        mode: 'NULLABLE',
+        fields: [
+          {
+            name: 'created_at',
+            type: 'TIMESTAMP',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'updated_at',
+            type: 'TIMESTAMP',
+            mode: 'NULLABLE',
+          },
+        ],
+      },
     ],
   };
 
@@ -97,9 +124,26 @@ describe('reader.ReaderClient', () => {
       .dataset(datasetId)
       .table(tableId)
       .insert([
-        {name: 'Ada Lovelace', row_num: 1},
-        {name: 'Alan Turing', row_num: 2},
-        {name: 'Bell', row_num: 3},
+        {
+          name: 'Ada Lovelace',
+          row_num: 1,
+          optional: 'Some data',
+          list: [1],
+          metadata: {
+            created_at: bigquery.timestamp('2020-04-27T18:07:25.356Z'),
+            updated_at: bigquery.timestamp('2020-04-27T20:07:25.356Z'),
+          },
+        },
+        {
+          name: 'Alan Turing',
+          row_num: 2,
+          optional: 'Some other data',
+          list: [1, 2],
+          metadata: {
+            created_at: bigquery.timestamp('2020-04-27T18:07:25.356Z'),
+          },
+        },
+        {name: 'Bell', row_num: 3, list: [1, 2, 3]},
       ]);
   });
 
@@ -218,7 +262,7 @@ describe('reader.ReaderClient', () => {
         const table = await tableFromIPC(content);
 
         assert.equal(table.numRows, 3);
-        assert.equal(table.numCols, 2);
+        assert.equal(table.numCols, 5);
 
         reader.close();
       } finally {
@@ -253,7 +297,7 @@ describe('reader.ReaderClient', () => {
         const table = new Table(batches);
 
         assert.equal(table.numRows, 3);
-        assert.equal(table.numCols, 2);
+        assert.equal(table.numCols, 5);
 
         reader.close();
       } finally {
@@ -294,6 +338,143 @@ describe('reader.ReaderClient', () => {
         assert.equal(session?.dataFormat, ArrowFormat);
 
         assert.equal(rows.length, 3);
+
+        assert.deepEqual(rows, [
+          {
+            f: [
+              {
+                v: 'Ada Lovelace',
+              },
+              {
+                v: '1',
+              },
+              {
+                v: 'Some data',
+              },
+              {
+                v: [
+                  {
+                    v: '1',
+                  },
+                ],
+              },
+              {
+                v: {
+                  f: [
+                    {
+                      v: 1588010845356000,
+                    },
+                    {
+                      v: 1588018045356000,
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+          {
+            f: [
+              {
+                v: 'Alan Turing',
+              },
+              {
+                v: '2',
+              },
+              {
+                v: 'Some other data',
+              },
+              {
+                v: [
+                  {
+                    v: '1',
+                  },
+                  {
+                    v: '2',
+                  },
+                ],
+              },
+              {
+                v: {
+                  f: [
+                    {
+                      v: 1588010845356000,
+                    },
+                    {
+                      v: null,
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+          {
+            f: [
+              {
+                v: 'Bell',
+              },
+              {
+                v: '3',
+              },
+              {
+                v: null,
+              },
+              {
+                v: [
+                  {
+                    v: '1',
+                  },
+                  {
+                    v: '2',
+                  },
+                  {
+                    v: '3',
+                  },
+                ],
+              },
+              {
+                v: null,
+              },
+            ],
+          },
+        ]);
+        const mergedRows = BigQuery.mergeSchemaWithRows_(schema, rows, {
+          wrapIntegers: false,
+        });
+        assert.deepEqual(mergedRows, [
+          {
+            name: 'Ada Lovelace',
+            row_num: 1,
+            optional: 'Some data',
+            list: [1],
+            metadata: {
+              created_at: {
+                value: '2020-04-27T18:07:25.356Z',
+              },
+              updated_at: {
+                value: '2020-04-27T20:07:25.356Z',
+              },
+            },
+          },
+          {
+            name: 'Alan Turing',
+            row_num: 2,
+            optional: 'Some other data',
+            list: [1, 2],
+            metadata: {
+              created_at: {
+                value: '2020-04-27T18:07:25.356Z',
+              },
+              updated_at: null,
+            },
+          },
+          {
+            name: 'Bell',
+            row_num: 3,
+            list: [1, 2, 3],
+            optional: null,
+            metadata: null,
+          },
+        ]);
 
         reader.close();
       } finally {
