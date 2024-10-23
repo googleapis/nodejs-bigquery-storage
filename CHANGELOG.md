@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.10.1](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.10.0...v4.10.1) (2024-10-23)
+
+
+### Bug Fixes
+
+* Arrow parsing for nested and nullable fields ([#519](https://github.com/googleapis/nodejs-bigquery-storage/issues/519)) ([fc052fb](https://github.com/googleapis/nodejs-bigquery-storage/commit/fc052fb8746f0f87e028f009a6eccc78ff8a1bc4))
+
 ## [4.10.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.9.0...v4.10.0) (2024-09-23)
 
 
