@@ -62,6 +62,11 @@ function main(writeStream) {
    */
   // const protoRows = {}
   /**
+   *  Rows in arrow format. This is an experimental feature only selected for
+   *  allowlisted customers.
+   */
+  // const arrowRows = {}
+  /**
    *  Id set by client to annotate its identity. Only initial request setting is
    *  respected.
    */
