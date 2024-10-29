@@ -59,7 +59,7 @@
     "path-to-regexp": "6.3.0",
     "ts-loader": "^9.0.0",
     "typescript": "^5.5.3",
-    "uuid": "^9.0.0",
+    "uuid": "^11.0.0",
     "webpack": "^5.0.0",
     "webpack-cli": "^5.0.0"
   },
