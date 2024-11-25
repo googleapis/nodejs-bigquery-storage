@@ -107,12 +107,15 @@ export class StreamConnection extends EventEmitter {
     });
     this._connection.on('pause', () => {
       this.trace('connection paused');
+      this.emit('pause');
     });
     this._connection.on('resume', () => {
       this.trace('connection resumed');
+      this.emit('resume');
     });
     this._connection.on('end', () => {
       this.trace('connection ended');
+      this.emit('end');
     });
   }
 
@@ -364,6 +367,7 @@ export class StreamConnection extends EventEmitter {
     );
     this.close();
     this.open();
+    this.emit('reconnect');
   }
 
   /**
@@ -375,6 +379,7 @@ export class StreamConnection extends EventEmitter {
     }
     this._connection.end();
     this._connection.removeAllListeners();
+    this.emit('close');
     this._connection.destroy();
     this._connection = null;
   }
