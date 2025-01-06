@@ -319,7 +319,11 @@ function convertTableFieldSchemaToFieldDescriptorProto(
   if (!type) {
     throw Error(`table field ${name} missing type`);
   }
-  const label = convertModeToLabel(field.mode, useProto3);
+  const label = convertModeToLabel(
+    field.mode,
+    field.defaultValueExpression,
+    useProto3
+  );
   let fdp: FieldDescriptorProto;
   if (
     type === TableFieldSchema.Type.STRUCT ||
