@@ -61,6 +61,10 @@ const packedTypes: FieldDescriptorProtoType[] = [
  * column name doesn't have any valid characters, we generate a placeholder name using
  * the field number `field{fieldNumber}`.
  *
+ * If a column is required, but has a `defaultValueExpression` set, the resulting
+ * protobuf field will be optional, so the backend service can fill data with the
+ * given expression when no value is set.
+ *
  * @param schema - a BigQuery Storage TableSchema.
  * @param scope - scope to namespace protobuf structs.
  * @returns DescriptorProto
@@ -86,6 +90,10 @@ export function convertStorageSchemaToProto2Descriptor(
  * characters from the column name and replacing all dashes with underscores. If the
  * column name doesn't have any valid characters, we generate a placeholder name using
  * the field number `field{fieldNumber}`.
+ *
+ * If a column is required, but has a `defaultValueExpression` set, the resulting
+ * protobuf field will be optional, so the backend service can fill data with the
+ * given expression when no value is set.
  *
  * @param schema - a Bigquery TableSchema.
  * @param scope - scope to namespace protobuf structs.
