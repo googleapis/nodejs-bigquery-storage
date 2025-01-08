@@ -51,6 +51,12 @@ describe('Adapt Protos', () => {
             type: 'BOOL',
             mode: 'REPEATED',
           },
+          {
+            name: 'id',
+            type: 'STRING',
+            mode: 'REQUIRED',
+            defaultValueExpression: 'GENERATE_UUID()',
+          },
         ],
       };
       const storageSchema =
