@@ -1655,7 +1655,7 @@ describe('managedwriter.WriterClient', () => {
       });
 
       let reconnectedCalled = false;
-      sandbox.stub(connection, 'reconnect').callsFake(() => {
+      connection.on('reconnect', () => {
         reconnectedCalled = true;
       });
 
