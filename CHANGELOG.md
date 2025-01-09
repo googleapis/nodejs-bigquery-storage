@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.11.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.10.1...v4.11.0) (2025-01-09)
+
+
+### Features
+
+* Emit connection event for a StreamConnection ([#533](https://github.com/googleapis/nodejs-bigquery-storage/issues/533)) ([6688ea3](https://github.com/googleapis/nodejs-bigquery-storage/commit/6688ea3e87e7bd992802d643daa1f760c0c4dd92))
+
+
+### Bug Fixes
+
+* Required table fields with value expression should be proto optional ([#532](https://github.com/googleapis/nodejs-bigquery-storage/issues/532)) ([f125792](https://github.com/googleapis/nodejs-bigquery-storage/commit/f1257924be9bb257ea9a11448322f8aa711ad47e))
+
 ## [4.10.1](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.10.0...v4.10.1) (2024-10-23)
 
 
