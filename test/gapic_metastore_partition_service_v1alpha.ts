@@ -307,7 +307,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse()
       );
@@ -342,7 +342,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse()
       );
@@ -392,7 +392,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.batchCreateMetastorePartitions = stubSimpleCall(
         undefined,
@@ -456,7 +456,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.protobuf.Empty()
       );
@@ -491,7 +491,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.protobuf.Empty()
       );
@@ -541,7 +541,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.batchDeleteMetastorePartitions = stubSimpleCall(
         undefined,
@@ -605,7 +605,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse()
       );
@@ -640,7 +640,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse()
       );
@@ -690,7 +690,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.batchUpdateMetastorePartitions = stubSimpleCall(
         undefined,
@@ -754,7 +754,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse()
       );
@@ -789,7 +789,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse()
       );
@@ -839,7 +839,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.listMetastorePartitions = stubSimpleCall(
         undefined,

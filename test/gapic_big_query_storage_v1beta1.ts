@@ -292,7 +292,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         ['tableReference', 'datasetId']
       );
       request.tableReference.datasetId = defaultValue2;
-      const expectedHeaderRequestParams = `table_reference.project_id=${defaultValue1}&table_reference.dataset_id=${defaultValue2}`;
+      const expectedHeaderRequestParams = `table_reference.project_id=${defaultValue1 ?? ''}&table_reference.dataset_id=${defaultValue2 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1beta1.ReadSession()
       );
@@ -330,7 +330,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         ['tableReference', 'datasetId']
       );
       request.tableReference.datasetId = defaultValue2;
-      const expectedHeaderRequestParams = `table_reference.project_id=${defaultValue1}&table_reference.dataset_id=${defaultValue2}`;
+      const expectedHeaderRequestParams = `table_reference.project_id=${defaultValue1 ?? ''}&table_reference.dataset_id=${defaultValue2 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1beta1.ReadSession()
       );
@@ -384,7 +384,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         ['tableReference', 'datasetId']
       );
       request.tableReference.datasetId = defaultValue2;
-      const expectedHeaderRequestParams = `table_reference.project_id=${defaultValue1}&table_reference.dataset_id=${defaultValue2}`;
+      const expectedHeaderRequestParams = `table_reference.project_id=${defaultValue1 ?? ''}&table_reference.dataset_id=${defaultValue2 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.createReadSession = stubSimpleCall(
         undefined,
@@ -444,7 +444,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         ['session', 'name']
       );
       request.session.name = defaultValue1;
-      const expectedHeaderRequestParams = `session.name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `session.name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse()
       );
@@ -477,7 +477,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         ['session', 'name']
       );
       request.session.name = defaultValue1;
-      const expectedHeaderRequestParams = `session.name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `session.name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse()
       );
@@ -525,7 +525,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         ['session', 'name']
       );
       request.session.name = defaultValue1;
-      const expectedHeaderRequestParams = `session.name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `session.name=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.batchCreateReadSessionStreams = stubSimpleCall(
         undefined,
@@ -585,7 +585,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         ['stream', 'name']
       );
       request.stream.name = defaultValue1;
-      const expectedHeaderRequestParams = `stream.name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `stream.name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.protobuf.Empty()
       );
@@ -617,7 +617,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         ['stream', 'name']
       );
       request.stream.name = defaultValue1;
-      const expectedHeaderRequestParams = `stream.name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `stream.name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.protobuf.Empty()
       );
@@ -665,7 +665,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         ['stream', 'name']
       );
       request.stream.name = defaultValue1;
-      const expectedHeaderRequestParams = `stream.name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `stream.name=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.finalizeStream = stubSimpleCall(
         undefined,
@@ -719,7 +719,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         ['originalStream', 'name']
       );
       request.originalStream.name = defaultValue1;
-      const expectedHeaderRequestParams = `original_stream.name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `original_stream.name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1beta1.SplitReadStreamResponse()
       );
@@ -751,7 +751,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         ['originalStream', 'name']
       );
       request.originalStream.name = defaultValue1;
-      const expectedHeaderRequestParams = `original_stream.name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `original_stream.name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1beta1.SplitReadStreamResponse()
       );
@@ -799,7 +799,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         ['originalStream', 'name']
       );
       request.originalStream.name = defaultValue1;
-      const expectedHeaderRequestParams = `original_stream.name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `original_stream.name=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.splitReadStream = stubSimpleCall(
         undefined,
@@ -854,7 +854,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         ['readPosition', 'stream', 'name']
       );
       request.readPosition.stream.name = defaultValue1;
-      const expectedHeaderRequestParams = `read_position.stream.name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `read_position.stream.name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1beta1.ReadRowsResponse()
       );
@@ -900,7 +900,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         ['readPosition', 'stream', 'name']
       );
       request.readPosition.stream.name = defaultValue1;
-      const expectedHeaderRequestParams = `read_position.stream.name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `read_position.stream.name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1beta1.ReadRowsResponse()
       );
@@ -947,7 +947,7 @@ describe('v1beta1.BigQueryStorageClient', () => {
         ['readPosition', 'stream', 'name']
       );
       request.readPosition.stream.name = defaultValue1;
-      const expectedHeaderRequestParams = `read_position.stream.name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `read_position.stream.name=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.readRows = stubServerStreamingCall(
         undefined,

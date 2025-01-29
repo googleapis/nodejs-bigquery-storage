@@ -276,7 +276,7 @@ describe('v1.BigQueryWriteClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.WriteStream()
       );
@@ -307,7 +307,7 @@ describe('v1.BigQueryWriteClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.WriteStream()
       );
@@ -354,7 +354,7 @@ describe('v1.BigQueryWriteClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.createWriteStream = stubSimpleCall(
         undefined,
@@ -406,7 +406,7 @@ describe('v1.BigQueryWriteClient', () => {
         ['name']
       );
       request.name = defaultValue1;
-      const expectedHeaderRequestParams = `name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.WriteStream()
       );
@@ -437,7 +437,7 @@ describe('v1.BigQueryWriteClient', () => {
         ['name']
       );
       request.name = defaultValue1;
-      const expectedHeaderRequestParams = `name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.WriteStream()
       );
@@ -484,7 +484,7 @@ describe('v1.BigQueryWriteClient', () => {
         ['name']
       );
       request.name = defaultValue1;
-      const expectedHeaderRequestParams = `name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.getWriteStream = stubSimpleCall(
         undefined,
@@ -536,7 +536,7 @@ describe('v1.BigQueryWriteClient', () => {
         ['name']
       );
       request.name = defaultValue1;
-      const expectedHeaderRequestParams = `name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamResponse()
       );
@@ -568,7 +568,7 @@ describe('v1.BigQueryWriteClient', () => {
         ['name']
       );
       request.name = defaultValue1;
-      const expectedHeaderRequestParams = `name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamResponse()
       );
@@ -615,7 +615,7 @@ describe('v1.BigQueryWriteClient', () => {
         ['name']
       );
       request.name = defaultValue1;
-      const expectedHeaderRequestParams = `name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.finalizeWriteStream = stubSimpleCall(
         undefined,
@@ -667,7 +667,7 @@ describe('v1.BigQueryWriteClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsResponse()
       );
@@ -699,7 +699,7 @@ describe('v1.BigQueryWriteClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsResponse()
       );
@@ -746,7 +746,7 @@ describe('v1.BigQueryWriteClient', () => {
         ['parent']
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.batchCommitWriteStreams = stubSimpleCall(
         undefined,
@@ -804,7 +804,7 @@ describe('v1.BigQueryWriteClient', () => {
         ['writeStream']
       );
       request.writeStream = defaultValue1;
-      const expectedHeaderRequestParams = `write_stream=${defaultValue1}`;
+      const expectedHeaderRequestParams = `write_stream=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.FlushRowsResponse()
       );
@@ -835,7 +835,7 @@ describe('v1.BigQueryWriteClient', () => {
         ['writeStream']
       );
       request.writeStream = defaultValue1;
-      const expectedHeaderRequestParams = `write_stream=${defaultValue1}`;
+      const expectedHeaderRequestParams = `write_stream=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.FlushRowsResponse()
       );
@@ -882,7 +882,7 @@ describe('v1.BigQueryWriteClient', () => {
         ['writeStream']
       );
       request.writeStream = defaultValue1;
-      const expectedHeaderRequestParams = `write_stream=${defaultValue1}`;
+      const expectedHeaderRequestParams = `write_stream=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.flushRows = stubSimpleCall(undefined, expectedError);
       await assert.rejects(client.flushRows(request), expectedError);

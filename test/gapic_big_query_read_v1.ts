@@ -284,7 +284,7 @@ describe('v1.BigQueryReadClient', () => {
         ['readSession', 'table']
       );
       request.readSession.table = defaultValue1;
-      const expectedHeaderRequestParams = `read_session.table=${defaultValue1}`;
+      const expectedHeaderRequestParams = `read_session.table=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.ReadSession()
       );
@@ -316,7 +316,7 @@ describe('v1.BigQueryReadClient', () => {
         ['readSession', 'table']
       );
       request.readSession.table = defaultValue1;
-      const expectedHeaderRequestParams = `read_session.table=${defaultValue1}`;
+      const expectedHeaderRequestParams = `read_session.table=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.ReadSession()
       );
@@ -364,7 +364,7 @@ describe('v1.BigQueryReadClient', () => {
         ['readSession', 'table']
       );
       request.readSession.table = defaultValue1;
-      const expectedHeaderRequestParams = `read_session.table=${defaultValue1}`;
+      const expectedHeaderRequestParams = `read_session.table=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.createReadSession = stubSimpleCall(
         undefined,
@@ -417,7 +417,7 @@ describe('v1.BigQueryReadClient', () => {
         ['name']
       );
       request.name = defaultValue1;
-      const expectedHeaderRequestParams = `name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.SplitReadStreamResponse()
       );
@@ -448,7 +448,7 @@ describe('v1.BigQueryReadClient', () => {
         ['name']
       );
       request.name = defaultValue1;
-      const expectedHeaderRequestParams = `name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.SplitReadStreamResponse()
       );
@@ -495,7 +495,7 @@ describe('v1.BigQueryReadClient', () => {
         ['name']
       );
       request.name = defaultValue1;
-      const expectedHeaderRequestParams = `name=${defaultValue1}`;
+      const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.splitReadStream = stubSimpleCall(
         undefined,
@@ -547,7 +547,7 @@ describe('v1.BigQueryReadClient', () => {
         ['readStream']
       );
       request.readStream = defaultValue1;
-      const expectedHeaderRequestParams = `read_stream=${defaultValue1}`;
+      const expectedHeaderRequestParams = `read_stream=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.ReadRowsResponse()
       );
@@ -591,7 +591,7 @@ describe('v1.BigQueryReadClient', () => {
         ['readStream']
       );
       request.readStream = defaultValue1;
-      const expectedHeaderRequestParams = `read_stream=${defaultValue1}`;
+      const expectedHeaderRequestParams = `read_stream=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.ReadRowsResponse()
       );
@@ -636,7 +636,7 @@ describe('v1.BigQueryReadClient', () => {
         ['readStream']
       );
       request.readStream = defaultValue1;
-      const expectedHeaderRequestParams = `read_stream=${defaultValue1}`;
+      const expectedHeaderRequestParams = `read_stream=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.readRows = stubServerStreamingCall(
         undefined,
