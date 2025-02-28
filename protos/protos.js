@@ -4574,6 +4574,7 @@
                              * @property {string|null} [writeStream] AppendRowsRequest writeStream
                              * @property {google.protobuf.IInt64Value|null} [offset] AppendRowsRequest offset
                              * @property {google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData|null} [protoRows] AppendRowsRequest protoRows
+                             * @property {google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData|null} [arrowRows] AppendRowsRequest arrowRows
                              * @property {string|null} [traceId] AppendRowsRequest traceId
                              * @property {Object.<string,google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation>|null} [missingValueInterpretations] AppendRowsRequest missingValueInterpretations
                              * @property {google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation|null} [defaultMissingValueInterpretation] AppendRowsRequest defaultMissingValueInterpretation
@@ -4620,6 +4621,14 @@
                             AppendRowsRequest.prototype.protoRows = null;
     
                             /**
+                             * AppendRowsRequest arrowRows.
+                             * @member {google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData|null|undefined} arrowRows
+                             * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest
+                             * @instance
+                             */
+                            AppendRowsRequest.prototype.arrowRows = null;
+    
+                            /**
                              * AppendRowsRequest traceId.
                              * @member {string} traceId
                              * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest
@@ -4648,12 +4657,12 @@
     
                             /**
                              * AppendRowsRequest rows.
-                             * @member {"protoRows"|undefined} rows
+                             * @member {"protoRows"|"arrowRows"|undefined} rows
                              * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest
                              * @instance
                              */
                             Object.defineProperty(AppendRowsRequest.prototype, "rows", {
-                                get: $util.oneOfGetter($oneOfFields = ["protoRows"]),
+                                get: $util.oneOfGetter($oneOfFields = ["protoRows", "arrowRows"]),
                                 set: $util.oneOfSetter($oneOfFields)
                             });
     
@@ -4687,6 +4696,8 @@
                                     $root.google.protobuf.Int64Value.encode(message.offset, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                                 if (message.protoRows != null && Object.hasOwnProperty.call(message, "protoRows"))
                                     $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.ProtoData.encode(message.protoRows, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                                if (message.arrowRows != null && Object.hasOwnProperty.call(message, "arrowRows"))
+                                    $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData.encode(message.arrowRows, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                                 if (message.traceId != null && Object.hasOwnProperty.call(message, "traceId"))
                                     writer.uint32(/* id 6, wireType 2 =*/50).string(message.traceId);
                                 if (message.missingValueInterpretations != null && Object.hasOwnProperty.call(message, "missingValueInterpretations"))
@@ -4738,6 +4749,10 @@
                                         }
                                     case 4: {
                                             message.protoRows = $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.ProtoData.decode(reader, reader.uint32());
+                                            break;
+                                        }
+                                    case 5: {
+                                            message.arrowRows = $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData.decode(reader, reader.uint32());
                                             break;
                                         }
                                     case 6: {
@@ -4823,6 +4838,16 @@
                                             return "protoRows." + error;
                                     }
                                 }
+                                if (message.arrowRows != null && message.hasOwnProperty("arrowRows")) {
+                                    if (properties.rows === 1)
+                                        return "rows: multiple values";
+                                    properties.rows = 1;
+                                    {
+                                        var error = $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData.verify(message.arrowRows);
+                                        if (error)
+                                            return "arrowRows." + error;
+                                    }
+                                }
                                 if (message.traceId != null && message.hasOwnProperty("traceId"))
                                     if (!$util.isString(message.traceId))
                                         return "traceId: string expected";
@@ -4875,6 +4900,11 @@
                                     if (typeof object.protoRows !== "object")
                                         throw TypeError(".google.cloud.bigquery.storage.v1.AppendRowsRequest.protoRows: object expected");
                                     message.protoRows = $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.ProtoData.fromObject(object.protoRows);
+                                }
+                                if (object.arrowRows != null) {
+                                    if (typeof object.arrowRows !== "object")
+                                        throw TypeError(".google.cloud.bigquery.storage.v1.AppendRowsRequest.arrowRows: object expected");
+                                    message.arrowRows = $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData.fromObject(object.arrowRows);
                                 }
                                 if (object.traceId != null)
                                     message.traceId = String(object.traceId);
@@ -4957,6 +4987,11 @@
                                     if (options.oneofs)
                                         object.rows = "protoRows";
                                 }
+                                if (message.arrowRows != null && message.hasOwnProperty("arrowRows")) {
+                                    object.arrowRows = $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData.toObject(message.arrowRows, options);
+                                    if (options.oneofs)
+                                        object.rows = "arrowRows";
+                                }
                                 if (message.traceId != null && message.hasOwnProperty("traceId"))
                                     object.traceId = message.traceId;
                                 var keys2;
@@ -4995,6 +5030,243 @@
                                 }
                                 return typeUrlPrefix + "/google.cloud.bigquery.storage.v1.AppendRowsRequest";
                             };
+    
+                            AppendRowsRequest.ArrowData = (function() {
+    
+                                /**
+                                 * Properties of an ArrowData.
+                                 * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest
+                                 * @interface IArrowData
+                                 * @property {google.cloud.bigquery.storage.v1.IArrowSchema|null} [writerSchema] ArrowData writerSchema
+                                 * @property {google.cloud.bigquery.storage.v1.IArrowRecordBatch|null} [rows] ArrowData rows
+                                 */
+    
+                                /**
+                                 * Constructs a new ArrowData.
+                                 * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest
+                                 * @classdesc Represents an ArrowData.
+                                 * @implements IArrowData
+                                 * @constructor
+                                 * @param {google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData=} [properties] Properties to set
+                                 */
+                                function ArrowData(properties) {
+                                    if (properties)
+                                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                            if (properties[keys[i]] != null)
+                                                this[keys[i]] = properties[keys[i]];
+                                }
+    
+                                /**
+                                 * ArrowData writerSchema.
+                                 * @member {google.cloud.bigquery.storage.v1.IArrowSchema|null|undefined} writerSchema
+                                 * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData
+                                 * @instance
+                                 */
+                                ArrowData.prototype.writerSchema = null;
+    
+                                /**
+                                 * ArrowData rows.
+                                 * @member {google.cloud.bigquery.storage.v1.IArrowRecordBatch|null|undefined} rows
+                                 * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData
+                                 * @instance
+                                 */
+                                ArrowData.prototype.rows = null;
+    
+                                /**
+                                 * Creates a new ArrowData instance using the specified properties.
+                                 * @function create
+                                 * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData
+                                 * @static
+                                 * @param {google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData=} [properties] Properties to set
+                                 * @returns {google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData} ArrowData instance
+                                 */
+                                ArrowData.create = function create(properties) {
+                                    return new ArrowData(properties);
+                                };
+    
+                                /**
+                                 * Encodes the specified ArrowData message. Does not implicitly {@link google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData.verify|verify} messages.
+                                 * @function encode
+                                 * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData
+                                 * @static
+                                 * @param {google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData} message ArrowData message or plain object to encode
+                                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                                 * @returns {$protobuf.Writer} Writer
+                                 */
+                                ArrowData.encode = function encode(message, writer) {
+                                    if (!writer)
+                                        writer = $Writer.create();
+                                    if (message.writerSchema != null && Object.hasOwnProperty.call(message, "writerSchema"))
+                                        $root.google.cloud.bigquery.storage.v1.ArrowSchema.encode(message.writerSchema, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                                    if (message.rows != null && Object.hasOwnProperty.call(message, "rows"))
+                                        $root.google.cloud.bigquery.storage.v1.ArrowRecordBatch.encode(message.rows, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                                    return writer;
+                                };
+    
+                                /**
+                                 * Encodes the specified ArrowData message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData.verify|verify} messages.
+                                 * @function encodeDelimited
+                                 * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData
+                                 * @static
+                                 * @param {google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData} message ArrowData message or plain object to encode
+                                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                                 * @returns {$protobuf.Writer} Writer
+                                 */
+                                ArrowData.encodeDelimited = function encodeDelimited(message, writer) {
+                                    return this.encode(message, writer).ldelim();
+                                };
+    
+                                /**
+                                 * Decodes an ArrowData message from the specified reader or buffer.
+                                 * @function decode
+                                 * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData
+                                 * @static
+                                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                                 * @param {number} [length] Message length if known beforehand
+                                 * @returns {google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData} ArrowData
+                                 * @throws {Error} If the payload is not a reader or valid buffer
+                                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                                 */
+                                ArrowData.decode = function decode(reader, length) {
+                                    if (!(reader instanceof $Reader))
+                                        reader = $Reader.create(reader);
+                                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData();
+                                    while (reader.pos < end) {
+                                        var tag = reader.uint32();
+                                        switch (tag >>> 3) {
+                                        case 1: {
+                                                message.writerSchema = $root.google.cloud.bigquery.storage.v1.ArrowSchema.decode(reader, reader.uint32());
+                                                break;
+                                            }
+                                        case 2: {
+                                                message.rows = $root.google.cloud.bigquery.storage.v1.ArrowRecordBatch.decode(reader, reader.uint32());
+                                                break;
+                                            }
+                                        default:
+                                            reader.skipType(tag & 7);
+                                            break;
+                                        }
+                                    }
+                                    return message;
+                                };
+    
+                                /**
+                                 * Decodes an ArrowData message from the specified reader or buffer, length delimited.
+                                 * @function decodeDelimited
+                                 * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData
+                                 * @static
+                                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                                 * @returns {google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData} ArrowData
+                                 * @throws {Error} If the payload is not a reader or valid buffer
+                                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                                 */
+                                ArrowData.decodeDelimited = function decodeDelimited(reader) {
+                                    if (!(reader instanceof $Reader))
+                                        reader = new $Reader(reader);
+                                    return this.decode(reader, reader.uint32());
+                                };
+    
+                                /**
+                                 * Verifies an ArrowData message.
+                                 * @function verify
+                                 * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData
+                                 * @static
+                                 * @param {Object.<string,*>} message Plain object to verify
+                                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                                 */
+                                ArrowData.verify = function verify(message) {
+                                    if (typeof message !== "object" || message === null)
+                                        return "object expected";
+                                    if (message.writerSchema != null && message.hasOwnProperty("writerSchema")) {
+                                        var error = $root.google.cloud.bigquery.storage.v1.ArrowSchema.verify(message.writerSchema);
+                                        if (error)
+                                            return "writerSchema." + error;
+                                    }
+                                    if (message.rows != null && message.hasOwnProperty("rows")) {
+                                        var error = $root.google.cloud.bigquery.storage.v1.ArrowRecordBatch.verify(message.rows);
+                                        if (error)
+                                            return "rows." + error;
+                                    }
+                                    return null;
+                                };
+    
+                                /**
+                                 * Creates an ArrowData message from a plain object. Also converts values to their respective internal types.
+                                 * @function fromObject
+                                 * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData
+                                 * @static
+                                 * @param {Object.<string,*>} object Plain object
+                                 * @returns {google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData} ArrowData
+                                 */
+                                ArrowData.fromObject = function fromObject(object) {
+                                    if (object instanceof $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData)
+                                        return object;
+                                    var message = new $root.google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData();
+                                    if (object.writerSchema != null) {
+                                        if (typeof object.writerSchema !== "object")
+                                            throw TypeError(".google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData.writerSchema: object expected");
+                                        message.writerSchema = $root.google.cloud.bigquery.storage.v1.ArrowSchema.fromObject(object.writerSchema);
+                                    }
+                                    if (object.rows != null) {
+                                        if (typeof object.rows !== "object")
+                                            throw TypeError(".google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData.rows: object expected");
+                                        message.rows = $root.google.cloud.bigquery.storage.v1.ArrowRecordBatch.fromObject(object.rows);
+                                    }
+                                    return message;
+                                };
+    
+                                /**
+                                 * Creates a plain object from an ArrowData message. Also converts values to other types if specified.
+                                 * @function toObject
+                                 * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData
+                                 * @static
+                                 * @param {google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData} message ArrowData
+                                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                                 * @returns {Object.<string,*>} Plain object
+                                 */
+                                ArrowData.toObject = function toObject(message, options) {
+                                    if (!options)
+                                        options = {};
+                                    var object = {};
+                                    if (options.defaults) {
+                                        object.writerSchema = null;
+                                        object.rows = null;
+                                    }
+                                    if (message.writerSchema != null && message.hasOwnProperty("writerSchema"))
+                                        object.writerSchema = $root.google.cloud.bigquery.storage.v1.ArrowSchema.toObject(message.writerSchema, options);
+                                    if (message.rows != null && message.hasOwnProperty("rows"))
+                                        object.rows = $root.google.cloud.bigquery.storage.v1.ArrowRecordBatch.toObject(message.rows, options);
+                                    return object;
+                                };
+    
+                                /**
+                                 * Converts this ArrowData to JSON.
+                                 * @function toJSON
+                                 * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData
+                                 * @instance
+                                 * @returns {Object.<string,*>} JSON object
+                                 */
+                                ArrowData.prototype.toJSON = function toJSON() {
+                                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                                };
+    
+                                /**
+                                 * Gets the default type url for ArrowData
+                                 * @function getTypeUrl
+                                 * @memberof google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData
+                                 * @static
+                                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                                 * @returns {string} The default type url
+                                 */
+                                ArrowData.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                    if (typeUrlPrefix === undefined) {
+                                        typeUrlPrefix = "type.googleapis.com";
+                                    }
+                                    return typeUrlPrefix + "/google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData";
+                                };
+    
+                                return ArrowData;
+                            })();
     
                             AppendRowsRequest.ProtoData = (function() {
     
