@@ -59,7 +59,7 @@ export class JSONEncoder {
    */
   setProtoDescriptor(protoDescriptor: IDescriptorProto): void {
     const normalized = normalizeDescriptor(
-      new DescriptorProto(protoDescriptor)
+      new DescriptorProto(protoDescriptor),
     );
     this._type = Type.fromDescriptor(normalized);
   }
@@ -121,7 +121,7 @@ export class JSONEncoder {
   private encodeRowValue(
     value: JSONValue,
     key: string,
-    ptype: protobuf.Type
+    ptype: protobuf.Type,
   ): JSONValue | undefined {
     const pfield = ptype.fields[key];
     if (!pfield) {

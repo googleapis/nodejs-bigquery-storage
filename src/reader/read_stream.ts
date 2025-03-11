@@ -48,7 +48,7 @@ export class ReadStream {
     streamName: string,
     session: ReadSession,
     readClient: ReadClient,
-    options?: gax.CallOptions
+    options?: gax.CallOptions,
   ) {
     this._streamName = streamName;
     this._session = session;
@@ -70,7 +70,7 @@ export class ReadStream {
         readStream: this._streamName,
         offset: this._offset,
       },
-      this._callOptions
+      this._callOptions,
     );
     this._connection = connection;
     const passthrough = new Transform({
@@ -102,7 +102,7 @@ export class ReadStream {
       'read_stream',
       `[streamName: ${this._streamName}]`,
       msg,
-      ...otherArgs
+      ...otherArgs,
     );
   }
 

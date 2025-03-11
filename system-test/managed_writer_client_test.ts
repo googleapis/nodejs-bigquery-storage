@@ -29,7 +29,7 @@ import {JSONEncoder} from '../src/managedwriter/encoder';
 import {PendingWrite} from '../src/managedwriter/pending_write';
 
 const pkg = JSON.parse(
-  readFileSync(path.resolve(__dirname, '../../package.json'), 'utf-8')
+  readFileSync(path.resolve(__dirname, '../../package.json'), 'utf-8'),
 );
 
 const sandbox = sinon.createSandbox();
@@ -209,7 +209,7 @@ describe('managedwriter.WriterClient', () => {
           {
             serializedRows: [serializedRow1Message, serializedRow2Message],
           },
-          offset
+          offset,
         );
         const result = await pw.getResult();
         const responses: AppendRowsResponse[] = [
@@ -765,7 +765,7 @@ describe('managedwriter.WriterClient', () => {
           adapt.convertBigQuerySchemaToStorageTableSchema(updatedSchema);
         assert.equal(
           result.updatedSchema.fields?.length,
-          updatedStorageSchema.fields?.length
+          updatedStorageSchema.fields?.length,
         );
         assert.equal(receivedSchemaNotification, true);
 
@@ -784,7 +784,7 @@ describe('managedwriter.WriterClient', () => {
         assert.equal(commitResponse.streamErrors?.length, 0);
 
         const [rows] = await bigquery.query(
-          `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\` order by row_num`
+          `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\` order by row_num`,
         );
 
         assert.strictEqual(rows.length, offset);
@@ -836,7 +836,7 @@ describe('managedwriter.WriterClient', () => {
         adapt.convertStorageSchemaToProto2Descriptor(
           storageSchema,
           'root',
-          adapt.withChangeType()
+          adapt.withChangeType(),
         );
 
       const row1 = {
@@ -866,7 +866,7 @@ describe('managedwriter.WriterClient', () => {
         let result = await pw.getResult();
 
         let [rows] = await bigquery.query(
-          `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\` order by id`
+          `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\` order by id`,
         );
         assert.strictEqual(rows.length, 2);
 
@@ -894,7 +894,7 @@ describe('managedwriter.WriterClient', () => {
         result = await pw.getResult();
 
         [rows] = await bigquery.query(
-          `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\` order by id`
+          `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\` order by id`,
         );
         assert.strictEqual(rows.length, 3);
 
@@ -905,7 +905,7 @@ describe('managedwriter.WriterClient', () => {
         result = await pw.getResult();
 
         [rows] = await bigquery.query(
-          `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\` order by id`
+          `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\` order by id`,
         );
         assert.strictEqual(rows.length, 2);
 
@@ -982,7 +982,7 @@ describe('managedwriter.WriterClient', () => {
         await pw.getResult();
 
         const [rows] = await bigquery.query(
-          `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\``
+          `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\``,
         );
         assert.strictEqual(rows.length, 2);
         assert.deepStrictEqual(rows, [
@@ -1112,7 +1112,7 @@ describe('managedwriter.WriterClient', () => {
       assert.equal(commitResponse.streamErrors?.length, 0);
 
       const [rows] = await bigquery.query(
-        `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\` order by row_num`
+        `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\` order by row_num`,
       );
       assert.strictEqual(rows.length, 4);
 
@@ -1357,7 +1357,8 @@ describe('managedwriter.WriterClient', () => {
             .callsFake(
               (
                 chunk: unknown,
-                cb?: ((error: Error | null | undefined) => void) | undefined
+                _: BufferEncoding,
+                cb?: ((error: Error | null | undefined) => void) | undefined,
               ): boolean => {
                 const req = chunk as AppendRowsRequest;
                 cb && cb(null);
@@ -1385,7 +1386,7 @@ describe('managedwriter.WriterClient', () => {
                   numSucess++;
                 }
                 return false;
-              }
+              },
             );
 
           const writer = new JSONWriter({
@@ -1488,7 +1489,7 @@ describe('managedwriter.WriterClient', () => {
         assert.equal(storageErrors.length, 1);
         assert.equal(
           storageErrors[0].errorMessage,
-          'Schema mismatch due to extra fields in user schema'
+          'Schema mismatch due to extra fields in user schema',
         );
 
         writer.close();
@@ -1521,7 +1522,7 @@ describe('managedwriter.WriterClient', () => {
         protoDescriptor.field = protoDescriptor.field?.slice(0, 1); // leave just first field
 
         const invalidProto = Type.fromDescriptor(
-          protoDescriptor
+          protoDescriptor,
         ) as protobuf.Type;
         const row = {
           customer_name: 'Test',
@@ -1532,13 +1533,13 @@ describe('managedwriter.WriterClient', () => {
           {
             serializedRows: [serialized],
           },
-          0
+          0,
         );
         const res = await pw.getResult();
         assert.notEqual(res.error, null);
         assert.equal(
           res.error?.message?.split('.')[0],
-          'Errors found while processing rows'
+          'Errors found while processing rows',
         );
 
         writer.close();
@@ -1573,7 +1574,7 @@ describe('managedwriter.WriterClient', () => {
         assert.notEqual(res.error, null);
         assert.equal(
           res.error?.message?.split('.')[0],
-          'Rows must be specified'
+          'Rows must be specified',
         );
 
         writer.close();
@@ -1621,7 +1622,7 @@ describe('managedwriter.WriterClient', () => {
           {
             serializedRows: rows,
           },
-          0
+          0,
         );
 
         let res = await badPw.getResult();
@@ -1632,7 +1633,7 @@ describe('managedwriter.WriterClient', () => {
           {
             serializedRows: [serializedRowMessage],
           },
-          0
+          0,
         );
         res = await goodPw.getResult();
         assert.equal(res.appendResult?.offset?.value, '0');
@@ -1677,7 +1678,7 @@ describe('managedwriter.WriterClient', () => {
               row_num: 2,
             },
           ],
-          0
+          0,
         );
         await pw.getResult();
 
@@ -1737,7 +1738,7 @@ describe('managedwriter.WriterClient', () => {
         // Simulate server sending ABORT error as the conn was idle
         const conn = connection['_connection'] as gax.CancellableStream; // private method
         const gerr = new gax.GoogleError(
-          'Closing the stream because it has been inactive for 600 seconds'
+          'Closing the stream because it has been inactive for 600 seconds',
         );
         gerr.code = gax.Status.ABORTED;
         conn.emit('error', gerr);
@@ -1868,7 +1869,7 @@ describe('managedwriter.WriterClient', () => {
           {
             serializedRows: [serializedRow1Message, serializedRow2Message],
           },
-          offset
+          offset,
         );
         await pw.getResult();
 
@@ -1894,7 +1895,7 @@ describe('managedwriter.WriterClient', () => {
   async function deleteDatasets() {
     let [datasets] = await bigquery.getDatasets();
     datasets = datasets.filter(dataset =>
-      dataset.id?.includes(GCLOUD_TESTS_PREFIX)
+      dataset.id?.includes(GCLOUD_TESTS_PREFIX),
     );
 
     for (const dataset of datasets) {

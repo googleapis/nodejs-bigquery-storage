@@ -106,7 +106,7 @@ export class MetastorePartitionServiceClient {
    */
   constructor(
     opts?: ClientOptions,
-    gaxInstance?: typeof gax | typeof gax.fallback
+    gaxInstance?: typeof gax | typeof gax.fallback,
   ) {
     // Ensure that options include all the required fields.
     const staticMembers = this
@@ -117,7 +117,7 @@ export class MetastorePartitionServiceClient {
       opts?.universe_domain !== opts?.universeDomain
     ) {
       throw new Error(
-        'Please set either universe_domain or universeDomain, but not both.'
+        'Please set either universe_domain or universeDomain, but not both.',
       );
     }
     const universeDomainEnvVar =
@@ -201,10 +201,10 @@ export class MetastorePartitionServiceClient {
     // Create useful helper objects for these.
     this.pathTemplates = {
       readStreamPathTemplate: new this._gaxModule.PathTemplate(
-        'projects/{project}/locations/{location}/sessions/{session}/streams/{stream}'
+        'projects/{project}/locations/{location}/sessions/{session}/streams/{stream}',
       ),
       tablePathTemplate: new this._gaxModule.PathTemplate(
-        'projects/{project}/datasets/{dataset}/tables/{table}'
+        'projects/{project}/datasets/{dataset}/tables/{table}',
       ),
     };
 
@@ -214,7 +214,7 @@ export class MetastorePartitionServiceClient {
       streamMetastorePartitions: new this._gaxModule.StreamDescriptor(
         this._gaxModule.StreamType.BIDI_STREAMING,
         !!opts.fallback,
-        !!opts.gaxServerStreamingRetries
+        !!opts.gaxServerStreamingRetries,
       ),
     };
 
@@ -223,7 +223,7 @@ export class MetastorePartitionServiceClient {
       'google.cloud.bigquery.storage.v1alpha.MetastorePartitionService',
       gapicConfig as gax.ClientConfig,
       opts.clientConfig || {},
-      {'x-goog-api-client': clientHeader.join(' ')}
+      {'x-goog-api-client': clientHeader.join(' ')},
     );
 
     // Set up a dictionary of "inner API calls"; the core implementation
@@ -257,13 +257,13 @@ export class MetastorePartitionServiceClient {
     this.metastorePartitionServiceStub = this._gaxGrpc.createStub(
       this._opts.fallback
         ? (this._protos as protobuf.Root).lookupService(
-            'google.cloud.bigquery.storage.v1alpha.MetastorePartitionService'
+            'google.cloud.bigquery.storage.v1alpha.MetastorePartitionService',
           )
         : // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (this._protos as any).google.cloud.bigquery.storage.v1alpha
             .MetastorePartitionService,
       this._opts,
-      this._providedCustomServicePath
+      this._providedCustomServicePath,
     ) as Promise<{[method: string]: Function}>;
 
     // Iterate over each of the methods that the service provides
@@ -286,8 +286,8 @@ export class MetastorePartitionServiceClient {
                   stream.emit(
                     'error',
                     new this._gaxModule.GoogleError(
-                      'The client has already been closed.'
-                    )
+                      'The client has already been closed.',
+                    ),
                   );
                 });
                 return stream;
@@ -299,7 +299,7 @@ export class MetastorePartitionServiceClient {
           },
         (err: Error | null | undefined) => () => {
           throw err;
-        }
+        },
       );
 
       const descriptor = this.descriptors.stream[methodName] || undefined;
@@ -307,7 +307,7 @@ export class MetastorePartitionServiceClient {
         callPromise,
         this._defaults[methodName],
         descriptor,
-        this._opts.fallback
+        this._opts.fallback,
       );
 
       this.innerApiCalls[methodName] = apiCall;
@@ -328,7 +328,7 @@ export class MetastorePartitionServiceClient {
     ) {
       process.emitWarning(
         'Static servicePath is deprecated, please use the instance method instead.',
-        'DeprecationWarning'
+        'DeprecationWarning',
       );
     }
     return 'bigquerystorage.googleapis.com';
@@ -346,7 +346,7 @@ export class MetastorePartitionServiceClient {
     ) {
       process.emitWarning(
         'Static apiEndpoint is deprecated, please use the instance method instead.',
-        'DeprecationWarning'
+        'DeprecationWarning',
       );
     }
     return 'bigquerystorage.googleapis.com';
@@ -391,7 +391,7 @@ export class MetastorePartitionServiceClient {
    * @returns {Promise} A promise that resolves to string containing the project ID.
    */
   getProjectId(
-    callback?: Callback<string, undefined, undefined>
+    callback?: Callback<string, undefined, undefined>,
   ): Promise<string> | void {
     if (callback) {
       this.auth.getProjectId(callback);
@@ -431,7 +431,7 @@ export class MetastorePartitionServiceClient {
    */
   batchCreateMetastorePartitions(
     request?: protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest,
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse,
@@ -451,7 +451,7 @@ export class MetastorePartitionServiceClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   batchCreateMetastorePartitions(
     request: protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest,
@@ -461,7 +461,7 @@ export class MetastorePartitionServiceClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   batchCreateMetastorePartitions(
     request?: protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest,
@@ -480,7 +480,7 @@ export class MetastorePartitionServiceClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse,
@@ -510,7 +510,7 @@ export class MetastorePartitionServiceClient {
     return this.innerApiCalls.batchCreateMetastorePartitions(
       request,
       options,
-      callback
+      callback,
     );
   }
   /**
@@ -536,7 +536,7 @@ export class MetastorePartitionServiceClient {
    */
   batchDeleteMetastorePartitions(
     request?: protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest,
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<
     [
       protos.google.protobuf.IEmpty,
@@ -556,7 +556,7 @@ export class MetastorePartitionServiceClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   batchDeleteMetastorePartitions(
     request: protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest,
@@ -566,7 +566,7 @@ export class MetastorePartitionServiceClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   batchDeleteMetastorePartitions(
     request?: protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest,
@@ -585,7 +585,7 @@ export class MetastorePartitionServiceClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): Promise<
     [
       protos.google.protobuf.IEmpty,
@@ -615,7 +615,7 @@ export class MetastorePartitionServiceClient {
     return this.innerApiCalls.batchDeleteMetastorePartitions(
       request,
       options,
-      callback
+      callback,
     );
   }
   /**
@@ -640,7 +640,7 @@ export class MetastorePartitionServiceClient {
    */
   batchUpdateMetastorePartitions(
     request?: protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest,
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse,
@@ -660,7 +660,7 @@ export class MetastorePartitionServiceClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   batchUpdateMetastorePartitions(
     request: protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest,
@@ -670,7 +670,7 @@ export class MetastorePartitionServiceClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   batchUpdateMetastorePartitions(
     request?: protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest,
@@ -689,7 +689,7 @@ export class MetastorePartitionServiceClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse,
@@ -719,7 +719,7 @@ export class MetastorePartitionServiceClient {
     return this.innerApiCalls.batchUpdateMetastorePartitions(
       request,
       options,
-      callback
+      callback,
     );
   }
   /**
@@ -753,7 +753,7 @@ export class MetastorePartitionServiceClient {
    */
   listMetastorePartitions(
     request?: protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest,
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse,
@@ -773,7 +773,7 @@ export class MetastorePartitionServiceClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   listMetastorePartitions(
     request: protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest,
@@ -783,7 +783,7 @@ export class MetastorePartitionServiceClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   listMetastorePartitions(
     request?: protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest,
@@ -802,7 +802,7 @@ export class MetastorePartitionServiceClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse,
@@ -832,7 +832,7 @@ export class MetastorePartitionServiceClient {
     return this.innerApiCalls.listMetastorePartitions(
       request,
       options,
-      callback
+      callback,
     );
   }
 
@@ -877,7 +877,7 @@ export class MetastorePartitionServiceClient {
     project: string,
     location: string,
     session: string,
-    stream: string
+    stream: string,
   ) {
     return this.pathTemplates.readStreamPathTemplate.render({
       project: project,

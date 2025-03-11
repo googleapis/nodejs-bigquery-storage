@@ -111,7 +111,7 @@ export class BigQueryStorageClient {
    */
   constructor(
     opts?: ClientOptions,
-    gaxInstance?: typeof gax | typeof gax.fallback
+    gaxInstance?: typeof gax | typeof gax.fallback,
   ) {
     // Ensure that options include all the required fields.
     const staticMembers = this.constructor as typeof BigQueryStorageClient;
@@ -121,7 +121,7 @@ export class BigQueryStorageClient {
       opts?.universe_domain !== opts?.universeDomain
     ) {
       throw new Error(
-        'Please set either universe_domain or universeDomain, but not both.'
+        'Please set either universe_domain or universeDomain, but not both.',
       );
     }
     const universeDomainEnvVar =
@@ -202,13 +202,13 @@ export class BigQueryStorageClient {
     // Create useful helper objects for these.
     this.pathTemplates = {
       projectPathTemplate: new this._gaxModule.PathTemplate(
-        'projects/{project}'
+        'projects/{project}',
       ),
       readSessionPathTemplate: new this._gaxModule.PathTemplate(
-        'projects/{project}/locations/{location}/sessions/{session}'
+        'projects/{project}/locations/{location}/sessions/{session}',
       ),
       streamPathTemplate: new this._gaxModule.PathTemplate(
-        'projects/{project}/locations/{location}/streams/{stream}'
+        'projects/{project}/locations/{location}/streams/{stream}',
       ),
     };
 
@@ -218,7 +218,7 @@ export class BigQueryStorageClient {
       readRows: new this._gaxModule.StreamDescriptor(
         this._gaxModule.StreamType.SERVER_STREAMING,
         !!opts.fallback,
-        !!opts.gaxServerStreamingRetries
+        !!opts.gaxServerStreamingRetries,
       ),
     };
 
@@ -227,7 +227,7 @@ export class BigQueryStorageClient {
       'google.cloud.bigquery.storage.v1beta1.BigQueryStorage',
       gapicConfig as gax.ClientConfig,
       opts.clientConfig || {},
-      {'x-goog-api-client': clientHeader.join(' ')}
+      {'x-goog-api-client': clientHeader.join(' ')},
     );
 
     // Set up a dictionary of "inner API calls"; the core implementation
@@ -261,13 +261,13 @@ export class BigQueryStorageClient {
     this.bigQueryStorageStub = this._gaxGrpc.createStub(
       this._opts.fallback
         ? (this._protos as protobuf.Root).lookupService(
-            'google.cloud.bigquery.storage.v1beta1.BigQueryStorage'
+            'google.cloud.bigquery.storage.v1beta1.BigQueryStorage',
           )
         : // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (this._protos as any).google.cloud.bigquery.storage.v1beta1
             .BigQueryStorage,
       this._opts,
-      this._providedCustomServicePath
+      this._providedCustomServicePath,
     ) as Promise<{[method: string]: Function}>;
 
     // Iterate over each of the methods that the service provides
@@ -290,8 +290,8 @@ export class BigQueryStorageClient {
                   stream.emit(
                     'error',
                     new this._gaxModule.GoogleError(
-                      'The client has already been closed.'
-                    )
+                      'The client has already been closed.',
+                    ),
                   );
                 });
                 return stream;
@@ -303,7 +303,7 @@ export class BigQueryStorageClient {
           },
         (err: Error | null | undefined) => () => {
           throw err;
-        }
+        },
       );
 
       const descriptor = this.descriptors.stream[methodName] || undefined;
@@ -311,7 +311,7 @@ export class BigQueryStorageClient {
         callPromise,
         this._defaults[methodName],
         descriptor,
-        this._opts.fallback
+        this._opts.fallback,
       );
 
       this.innerApiCalls[methodName] = apiCall;
@@ -332,7 +332,7 @@ export class BigQueryStorageClient {
     ) {
       process.emitWarning(
         'Static servicePath is deprecated, please use the instance method instead.',
-        'DeprecationWarning'
+        'DeprecationWarning',
       );
     }
     return 'bigquerystorage.googleapis.com';
@@ -350,7 +350,7 @@ export class BigQueryStorageClient {
     ) {
       process.emitWarning(
         'Static apiEndpoint is deprecated, please use the instance method instead.',
-        'DeprecationWarning'
+        'DeprecationWarning',
       );
     }
     return 'bigquerystorage.googleapis.com';
@@ -395,7 +395,7 @@ export class BigQueryStorageClient {
    * @returns {Promise} A promise that resolves to string containing the project ID.
    */
   getProjectId(
-    callback?: Callback<string, undefined, undefined>
+    callback?: Callback<string, undefined, undefined>,
   ): Promise<string> | void {
     if (callback) {
       this.auth.getProjectId(callback);
@@ -458,7 +458,7 @@ export class BigQueryStorageClient {
    */
   createReadSession(
     request?: protos.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest,
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1beta1.IReadSession,
@@ -478,7 +478,7 @@ export class BigQueryStorageClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   createReadSession(
     request: protos.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest,
@@ -488,7 +488,7 @@ export class BigQueryStorageClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   createReadSession(
     request?: protos.google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest,
@@ -507,7 +507,7 @@ export class BigQueryStorageClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1beta1.IReadSession,
@@ -562,7 +562,7 @@ export class BigQueryStorageClient {
    */
   batchCreateReadSessionStreams(
     request?: protos.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest,
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsResponse,
@@ -582,7 +582,7 @@ export class BigQueryStorageClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   batchCreateReadSessionStreams(
     request: protos.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest,
@@ -592,7 +592,7 @@ export class BigQueryStorageClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   batchCreateReadSessionStreams(
     request?: protos.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest,
@@ -611,7 +611,7 @@ export class BigQueryStorageClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsResponse,
@@ -641,7 +641,7 @@ export class BigQueryStorageClient {
     return this.innerApiCalls.batchCreateReadSessionStreams(
       request,
       options,
-      callback
+      callback,
     );
   }
   /**
@@ -675,7 +675,7 @@ export class BigQueryStorageClient {
    */
   finalizeStream(
     request?: protos.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest,
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<
     [
       protos.google.protobuf.IEmpty,
@@ -695,7 +695,7 @@ export class BigQueryStorageClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   finalizeStream(
     request: protos.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest,
@@ -705,7 +705,7 @@ export class BigQueryStorageClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   finalizeStream(
     request?: protos.google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest,
@@ -724,7 +724,7 @@ export class BigQueryStorageClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): Promise<
     [
       protos.google.protobuf.IEmpty,
@@ -791,7 +791,7 @@ export class BigQueryStorageClient {
    */
   splitReadStream(
     request?: protos.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest,
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamResponse,
@@ -811,7 +811,7 @@ export class BigQueryStorageClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   splitReadStream(
     request: protos.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest,
@@ -821,7 +821,7 @@ export class BigQueryStorageClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   splitReadStream(
     request?: protos.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest,
@@ -840,7 +840,7 @@ export class BigQueryStorageClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1beta1.ISplitReadStreamResponse,
@@ -898,7 +898,7 @@ export class BigQueryStorageClient {
    */
   readRows(
     request?: protos.google.cloud.bigquery.storage.v1beta1.IReadRowsRequest,
-    options?: CallOptions
+    options?: CallOptions,
   ): gax.CancellableStream {
     request = request || {};
     options = options || {};

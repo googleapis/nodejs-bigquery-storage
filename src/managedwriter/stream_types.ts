@@ -57,7 +57,7 @@ export const BufferedStream = 'BUFFERED';
 export const PendingStream = 'PENDING';
 
 export function streamTypeToEnum(
-  streamType: WriteStreamType
+  streamType: WriteStreamType,
 ): WriteStream['type'] {
   switch (streamType) {
     case WriteStreamType.BUFFERED:

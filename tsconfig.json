@@ -12,8 +12,11 @@
   "include": [
     "src/*.ts",
     "src/**/*.ts",
+    "src/**/*.json",
     "test/*.ts",
     "test/**/*.ts",
-    "system-test/*.ts"
+    "samples/**/*.json",
+    "system-test/*.ts",
+    "protos/protos.json"
   ]
 }
