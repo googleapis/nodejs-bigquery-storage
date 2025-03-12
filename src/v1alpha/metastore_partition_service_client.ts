@@ -27,6 +27,7 @@ import type {
 import {PassThrough} from 'stream';
 import * as protos from '../../protos/protos';
 import jsonProtos = require('../../protos/protos.json');
+import {loggingUtils as logging} from 'google-gax';
 
 /**
  * Client JSON configuration object, loaded from
@@ -53,6 +54,8 @@ export class MetastorePartitionServiceClient {
   private _defaults: {[method: string]: gax.CallSettings};
   private _universeDomain: string;
   private _servicePath: string;
+  private _log = logging.log('storage');
+
   auth: gax.GoogleAuth;
   descriptors: Descriptors = {
     page: {},
@@ -87,7 +90,7 @@ export class MetastorePartitionServiceClient {
    *     Developer's Console, e.g. 'grape-spaceship-123'. We will also check
    *     the environment variable GCLOUD_PROJECT for your project ID. If your
    *     app is running in an environment which supports
-   *     {@link https://developers.google.com/identity/protocols/application-default-credentials Application Default Credentials},
+   *     {@link https://cloud.google.com/docs/authentication/application-default-credentials Application Default Credentials},
    *     your project ID will be detected automatically.
    * @param {string} [options.apiEndpoint] - The domain name of the
    *     API remote host.
@@ -507,11 +510,42 @@ export class MetastorePartitionServiceClient {
         parent: request.parent ?? '',
       });
     this.initialize();
-    return this.innerApiCalls.batchCreateMetastorePartitions(
-      request,
-      options,
-      callback
-    );
+    this._log.info('batchCreateMetastorePartitions request %j', request);
+    const wrappedCallback:
+      | Callback<
+          protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse,
+          | protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >
+      | undefined = callback
+      ? (error, response, options, rawResponse) => {
+          this._log.info(
+            'batchCreateMetastorePartitions response %j',
+            response
+          );
+          callback!(error, response, options, rawResponse); // We verified callback above.
+        }
+      : undefined;
+    return this.innerApiCalls
+      .batchCreateMetastorePartitions(request, options, wrappedCallback)
+      ?.then(
+        ([response, options, rawResponse]: [
+          protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse,
+          (
+            | protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest
+            | undefined
+          ),
+          {} | undefined,
+        ]) => {
+          this._log.info(
+            'batchCreateMetastorePartitions response %j',
+            response
+          );
+          return [response, options, rawResponse];
+        }
+      );
   }
   /**
    * Deletes metastore partitions from a table.
@@ -612,11 +646,42 @@ export class MetastorePartitionServiceClient {
         parent: request.parent ?? '',
       });
     this.initialize();
-    return this.innerApiCalls.batchDeleteMetastorePartitions(
-      request,
-      options,
-      callback
-    );
+    this._log.info('batchDeleteMetastorePartitions request %j', request);
+    const wrappedCallback:
+      | Callback<
+          protos.google.protobuf.IEmpty,
+          | protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >
+      | undefined = callback
+      ? (error, response, options, rawResponse) => {
+          this._log.info(
+            'batchDeleteMetastorePartitions response %j',
+            response
+          );
+          callback!(error, response, options, rawResponse); // We verified callback above.
+        }
+      : undefined;
+    return this.innerApiCalls
+      .batchDeleteMetastorePartitions(request, options, wrappedCallback)
+      ?.then(
+        ([response, options, rawResponse]: [
+          protos.google.protobuf.IEmpty,
+          (
+            | protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest
+            | undefined
+          ),
+          {} | undefined,
+        ]) => {
+          this._log.info(
+            'batchDeleteMetastorePartitions response %j',
+            response
+          );
+          return [response, options, rawResponse];
+        }
+      );
   }
   /**
    * Updates metastore partitions in a table.
@@ -716,11 +781,42 @@ export class MetastorePartitionServiceClient {
         parent: request.parent ?? '',
       });
     this.initialize();
-    return this.innerApiCalls.batchUpdateMetastorePartitions(
-      request,
-      options,
-      callback
-    );
+    this._log.info('batchUpdateMetastorePartitions request %j', request);
+    const wrappedCallback:
+      | Callback<
+          protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse,
+          | protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >
+      | undefined = callback
+      ? (error, response, options, rawResponse) => {
+          this._log.info(
+            'batchUpdateMetastorePartitions response %j',
+            response
+          );
+          callback!(error, response, options, rawResponse); // We verified callback above.
+        }
+      : undefined;
+    return this.innerApiCalls
+      .batchUpdateMetastorePartitions(request, options, wrappedCallback)
+      ?.then(
+        ([response, options, rawResponse]: [
+          protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse,
+          (
+            | protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest
+            | undefined
+          ),
+          {} | undefined,
+        ]) => {
+          this._log.info(
+            'batchUpdateMetastorePartitions response %j',
+            response
+          );
+          return [response, options, rawResponse];
+        }
+      );
   }
   /**
    * Gets metastore partitions from a table.
@@ -829,11 +925,36 @@ export class MetastorePartitionServiceClient {
         parent: request.parent ?? '',
       });
     this.initialize();
-    return this.innerApiCalls.listMetastorePartitions(
-      request,
-      options,
-      callback
-    );
+    this._log.info('listMetastorePartitions request %j', request);
+    const wrappedCallback:
+      | Callback<
+          protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse,
+          | protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >
+      | undefined = callback
+      ? (error, response, options, rawResponse) => {
+          this._log.info('listMetastorePartitions response %j', response);
+          callback!(error, response, options, rawResponse); // We verified callback above.
+        }
+      : undefined;
+    return this.innerApiCalls
+      .listMetastorePartitions(request, options, wrappedCallback)
+      ?.then(
+        ([response, options, rawResponse]: [
+          protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse,
+          (
+            | protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest
+            | undefined
+          ),
+          {} | undefined,
+        ]) => {
+          this._log.info('listMetastorePartitions response %j', response);
+          return [response, options, rawResponse];
+        }
+      );
   }
 
   /**
@@ -857,6 +978,7 @@ export class MetastorePartitionServiceClient {
    */
   streamMetastorePartitions(options?: CallOptions): gax.CancellableStream {
     this.initialize();
+    this._log.info('streamMetastorePartitions stream %j', options);
     return this.innerApiCalls.streamMetastorePartitions(null, options);
   }
 
@@ -993,6 +1115,7 @@ export class MetastorePartitionServiceClient {
   close(): Promise<void> {
     if (this.metastorePartitionServiceStub && !this._terminated) {
       return this.metastorePartitionServiceStub.then(stub => {
+        this._log.info('ending gRPC channel');
         this._terminated = true;
         stub.close();
       });

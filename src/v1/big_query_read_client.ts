@@ -27,6 +27,7 @@ import type {
 import {PassThrough} from 'stream';
 import * as protos from '../../protos/protos';
 import jsonProtos = require('../../protos/protos.json');
+import {loggingUtils as logging} from 'google-gax';
 
 /**
  * Client JSON configuration object, loaded from
@@ -53,6 +54,8 @@ export class BigQueryReadClient {
   private _defaults: {[method: string]: gax.CallSettings};
   private _universeDomain: string;
   private _servicePath: string;
+  private _log = logging.log('bigquery-storage');
+
   auth: gax.GoogleAuth;
   descriptors: Descriptors = {
     page: {},
@@ -87,7 +90,7 @@ export class BigQueryReadClient {
    *     Developer's Console, e.g. 'grape-spaceship-123'. We will also check
    *     the environment variable GCLOUD_PROJECT for your project ID. If your
    *     app is running in an environment which supports
-   *     {@link https://developers.google.com/identity/protocols/application-default-credentials Application Default Credentials},
+   *     {@link https://cloud.google.com/docs/authentication/application-default-credentials Application Default Credentials},
    *     your project ID will be detected automatically.
    * @param {string} [options.apiEndpoint] - The domain name of the
    *     API remote host.
@@ -540,7 +543,36 @@ export class BigQueryReadClient {
         'read_session.table': request.readSession!.table ?? '',
       });
     this.initialize();
-    return this.innerApiCalls.createReadSession(request, options, callback);
+    this._log.info('createReadSession request %j', request);
+    const wrappedCallback:
+      | Callback<
+          protos.google.cloud.bigquery.storage.v1.IReadSession,
+          | protos.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >
+      | undefined = callback
+      ? (error, response, options, rawResponse) => {
+          this._log.info('createReadSession response %j', response);
+          callback!(error, response, options, rawResponse); // We verified callback above.
+        }
+      : undefined;
+    return this.innerApiCalls
+      .createReadSession(request, options, wrappedCallback)
+      ?.then(
+        ([response, options, rawResponse]: [
+          protos.google.cloud.bigquery.storage.v1.IReadSession,
+          (
+            | protos.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest
+            | undefined
+          ),
+          {} | undefined,
+        ]) => {
+          this._log.info('createReadSession response %j', response);
+          return [response, options, rawResponse];
+        }
+      );
   }
   /**
    * Splits a given `ReadStream` into two `ReadStream` objects. These
@@ -655,7 +687,36 @@ export class BigQueryReadClient {
         name: request.name ?? '',
       });
     this.initialize();
-    return this.innerApiCalls.splitReadStream(request, options, callback);
+    this._log.info('splitReadStream request %j', request);
+    const wrappedCallback:
+      | Callback<
+          protos.google.cloud.bigquery.storage.v1.ISplitReadStreamResponse,
+          | protos.google.cloud.bigquery.storage.v1.ISplitReadStreamRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >
+      | undefined = callback
+      ? (error, response, options, rawResponse) => {
+          this._log.info('splitReadStream response %j', response);
+          callback!(error, response, options, rawResponse); // We verified callback above.
+        }
+      : undefined;
+    return this.innerApiCalls
+      .splitReadStream(request, options, wrappedCallback)
+      ?.then(
+        ([response, options, rawResponse]: [
+          protos.google.cloud.bigquery.storage.v1.ISplitReadStreamResponse,
+          (
+            | protos.google.cloud.bigquery.storage.v1.ISplitReadStreamRequest
+            | undefined
+          ),
+          {} | undefined,
+        ]) => {
+          this._log.info('splitReadStream response %j', response);
+          return [response, options, rawResponse];
+        }
+      );
   }
 
   /**
@@ -697,6 +758,7 @@ export class BigQueryReadClient {
         read_stream: request.readStream ?? '',
       });
     this.initialize();
+    this._log.info('readRows stream %j', options);
     return this.innerApiCalls.readRows(request, options);
   }
 
@@ -979,6 +1041,7 @@ export class BigQueryReadClient {
   close(): Promise<void> {
     if (this.bigQueryReadStub && !this._terminated) {
       return this.bigQueryReadStub.then(stub => {
+        this._log.info('ending gRPC channel');
         this._terminated = true;
         stub.close();
       });

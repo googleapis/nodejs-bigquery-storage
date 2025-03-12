@@ -27,6 +27,7 @@ import type {
 import {PassThrough} from 'stream';
 import * as protos from '../../protos/protos';
 import jsonProtos = require('../../protos/protos.json');
+import {loggingUtils as logging} from 'google-gax';
 
 /**
  * Client JSON configuration object, loaded from
@@ -56,6 +57,8 @@ export class BigQueryWriteClient {
   private _defaults: {[method: string]: gax.CallSettings};
   private _universeDomain: string;
   private _servicePath: string;
+  private _log = logging.log('bigquery-storage');
+
   auth: gax.GoogleAuth;
   descriptors: Descriptors = {
     page: {},
@@ -90,7 +93,7 @@ export class BigQueryWriteClient {
    *     Developer's Console, e.g. 'grape-spaceship-123'. We will also check
    *     the environment variable GCLOUD_PROJECT for your project ID. If your
    *     app is running in an environment which supports
-   *     {@link https://developers.google.com/identity/protocols/application-default-credentials Application Default Credentials},
+   *     {@link https://cloud.google.com/docs/authentication/application-default-credentials Application Default Credentials},
    *     your project ID will be detected automatically.
    * @param {string} [options.apiEndpoint] - The domain name of the
    *     API remote host.
@@ -514,7 +517,36 @@ export class BigQueryWriteClient {
         parent: request.parent ?? '',
       });
     this.initialize();
-    return this.innerApiCalls.createWriteStream(request, options, callback);
+    this._log.info('createWriteStream request %j', request);
+    const wrappedCallback:
+      | Callback<
+          protos.google.cloud.bigquery.storage.v1.IWriteStream,
+          | protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >
+      | undefined = callback
+      ? (error, response, options, rawResponse) => {
+          this._log.info('createWriteStream response %j', response);
+          callback!(error, response, options, rawResponse); // We verified callback above.
+        }
+      : undefined;
+    return this.innerApiCalls
+      .createWriteStream(request, options, wrappedCallback)
+      ?.then(
+        ([response, options, rawResponse]: [
+          protos.google.cloud.bigquery.storage.v1.IWriteStream,
+          (
+            | protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest
+            | undefined
+          ),
+          {} | undefined,
+        ]) => {
+          this._log.info('createWriteStream response %j', response);
+          return [response, options, rawResponse];
+        }
+      );
   }
   /**
    * Gets information about a write stream.
@@ -614,7 +646,36 @@ export class BigQueryWriteClient {
         name: request.name ?? '',
       });
     this.initialize();
-    return this.innerApiCalls.getWriteStream(request, options, callback);
+    this._log.info('getWriteStream request %j', request);
+    const wrappedCallback:
+      | Callback<
+          protos.google.cloud.bigquery.storage.v1.IWriteStream,
+          | protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >
+      | undefined = callback
+      ? (error, response, options, rawResponse) => {
+          this._log.info('getWriteStream response %j', response);
+          callback!(error, response, options, rawResponse); // We verified callback above.
+        }
+      : undefined;
+    return this.innerApiCalls
+      .getWriteStream(request, options, wrappedCallback)
+      ?.then(
+        ([response, options, rawResponse]: [
+          protos.google.cloud.bigquery.storage.v1.IWriteStream,
+          (
+            | protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest
+            | undefined
+          ),
+          {} | undefined,
+        ]) => {
+          this._log.info('getWriteStream response %j', response);
+          return [response, options, rawResponse];
+        }
+      );
   }
   /**
    * Finalize a write stream so that no new data can be appended to the
@@ -712,7 +773,36 @@ export class BigQueryWriteClient {
         name: request.name ?? '',
       });
     this.initialize();
-    return this.innerApiCalls.finalizeWriteStream(request, options, callback);
+    this._log.info('finalizeWriteStream request %j', request);
+    const wrappedCallback:
+      | Callback<
+          protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse,
+          | protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >
+      | undefined = callback
+      ? (error, response, options, rawResponse) => {
+          this._log.info('finalizeWriteStream response %j', response);
+          callback!(error, response, options, rawResponse); // We verified callback above.
+        }
+      : undefined;
+    return this.innerApiCalls
+      .finalizeWriteStream(request, options, wrappedCallback)
+      ?.then(
+        ([response, options, rawResponse]: [
+          protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse,
+          (
+            | protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest
+            | undefined
+          ),
+          {} | undefined,
+        ]) => {
+          this._log.info('finalizeWriteStream response %j', response);
+          return [response, options, rawResponse];
+        }
+      );
   }
   /**
    * Atomically commits a group of `PENDING` streams that belong to the same
@@ -816,11 +906,36 @@ export class BigQueryWriteClient {
         parent: request.parent ?? '',
       });
     this.initialize();
-    return this.innerApiCalls.batchCommitWriteStreams(
-      request,
-      options,
-      callback
-    );
+    this._log.info('batchCommitWriteStreams request %j', request);
+    const wrappedCallback:
+      | Callback<
+          protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse,
+          | protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >
+      | undefined = callback
+      ? (error, response, options, rawResponse) => {
+          this._log.info('batchCommitWriteStreams response %j', response);
+          callback!(error, response, options, rawResponse); // We verified callback above.
+        }
+      : undefined;
+    return this.innerApiCalls
+      .batchCommitWriteStreams(request, options, wrappedCallback)
+      ?.then(
+        ([response, options, rawResponse]: [
+          protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse,
+          (
+            | protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest
+            | undefined
+          ),
+          {} | undefined,
+        ]) => {
+          this._log.info('batchCommitWriteStreams response %j', response);
+          return [response, options, rawResponse];
+        }
+      );
   }
   /**
    * Flushes rows to a BUFFERED stream.
@@ -920,7 +1035,33 @@ export class BigQueryWriteClient {
         write_stream: request.writeStream ?? '',
       });
     this.initialize();
-    return this.innerApiCalls.flushRows(request, options, callback);
+    this._log.info('flushRows request %j', request);
+    const wrappedCallback:
+      | Callback<
+          protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
+          | protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest
+          | null
+          | undefined,
+          {} | null | undefined
+        >
+      | undefined = callback
+      ? (error, response, options, rawResponse) => {
+          this._log.info('flushRows response %j', response);
+          callback!(error, response, options, rawResponse); // We verified callback above.
+        }
+      : undefined;
+    return this.innerApiCalls
+      .flushRows(request, options, wrappedCallback)
+      ?.then(
+        ([response, options, rawResponse]: [
+          protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
+          protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest | undefined,
+          {} | undefined,
+        ]) => {
+          this._log.info('flushRows response %j', response);
+          return [response, options, rawResponse];
+        }
+      );
   }
 
   /**
@@ -969,6 +1110,7 @@ export class BigQueryWriteClient {
    */
   appendRows(options?: CallOptions): gax.CancellableStream {
     this.initialize();
+    this._log.info('appendRows stream %j', options);
     return this.innerApiCalls.appendRows(null, options);
   }
 
@@ -1251,6 +1393,7 @@ export class BigQueryWriteClient {
   close(): Promise<void> {
     if (this.bigQueryWriteStub && !this._terminated) {
       return this.bigQueryWriteStub.then(stub => {
+        this._log.info('ending gRPC channel');
         this._terminated = true;
         stub.close();
       });
