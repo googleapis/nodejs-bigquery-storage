@@ -509,7 +509,9 @@ export class MetastorePartitionServiceClient {
       this._gaxModule.routingHeader.fromParams({
         parent: request.parent ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('batchCreateMetastorePartitions request %j', request);
     const wrappedCallback:
       | Callback<
@@ -645,7 +647,9 @@ export class MetastorePartitionServiceClient {
       this._gaxModule.routingHeader.fromParams({
         parent: request.parent ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('batchDeleteMetastorePartitions request %j', request);
     const wrappedCallback:
       | Callback<
@@ -780,7 +784,9 @@ export class MetastorePartitionServiceClient {
       this._gaxModule.routingHeader.fromParams({
         parent: request.parent ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('batchUpdateMetastorePartitions request %j', request);
     const wrappedCallback:
       | Callback<
@@ -924,7 +930,9 @@ export class MetastorePartitionServiceClient {
       this._gaxModule.routingHeader.fromParams({
         parent: request.parent ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('listMetastorePartitions request %j', request);
     const wrappedCallback:
       | Callback<
@@ -977,7 +985,9 @@ export class MetastorePartitionServiceClient {
    * region_tag:bigquerystorage_v1alpha_generated_MetastorePartitionService_StreamMetastorePartitions_async
    */
   streamMetastorePartitions(options?: CallOptions): gax.CancellableStream {
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('streamMetastorePartitions stream %j', options);
     return this.innerApiCalls.streamMetastorePartitions(null, options);
   }

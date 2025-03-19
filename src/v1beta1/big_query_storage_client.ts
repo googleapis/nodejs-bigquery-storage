@@ -537,7 +537,9 @@ export class BigQueryStorageClient {
         'table_reference.project_id': request.tableReference!.projectId ?? '',
         'table_reference.dataset_id': request.tableReference!.datasetId ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('createReadSession request %j', request);
     const wrappedCallback:
       | Callback<
@@ -669,7 +671,9 @@ export class BigQueryStorageClient {
       this._gaxModule.routingHeader.fromParams({
         'session.name': request.session!.name ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('batchCreateReadSessionStreams request %j', request);
     const wrappedCallback:
       | Callback<
@@ -807,7 +811,9 @@ export class BigQueryStorageClient {
       this._gaxModule.routingHeader.fromParams({
         'stream.name': request.stream!.name ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('finalizeStream request %j', request);
     const wrappedCallback:
       | Callback<
@@ -952,7 +958,9 @@ export class BigQueryStorageClient {
       this._gaxModule.routingHeader.fromParams({
         'original_stream.name': request.originalStream!.name ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('splitReadStream request %j', request);
     const wrappedCallback:
       | Callback<
@@ -1023,7 +1031,9 @@ export class BigQueryStorageClient {
       this._gaxModule.routingHeader.fromParams({
         'read_position.stream.name': request.readPosition!.stream!.name ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('readRows stream %j', options);
     return this.innerApiCalls.readRows(request, options);
   }

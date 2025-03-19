@@ -227,7 +227,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      client.initialize().catch(err => {
+        throw err;
+      });
       assert(client.metastorePartitionServiceStub);
       client.close().then(() => {
         done();
@@ -298,7 +300,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest()
       );
@@ -333,7 +335,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest()
       );
@@ -383,7 +385,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest()
       );
@@ -420,7 +422,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest()
       );
@@ -447,7 +449,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest()
       );
@@ -482,7 +484,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest()
       );
@@ -532,7 +534,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest()
       );
@@ -569,7 +571,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest()
       );
@@ -596,7 +598,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest()
       );
@@ -631,7 +633,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest()
       );
@@ -681,7 +683,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest()
       );
@@ -718,7 +720,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest()
       );
@@ -745,7 +747,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest()
       );
@@ -780,7 +782,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest()
       );
@@ -830,7 +832,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest()
       );
@@ -867,7 +869,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest()
       );
@@ -894,7 +896,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest()
       );
@@ -942,7 +944,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest()
       );
@@ -982,7 +984,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
   });
 
   describe('Path templates', () => {
-    describe('readStream', () => {
+    describe('readStream', async () => {
       const fakePath = '/rendered/path/readStream';
       const expectedParameters = {
         project: 'projectValue',
@@ -997,7 +999,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       client.pathTemplates.readStreamPathTemplate.render = sinon
         .stub()
         .returns(fakePath);
@@ -1061,7 +1063,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
       });
     });
 
-    describe('table', () => {
+    describe('table', async () => {
       const fakePath = '/rendered/path/table';
       const expectedParameters = {
         project: 'projectValue',
@@ -1075,7 +1077,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           }
         );
-      client.initialize();
+      await client.initialize();
       client.pathTemplates.tablePathTemplate.render = sinon
         .stub()
         .returns(fakePath);

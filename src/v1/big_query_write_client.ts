@@ -516,7 +516,9 @@ export class BigQueryWriteClient {
       this._gaxModule.routingHeader.fromParams({
         parent: request.parent ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('createWriteStream request %j', request);
     const wrappedCallback:
       | Callback<
@@ -645,7 +647,9 @@ export class BigQueryWriteClient {
       this._gaxModule.routingHeader.fromParams({
         name: request.name ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('getWriteStream request %j', request);
     const wrappedCallback:
       | Callback<
@@ -772,7 +776,9 @@ export class BigQueryWriteClient {
       this._gaxModule.routingHeader.fromParams({
         name: request.name ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('finalizeWriteStream request %j', request);
     const wrappedCallback:
       | Callback<
@@ -905,7 +911,9 @@ export class BigQueryWriteClient {
       this._gaxModule.routingHeader.fromParams({
         parent: request.parent ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('batchCommitWriteStreams request %j', request);
     const wrappedCallback:
       | Callback<
@@ -1034,7 +1042,9 @@ export class BigQueryWriteClient {
       this._gaxModule.routingHeader.fromParams({
         write_stream: request.writeStream ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('flushRows request %j', request);
     const wrappedCallback:
       | Callback<
@@ -1109,7 +1119,9 @@ export class BigQueryWriteClient {
    * region_tag:bigquerystorage_v1_generated_BigQueryWrite_AppendRows_async
    */
   appendRows(options?: CallOptions): gax.CancellableStream {
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('appendRows stream %j', options);
     return this.innerApiCalls.appendRows(null, options);
   }

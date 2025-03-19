@@ -542,7 +542,9 @@ export class BigQueryReadClient {
       this._gaxModule.routingHeader.fromParams({
         'read_session.table': request.readSession!.table ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('createReadSession request %j', request);
     const wrappedCallback:
       | Callback<
@@ -686,7 +688,9 @@ export class BigQueryReadClient {
       this._gaxModule.routingHeader.fromParams({
         name: request.name ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('splitReadStream request %j', request);
     const wrappedCallback:
       | Callback<
@@ -757,7 +761,9 @@ export class BigQueryReadClient {
       this._gaxModule.routingHeader.fromParams({
         read_stream: request.readStream ?? '',
       });
-    this.initialize();
+    this.initialize().catch(err => {
+      throw err;
+    });
     this._log.info('readRows stream %j', options);
     return this.innerApiCalls.readRows(request, options);
   }
