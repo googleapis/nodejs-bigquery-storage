@@ -206,7 +206,9 @@ describe('v1.BigQueryReadClient', () => {
         projectId: 'bogus',
       });
       assert.strictEqual(client.bigQueryReadStub, undefined);
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       assert(client.bigQueryReadStub);
     });
 
@@ -219,9 +221,14 @@ describe('v1.BigQueryReadClient', () => {
         throw err;
       });
       assert(client.bigQueryReadStub);
-      client.close().then(() => {
-        done();
-      });
+      client
+        .close()
+        .then(() => {
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
     });
 
     it('has close method for the non-initialized client', done => {
@@ -230,9 +237,14 @@ describe('v1.BigQueryReadClient', () => {
         projectId: 'bogus',
       });
       assert.strictEqual(client.bigQueryReadStub, undefined);
-      client.close().then(() => {
-        done();
-      });
+      client
+        .close()
+        .then(() => {
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
     });
 
     it('has getProjectId method', async () => {
@@ -276,7 +288,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.CreateReadSessionRequest(),
       );
@@ -308,7 +322,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.CreateReadSessionRequest(),
       );
@@ -356,7 +372,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.CreateReadSessionRequest(),
       );
@@ -388,7 +406,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.CreateReadSessionRequest(),
       );
@@ -399,7 +419,9 @@ describe('v1.BigQueryReadClient', () => {
       );
       request.readSession.table = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       await assert.rejects(client.createReadSession(request), expectedError);
     });
   });
@@ -410,7 +432,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest(),
       );
@@ -441,7 +465,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest(),
       );
@@ -488,7 +514,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest(),
       );
@@ -519,7 +547,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest(),
       );
@@ -529,7 +559,9 @@ describe('v1.BigQueryReadClient', () => {
       );
       request.name = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       await assert.rejects(client.splitReadStream(request), expectedError);
     });
   });
@@ -540,7 +572,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest(),
       );
@@ -586,7 +620,9 @@ describe('v1.BigQueryReadClient', () => {
         projectId: 'bogus',
         gaxServerStreamingRetries: true,
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest(),
       );
@@ -631,7 +667,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest(),
       );
@@ -676,7 +714,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest(),
       );
@@ -686,7 +726,9 @@ describe('v1.BigQueryReadClient', () => {
       );
       request.readStream = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       const stream = client.readRows(request, {
         retryRequestOptions: {noResponseRetries: 0},
       });
@@ -723,7 +765,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       client.pathTemplates.projectPathTemplate.render = sinon
         .stub()
         .returns(fakePath);
@@ -763,7 +807,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       client.pathTemplates.readSessionPathTemplate.render = sinon
         .stub()
         .returns(fakePath);
@@ -828,7 +874,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       client.pathTemplates.readStreamPathTemplate.render = sinon
         .stub()
         .returns(fakePath);
@@ -903,7 +951,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       client.pathTemplates.tablePathTemplate.render = sinon
         .stub()
         .returns(fakePath);
@@ -968,7 +1018,9 @@ describe('v1.BigQueryReadClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       client.pathTemplates.writeStreamPathTemplate.render = sinon
         .stub()
         .returns(fakePath);

@@ -221,9 +221,14 @@ describe('v1beta1.BigQueryStorageClient', () => {
         throw err;
       });
       assert(client.bigQueryStorageStub);
-      client.close().then(() => {
-        done();
-      });
+      client
+        .close()
+        .then(() => {
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
     });
 
     it('has close method for the non-initialized client', done => {
@@ -232,9 +237,14 @@ describe('v1beta1.BigQueryStorageClient', () => {
         projectId: 'bogus',
       });
       assert.strictEqual(client.bigQueryStorageStub, undefined);
-      client.close().then(() => {
-        done();
-      });
+      client
+        .close()
+        .then(() => {
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
     });
 
     it('has getProjectId method', async () => {
@@ -425,7 +435,9 @@ describe('v1beta1.BigQueryStorageClient', () => {
       );
       request.tableReference.datasetId = defaultValue2;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       await assert.rejects(client.createReadSession(request), expectedError);
     });
   });
@@ -563,7 +575,9 @@ describe('v1beta1.BigQueryStorageClient', () => {
       );
       request.session.name = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       await assert.rejects(
         client.batchCreateReadSessionStreams(request),
         expectedError,
@@ -700,7 +714,9 @@ describe('v1beta1.BigQueryStorageClient', () => {
       );
       request.stream.name = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       await assert.rejects(client.finalizeStream(request), expectedError);
     });
   });
@@ -834,7 +850,9 @@ describe('v1beta1.BigQueryStorageClient', () => {
       );
       request.originalStream.name = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       await assert.rejects(client.splitReadStream(request), expectedError);
     });
   });
@@ -999,7 +1017,9 @@ describe('v1beta1.BigQueryStorageClient', () => {
       );
       request.readPosition.stream.name = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       const stream = client.readRows(request, {
         retryRequestOptions: {noResponseRetries: 0},
       });

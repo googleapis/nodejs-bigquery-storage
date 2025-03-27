@@ -158,7 +158,9 @@ describe('managedwriter.WriterClient', () => {
 
   describe('Writer', () => {
     it('should invoke appendRows without errors', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const streamType: WriteStream['type'] = managedwriter.PendingStream;
       const client = new WriterClient();
       client.setClient(bqWriteClient);
@@ -236,7 +238,9 @@ describe('managedwriter.WriterClient', () => {
     });
 
     it('should invoke appendRows to default stream without errors', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
@@ -303,7 +307,9 @@ describe('managedwriter.WriterClient', () => {
     });
 
     it('should invoke createWriteStream when streamType and destination table informed to createStreamConnection', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const streamType: WriteStream['type'] = managedwriter.PendingStream;
       const client = new WriterClient();
       client.setClient(bqWriteClient);
@@ -385,7 +391,9 @@ describe('managedwriter.WriterClient', () => {
 
   describe('StreamConnection', () => {
     it('should pass traceId on AppendRequests', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
@@ -609,7 +617,9 @@ describe('managedwriter.WriterClient', () => {
 
   describe('JSONWriter', () => {
     it('should invoke appendRows without errors', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const streamType: WriteStream['type'] = managedwriter.PendingStream;
       const client = new WriterClient();
       client.setClient(bqWriteClient);
@@ -683,7 +693,9 @@ describe('managedwriter.WriterClient', () => {
     });
 
     it('should update proto descriptor automatically with appendRows without errors', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
@@ -797,7 +809,9 @@ describe('managedwriter.WriterClient', () => {
     }).timeout(30 * 1000);
 
     it('Change data capture (CDC)', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
@@ -922,7 +936,9 @@ describe('managedwriter.WriterClient', () => {
     });
 
     it('Flexible Columns and annotations', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
@@ -1006,7 +1022,9 @@ describe('managedwriter.WriterClient', () => {
   });
 
   it('should fill default values when MissingValuesInterpretation is set', async () => {
-    bqWriteClient.initialize();
+    bqWriteClient.initialize().catch(err => {
+      throw err;
+    });
     const client = new WriterClient();
     client.setClient(bqWriteClient);
 
@@ -1177,7 +1195,9 @@ describe('managedwriter.WriterClient', () => {
 
     describe('should manage to send data in sequence scenario', () => {
       it('every 10 request drops the connection', async () => {
-        bqWriteClient.initialize();
+        bqWriteClient.initialize().catch(err => {
+          throw err;
+        });
         const client = new WriterClient();
         client.enableWriteRetries(true);
         client.setClient(bqWriteClient);
@@ -1228,7 +1248,9 @@ describe('managedwriter.WriterClient', () => {
       }).timeout(2 * 60 * 1000);
 
       it('opening the connection can fail more frequently', async () => {
-        bqWriteClient.initialize();
+        bqWriteClient.initialize().catch(err => {
+          throw err;
+        });
         const client = new WriterClient();
         client.enableWriteRetries(true);
         client.setMaxRetryAttempts(100); // aggresive retries
@@ -1285,7 +1307,9 @@ describe('managedwriter.WriterClient', () => {
 
     describe('should manage to send data in parallel', () => {
       it('every 10 request drops the connection', async () => {
-        bqWriteClient.initialize();
+        bqWriteClient.initialize().catch(err => {
+          throw err;
+        });
         const client = new WriterClient();
         client.enableWriteRetries(true);
         client.setMaxRetryAttempts(10);
@@ -1336,7 +1360,9 @@ describe('managedwriter.WriterClient', () => {
       }).timeout(2 * 60 * 1000);
 
       it('every 10 request there is a in stream INTERNAL error', async () => {
-        bqWriteClient.initialize();
+        bqWriteClient.initialize().catch(err => {
+          throw err;
+        });
         const client = new WriterClient();
         client.enableWriteRetries(true);
         client.setClient(bqWriteClient);
@@ -1418,7 +1444,9 @@ describe('managedwriter.WriterClient', () => {
 
   describe('Error Scenarios', () => {
     it('send request with mismatched proto descriptor', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
@@ -1497,7 +1525,9 @@ describe('managedwriter.WriterClient', () => {
     });
 
     it('send request with invalid protobuf row', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
@@ -1547,7 +1577,9 @@ describe('managedwriter.WriterClient', () => {
     });
 
     it('send empty rows request should return an error', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
@@ -1582,7 +1614,9 @@ describe('managedwriter.WriterClient', () => {
     });
 
     it('send large request should return an error', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
@@ -1643,7 +1677,9 @@ describe('managedwriter.WriterClient', () => {
     });
 
     it('should trigger reconnection when connection closes and there are pending writes', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new WriterClient();
       client.enableWriteRetries(true);
       client.setClient(bqWriteClient);
@@ -1703,7 +1739,9 @@ describe('managedwriter.WriterClient', () => {
     });
 
     it('reconnect on idle connection', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
@@ -1765,7 +1803,9 @@ describe('managedwriter.WriterClient', () => {
     }).timeout(20 * 1000);
 
     it('should mark any pending writes with error if connection was closed', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new WriterClient();
       client.setClient(bqWriteClient);
 
@@ -1828,7 +1868,9 @@ describe('managedwriter.WriterClient', () => {
 
   describe('close', () => {
     it('should invoke close without errors', async () => {
-      bqWriteClient.initialize();
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
       const streamType: WriteStream['type'] = managedwriter.PendingStream;
       const client = new WriterClient();
       client.setClient(bqWriteClient);

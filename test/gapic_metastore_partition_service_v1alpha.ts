@@ -215,7 +215,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           },
         );
       assert.strictEqual(client.metastorePartitionServiceStub, undefined);
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       assert(client.metastorePartitionServiceStub);
     });
 
@@ -231,9 +233,14 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         throw err;
       });
       assert(client.metastorePartitionServiceStub);
-      client.close().then(() => {
-        done();
-      });
+      client
+        .close()
+        .then(() => {
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
     });
 
     it('has close method for the non-initialized client', done => {
@@ -245,9 +252,14 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           },
         );
       assert.strictEqual(client.metastorePartitionServiceStub, undefined);
-      client.close().then(() => {
-        done();
-      });
+      client
+        .close()
+        .then(() => {
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
     });
 
     it('has getProjectId method', async () => {
@@ -300,7 +312,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest(),
       );
@@ -335,7 +349,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest(),
       );
@@ -385,7 +401,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest(),
       );
@@ -422,7 +440,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest(),
       );
@@ -432,7 +452,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
       );
       request.parent = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       await assert.rejects(
         client.batchCreateMetastorePartitions(request),
         expectedError,
@@ -449,7 +471,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest(),
       );
@@ -484,7 +508,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest(),
       );
@@ -534,7 +560,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest(),
       );
@@ -571,7 +599,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest(),
       );
@@ -581,7 +611,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
       );
       request.parent = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       await assert.rejects(
         client.batchDeleteMetastorePartitions(request),
         expectedError,
@@ -598,7 +630,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest(),
       );
@@ -633,7 +667,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest(),
       );
@@ -683,7 +719,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest(),
       );
@@ -720,7 +758,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest(),
       );
@@ -730,7 +770,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
       );
       request.parent = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       await assert.rejects(
         client.batchUpdateMetastorePartitions(request),
         expectedError,
@@ -747,7 +789,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest(),
       );
@@ -782,7 +826,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest(),
       );
@@ -832,7 +878,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest(),
       );
@@ -869,7 +917,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest(),
       );
@@ -879,7 +929,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
       );
       request.parent = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       await assert.rejects(
         client.listMetastorePartitions(request),
         expectedError,
@@ -896,7 +948,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest(),
       );
@@ -944,7 +998,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
         new protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest(),
       );
@@ -999,7 +1055,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       client.pathTemplates.readStreamPathTemplate.render = sinon
         .stub()
         .returns(fakePath);
@@ -1077,7 +1135,9 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
             projectId: 'bogus',
           },
         );
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       client.pathTemplates.tablePathTemplate.render = sinon
         .stub()
         .returns(fakePath);

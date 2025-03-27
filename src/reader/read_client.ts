@@ -197,6 +197,8 @@ export class ReadClient {
   }
 
   close() {
-    this._client.close();
+    this._client.close().catch(err => {
+      throw err;
+    });
   }
 }
