@@ -250,7 +250,15 @@ describe('reader.ReaderClient', () => {
           if (session?.arrowSchema?.serializedSchema) {
             serializedSchema = session?.arrowSchema?.serializedSchema;
           }
-          let buf = Buffer.from(serializedSchema);
+           // type checking needs to occur before calling Buffer.from
+          // has to do with overload resolution
+          // related to https://github.com/microsoft/TypeScript/issues/14107
+          let buf: Buffer;
+          if (typeof serializedSchema === 'string') {
+            buf = Buffer.from(serializedSchema);
+          } else if (serializedSchema instanceof Uint8Array) {
+            buf = Buffer.from(serializedSchema);
+          }
           rawStream.on('data', (data: Uint8Array) => {
             buf = Buffer.concat([buf, data]);
           });

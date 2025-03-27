@@ -1355,6 +1355,7 @@ describe('managedwriter.WriterClient', () => {
             .callsFake(
               (
                 chunk: unknown,
+                _,
                 cb?: ((error: Error | null | undefined) => void) | undefined
               ): boolean => {
                 const req = chunk as AppendRowsRequest;
