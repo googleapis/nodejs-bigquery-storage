@@ -33,7 +33,7 @@ export namespace google {
                     interface IArrowSchema {
 
                         /** ArrowSchema serializedSchema */
-                        serializedSchema?: (Uint8Array|string|null);
+                        serializedSchema?: (Uint8Array|Buffer|string|null);
                     }
 
                     /** Represents an ArrowSchema. */
@@ -46,7 +46,7 @@ export namespace google {
                         constructor(properties?: google.cloud.bigquery.storage.v1.IArrowSchema);
 
                         /** ArrowSchema serializedSchema. */
-                        public serializedSchema: (Uint8Array|string);
+                        public serializedSchema: (Uint8Array|Buffer|string);
 
                         /**
                          * Creates a new ArrowSchema instance using the specified properties.
@@ -130,7 +130,7 @@ export namespace google {
                     interface IArrowRecordBatch {
 
                         /** ArrowRecordBatch serializedRecordBatch */
-                        serializedRecordBatch?: (Uint8Array|string|null);
+                        serializedRecordBatch?: (Uint8Array|Buffer|string|null);
 
                         /** ArrowRecordBatch rowCount */
                         rowCount?: (number|Long|string|null);
@@ -146,7 +146,7 @@ export namespace google {
                         constructor(properties?: google.cloud.bigquery.storage.v1.IArrowRecordBatch);
 
                         /** ArrowRecordBatch serializedRecordBatch. */
-                        public serializedRecordBatch: (Uint8Array|string);
+                        public serializedRecordBatch: (Uint8Array|Buffer|string);
 
                         /** ArrowRecordBatch rowCount. */
                         public rowCount: (number|Long|string);
@@ -437,7 +437,7 @@ export namespace google {
                     interface IAvroRows {
 
                         /** AvroRows serializedBinaryRows */
-                        serializedBinaryRows?: (Uint8Array|string|null);
+                        serializedBinaryRows?: (Uint8Array|Buffer|string|null);
 
                         /** AvroRows rowCount */
                         rowCount?: (number|Long|string|null);
@@ -453,7 +453,7 @@ export namespace google {
                         constructor(properties?: google.cloud.bigquery.storage.v1.IAvroRows);
 
                         /** AvroRows serializedBinaryRows. */
-                        public serializedBinaryRows: (Uint8Array|string);
+                        public serializedBinaryRows: (Uint8Array|Buffer|string);
 
                         /** AvroRows rowCount. */
                         public rowCount: (number|Long|string);
@@ -6829,7 +6829,7 @@ export namespace google {
                     interface IArrowSchema {
 
                         /** ArrowSchema serializedSchema */
-                        serializedSchema?: (Uint8Array|string|null);
+                        serializedSchema?: (Uint8Array|Buffer|string|null);
                     }
 
                     /** Represents an ArrowSchema. */
@@ -6842,7 +6842,7 @@ export namespace google {
                         constructor(properties?: google.cloud.bigquery.storage.v1beta1.IArrowSchema);
 
                         /** ArrowSchema serializedSchema. */
-                        public serializedSchema: (Uint8Array|string);
+                        public serializedSchema: (Uint8Array|Buffer|string);
 
                         /**
                          * Creates a new ArrowSchema instance using the specified properties.
@@ -6926,7 +6926,7 @@ export namespace google {
                     interface IArrowRecordBatch {
 
                         /** ArrowRecordBatch serializedRecordBatch */
-                        serializedRecordBatch?: (Uint8Array|string|null);
+                        serializedRecordBatch?: (Uint8Array|Buffer|string|null);
 
                         /** ArrowRecordBatch rowCount */
                         rowCount?: (number|Long|string|null);
@@ -6942,7 +6942,7 @@ export namespace google {
                         constructor(properties?: google.cloud.bigquery.storage.v1beta1.IArrowRecordBatch);
 
                         /** ArrowRecordBatch serializedRecordBatch. */
-                        public serializedRecordBatch: (Uint8Array|string);
+                        public serializedRecordBatch: (Uint8Array|Buffer|string);
 
                         /** ArrowRecordBatch rowCount. */
                         public rowCount: (number|Long|string);
@@ -7126,7 +7126,7 @@ export namespace google {
                     interface IAvroRows {
 
                         /** AvroRows serializedBinaryRows */
-                        serializedBinaryRows?: (Uint8Array|string|null);
+                        serializedBinaryRows?: (Uint8Array|Buffer|string|null);
 
                         /** AvroRows rowCount */
                         rowCount?: (number|Long|string|null);
@@ -7142,7 +7142,7 @@ export namespace google {
                         constructor(properties?: google.cloud.bigquery.storage.v1beta1.IAvroRows);
 
                         /** AvroRows serializedBinaryRows. */
-                        public serializedBinaryRows: (Uint8Array|string);
+                        public serializedBinaryRows: (Uint8Array|Buffer|string);
 
                         /** AvroRows rowCount. */
                         public rowCount: (number|Long|string);
@@ -12261,7 +12261,7 @@ export namespace google {
             doubleValue?: (number|null);
 
             /** UninterpretedOption stringValue */
-            stringValue?: (Uint8Array|string|null);
+            stringValue?: (Uint8Array|Buffer|string|null);
 
             /** UninterpretedOption aggregateValue */
             aggregateValue?: (string|null);
@@ -12292,7 +12292,7 @@ export namespace google {
             public doubleValue: number;
 
             /** UninterpretedOption stringValue. */
-            public stringValue: (Uint8Array|string);
+            public stringValue: (Uint8Array|Buffer|string);
 
             /** UninterpretedOption aggregateValue. */
             public aggregateValue: string;
@@ -14307,7 +14307,7 @@ export namespace google {
         interface IBytesValue {
 
             /** BytesValue value */
-            value?: (Uint8Array|string|null);
+            value?: (Uint8Array|Buffer|string|null);
         }
 
         /** Represents a BytesValue. */
@@ -14320,7 +14320,7 @@ export namespace google {
             constructor(properties?: google.protobuf.IBytesValue);
 
             /** BytesValue value. */
-            public value: (Uint8Array|string);
+            public value: (Uint8Array|Buffer|string);
 
             /**
              * Creates a new BytesValue instance using the specified properties.
@@ -14407,7 +14407,7 @@ export namespace google {
             type_url?: (string|null);
 
             /** Any value */
-            value?: (Uint8Array|string|null);
+            value?: (Uint8Array|Buffer|string|null);
         }
 
         /** Represents an Any. */
@@ -14423,7 +14423,7 @@ export namespace google {
             public type_url: string;
 
             /** Any value. */
-            public value: (Uint8Array|string);
+            public value: (Uint8Array|Buffer|string);
 
             /**
              * Creates a new Any instance using the specified properties.
