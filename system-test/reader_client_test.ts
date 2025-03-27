@@ -250,7 +250,7 @@ describe('reader.ReaderClient', () => {
           if (session?.arrowSchema?.serializedSchema) {
             serializedSchema = session?.arrowSchema?.serializedSchema;
           }
-           // type checking needs to occur before calling Buffer.from
+          // type checking needs to occur before calling Buffer.from
           // has to do with overload resolution
           // related to https://github.com/microsoft/TypeScript/issues/14107
           let buf: Buffer;
@@ -528,7 +528,7 @@ describe('reader.ReaderClient', () => {
       try {
         const genTableId = generateUuid();
         await bigquery.query(
-          `CREATE TABLE ${projectId}.${datasetId}.${genTableId} AS SELECT num FROM UNNEST(GENERATE_ARRAY(1,1000000)) as num`
+          `CREATE TABLE ${projectId}.${datasetId}.${genTableId} AS SELECT num FROM UNNEST(GENERATE_ARRAY(1,1000000)) as num`,
         );
         const reader = await client.createTableReader({
           table: {
@@ -588,9 +588,9 @@ describe('reader.ReaderClient', () => {
         assert.equal(foundError?.code, gax.Status.INVALID_ARGUMENT);
         assert.equal(
           foundError?.message.includes(
-            'request failed: The following selected fields do not exist in the table schema: wrong_field'
+            'request failed: The following selected fields do not exist in the table schema: wrong_field',
           ),
-          true
+          true,
         );
 
         reader.close();
@@ -682,7 +682,7 @@ describe('reader.ReaderClient', () => {
   async function deleteDatasets() {
     let [datasets] = await bigquery.getDatasets();
     datasets = datasets.filter(dataset =>
-      dataset.id?.includes(GCLOUD_TESTS_PREFIX)
+      dataset.id?.includes(GCLOUD_TESTS_PREFIX),
     );
 
     for (const dataset of datasets) {

@@ -66,14 +66,14 @@ describe('writeClient', () => {
     projectId = table.metadata.tableReference.projectId;
 
     const output = execSync(
-      `node append_rows_pending ${projectId} ${datasetId} ${tableId}`
+      `node append_rows_pending ${projectId} ${datasetId} ${tableId}`,
     );
 
     assert.match(output, /Stream created:/);
     assert.match(output, /Row count: 3/);
 
     let [rows] = await table.query(
-      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
+      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``,
     );
 
     rows = rows.map(row => {
@@ -103,11 +103,11 @@ describe('writeClient', () => {
     projectId = table.metadata.tableReference.projectId;
 
     execSync(
-      `node append_rows_json_writer_default ${projectId} ${datasetId} ${tableId}`
+      `node append_rows_json_writer_default ${projectId} ${datasetId} ${tableId}`,
     );
 
     let [rows] = await table.query(
-      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
+      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``,
     );
 
     rows = rows.map(row => {
@@ -137,14 +137,14 @@ describe('writeClient', () => {
     projectId = table.metadata.tableReference.projectId;
 
     const output = execSync(
-      `node append_rows_buffered ${projectId} ${datasetId} ${tableId}`
+      `node append_rows_buffered ${projectId} ${datasetId} ${tableId}`,
     );
 
     assert.match(output, /Stream created:/);
     assert.match(output, /Row count: 3/);
 
     let [rows] = await table.query(
-      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
+      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``,
     );
 
     rows = rows.map(row => {
@@ -174,14 +174,14 @@ describe('writeClient', () => {
     projectId = table.metadata.tableReference.projectId;
 
     const output = execSync(
-      `node append_rows_json_writer_committed ${projectId} ${datasetId} ${tableId}`
+      `node append_rows_json_writer_committed ${projectId} ${datasetId} ${tableId}`,
     );
 
     assert.match(output, /Stream created:/);
     assert.match(output, /Row count: 3/);
 
     let [rows] = await table.query(
-      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
+      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``,
     );
 
     rows = rows.map(row => {
@@ -211,14 +211,14 @@ describe('writeClient', () => {
     projectId = table.metadata.tableReference.projectId;
 
     const output = execSync(
-      `node append_rows_pending ${projectId} ${datasetIdEU} ${tableId}`
+      `node append_rows_pending ${projectId} ${datasetIdEU} ${tableId}`,
     );
 
     assert.match(output, /Stream created:/);
     assert.match(output, /Row count: 3/);
 
     let [rows] = await table.query(
-      `SELECT * FROM \`${projectId}.${datasetIdEU}.${tableId}\``
+      `SELECT * FROM \`${projectId}.${datasetIdEU}.${tableId}\``,
     );
 
     rows = rows.map(row => {
@@ -288,13 +288,13 @@ describe('writeClient', () => {
     projectId = table.metadata.tableReference.projectId;
 
     const output = execSync(
-      `node ${testFile} ${projectId} ${datasetId} ${tableId}`
+      `node ${testFile} ${projectId} ${datasetId} ${tableId}`,
     );
     assert.match(output, /Stream created:/);
     assert.match(output, /Row count: 16/);
 
     let [rows] = await table.query(
-      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``
+      `SELECT * FROM \`${projectId}.${datasetId}.${tableId}\``,
     );
 
     rows = rows.map(row => {
@@ -375,7 +375,7 @@ describe('writeClient', () => {
   async function deleteDatasets() {
     let [datasets] = await bigquery.getDatasets();
     datasets = datasets.filter(dataset =>
-      dataset.id.includes(GCLOUD_TESTS_PREFIX)
+      dataset.id.includes(GCLOUD_TESTS_PREFIX),
     );
 
     for (const dataset of datasets) {

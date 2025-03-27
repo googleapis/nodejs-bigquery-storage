@@ -68,7 +68,7 @@ const StorageTableField =
  * @return StorageTableSchema
  */
 export function convertBigQuerySchemaToStorageTableSchema(
-  schema: ITableSchema
+  schema: ITableSchema,
 ): StorageTableSchema {
   const out: StorageTableSchema = {};
   for (const field of schema.fields ?? []) {
@@ -95,14 +95,14 @@ function bqFieldToStorageField(field: ITableFieldSchema): StorageTableField {
 
   if (!field.type) {
     throw Error(
-      `could not convert field (${field.name}) due to unknown type value: ${field.type}`
+      `could not convert field (${field.name}) due to unknown type value: ${field.type}`,
     );
   }
 
   const ftype = fieldTypeMap[field.type];
   if (!ftype) {
     throw Error(
-      `could not convert field (${field.name}) due to unknown type value: ${field.type}`
+      `could not convert field (${field.name}) due to unknown type value: ${field.type}`,
     );
   }
   out.type = ftype;
@@ -124,7 +124,7 @@ function bqFieldToStorageField(field: ITableFieldSchema): StorageTableField {
     const rtype = fieldTypeMap[field.rangeElementType.type];
     if (!rtype) {
       throw Error(
-        `could not convert range field (${field.name}) due to unknown range element type: ${field.rangeElementType.type}`
+        `could not convert range field (${field.name}) due to unknown range element type: ${field.rangeElementType.type}`,
       );
     }
     out.rangeElementType = {

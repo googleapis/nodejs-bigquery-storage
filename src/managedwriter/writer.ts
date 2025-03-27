@@ -150,7 +150,7 @@ export class Writer {
    * @param {MissingValueInterpretation} defaultMissingValueInterpretation
    */
   setDefaultMissingValueInterpretation(
-    defaultMissingValueInterpretation: MissingValueInterpretation
+    defaultMissingValueInterpretation: MissingValueInterpretation,
   ) {
     this._defaultMissingValueInterpretation = defaultMissingValueInterpretation;
   }
@@ -161,7 +161,7 @@ export class Writer {
    * @param {MissingValueInterpretationMap} missingValueInterpretations
    */
   setMissingValueInterpretations(
-    missingValueInterpretations: MissingValueInterpretationMap
+    missingValueInterpretations: MissingValueInterpretationMap,
   ) {
     this._missingValueInterpretations = missingValueInterpretations;
   }
@@ -175,7 +175,7 @@ export class Writer {
    **/
   appendRows(
     rows: ProtoData['rows'],
-    offsetValue?: IInt64Value['value']
+    offsetValue?: IInt64Value['value'],
   ): PendingWrite {
     let offset: AppendRowRequest['offset'];
     if (offsetValue !== undefined && offsetValue !== null) {

@@ -57,7 +57,7 @@ describe('Adapt Protos', () => {
         adapt.convertBigQuerySchemaToStorageTableSchema(schema);
       const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
         storageSchema,
-        'Test'
+        'Test',
       );
       assert.notEqual(protoDescriptor, null);
       if (!protoDescriptor) {
@@ -96,7 +96,7 @@ describe('Adapt Protos', () => {
         storageSchema,
         'Test',
         adapt.withChangeType(),
-        adapt.withChangeSequenceNumber()
+        adapt.withChangeSequenceNumber(),
       );
       assert.notEqual(protoDescriptor, null);
       if (!protoDescriptor) {
@@ -138,7 +138,7 @@ describe('Adapt Protos', () => {
         adapt.convertBigQuerySchemaToStorageTableSchema(schema);
       const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
         storageSchema,
-        'Flexible'
+        'Flexible',
       );
       assert.notEqual(protoDescriptor, null);
 
@@ -237,7 +237,7 @@ describe('Adapt Protos', () => {
         adapt.convertBigQuerySchemaToStorageTableSchema(schema);
       const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
         storageSchema,
-        'Nested'
+        'Nested',
       );
       assert.notEqual(protoDescriptor, null);
       if (!protoDescriptor) {
@@ -356,7 +356,7 @@ describe('Adapt Protos', () => {
         adapt.convertBigQuerySchemaToStorageTableSchema(schema);
       const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
         storageSchema,
-        'Test'
+        'Test',
       );
       assert.notEqual(protoDescriptor, null);
       if (!protoDescriptor) {
@@ -420,7 +420,7 @@ describe('Adapt Protos', () => {
       };
       const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
         schema,
-        'root'
+        'root',
       );
       if (!protoDescriptor) {
         throw Error('null proto descriptor set');

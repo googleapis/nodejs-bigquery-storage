@@ -17,7 +17,7 @@
 function main(
   projectId = 'my_project',
   datasetId = 'my_dataset',
-  tableId = 'my_table'
+  tableId = 'my_table',
 ) {
   // [START bigquerystorage_jsonstreamwriter_pending]
   const {adapt, managedwriter} = require('@google-cloud/bigquery-storage');
@@ -45,7 +45,7 @@ function main(
 
       const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
         writeStream.tableSchema,
-        'root'
+        'root',
       );
 
       const connection = await writeClient.createStreamConnection({
@@ -214,7 +214,7 @@ function main(
       pendingWrites.push(pw);
 
       const results = await Promise.all(
-        pendingWrites.map(pw => pw.getResult())
+        pendingWrites.map(pw => pw.getResult()),
       );
       console.log('Write results:', results);
 

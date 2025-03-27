@@ -30,7 +30,7 @@ import {protobuf} from 'google-gax';
 // Dynamically loaded proto JSON is needed to get the type information
 // to fill in default values for request objects
 const root = protobuf.Root.fromJSON(
-  require('../protos/protos.json')
+  require('../protos/protos.json'),
 ).resolveAll();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -47,7 +47,7 @@ function generateSampleMessage<T extends object>(instance: T) {
     instance.constructor as typeof protobuf.Message
   ).toObject(instance as protobuf.Message<T>, {defaults: true});
   return (instance.constructor as typeof protobuf.Message).fromObject(
-    filledObject
+    filledObject,
   ) as T;
 }
 
@@ -59,7 +59,7 @@ function stubSimpleCall<ResponseType>(response?: ResponseType, error?: Error) {
 
 function stubSimpleCallWithCallback<ResponseType>(
   response?: ResponseType,
-  error?: Error
+  error?: Error,
 ) {
   return error
     ? sinon.stub().callsArgWith(2, error)
@@ -68,7 +68,7 @@ function stubSimpleCallWithCallback<ResponseType>(
 
 function stubServerStreamingCall<ResponseType>(
   response?: ResponseType,
-  error?: Error
+  error?: Error,
 ) {
   const transformStub = error
     ? sinon.stub().callsArgWith(2, error)
@@ -163,7 +163,7 @@ describe('v1.BigQueryReadClient', () => {
           const servicePath = client.apiEndpoint;
           assert.strictEqual(
             servicePath,
-            'bigquerystorage.configured.example.com'
+            'bigquerystorage.configured.example.com',
           );
           if (saved) {
             process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'] = saved;
@@ -278,17 +278,17 @@ describe('v1.BigQueryReadClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.CreateReadSessionRequest()
+        new protos.google.cloud.bigquery.storage.v1.CreateReadSessionRequest(),
       );
       request.readSession ??= {};
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.CreateReadSessionRequest',
-        ['readSession', 'table']
+        ['readSession', 'table'],
       );
       request.readSession.table = defaultValue1;
       const expectedHeaderRequestParams = `read_session.table=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.ReadSession()
+        new protos.google.cloud.bigquery.storage.v1.ReadSession(),
       );
       client.innerApiCalls.createReadSession = stubSimpleCall(expectedResponse);
       const [response] = await client.createReadSession(request);
@@ -310,17 +310,17 @@ describe('v1.BigQueryReadClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.CreateReadSessionRequest()
+        new protos.google.cloud.bigquery.storage.v1.CreateReadSessionRequest(),
       );
       request.readSession ??= {};
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.CreateReadSessionRequest',
-        ['readSession', 'table']
+        ['readSession', 'table'],
       );
       request.readSession.table = defaultValue1;
       const expectedHeaderRequestParams = `read_session.table=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.ReadSession()
+        new protos.google.cloud.bigquery.storage.v1.ReadSession(),
       );
       client.innerApiCalls.createReadSession =
         stubSimpleCallWithCallback(expectedResponse);
@@ -329,14 +329,14 @@ describe('v1.BigQueryReadClient', () => {
           request,
           (
             err?: Error | null,
-            result?: protos.google.cloud.bigquery.storage.v1.IReadSession | null
+            result?: protos.google.cloud.bigquery.storage.v1.IReadSession | null,
           ) => {
             if (err) {
               reject(err);
             } else {
               resolve(result);
             }
-          }
+          },
         );
       });
       const response = await promise;
@@ -358,19 +358,19 @@ describe('v1.BigQueryReadClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.CreateReadSessionRequest()
+        new protos.google.cloud.bigquery.storage.v1.CreateReadSessionRequest(),
       );
       request.readSession ??= {};
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.CreateReadSessionRequest',
-        ['readSession', 'table']
+        ['readSession', 'table'],
       );
       request.readSession.table = defaultValue1;
       const expectedHeaderRequestParams = `read_session.table=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.createReadSession = stubSimpleCall(
         undefined,
-        expectedError
+        expectedError,
       );
       await assert.rejects(client.createReadSession(request), expectedError);
       const actualRequest = (
@@ -390,12 +390,12 @@ describe('v1.BigQueryReadClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.CreateReadSessionRequest()
+        new protos.google.cloud.bigquery.storage.v1.CreateReadSessionRequest(),
       );
       request.readSession ??= {};
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.CreateReadSessionRequest',
-        ['readSession', 'table']
+        ['readSession', 'table'],
       );
       request.readSession.table = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
@@ -412,16 +412,16 @@ describe('v1.BigQueryReadClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.SplitReadStreamRequest',
-        ['name']
+        ['name'],
       );
       request.name = defaultValue1;
       const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.SplitReadStreamResponse()
+        new protos.google.cloud.bigquery.storage.v1.SplitReadStreamResponse(),
       );
       client.innerApiCalls.splitReadStream = stubSimpleCall(expectedResponse);
       const [response] = await client.splitReadStream(request);
@@ -443,16 +443,16 @@ describe('v1.BigQueryReadClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.SplitReadStreamRequest',
-        ['name']
+        ['name'],
       );
       request.name = defaultValue1;
       const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.SplitReadStreamResponse()
+        new protos.google.cloud.bigquery.storage.v1.SplitReadStreamResponse(),
       );
       client.innerApiCalls.splitReadStream =
         stubSimpleCallWithCallback(expectedResponse);
@@ -461,14 +461,14 @@ describe('v1.BigQueryReadClient', () => {
           request,
           (
             err?: Error | null,
-            result?: protos.google.cloud.bigquery.storage.v1.ISplitReadStreamResponse | null
+            result?: protos.google.cloud.bigquery.storage.v1.ISplitReadStreamResponse | null,
           ) => {
             if (err) {
               reject(err);
             } else {
               resolve(result);
             }
-          }
+          },
         );
       });
       const response = await promise;
@@ -490,18 +490,18 @@ describe('v1.BigQueryReadClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.SplitReadStreamRequest',
-        ['name']
+        ['name'],
       );
       request.name = defaultValue1;
       const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.splitReadStream = stubSimpleCall(
         undefined,
-        expectedError
+        expectedError,
       );
       await assert.rejects(client.splitReadStream(request), expectedError);
       const actualRequest = (
@@ -521,11 +521,11 @@ describe('v1.BigQueryReadClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.SplitReadStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.SplitReadStreamRequest',
-        ['name']
+        ['name'],
       );
       request.name = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
@@ -542,16 +542,16 @@ describe('v1.BigQueryReadClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest()
+        new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.ReadRowsRequest',
-        ['readStream']
+        ['readStream'],
       );
       request.readStream = defaultValue1;
       const expectedHeaderRequestParams = `read_stream=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.ReadRowsResponse()
+        new protos.google.cloud.bigquery.storage.v1.ReadRowsResponse(),
       );
       client.innerApiCalls.readRows = stubServerStreamingCall(expectedResponse);
       const stream = client.readRows(request);
@@ -559,10 +559,10 @@ describe('v1.BigQueryReadClient', () => {
         stream.on(
           'data',
           (
-            response: protos.google.cloud.bigquery.storage.v1.ReadRowsResponse
+            response: protos.google.cloud.bigquery.storage.v1.ReadRowsResponse,
           ) => {
             resolve(response);
-          }
+          },
         );
         stream.on('error', (err: Error) => {
           reject(err);
@@ -588,16 +588,16 @@ describe('v1.BigQueryReadClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest()
+        new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.ReadRowsRequest',
-        ['readStream']
+        ['readStream'],
       );
       request.readStream = defaultValue1;
       const expectedHeaderRequestParams = `read_stream=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.ReadRowsResponse()
+        new protos.google.cloud.bigquery.storage.v1.ReadRowsResponse(),
       );
       client.innerApiCalls.readRows = stubServerStreamingCall(expectedResponse);
       const stream = client.readRows(request);
@@ -605,10 +605,10 @@ describe('v1.BigQueryReadClient', () => {
         stream.on(
           'data',
           (
-            response: protos.google.cloud.bigquery.storage.v1.ReadRowsResponse
+            response: protos.google.cloud.bigquery.storage.v1.ReadRowsResponse,
           ) => {
             resolve(response);
-          }
+          },
         );
         stream.on('error', (err: Error) => {
           reject(err);
@@ -633,28 +633,28 @@ describe('v1.BigQueryReadClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest()
+        new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.ReadRowsRequest',
-        ['readStream']
+        ['readStream'],
       );
       request.readStream = defaultValue1;
       const expectedHeaderRequestParams = `read_stream=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.readRows = stubServerStreamingCall(
         undefined,
-        expectedError
+        expectedError,
       );
       const stream = client.readRows(request);
       const promise = new Promise((resolve, reject) => {
         stream.on(
           'data',
           (
-            response: protos.google.cloud.bigquery.storage.v1.ReadRowsResponse
+            response: protos.google.cloud.bigquery.storage.v1.ReadRowsResponse,
           ) => {
             resolve(response);
-          }
+          },
         );
         stream.on('error', (err: Error) => {
           reject(err);
@@ -678,11 +678,11 @@ describe('v1.BigQueryReadClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest()
+        new protos.google.cloud.bigquery.storage.v1.ReadRowsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.ReadRowsRequest',
-        ['readStream']
+        ['readStream'],
       );
       request.readStream = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
@@ -694,10 +694,10 @@ describe('v1.BigQueryReadClient', () => {
         stream.on(
           'data',
           (
-            response: protos.google.cloud.bigquery.storage.v1.ReadRowsResponse
+            response: protos.google.cloud.bigquery.storage.v1.ReadRowsResponse,
           ) => {
             resolve(response);
-          }
+          },
         );
         stream.on('error', (err: Error) => {
           reject(err);
@@ -737,7 +737,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.projectPathTemplate.render as SinonStub)
             .getCall(-1)
-            .calledWith(expectedParameters)
+            .calledWith(expectedParameters),
         );
       });
 
@@ -747,7 +747,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.projectPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
     });
@@ -775,13 +775,13 @@ describe('v1.BigQueryReadClient', () => {
         const result = client.readSessionPath(
           'projectValue',
           'locationValue',
-          'sessionValue'
+          'sessionValue',
         );
         assert.strictEqual(result, fakePath);
         assert(
           (client.pathTemplates.readSessionPathTemplate.render as SinonStub)
             .getCall(-1)
-            .calledWith(expectedParameters)
+            .calledWith(expectedParameters),
         );
       });
 
@@ -791,7 +791,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.readSessionPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -801,7 +801,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.readSessionPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -811,7 +811,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.readSessionPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
     });
@@ -841,13 +841,13 @@ describe('v1.BigQueryReadClient', () => {
           'projectValue',
           'locationValue',
           'sessionValue',
-          'streamValue'
+          'streamValue',
         );
         assert.strictEqual(result, fakePath);
         assert(
           (client.pathTemplates.readStreamPathTemplate.render as SinonStub)
             .getCall(-1)
-            .calledWith(expectedParameters)
+            .calledWith(expectedParameters),
         );
       });
 
@@ -857,7 +857,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.readStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -867,7 +867,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.readStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -877,7 +877,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.readStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -887,7 +887,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.readStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
     });
@@ -915,13 +915,13 @@ describe('v1.BigQueryReadClient', () => {
         const result = client.tablePath(
           'projectValue',
           'datasetValue',
-          'tableValue'
+          'tableValue',
         );
         assert.strictEqual(result, fakePath);
         assert(
           (client.pathTemplates.tablePathTemplate.render as SinonStub)
             .getCall(-1)
-            .calledWith(expectedParameters)
+            .calledWith(expectedParameters),
         );
       });
 
@@ -931,7 +931,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.tablePathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -941,7 +941,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.tablePathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -951,7 +951,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.tablePathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
     });
@@ -981,13 +981,13 @@ describe('v1.BigQueryReadClient', () => {
           'projectValue',
           'datasetValue',
           'tableValue',
-          'streamValue'
+          'streamValue',
         );
         assert.strictEqual(result, fakePath);
         assert(
           (client.pathTemplates.writeStreamPathTemplate.render as SinonStub)
             .getCall(-1)
-            .calledWith(expectedParameters)
+            .calledWith(expectedParameters),
         );
       });
 
@@ -997,7 +997,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.writeStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1007,7 +1007,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.writeStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1017,7 +1017,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.writeStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1027,7 +1027,7 @@ describe('v1.BigQueryReadClient', () => {
         assert(
           (client.pathTemplates.writeStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
     });

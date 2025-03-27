@@ -168,7 +168,7 @@ export class ReadClient {
       streamName: string;
       session: ReadSession;
     },
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<ReadStream> {
     await this.initialize();
     const {streamName, session} = request;

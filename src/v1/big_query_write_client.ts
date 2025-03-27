@@ -112,7 +112,7 @@ export class BigQueryWriteClient {
    */
   constructor(
     opts?: ClientOptions,
-    gaxInstance?: typeof gax | typeof gax.fallback
+    gaxInstance?: typeof gax | typeof gax.fallback,
   ) {
     // Ensure that options include all the required fields.
     const staticMembers = this.constructor as typeof BigQueryWriteClient;
@@ -122,7 +122,7 @@ export class BigQueryWriteClient {
       opts?.universe_domain !== opts?.universeDomain
     ) {
       throw new Error(
-        'Please set either universe_domain or universeDomain, but not both.'
+        'Please set either universe_domain or universeDomain, but not both.',
       );
     }
     const universeDomainEnvVar =
@@ -203,19 +203,19 @@ export class BigQueryWriteClient {
     // Create useful helper objects for these.
     this.pathTemplates = {
       projectPathTemplate: new this._gaxModule.PathTemplate(
-        'projects/{project}'
+        'projects/{project}',
       ),
       readSessionPathTemplate: new this._gaxModule.PathTemplate(
-        'projects/{project}/locations/{location}/sessions/{session}'
+        'projects/{project}/locations/{location}/sessions/{session}',
       ),
       readStreamPathTemplate: new this._gaxModule.PathTemplate(
-        'projects/{project}/locations/{location}/sessions/{session}/streams/{stream}'
+        'projects/{project}/locations/{location}/sessions/{session}/streams/{stream}',
       ),
       tablePathTemplate: new this._gaxModule.PathTemplate(
-        'projects/{project}/datasets/{dataset}/tables/{table}'
+        'projects/{project}/datasets/{dataset}/tables/{table}',
       ),
       writeStreamPathTemplate: new this._gaxModule.PathTemplate(
-        'projects/{project}/datasets/{dataset}/tables/{table}/streams/{stream}'
+        'projects/{project}/datasets/{dataset}/tables/{table}/streams/{stream}',
       ),
     };
 
@@ -225,7 +225,7 @@ export class BigQueryWriteClient {
       appendRows: new this._gaxModule.StreamDescriptor(
         this._gaxModule.StreamType.BIDI_STREAMING,
         !!opts.fallback,
-        !!opts.gaxServerStreamingRetries
+        !!opts.gaxServerStreamingRetries,
       ),
     };
 
@@ -234,7 +234,7 @@ export class BigQueryWriteClient {
       'google.cloud.bigquery.storage.v1.BigQueryWrite',
       gapicConfig as gax.ClientConfig,
       opts.clientConfig || {},
-      {'x-goog-api-client': clientHeader.join(' ')}
+      {'x-goog-api-client': clientHeader.join(' ')},
     );
 
     // Set up a dictionary of "inner API calls"; the core implementation
@@ -268,12 +268,12 @@ export class BigQueryWriteClient {
     this.bigQueryWriteStub = this._gaxGrpc.createStub(
       this._opts.fallback
         ? (this._protos as protobuf.Root).lookupService(
-            'google.cloud.bigquery.storage.v1.BigQueryWrite'
+            'google.cloud.bigquery.storage.v1.BigQueryWrite',
           )
         : // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (this._protos as any).google.cloud.bigquery.storage.v1.BigQueryWrite,
       this._opts,
-      this._providedCustomServicePath
+      this._providedCustomServicePath,
     ) as Promise<{[method: string]: Function}>;
 
     // Iterate over each of the methods that the service provides
@@ -297,8 +297,8 @@ export class BigQueryWriteClient {
                   stream.emit(
                     'error',
                     new this._gaxModule.GoogleError(
-                      'The client has already been closed.'
-                    )
+                      'The client has already been closed.',
+                    ),
                   );
                 });
                 return stream;
@@ -310,7 +310,7 @@ export class BigQueryWriteClient {
           },
         (err: Error | null | undefined) => () => {
           throw err;
-        }
+        },
       );
 
       const descriptor = this.descriptors.stream[methodName] || undefined;
@@ -318,7 +318,7 @@ export class BigQueryWriteClient {
         callPromise,
         this._defaults[methodName],
         descriptor,
-        this._opts.fallback
+        this._opts.fallback,
       );
 
       this.innerApiCalls[methodName] = apiCall;
@@ -339,7 +339,7 @@ export class BigQueryWriteClient {
     ) {
       process.emitWarning(
         'Static servicePath is deprecated, please use the instance method instead.',
-        'DeprecationWarning'
+        'DeprecationWarning',
       );
     }
     return 'bigquerystorage.googleapis.com';
@@ -357,7 +357,7 @@ export class BigQueryWriteClient {
     ) {
       process.emitWarning(
         'Static apiEndpoint is deprecated, please use the instance method instead.',
-        'DeprecationWarning'
+        'DeprecationWarning',
       );
     }
     return 'bigquerystorage.googleapis.com';
@@ -403,7 +403,7 @@ export class BigQueryWriteClient {
    * @returns {Promise} A promise that resolves to string containing the project ID.
    */
   getProjectId(
-    callback?: Callback<string, undefined, undefined>
+    callback?: Callback<string, undefined, undefined>,
   ): Promise<string> | void {
     if (callback) {
       this.auth.getProjectId(callback);
@@ -441,7 +441,7 @@ export class BigQueryWriteClient {
    */
   createWriteStream(
     request?: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest,
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1.IWriteStream,
@@ -461,7 +461,7 @@ export class BigQueryWriteClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   createWriteStream(
     request: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest,
@@ -471,7 +471,7 @@ export class BigQueryWriteClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   createWriteStream(
     request?: protos.google.cloud.bigquery.storage.v1.ICreateWriteStreamRequest,
@@ -490,7 +490,7 @@ export class BigQueryWriteClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1.IWriteStream,
@@ -547,7 +547,7 @@ export class BigQueryWriteClient {
         ]) => {
           this._log.info('createWriteStream response %j', response);
           return [response, options, rawResponse];
-        }
+        },
       );
   }
   /**
@@ -572,7 +572,7 @@ export class BigQueryWriteClient {
    */
   getWriteStream(
     request?: protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest,
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1.IWriteStream,
@@ -592,7 +592,7 @@ export class BigQueryWriteClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   getWriteStream(
     request: protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest,
@@ -602,7 +602,7 @@ export class BigQueryWriteClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   getWriteStream(
     request?: protos.google.cloud.bigquery.storage.v1.IGetWriteStreamRequest,
@@ -621,7 +621,7 @@ export class BigQueryWriteClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1.IWriteStream,
@@ -678,7 +678,7 @@ export class BigQueryWriteClient {
         ]) => {
           this._log.info('getWriteStream response %j', response);
           return [response, options, rawResponse];
-        }
+        },
       );
   }
   /**
@@ -701,7 +701,7 @@ export class BigQueryWriteClient {
    */
   finalizeWriteStream(
     request?: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest,
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse,
@@ -721,7 +721,7 @@ export class BigQueryWriteClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   finalizeWriteStream(
     request: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest,
@@ -731,7 +731,7 @@ export class BigQueryWriteClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   finalizeWriteStream(
     request?: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamRequest,
@@ -750,7 +750,7 @@ export class BigQueryWriteClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse,
@@ -807,7 +807,7 @@ export class BigQueryWriteClient {
         ]) => {
           this._log.info('finalizeWriteStream response %j', response);
           return [response, options, rawResponse];
-        }
+        },
       );
   }
   /**
@@ -836,7 +836,7 @@ export class BigQueryWriteClient {
    */
   batchCommitWriteStreams(
     request?: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest,
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse,
@@ -856,7 +856,7 @@ export class BigQueryWriteClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   batchCommitWriteStreams(
     request: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest,
@@ -866,7 +866,7 @@ export class BigQueryWriteClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   batchCommitWriteStreams(
     request?: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsRequest,
@@ -885,7 +885,7 @@ export class BigQueryWriteClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse,
@@ -942,7 +942,7 @@ export class BigQueryWriteClient {
         ]) => {
           this._log.info('batchCommitWriteStreams response %j', response);
           return [response, options, rawResponse];
-        }
+        },
       );
   }
   /**
@@ -973,7 +973,7 @@ export class BigQueryWriteClient {
    */
   flushRows(
     request?: protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest,
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
@@ -990,7 +990,7 @@ export class BigQueryWriteClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   flushRows(
     request: protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest,
@@ -1000,7 +1000,7 @@ export class BigQueryWriteClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): void;
   flushRows(
     request?: protos.google.cloud.bigquery.storage.v1.IFlushRowsRequest,
@@ -1019,7 +1019,7 @@ export class BigQueryWriteClient {
       | null
       | undefined,
       {} | null | undefined
-    >
+    >,
   ): Promise<
     [
       protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse,
@@ -1070,7 +1070,7 @@ export class BigQueryWriteClient {
         ]) => {
           this._log.info('flushRows response %j', response);
           return [response, options, rawResponse];
-        }
+        },
       );
   }
 
@@ -1218,7 +1218,7 @@ export class BigQueryWriteClient {
     project: string,
     location: string,
     session: string,
-    stream: string
+    stream: string,
   ) {
     return this.pathTemplates.readStreamPathTemplate.render({
       project: project,
@@ -1338,7 +1338,7 @@ export class BigQueryWriteClient {
     project: string,
     dataset: string,
     table: string,
-    stream: string
+    stream: string,
   ) {
     return this.pathTemplates.writeStreamPathTemplate.render({
       project: project,

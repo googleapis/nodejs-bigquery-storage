@@ -30,7 +30,7 @@ import {protobuf} from 'google-gax';
 // Dynamically loaded proto JSON is needed to get the type information
 // to fill in default values for request objects
 const root = protobuf.Root.fromJSON(
-  require('../protos/protos.json')
+  require('../protos/protos.json'),
 ).resolveAll();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -47,7 +47,7 @@ function generateSampleMessage<T extends object>(instance: T) {
     instance.constructor as typeof protobuf.Message
   ).toObject(instance as protobuf.Message<T>, {defaults: true});
   return (instance.constructor as typeof protobuf.Message).fromObject(
-    filledObject
+    filledObject,
   ) as T;
 }
 
@@ -59,7 +59,7 @@ function stubSimpleCall<ResponseType>(response?: ResponseType, error?: Error) {
 
 function stubSimpleCallWithCallback<ResponseType>(
   response?: ResponseType,
-  error?: Error
+  error?: Error,
 ) {
   return error
     ? sinon.stub().callsArgWith(2, error)
@@ -68,7 +68,7 @@ function stubSimpleCallWithCallback<ResponseType>(
 
 function stubBidiStreamingCall<ResponseType>(
   response?: ResponseType,
-  error?: Error
+  error?: Error,
 ) {
   const transformStub = error
     ? sinon.stub().callsArgWith(2, error)
@@ -156,7 +156,7 @@ describe('v1.BigQueryWriteClient', () => {
           const servicePath = client.apiEndpoint;
           assert.strictEqual(
             servicePath,
-            'bigquerystorage.configured.example.com'
+            'bigquerystorage.configured.example.com',
           );
           if (saved) {
             process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'] = saved;
@@ -271,16 +271,16 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
       const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.WriteStream()
+        new protos.google.cloud.bigquery.storage.v1.WriteStream(),
       );
       client.innerApiCalls.createWriteStream = stubSimpleCall(expectedResponse);
       const [response] = await client.createWriteStream(request);
@@ -302,16 +302,16 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
       const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.WriteStream()
+        new protos.google.cloud.bigquery.storage.v1.WriteStream(),
       );
       client.innerApiCalls.createWriteStream =
         stubSimpleCallWithCallback(expectedResponse);
@@ -320,14 +320,14 @@ describe('v1.BigQueryWriteClient', () => {
           request,
           (
             err?: Error | null,
-            result?: protos.google.cloud.bigquery.storage.v1.IWriteStream | null
+            result?: protos.google.cloud.bigquery.storage.v1.IWriteStream | null,
           ) => {
             if (err) {
               reject(err);
             } else {
               resolve(result);
             }
-          }
+          },
         );
       });
       const response = await promise;
@@ -349,18 +349,18 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
       const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.createWriteStream = stubSimpleCall(
         undefined,
-        expectedError
+        expectedError,
       );
       await assert.rejects(client.createWriteStream(request), expectedError);
       const actualRequest = (
@@ -380,11 +380,11 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.CreateWriteStreamRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
@@ -401,16 +401,16 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.GetWriteStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.GetWriteStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.GetWriteStreamRequest',
-        ['name']
+        ['name'],
       );
       request.name = defaultValue1;
       const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.WriteStream()
+        new protos.google.cloud.bigquery.storage.v1.WriteStream(),
       );
       client.innerApiCalls.getWriteStream = stubSimpleCall(expectedResponse);
       const [response] = await client.getWriteStream(request);
@@ -432,16 +432,16 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.GetWriteStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.GetWriteStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.GetWriteStreamRequest',
-        ['name']
+        ['name'],
       );
       request.name = defaultValue1;
       const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.WriteStream()
+        new protos.google.cloud.bigquery.storage.v1.WriteStream(),
       );
       client.innerApiCalls.getWriteStream =
         stubSimpleCallWithCallback(expectedResponse);
@@ -450,14 +450,14 @@ describe('v1.BigQueryWriteClient', () => {
           request,
           (
             err?: Error | null,
-            result?: protos.google.cloud.bigquery.storage.v1.IWriteStream | null
+            result?: protos.google.cloud.bigquery.storage.v1.IWriteStream | null,
           ) => {
             if (err) {
               reject(err);
             } else {
               resolve(result);
             }
-          }
+          },
         );
       });
       const response = await promise;
@@ -479,18 +479,18 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.GetWriteStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.GetWriteStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.GetWriteStreamRequest',
-        ['name']
+        ['name'],
       );
       request.name = defaultValue1;
       const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.getWriteStream = stubSimpleCall(
         undefined,
-        expectedError
+        expectedError,
       );
       await assert.rejects(client.getWriteStream(request), expectedError);
       const actualRequest = (
@@ -510,11 +510,11 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.GetWriteStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.GetWriteStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.GetWriteStreamRequest',
-        ['name']
+        ['name'],
       );
       request.name = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
@@ -531,16 +531,16 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest',
-        ['name']
+        ['name'],
       );
       request.name = defaultValue1;
       const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamResponse()
+        new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamResponse(),
       );
       client.innerApiCalls.finalizeWriteStream =
         stubSimpleCall(expectedResponse);
@@ -563,16 +563,16 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest',
-        ['name']
+        ['name'],
       );
       request.name = defaultValue1;
       const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamResponse()
+        new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamResponse(),
       );
       client.innerApiCalls.finalizeWriteStream =
         stubSimpleCallWithCallback(expectedResponse);
@@ -581,14 +581,14 @@ describe('v1.BigQueryWriteClient', () => {
           request,
           (
             err?: Error | null,
-            result?: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse | null
+            result?: protos.google.cloud.bigquery.storage.v1.IFinalizeWriteStreamResponse | null,
           ) => {
             if (err) {
               reject(err);
             } else {
               resolve(result);
             }
-          }
+          },
         );
       });
       const response = await promise;
@@ -610,18 +610,18 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest',
-        ['name']
+        ['name'],
       );
       request.name = defaultValue1;
       const expectedHeaderRequestParams = `name=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.finalizeWriteStream = stubSimpleCall(
         undefined,
-        expectedError
+        expectedError,
       );
       await assert.rejects(client.finalizeWriteStream(request), expectedError);
       const actualRequest = (
@@ -641,11 +641,11 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest()
+        new protos.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.FinalizeWriteStreamRequest',
-        ['name']
+        ['name'],
       );
       request.name = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
@@ -662,16 +662,16 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest()
+        new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
       const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsResponse()
+        new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsResponse(),
       );
       client.innerApiCalls.batchCommitWriteStreams =
         stubSimpleCall(expectedResponse);
@@ -694,16 +694,16 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest()
+        new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
       const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsResponse()
+        new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsResponse(),
       );
       client.innerApiCalls.batchCommitWriteStreams =
         stubSimpleCallWithCallback(expectedResponse);
@@ -712,14 +712,14 @@ describe('v1.BigQueryWriteClient', () => {
           request,
           (
             err?: Error | null,
-            result?: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse | null
+            result?: protos.google.cloud.bigquery.storage.v1.IBatchCommitWriteStreamsResponse | null,
           ) => {
             if (err) {
               reject(err);
             } else {
               resolve(result);
             }
-          }
+          },
         );
       });
       const response = await promise;
@@ -741,22 +741,22 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest()
+        new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
       const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.batchCommitWriteStreams = stubSimpleCall(
         undefined,
-        expectedError
+        expectedError,
       );
       await assert.rejects(
         client.batchCommitWriteStreams(request),
-        expectedError
+        expectedError,
       );
       const actualRequest = (
         client.innerApiCalls.batchCommitWriteStreams as SinonStub
@@ -775,18 +775,18 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest()
+        new protos.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
       client.close();
       await assert.rejects(
         client.batchCommitWriteStreams(request),
-        expectedError
+        expectedError,
       );
     });
   });
@@ -799,16 +799,16 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.FlushRowsRequest()
+        new protos.google.cloud.bigquery.storage.v1.FlushRowsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.FlushRowsRequest',
-        ['writeStream']
+        ['writeStream'],
       );
       request.writeStream = defaultValue1;
       const expectedHeaderRequestParams = `write_stream=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.FlushRowsResponse()
+        new protos.google.cloud.bigquery.storage.v1.FlushRowsResponse(),
       );
       client.innerApiCalls.flushRows = stubSimpleCall(expectedResponse);
       const [response] = await client.flushRows(request);
@@ -830,16 +830,16 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.FlushRowsRequest()
+        new protos.google.cloud.bigquery.storage.v1.FlushRowsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.FlushRowsRequest',
-        ['writeStream']
+        ['writeStream'],
       );
       request.writeStream = defaultValue1;
       const expectedHeaderRequestParams = `write_stream=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.FlushRowsResponse()
+        new protos.google.cloud.bigquery.storage.v1.FlushRowsResponse(),
       );
       client.innerApiCalls.flushRows =
         stubSimpleCallWithCallback(expectedResponse);
@@ -848,14 +848,14 @@ describe('v1.BigQueryWriteClient', () => {
           request,
           (
             err?: Error | null,
-            result?: protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse | null
+            result?: protos.google.cloud.bigquery.storage.v1.IFlushRowsResponse | null,
           ) => {
             if (err) {
               reject(err);
             } else {
               resolve(result);
             }
-          }
+          },
         );
       });
       const response = await promise;
@@ -877,11 +877,11 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.FlushRowsRequest()
+        new protos.google.cloud.bigquery.storage.v1.FlushRowsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.FlushRowsRequest',
-        ['writeStream']
+        ['writeStream'],
       );
       request.writeStream = defaultValue1;
       const expectedHeaderRequestParams = `write_stream=${defaultValue1 ?? ''}`;
@@ -905,11 +905,11 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.FlushRowsRequest()
+        new protos.google.cloud.bigquery.storage.v1.FlushRowsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1.FlushRowsRequest',
-        ['writeStream']
+        ['writeStream'],
       );
       request.writeStream = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
@@ -926,11 +926,11 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.AppendRowsRequest()
+        new protos.google.cloud.bigquery.storage.v1.AppendRowsRequest(),
       );
 
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.AppendRowsResponse()
+        new protos.google.cloud.bigquery.storage.v1.AppendRowsResponse(),
       );
       client.innerApiCalls.appendRows = stubBidiStreamingCall(expectedResponse);
       const stream = client.appendRows();
@@ -938,10 +938,10 @@ describe('v1.BigQueryWriteClient', () => {
         stream.on(
           'data',
           (
-            response: protos.google.cloud.bigquery.storage.v1.AppendRowsResponse
+            response: protos.google.cloud.bigquery.storage.v1.AppendRowsResponse,
           ) => {
             resolve(response);
-          }
+          },
         );
         stream.on('error', (err: Error) => {
           reject(err);
@@ -954,12 +954,12 @@ describe('v1.BigQueryWriteClient', () => {
       assert(
         (client.innerApiCalls.appendRows as SinonStub)
           .getCall(0)
-          .calledWith(null)
+          .calledWith(null),
       );
       assert.deepStrictEqual(
         ((stream as unknown as PassThrough)._transform as SinonStub).getCall(0)
           .args[0],
-        request
+        request,
       );
     });
 
@@ -970,22 +970,22 @@ describe('v1.BigQueryWriteClient', () => {
       });
       await client.initialize();
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1.AppendRowsRequest()
+        new protos.google.cloud.bigquery.storage.v1.AppendRowsRequest(),
       );
       const expectedError = new Error('expected');
       client.innerApiCalls.appendRows = stubBidiStreamingCall(
         undefined,
-        expectedError
+        expectedError,
       );
       const stream = client.appendRows();
       const promise = new Promise((resolve, reject) => {
         stream.on(
           'data',
           (
-            response: protos.google.cloud.bigquery.storage.v1.AppendRowsResponse
+            response: protos.google.cloud.bigquery.storage.v1.AppendRowsResponse,
           ) => {
             resolve(response);
-          }
+          },
         );
         stream.on('error', (err: Error) => {
           reject(err);
@@ -997,12 +997,12 @@ describe('v1.BigQueryWriteClient', () => {
       assert(
         (client.innerApiCalls.appendRows as SinonStub)
           .getCall(0)
-          .calledWith(null)
+          .calledWith(null),
       );
       assert.deepStrictEqual(
         ((stream as unknown as PassThrough)._transform as SinonStub).getCall(0)
           .args[0],
-        request
+        request,
       );
     });
   });
@@ -1031,7 +1031,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.projectPathTemplate.render as SinonStub)
             .getCall(-1)
-            .calledWith(expectedParameters)
+            .calledWith(expectedParameters),
         );
       });
 
@@ -1041,7 +1041,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.projectPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
     });
@@ -1069,13 +1069,13 @@ describe('v1.BigQueryWriteClient', () => {
         const result = client.readSessionPath(
           'projectValue',
           'locationValue',
-          'sessionValue'
+          'sessionValue',
         );
         assert.strictEqual(result, fakePath);
         assert(
           (client.pathTemplates.readSessionPathTemplate.render as SinonStub)
             .getCall(-1)
-            .calledWith(expectedParameters)
+            .calledWith(expectedParameters),
         );
       });
 
@@ -1085,7 +1085,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.readSessionPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1095,7 +1095,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.readSessionPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1105,7 +1105,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.readSessionPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
     });
@@ -1135,13 +1135,13 @@ describe('v1.BigQueryWriteClient', () => {
           'projectValue',
           'locationValue',
           'sessionValue',
-          'streamValue'
+          'streamValue',
         );
         assert.strictEqual(result, fakePath);
         assert(
           (client.pathTemplates.readStreamPathTemplate.render as SinonStub)
             .getCall(-1)
-            .calledWith(expectedParameters)
+            .calledWith(expectedParameters),
         );
       });
 
@@ -1151,7 +1151,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.readStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1161,7 +1161,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.readStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1171,7 +1171,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.readStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1181,7 +1181,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.readStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
     });
@@ -1209,13 +1209,13 @@ describe('v1.BigQueryWriteClient', () => {
         const result = client.tablePath(
           'projectValue',
           'datasetValue',
-          'tableValue'
+          'tableValue',
         );
         assert.strictEqual(result, fakePath);
         assert(
           (client.pathTemplates.tablePathTemplate.render as SinonStub)
             .getCall(-1)
-            .calledWith(expectedParameters)
+            .calledWith(expectedParameters),
         );
       });
 
@@ -1225,7 +1225,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.tablePathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1235,7 +1235,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.tablePathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1245,7 +1245,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.tablePathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
     });
@@ -1275,13 +1275,13 @@ describe('v1.BigQueryWriteClient', () => {
           'projectValue',
           'datasetValue',
           'tableValue',
-          'streamValue'
+          'streamValue',
         );
         assert.strictEqual(result, fakePath);
         assert(
           (client.pathTemplates.writeStreamPathTemplate.render as SinonStub)
             .getCall(-1)
-            .calledWith(expectedParameters)
+            .calledWith(expectedParameters),
         );
       });
 
@@ -1291,7 +1291,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.writeStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1301,7 +1301,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.writeStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1311,7 +1311,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.writeStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1321,7 +1321,7 @@ describe('v1.BigQueryWriteClient', () => {
         assert(
           (client.pathTemplates.writeStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
     });

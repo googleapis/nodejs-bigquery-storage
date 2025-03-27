@@ -53,7 +53,7 @@ export const fieldTypeMap: Record<string, StorageTableFieldType> = {
 };
 
 export function normalizeFieldType(
-  field: StorageTableField
+  field: StorageTableField,
 ): StorageTableField['type'] {
   if (field.type) {
     const ftype = fieldTypeMap[field.type];

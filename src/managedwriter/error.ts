@@ -33,7 +33,7 @@ export function parseStorageErrors(err: gax.GoogleError): StorageError[] {
     err.metadata.get('google.cloud.bigquery.storage.v1.storageerror-bin')
   ) {
     const serrors = err.metadata.get(
-      'google.cloud.bigquery.storage.v1.storageerror-bin'
+      'google.cloud.bigquery.storage.v1.storageerror-bin',
     ) as Buffer[];
     for (const serr of serrors) {
       const storageError = StorageError.decode(serr);

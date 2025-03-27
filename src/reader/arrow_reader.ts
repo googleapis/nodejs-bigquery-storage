@@ -57,7 +57,7 @@ export class ArrowTableReader {
       'arrow_table_reader',
       `[table: ${this._tableRef.tableId}]`,
       msg,
-      ...otherArgs
+      ...otherArgs,
     );
   }
 
@@ -71,7 +71,7 @@ export class ArrowTableReader {
    * @param {GetStreamOptions} options
    */
   async getStream(
-    options?: GetStreamOptions
+    options?: GetStreamOptions,
   ): Promise<ResourceStream<Uint8Array>> {
     this.trace('getStream', options);
     const stream = await this._session.getStream(options);
@@ -84,7 +84,7 @@ export class ArrowTableReader {
    * @param {GetStreamOptions} options
    */
   async getRecordBatchStream(
-    options?: GetStreamOptions
+    options?: GetStreamOptions,
   ): Promise<ResourceStream<RecordBatch>> {
     this.trace('getRecordBatchStream', options);
     const stream = await this._session.getStream(options);

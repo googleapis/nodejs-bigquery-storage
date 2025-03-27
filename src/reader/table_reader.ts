@@ -83,7 +83,7 @@ export class TableReader {
       'table_reader',
       `[table: ${this._tableRef.tableId}]`,
       msg,
-      ...otherArgs
+      ...otherArgs,
     );
   }
 
@@ -92,12 +92,12 @@ export class TableReader {
   }
 
   async getRowStream(
-    options?: GetRowsOptions
+    options?: GetRowsOptions,
   ): Promise<ResourceStream<TableRow>> {
     this.trace('getRowStream', options);
     const stream = await this._arrowReader.getRecordBatchStream(options);
     return stream.pipe(
-      new ArrowRecordBatchTableRowTransform()
+      new ArrowRecordBatchTableRowTransform(),
     ) as ResourceStream<TableRow>;
   }
 
