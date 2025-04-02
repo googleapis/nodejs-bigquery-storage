@@ -104,12 +104,23 @@ export const bqModeToFieldLabelMapProto3: Record<
 
 export function convertModeToLabel(
   mode: TableFieldSchema['mode'],
-  useProto3: Boolean,
+  defaultValueExpression: TableFieldSchema['defaultValueExpression'],
+  useProto3: Boolean
 ): FieldDescriptorProtoLabel | null {
   if (!mode) {
     return null;
   }
-  return useProto3
+  const label = useProto3
     ? bqModeToFieldLabelMapProto3[mode]
     : bqModeToFieldLabelMapProto2[mode];
+  if (
+    label === FieldDescriptorProto.Label.LABEL_REQUIRED &&
+    defaultValueExpression &&
+    !useProto3
+  ) {
+    // override LABEL_REQUIRED when there is a default value expression
+    // so the backend can fill the data for the user
+    return FieldDescriptorProto.Label.LABEL_OPTIONAL;
+  }
+  return label;
 }

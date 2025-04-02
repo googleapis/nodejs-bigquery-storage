@@ -39,6 +39,10 @@ type ITableFieldSchema = {
    */
   name?: string;
   /**
+   * Optional. A SQL expression to specify the [default value] (https://cloud.google.com/bigquery/docs/default-values) for this field.
+   */
+  defaultValueExpression?: string;
+  /**
    * [Required] The field data type. Possible values include STRING, BYTES, INTEGER, INT64 (same as INTEGER), FLOAT, FLOAT64 (same as FLOAT), NUMERIC, BIGNUMERIC, BOOLEAN, BOOL (same as BOOLEAN), TIMESTAMP, DATE, TIME, DATETIME, INTERVAL, RECORD (where RECORD indicates that the field contains a nested schema) or STRUCT (same as RECORD).
    */
   type?: string;
@@ -88,6 +92,10 @@ function bqFieldToStorageField(field: ITableFieldSchema): StorageTableField {
   const out: StorageTableField = {
     name: field.name,
   };
+
+  if (field.defaultValueExpression) {
+    out.defaultValueExpression = field.defaultValueExpression;
+  }
 
   if (field.description) {
     out.description = field.description;

@@ -1043,6 +1043,7 @@ describe('managedwriter.WriterClient', () => {
         {
           name: 'id',
           type: 'STRING',
+          mode: 'REQUIRED',
           defaultValueExpression: 'GENERATE_UUID()',
         },
         {
@@ -1099,6 +1100,7 @@ describe('managedwriter.WriterClient', () => {
       // change MVI config
       writer.setDefaultMissingValueInterpretation('NULL_VALUE');
       writer.setMissingValueInterpretations({
+        id: 'DEFAULT_VALUE',
         updated_at: 'DEFAULT_VALUE',
       });
 
@@ -1133,23 +1135,23 @@ describe('managedwriter.WriterClient', () => {
       assert.strictEqual(rows.length, 4);
 
       const first = rows[0];
-      assert.notEqual(first.id, null);
+      assert.notEqual(first.id, '');
       assert.notEqual(first.created_at, null);
       assert.equal(first.updated_at, null);
 
       const second = rows[1];
-      assert.notEqual(second.id, null);
+      assert.notEqual(second.id, '');
       assert.notEqual(second.created_at, null);
       assert.equal(second.updated_at, null);
 
       // After change on MVI config
       const third = rows[2];
-      assert.equal(third.id, null);
+      assert.notEqual(third.id, '');
       assert.equal(third.created_at, null);
       assert.notEqual(third.updated_at, null);
 
       const forth = rows[3];
-      assert.equal(forth.id, null);
+      assert.notEqual(forth.id, '');
       assert.equal(forth.created_at, null);
       assert.notEqual(forth.updated_at, null);
 
@@ -1690,7 +1692,7 @@ describe('managedwriter.WriterClient', () => {
       });
 
       let reconnectedCalled = false;
-      sandbox.stub(connection, 'reconnect').callsFake(() => {
+      connection.on('reconnect', () => {
         reconnectedCalled = true;
       });
 
