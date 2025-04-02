@@ -330,7 +330,7 @@ function convertTableFieldSchemaToFieldDescriptorProto(
   const label = convertModeToLabel(
     field.mode,
     field.defaultValueExpression,
-    useProto3
+    useProto3,
   );
   let fdp: FieldDescriptorProto;
   if (

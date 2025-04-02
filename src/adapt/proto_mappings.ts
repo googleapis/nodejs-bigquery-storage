@@ -105,7 +105,7 @@ export const bqModeToFieldLabelMapProto3: Record<
 export function convertModeToLabel(
   mode: TableFieldSchema['mode'],
   defaultValueExpression: TableFieldSchema['defaultValueExpression'],
-  useProto3: Boolean
+  useProto3: Boolean,
 ): FieldDescriptorProtoLabel | null {
   if (!mode) {
     return null;
