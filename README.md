@@ -257,7 +257,7 @@ async function bigqueryStorageQuickstart() {
         do {
           const decodedData = avroType.decode(
             data.avroRows.serializedBinaryRows,
-            pos
+            pos,
           );
 
           if (decodedData.value) {
