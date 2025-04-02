@@ -19,6 +19,7 @@
 import {packNTest} from 'pack-n-play';
 import {readFileSync} from 'fs';
 import {describe, it} from 'mocha';
+import * as path from 'path';
 
 describe('📦 pack-n-play test', () => {
   it('TypeScript code', async function () {
@@ -30,6 +31,7 @@ describe('📦 pack-n-play test', () => {
         ts: readFileSync(
           './system-test/fixtures/sample/src/index.ts',
         ).toString(),
+        tsconfigPath: path.join(__dirname, '..', '..', 'tsconfig.json'),
       },
     };
     await packNTest(options);
