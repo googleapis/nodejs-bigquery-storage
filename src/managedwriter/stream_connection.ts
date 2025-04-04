@@ -62,7 +62,7 @@ export class StreamConnection extends EventEmitter {
   constructor(
     streamId: string,
     writeClient: WriterClient,
-    options?: gax.CallOptions
+    options?: gax.CallOptions,
   ) {
     super();
     this._streamId = streamId;
@@ -79,7 +79,7 @@ export class StreamConnection extends EventEmitter {
     this._lastConnectionError = null;
     const callOptions = this.resolveCallOptions(
       this._streamId,
-      this._callOptions
+      this._callOptions,
     );
     const client = this._writeClient.getClient();
     const connection = client.appendRows(callOptions);
@@ -98,7 +98,7 @@ export class StreamConnection extends EventEmitter {
           this.resendAllPendingWrites();
         } else {
           const err = new gax.GoogleError(
-            'Connection failure, please retry the request'
+            'Connection failure, please retry the request',
           );
           err.code = gax.Status.UNAVAILABLE;
           this.ackAllPendingWrites(err);
@@ -132,7 +132,7 @@ export class StreamConnection extends EventEmitter {
       this.trace(
         'found request error with pending write',
         err,
-        nextPendingWrite
+        nextPendingWrite,
       );
       this.handleRetry(err);
     }
@@ -177,7 +177,7 @@ export class StreamConnection extends EventEmitter {
 
   private resolveCallOptions(
     streamId: string,
-    options?: gax.CallOptions
+    options?: gax.CallOptions,
   ): gax.CallOptions {
     const callOptions = options || {};
     if (!callOptions.otherArgs) {
@@ -232,7 +232,7 @@ export class StreamConnection extends EventEmitter {
   private registerListener(
     eventName: string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    listener: (...args: any[]) => void
+    listener: (...args: any[]) => void,
   ): RemoveListener {
     this.addListener(eventName, listener);
     return {
@@ -282,7 +282,7 @@ export class StreamConnection extends EventEmitter {
     err: Error | null,
     result?:
       | protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse
-      | undefined
+      | undefined,
   ) {
     while (this.hasPendingWrites()) {
       this.ackNextPendingWrite(err, result);
@@ -293,7 +293,7 @@ export class StreamConnection extends EventEmitter {
     err: Error | null,
     result?:
       | protos.google.cloud.bigquery.storage.v1.IAppendRowsResponse
-      | undefined
+      | undefined,
   ) {
     const pw = this._pendingWrites.pop();
     if (pw) {
@@ -328,7 +328,7 @@ export class StreamConnection extends EventEmitter {
     const tries = pw._increaseAttempts();
     if (tries > retrySettings.maxRetryAttempts) {
       pw._markDone(
-        new Error(`pending write max retries reached: ${tries} attempts`)
+        new Error(`pending write max retries reached: ${tries} attempts`),
       );
       return;
     }
@@ -363,7 +363,7 @@ export class StreamConnection extends EventEmitter {
    */
   reconnect() {
     this.trace(
-      `reconnect called with ${this._pendingWrites.length} pending writes`
+      `reconnect called with ${this._pendingWrites.length} pending writes`,
     );
     this.close();
     this.open();

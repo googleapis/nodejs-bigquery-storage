@@ -1,4 +1,4 @@
-// Copyright 2024 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import {protobuf} from 'google-gax';
 // Dynamically loaded proto JSON is needed to get the type information
 // to fill in default values for request objects
 const root = protobuf.Root.fromJSON(
-  require('../protos/protos.json')
+  require('../protos/protos.json'),
 ).resolveAll();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -47,7 +47,7 @@ function generateSampleMessage<T extends object>(instance: T) {
     instance.constructor as typeof protobuf.Message
   ).toObject(instance as protobuf.Message<T>, {defaults: true});
   return (instance.constructor as typeof protobuf.Message).fromObject(
-    filledObject
+    filledObject,
   ) as T;
 }
 
@@ -59,7 +59,7 @@ function stubSimpleCall<ResponseType>(response?: ResponseType, error?: Error) {
 
 function stubSimpleCallWithCallback<ResponseType>(
   response?: ResponseType,
-  error?: Error
+  error?: Error,
 ) {
   return error
     ? sinon.stub().callsArgWith(2, error)
@@ -68,7 +68,7 @@ function stubSimpleCallWithCallback<ResponseType>(
 
 function stubBidiStreamingCall<ResponseType>(
   response?: ResponseType,
-  error?: Error
+  error?: Error,
 ) {
   const transformStub = error
     ? sinon.stub().callsArgWith(2, error)
@@ -123,7 +123,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
     it('sets apiEndpoint according to universe domain camelCase', () => {
       const client =
         new metastorepartitionserviceModule.v1alpha.MetastorePartitionServiceClient(
-          {universeDomain: 'example.com'}
+          {universeDomain: 'example.com'},
         );
       const servicePath = client.apiEndpoint;
       assert.strictEqual(servicePath, 'bigquerystorage.example.com');
@@ -132,7 +132,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
     it('sets apiEndpoint according to universe domain snakeCase', () => {
       const client =
         new metastorepartitionserviceModule.v1alpha.MetastorePartitionServiceClient(
-          {universe_domain: 'example.com'}
+          {universe_domain: 'example.com'},
         );
       const servicePath = client.apiEndpoint;
       assert.strictEqual(servicePath, 'bigquerystorage.example.com');
@@ -159,12 +159,12 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'] = 'example.com';
           const client =
             new metastorepartitionserviceModule.v1alpha.MetastorePartitionServiceClient(
-              {universeDomain: 'configured.example.com'}
+              {universeDomain: 'configured.example.com'},
             );
           const servicePath = client.apiEndpoint;
           assert.strictEqual(
             servicePath,
-            'bigquerystorage.configured.example.com'
+            'bigquerystorage.configured.example.com',
           );
           if (saved) {
             process.env['GOOGLE_CLOUD_UNIVERSE_DOMAIN'] = saved;
@@ -177,7 +177,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
     it('does not allow setting both universeDomain and universe_domain', () => {
       assert.throws(() => {
         new metastorepartitionserviceModule.v1alpha.MetastorePartitionServiceClient(
-          {universe_domain: 'example.com', universeDomain: 'example.net'}
+          {universe_domain: 'example.com', universeDomain: 'example.net'},
         );
       });
     });
@@ -201,7 +201,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         new metastorepartitionserviceModule.v1alpha.MetastorePartitionServiceClient(
           {
             fallback: true,
-          }
+          },
         );
       assert(client);
     });
@@ -212,10 +212,12 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
       assert.strictEqual(client.metastorePartitionServiceStub, undefined);
-      await client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       assert(client.metastorePartitionServiceStub);
     });
 
@@ -225,13 +227,20 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
-      assert(client.metastorePartitionServiceStub);
-      client.close().then(() => {
-        done();
+      client.initialize().catch(err => {
+        throw err;
       });
+      assert(client.metastorePartitionServiceStub);
+      client
+        .close()
+        .then(() => {
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
     });
 
     it('has close method for the non-initialized client', done => {
@@ -240,12 +249,17 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
       assert.strictEqual(client.metastorePartitionServiceStub, undefined);
-      client.close().then(() => {
-        done();
-      });
+      client
+        .close()
+        .then(() => {
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
     });
 
     it('has getProjectId method', async () => {
@@ -255,7 +269,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
       client.auth.getProjectId = sinon.stub().resolves(fakeProjectId);
       const result = await client.getProjectId();
@@ -270,7 +284,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
       client.auth.getProjectId = sinon
         .stub()
@@ -296,20 +310,22 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse(),
       );
       client.innerApiCalls.batchCreateMetastorePartitions =
         stubSimpleCall(expectedResponse);
@@ -331,20 +347,22 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse(),
       );
       client.innerApiCalls.batchCreateMetastorePartitions =
         stubSimpleCallWithCallback(expectedResponse);
@@ -353,14 +371,14 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           request,
           (
             err?: Error | null,
-            result?: protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse | null
+            result?: protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse | null,
           ) => {
             if (err) {
               reject(err);
             } else {
               resolve(result);
             }
-          }
+          },
         );
       });
       const response = await promise;
@@ -381,26 +399,28 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.batchCreateMetastorePartitions = stubSimpleCall(
         undefined,
-        expectedError
+        expectedError,
       );
       await assert.rejects(
         client.batchCreateMetastorePartitions(request),
-        expectedError
+        expectedError,
       );
       const actualRequest = (
         client.innerApiCalls.batchCreateMetastorePartitions as SinonStub
@@ -418,22 +438,26 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       await assert.rejects(
         client.batchCreateMetastorePartitions(request),
-        expectedError
+        expectedError,
       );
     });
   });
@@ -445,20 +469,22 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.protobuf.Empty()
+        new protos.google.protobuf.Empty(),
       );
       client.innerApiCalls.batchDeleteMetastorePartitions =
         stubSimpleCall(expectedResponse);
@@ -480,20 +506,22 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.protobuf.Empty()
+        new protos.google.protobuf.Empty(),
       );
       client.innerApiCalls.batchDeleteMetastorePartitions =
         stubSimpleCallWithCallback(expectedResponse);
@@ -502,14 +530,14 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           request,
           (
             err?: Error | null,
-            result?: protos.google.protobuf.IEmpty | null
+            result?: protos.google.protobuf.IEmpty | null,
           ) => {
             if (err) {
               reject(err);
             } else {
               resolve(result);
             }
-          }
+          },
         );
       });
       const response = await promise;
@@ -530,26 +558,28 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.batchDeleteMetastorePartitions = stubSimpleCall(
         undefined,
-        expectedError
+        expectedError,
       );
       await assert.rejects(
         client.batchDeleteMetastorePartitions(request),
-        expectedError
+        expectedError,
       );
       const actualRequest = (
         client.innerApiCalls.batchDeleteMetastorePartitions as SinonStub
@@ -567,22 +597,26 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       await assert.rejects(
         client.batchDeleteMetastorePartitions(request),
-        expectedError
+        expectedError,
       );
     });
   });
@@ -594,20 +628,22 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse(),
       );
       client.innerApiCalls.batchUpdateMetastorePartitions =
         stubSimpleCall(expectedResponse);
@@ -629,20 +665,22 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse(),
       );
       client.innerApiCalls.batchUpdateMetastorePartitions =
         stubSimpleCallWithCallback(expectedResponse);
@@ -651,14 +689,14 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           request,
           (
             err?: Error | null,
-            result?: protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse | null
+            result?: protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse | null,
           ) => {
             if (err) {
               reject(err);
             } else {
               resolve(result);
             }
-          }
+          },
         );
       });
       const response = await promise;
@@ -679,26 +717,28 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.batchUpdateMetastorePartitions = stubSimpleCall(
         undefined,
-        expectedError
+        expectedError,
       );
       await assert.rejects(
         client.batchUpdateMetastorePartitions(request),
-        expectedError
+        expectedError,
       );
       const actualRequest = (
         client.innerApiCalls.batchUpdateMetastorePartitions as SinonStub
@@ -716,22 +756,26 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       await assert.rejects(
         client.batchUpdateMetastorePartitions(request),
-        expectedError
+        expectedError,
       );
     });
   });
@@ -743,20 +787,22 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse()
+        new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse(),
       );
       client.innerApiCalls.listMetastorePartitions =
         stubSimpleCall(expectedResponse);
@@ -778,20 +824,22 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse()
+        new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse(),
       );
       client.innerApiCalls.listMetastorePartitions =
         stubSimpleCallWithCallback(expectedResponse);
@@ -800,14 +848,14 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           request,
           (
             err?: Error | null,
-            result?: protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse | null
+            result?: protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse | null,
           ) => {
             if (err) {
               reject(err);
             } else {
               resolve(result);
             }
-          }
+          },
         );
       });
       const response = await promise;
@@ -828,26 +876,28 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
-      const expectedHeaderRequestParams = `parent=${defaultValue1}`;
+      const expectedHeaderRequestParams = `parent=${defaultValue1 ?? ''}`;
       const expectedError = new Error('expected');
       client.innerApiCalls.listMetastorePartitions = stubSimpleCall(
         undefined,
-        expectedError
+        expectedError,
       );
       await assert.rejects(
         client.listMetastorePartitions(request),
-        expectedError
+        expectedError,
       );
       const actualRequest = (
         client.innerApiCalls.listMetastorePartitions as SinonStub
@@ -865,22 +915,26 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest(),
       );
       const defaultValue1 = getTypeDefaultValue(
         '.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest',
-        ['parent']
+        ['parent'],
       );
       request.parent = defaultValue1;
       const expectedError = new Error('The client has already been closed.');
-      client.close();
+      client.close().catch(err => {
+        throw err;
+      });
       await assert.rejects(
         client.listMetastorePartitions(request),
-        expectedError
+        expectedError,
       );
     });
   });
@@ -892,15 +946,17 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest(),
       );
 
       const expectedResponse = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse()
+        new protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse(),
       );
       client.innerApiCalls.streamMetastorePartitions =
         stubBidiStreamingCall(expectedResponse);
@@ -909,10 +965,10 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         stream.on(
           'data',
           (
-            response: protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse
+            response: protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse,
           ) => {
             resolve(response);
-          }
+          },
         );
         stream.on('error', (err: Error) => {
           reject(err);
@@ -925,12 +981,12 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
       assert(
         (client.innerApiCalls.streamMetastorePartitions as SinonStub)
           .getCall(0)
-          .calledWith(null)
+          .calledWith(null),
       );
       assert.deepStrictEqual(
         ((stream as unknown as PassThrough)._transform as SinonStub).getCall(0)
           .args[0],
-        request
+        request,
       );
     });
 
@@ -940,26 +996,28 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       const request = generateSampleMessage(
-        new protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest()
+        new protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest(),
       );
       const expectedError = new Error('expected');
       client.innerApiCalls.streamMetastorePartitions = stubBidiStreamingCall(
         undefined,
-        expectedError
+        expectedError,
       );
       const stream = client.streamMetastorePartitions();
       const promise = new Promise((resolve, reject) => {
         stream.on(
           'data',
           (
-            response: protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse
+            response: protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse,
           ) => {
             resolve(response);
-          }
+          },
         );
         stream.on('error', (err: Error) => {
           reject(err);
@@ -971,18 +1029,18 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
       assert(
         (client.innerApiCalls.streamMetastorePartitions as SinonStub)
           .getCall(0)
-          .calledWith(null)
+          .calledWith(null),
       );
       assert.deepStrictEqual(
         ((stream as unknown as PassThrough)._transform as SinonStub).getCall(0)
           .args[0],
-        request
+        request,
       );
     });
   });
 
   describe('Path templates', () => {
-    describe('readStream', () => {
+    describe('readStream', async () => {
       const fakePath = '/rendered/path/readStream';
       const expectedParameters = {
         project: 'projectValue',
@@ -995,9 +1053,11 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       client.pathTemplates.readStreamPathTemplate.render = sinon
         .stub()
         .returns(fakePath);
@@ -1010,13 +1070,13 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           'projectValue',
           'locationValue',
           'sessionValue',
-          'streamValue'
+          'streamValue',
         );
         assert.strictEqual(result, fakePath);
         assert(
           (client.pathTemplates.readStreamPathTemplate.render as SinonStub)
             .getCall(-1)
-            .calledWith(expectedParameters)
+            .calledWith(expectedParameters),
         );
       });
 
@@ -1026,7 +1086,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         assert(
           (client.pathTemplates.readStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1036,7 +1096,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         assert(
           (client.pathTemplates.readStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1046,7 +1106,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         assert(
           (client.pathTemplates.readStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1056,12 +1116,12 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         assert(
           (client.pathTemplates.readStreamPathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
     });
 
-    describe('table', () => {
+    describe('table', async () => {
       const fakePath = '/rendered/path/table';
       const expectedParameters = {
         project: 'projectValue',
@@ -1073,9 +1133,11 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
           {
             credentials: {client_email: 'bogus', private_key: 'bogus'},
             projectId: 'bogus',
-          }
+          },
         );
-      client.initialize();
+      await client.initialize().catch(err => {
+        throw err;
+      });
       client.pathTemplates.tablePathTemplate.render = sinon
         .stub()
         .returns(fakePath);
@@ -1087,13 +1149,13 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         const result = client.tablePath(
           'projectValue',
           'datasetValue',
-          'tableValue'
+          'tableValue',
         );
         assert.strictEqual(result, fakePath);
         assert(
           (client.pathTemplates.tablePathTemplate.render as SinonStub)
             .getCall(-1)
-            .calledWith(expectedParameters)
+            .calledWith(expectedParameters),
         );
       });
 
@@ -1103,7 +1165,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         assert(
           (client.pathTemplates.tablePathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1113,7 +1175,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         assert(
           (client.pathTemplates.tablePathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
 
@@ -1123,7 +1185,7 @@ describe('v1alpha.MetastorePartitionServiceClient', () => {
         assert(
           (client.pathTemplates.tablePathTemplate.match as SinonStub)
             .getCall(-1)
-            .calledWith(fakePath)
+            .calledWith(fakePath),
         );
       });
     });

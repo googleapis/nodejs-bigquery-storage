@@ -502,7 +502,8 @@
                           "oneofs": {
                             "rows": {
                               "oneof": [
-                                "protoRows"
+                                "protoRows",
+                                "arrowRows"
                               ]
                             }
                           },
@@ -523,6 +524,10 @@
                               "type": "ProtoData",
                               "id": 4
                             },
+                            "arrowRows": {
+                              "type": "ArrowData",
+                              "id": 5
+                            },
                             "traceId": {
                               "type": "string",
                               "id": 6
@@ -541,6 +546,18 @@
                             }
                           },
                           "nested": {
+                            "ArrowData": {
+                              "fields": {
+                                "writerSchema": {
+                                  "type": "ArrowSchema",
+                                  "id": 1
+                                },
+                                "rows": {
+                                  "type": "ArrowRecordBatch",
+                                  "id": 2
+                                }
+                              }
+                            },
                             "ProtoData": {
                               "fields": {
                                 "writerSchema": {

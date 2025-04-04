@@ -78,7 +78,7 @@ export function convertStorageSchemaToProto2Descriptor(
     schema,
     scope,
     false,
-    ...opts
+    ...opts,
   );
   return normalizeDescriptorSet(fds);
 }
@@ -108,7 +108,7 @@ export function convertStorageSchemaToProto3Descriptor(
     schema,
     scope,
     true,
-    ...opts
+    ...opts,
   );
   return normalizeDescriptorSet(fds);
 }
@@ -165,7 +165,7 @@ function convertStorageSchemaToFileDescriptorInternal(
       const fd = convertStorageSchemaToFileDescriptorInternal(
         subSchema,
         currentScope,
-        useProto3
+        useProto3,
       );
       for (const f of fd.file) {
         if (f.name) {
@@ -176,7 +176,7 @@ function convertStorageSchemaToFileDescriptorInternal(
         field,
         fNumber,
         currentScope,
-        useProto3
+        useProto3,
       );
       fields.push(fdp);
     } else {
@@ -184,7 +184,7 @@ function convertStorageSchemaToFileDescriptorInternal(
         field,
         fNumber,
         currentScope,
-        useProto3
+        useProto3,
       );
       fields.push(fdp);
     }
@@ -200,7 +200,7 @@ function convertStorageSchemaToFileDescriptorInternal(
         },
         991,
         scope,
-        useProto3
+        useProto3,
       );
       fields.push(fdp);
     }
@@ -213,7 +213,7 @@ function convertStorageSchemaToFileDescriptorInternal(
         },
         992,
         scope,
-        useProto3
+        useProto3,
       );
       fields.push(fdp);
     }
@@ -298,7 +298,7 @@ export function normalizeDescriptor(dp: DescriptorProto): DescriptorProto {
   const normalizedNestedTypes = [];
   for (const nestedDP of dp.nestedType) {
     normalizedNestedTypes.push(
-      normalizeDescriptor(new DescriptorProto(nestedDP))
+      normalizeDescriptor(new DescriptorProto(nestedDP)),
     );
   }
   dp.nestedType = normalizedNestedTypes;
@@ -313,7 +313,7 @@ function convertTableFieldSchemaToFieldDescriptorProto(
   field: TableFieldSchema,
   fNumber: number,
   scope: string,
-  useProto3: boolean
+  useProto3: boolean,
 ): FieldDescriptorProto {
   let name = field.name;
   if (!name) {
@@ -330,7 +330,7 @@ function convertTableFieldSchemaToFieldDescriptorProto(
   const label = convertModeToLabel(
     field.mode,
     field.defaultValueExpression,
-    useProto3
+    useProto3,
   );
   let fdp: FieldDescriptorProto;
   if (
@@ -423,7 +423,7 @@ export function generatePlaceholderFieldName(fieldName: string): string {
 function shouldPackType(
   t: FieldDescriptorProtoType,
   label: FieldDescriptorProtoLabel | null,
-  useProto3: boolean
+  useProto3: boolean,
 ): boolean | undefined {
   if (useProto3) {
     return false;
@@ -436,7 +436,7 @@ function shouldPackType(
 
 function isProto3Optional(
   label: FieldDescriptorProtoLabel | null,
-  useProto3: boolean
+  useProto3: boolean,
 ): boolean | undefined {
   if (!useProto3) {
     return undefined;

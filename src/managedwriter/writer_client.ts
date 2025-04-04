@@ -171,7 +171,7 @@ export class WriterClient {
       streamType: WriteStreamType;
       destinationTable: string;
     },
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<string> {
     const stream = await this.createWriteStreamFullResponse(request, options);
     if (stream.name) {
@@ -204,7 +204,7 @@ export class WriterClient {
       streamType: WriteStreamType;
       destinationTable: string;
     },
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<WriteStream> {
     await this.initialize();
     const {streamType, destinationTable} = request;
@@ -241,7 +241,7 @@ export class WriterClient {
       streamId: string;
       view?: WriteStreamView;
     },
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<WriteStream> {
     await this.initialize();
     const {streamId, view} = request;
@@ -281,7 +281,7 @@ export class WriterClient {
       destinationTable?: string;
       streamType?: WriteStreamType;
     },
-    options?: CallOptions
+    options?: CallOptions,
   ): Promise<StreamConnection> {
     await this.initialize();
     const {streamId, streamType, destinationTable} = request;
@@ -289,12 +289,12 @@ export class WriterClient {
       const fullStreamId = await this.resolveStreamId(
         streamId,
         streamType,
-        destinationTable
+        destinationTable,
       );
       const streamConnection = new StreamConnection(
         fullStreamId,
         this,
-        options
+        options,
       );
       this._connections.connectionList.push(streamConnection);
       return streamConnection;
@@ -306,7 +306,7 @@ export class WriterClient {
   private async resolveStreamId(
     streamId?: string,
     streamType?: WriteStreamType,
-    destinationTable?: string
+    destinationTable?: string,
   ): Promise<string> {
     if (streamId && streamId !== '') {
       if (streamId === DefaultStream) {
@@ -329,7 +329,7 @@ export class WriterClient {
       return `${destinationTable}/streams/_default`;
     }
     throw new Error(
-      'streamId or destinationTable required to create write stream'
+      'streamId or destinationTable required to create write stream',
     );
   }
 
@@ -361,7 +361,7 @@ export class WriterClient {
    * @returns {Promise} - a promise which resolves to an {@link google.cloud.bigquery.storage.v1.BatchCommitWriteStreamsResponse | BatchCommitWriteStreamsResponse}.
    */
   async batchCommitWriteStream(
-    request: BatchCommitWriteStreamsRequest
+    request: BatchCommitWriteStreamsRequest,
   ): Promise<BatchCommitWriteStreamsResponse> {
     await this.initialize();
     const [res] = await this._client.batchCommitWriteStreams(request);
@@ -405,7 +405,7 @@ export class WriterClient {
    * @returns {Promise<FinalizeWriteStreamResponse>} - A promise which resolves to a {@link google.cloud.bigquery.storage.v1.FinalizeWriteStreamResponse | FinalizeWriteStreamResponse}.
    */
   async finalizeWriteStream(
-    request: FinalizeWriteStreamRequest
+    request: FinalizeWriteStreamRequest,
   ): Promise<FinalizeWriteStreamResponse> {
     await this.initialize();
     const [res] = await this._client.finalizeWriteStream(request);

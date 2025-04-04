@@ -180,7 +180,9 @@ describe('reader.ReaderClient', () => {
 
   describe('Read', () => {
     it('should invoke createReadSession and createReadStream without errors', async () => {
-      bqReadClient.initialize();
+      bqReadClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new ReadClient();
       client.setClient(bqReadClient);
 
@@ -226,7 +228,9 @@ describe('reader.ReaderClient', () => {
 
   describe('ArrowTableReader', () => {
     it('should allow to read a table as an Arrow byte stream', async () => {
-      bqReadClient.initialize();
+      bqReadClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new ReadClient();
       client.setClient(bqReadClient);
 
@@ -250,7 +254,15 @@ describe('reader.ReaderClient', () => {
           if (session?.arrowSchema?.serializedSchema) {
             serializedSchema = session?.arrowSchema?.serializedSchema;
           }
-          let buf = Buffer.from(serializedSchema);
+          // type checking needs to occur before calling Buffer.from
+          // has to do with overload resolution
+          // related to https://github.com/microsoft/TypeScript/issues/14107
+          let buf: Buffer;
+          if (typeof serializedSchema === 'string') {
+            buf = Buffer.from(serializedSchema);
+          } else if (serializedSchema instanceof Uint8Array) {
+            buf = Buffer.from(serializedSchema);
+          }
           rawStream.on('data', (data: Uint8Array) => {
             buf = Buffer.concat([buf, data]);
           });
@@ -271,7 +283,9 @@ describe('reader.ReaderClient', () => {
     });
 
     it('should allow to read a table as a stream of Arrow Record Batches', async () => {
-      bqReadClient.initialize();
+      bqReadClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new ReadClient();
       client.setClient(bqReadClient);
 
@@ -308,7 +322,9 @@ describe('reader.ReaderClient', () => {
 
   describe('TableReader', () => {
     it('should allow to read a table as a stream', async () => {
-      bqReadClient.initialize();
+      bqReadClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new ReadClient();
       client.setClient(bqReadClient);
 
@@ -483,7 +499,9 @@ describe('reader.ReaderClient', () => {
     });
 
     it('should allow to read a table as tabledata.list RowsResponse', async () => {
-      bqReadClient.initialize();
+      bqReadClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new ReadClient();
       client.setClient(bqReadClient);
 
@@ -513,14 +531,16 @@ describe('reader.ReaderClient', () => {
     });
 
     it('should allow to read a table with long running query', async () => {
-      bqReadClient.initialize();
+      bqReadClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new ReadClient();
       client.setClient(bqReadClient);
 
       try {
         const genTableId = generateUuid();
         await bigquery.query(
-          `CREATE TABLE ${projectId}.${datasetId}.${genTableId} AS SELECT num FROM UNNEST(GENERATE_ARRAY(1,1000000)) as num`
+          `CREATE TABLE ${projectId}.${datasetId}.${genTableId} AS SELECT num FROM UNNEST(GENERATE_ARRAY(1,1000000)) as num`,
         );
         const reader = await client.createTableReader({
           table: {
@@ -549,7 +569,9 @@ describe('reader.ReaderClient', () => {
 
   describe('Error Scenarios', () => {
     it('send request with mismatched selected fields', async () => {
-      bqReadClient.initialize();
+      bqReadClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new ReadClient();
       client.setClient(bqReadClient);
 
@@ -580,9 +602,9 @@ describe('reader.ReaderClient', () => {
         assert.equal(foundError?.code, gax.Status.INVALID_ARGUMENT);
         assert.equal(
           foundError?.message.includes(
-            'request failed: The following selected fields do not exist in the table schema: wrong_field'
+            'request failed: The following selected fields do not exist in the table schema: wrong_field',
           ),
-          true
+          true,
         );
 
         reader.close();
@@ -592,7 +614,9 @@ describe('reader.ReaderClient', () => {
     });
 
     it('should trigger reconnection when intermitent error happens', async () => {
-      bqReadClient.initialize();
+      bqReadClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new ReadClient();
       client.setClient(bqReadClient);
 
@@ -628,7 +652,9 @@ describe('reader.ReaderClient', () => {
 
   describe('close', () => {
     it('should invoke close without errors', async () => {
-      bqReadClient.initialize();
+      bqReadClient.initialize().catch(err => {
+        throw err;
+      });
       const client = new ReadClient();
       client.setClient(bqReadClient);
 
@@ -674,7 +700,7 @@ describe('reader.ReaderClient', () => {
   async function deleteDatasets() {
     let [datasets] = await bigquery.getDatasets();
     datasets = datasets.filter(dataset =>
-      dataset.id?.includes(GCLOUD_TESTS_PREFIX)
+      dataset.id?.includes(GCLOUD_TESTS_PREFIX),
     );
 
     for (const dataset of datasets) {

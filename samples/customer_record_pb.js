@@ -199,7 +199,7 @@ $root.CustomerRecord = (function () {
       else if (typeof object.rowNum === 'object')
         message.rowNum = new $util.LongBits(
           object.rowNum.low >>> 0,
-          object.rowNum.high >>> 0
+          object.rowNum.high >>> 0,
         ).toNumber();
     return message;
   };
@@ -241,7 +241,7 @@ $root.CustomerRecord = (function () {
             : options.longs === Number
               ? new $util.LongBits(
                   message.rowNum.low >>> 0,
-                  message.rowNum.high >>> 0
+                  message.rowNum.high >>> 0,
                 ).toNumber()
               : message.rowNum;
     return object;

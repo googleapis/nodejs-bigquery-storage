@@ -33,7 +33,7 @@ export namespace google {
                     interface IArrowSchema {
 
                         /** ArrowSchema serializedSchema */
-                        serializedSchema?: (Uint8Array|string|null);
+                        serializedSchema?: (Uint8Array|Buffer|string|null);
                     }
 
                     /** Represents an ArrowSchema. */
@@ -46,7 +46,7 @@ export namespace google {
                         constructor(properties?: google.cloud.bigquery.storage.v1.IArrowSchema);
 
                         /** ArrowSchema serializedSchema. */
-                        public serializedSchema: (Uint8Array|string);
+                        public serializedSchema: (Uint8Array|Buffer|string);
 
                         /**
                          * Creates a new ArrowSchema instance using the specified properties.
@@ -130,7 +130,7 @@ export namespace google {
                     interface IArrowRecordBatch {
 
                         /** ArrowRecordBatch serializedRecordBatch */
-                        serializedRecordBatch?: (Uint8Array|string|null);
+                        serializedRecordBatch?: (Uint8Array|Buffer|string|null);
 
                         /** ArrowRecordBatch rowCount */
                         rowCount?: (number|Long|string|null);
@@ -146,7 +146,7 @@ export namespace google {
                         constructor(properties?: google.cloud.bigquery.storage.v1.IArrowRecordBatch);
 
                         /** ArrowRecordBatch serializedRecordBatch. */
-                        public serializedRecordBatch: (Uint8Array|string);
+                        public serializedRecordBatch: (Uint8Array|Buffer|string);
 
                         /** ArrowRecordBatch rowCount. */
                         public rowCount: (number|Long|string);
@@ -437,7 +437,7 @@ export namespace google {
                     interface IAvroRows {
 
                         /** AvroRows serializedBinaryRows */
-                        serializedBinaryRows?: (Uint8Array|string|null);
+                        serializedBinaryRows?: (Uint8Array|Buffer|string|null);
 
                         /** AvroRows rowCount */
                         rowCount?: (number|Long|string|null);
@@ -453,7 +453,7 @@ export namespace google {
                         constructor(properties?: google.cloud.bigquery.storage.v1.IAvroRows);
 
                         /** AvroRows serializedBinaryRows. */
-                        public serializedBinaryRows: (Uint8Array|string);
+                        public serializedBinaryRows: (Uint8Array|Buffer|string);
 
                         /** AvroRows rowCount. */
                         public rowCount: (number|Long|string);
@@ -2048,6 +2048,9 @@ export namespace google {
                         /** AppendRowsRequest protoRows */
                         protoRows?: (google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData|null);
 
+                        /** AppendRowsRequest arrowRows */
+                        arrowRows?: (google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData|null);
+
                         /** AppendRowsRequest traceId */
                         traceId?: (string|null);
 
@@ -2076,6 +2079,9 @@ export namespace google {
                         /** AppendRowsRequest protoRows. */
                         public protoRows?: (google.cloud.bigquery.storage.v1.AppendRowsRequest.IProtoData|null);
 
+                        /** AppendRowsRequest arrowRows. */
+                        public arrowRows?: (google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData|null);
+
                         /** AppendRowsRequest traceId. */
                         public traceId: string;
 
@@ -2086,7 +2092,7 @@ export namespace google {
                         public defaultMissingValueInterpretation: (google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation|keyof typeof google.cloud.bigquery.storage.v1.AppendRowsRequest.MissingValueInterpretation);
 
                         /** AppendRowsRequest rows. */
-                        public rows?: "protoRows";
+                        public rows?: ("protoRows"|"arrowRows");
 
                         /**
                          * Creates a new AppendRowsRequest instance using the specified properties.
@@ -2167,6 +2173,109 @@ export namespace google {
                     }
 
                     namespace AppendRowsRequest {
+
+                        /** Properties of an ArrowData. */
+                        interface IArrowData {
+
+                            /** ArrowData writerSchema */
+                            writerSchema?: (google.cloud.bigquery.storage.v1.IArrowSchema|null);
+
+                            /** ArrowData rows */
+                            rows?: (google.cloud.bigquery.storage.v1.IArrowRecordBatch|null);
+                        }
+
+                        /** Represents an ArrowData. */
+                        class ArrowData implements IArrowData {
+
+                            /**
+                             * Constructs a new ArrowData.
+                             * @param [properties] Properties to set
+                             */
+                            constructor(properties?: google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData);
+
+                            /** ArrowData writerSchema. */
+                            public writerSchema?: (google.cloud.bigquery.storage.v1.IArrowSchema|null);
+
+                            /** ArrowData rows. */
+                            public rows?: (google.cloud.bigquery.storage.v1.IArrowRecordBatch|null);
+
+                            /**
+                             * Creates a new ArrowData instance using the specified properties.
+                             * @param [properties] Properties to set
+                             * @returns ArrowData instance
+                             */
+                            public static create(properties?: google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData): google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData;
+
+                            /**
+                             * Encodes the specified ArrowData message. Does not implicitly {@link google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData.verify|verify} messages.
+                             * @param message ArrowData message or plain object to encode
+                             * @param [writer] Writer to encode to
+                             * @returns Writer
+                             */
+                            public static encode(message: google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                            /**
+                             * Encodes the specified ArrowData message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData.verify|verify} messages.
+                             * @param message ArrowData message or plain object to encode
+                             * @param [writer] Writer to encode to
+                             * @returns Writer
+                             */
+                            public static encodeDelimited(message: google.cloud.bigquery.storage.v1.AppendRowsRequest.IArrowData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                            /**
+                             * Decodes an ArrowData message from the specified reader or buffer.
+                             * @param reader Reader or buffer to decode from
+                             * @param [length] Message length if known beforehand
+                             * @returns ArrowData
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData;
+
+                            /**
+                             * Decodes an ArrowData message from the specified reader or buffer, length delimited.
+                             * @param reader Reader or buffer to decode from
+                             * @returns ArrowData
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData;
+
+                            /**
+                             * Verifies an ArrowData message.
+                             * @param message Plain object to verify
+                             * @returns `null` if valid, otherwise the reason why it is not
+                             */
+                            public static verify(message: { [k: string]: any }): (string|null);
+
+                            /**
+                             * Creates an ArrowData message from a plain object. Also converts values to their respective internal types.
+                             * @param object Plain object
+                             * @returns ArrowData
+                             */
+                            public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData;
+
+                            /**
+                             * Creates a plain object from an ArrowData message. Also converts values to other types if specified.
+                             * @param message ArrowData
+                             * @param [options] Conversion options
+                             * @returns Plain object
+                             */
+                            public static toObject(message: google.cloud.bigquery.storage.v1.AppendRowsRequest.ArrowData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                            /**
+                             * Converts this ArrowData to JSON.
+                             * @returns JSON object
+                             */
+                            public toJSON(): { [k: string]: any };
+
+                            /**
+                             * Gets the default type url for ArrowData
+                             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns The default type url
+                             */
+                            public static getTypeUrl(typeUrlPrefix?: string): string;
+                        }
 
                         /** Properties of a ProtoData. */
                         interface IProtoData {
@@ -6720,7 +6829,7 @@ export namespace google {
                     interface IArrowSchema {
 
                         /** ArrowSchema serializedSchema */
-                        serializedSchema?: (Uint8Array|string|null);
+                        serializedSchema?: (Uint8Array|Buffer|string|null);
                     }
 
                     /** Represents an ArrowSchema. */
@@ -6733,7 +6842,7 @@ export namespace google {
                         constructor(properties?: google.cloud.bigquery.storage.v1beta1.IArrowSchema);
 
                         /** ArrowSchema serializedSchema. */
-                        public serializedSchema: (Uint8Array|string);
+                        public serializedSchema: (Uint8Array|Buffer|string);
 
                         /**
                          * Creates a new ArrowSchema instance using the specified properties.
@@ -6817,7 +6926,7 @@ export namespace google {
                     interface IArrowRecordBatch {
 
                         /** ArrowRecordBatch serializedRecordBatch */
-                        serializedRecordBatch?: (Uint8Array|string|null);
+                        serializedRecordBatch?: (Uint8Array|Buffer|string|null);
 
                         /** ArrowRecordBatch rowCount */
                         rowCount?: (number|Long|string|null);
@@ -6833,7 +6942,7 @@ export namespace google {
                         constructor(properties?: google.cloud.bigquery.storage.v1beta1.IArrowRecordBatch);
 
                         /** ArrowRecordBatch serializedRecordBatch. */
-                        public serializedRecordBatch: (Uint8Array|string);
+                        public serializedRecordBatch: (Uint8Array|Buffer|string);
 
                         /** ArrowRecordBatch rowCount. */
                         public rowCount: (number|Long|string);
@@ -7017,7 +7126,7 @@ export namespace google {
                     interface IAvroRows {
 
                         /** AvroRows serializedBinaryRows */
-                        serializedBinaryRows?: (Uint8Array|string|null);
+                        serializedBinaryRows?: (Uint8Array|Buffer|string|null);
 
                         /** AvroRows rowCount */
                         rowCount?: (number|Long|string|null);
@@ -7033,7 +7142,7 @@ export namespace google {
                         constructor(properties?: google.cloud.bigquery.storage.v1beta1.IAvroRows);
 
                         /** AvroRows serializedBinaryRows. */
-                        public serializedBinaryRows: (Uint8Array|string);
+                        public serializedBinaryRows: (Uint8Array|Buffer|string);
 
                         /** AvroRows rowCount. */
                         public rowCount: (number|Long|string);
@@ -12152,7 +12261,7 @@ export namespace google {
             doubleValue?: (number|null);
 
             /** UninterpretedOption stringValue */
-            stringValue?: (Uint8Array|string|null);
+            stringValue?: (Uint8Array|Buffer|string|null);
 
             /** UninterpretedOption aggregateValue */
             aggregateValue?: (string|null);
@@ -12183,7 +12292,7 @@ export namespace google {
             public doubleValue: number;
 
             /** UninterpretedOption stringValue. */
-            public stringValue: (Uint8Array|string);
+            public stringValue: (Uint8Array|Buffer|string);
 
             /** UninterpretedOption aggregateValue. */
             public aggregateValue: string;
@@ -14198,7 +14307,7 @@ export namespace google {
         interface IBytesValue {
 
             /** BytesValue value */
-            value?: (Uint8Array|string|null);
+            value?: (Uint8Array|Buffer|string|null);
         }
 
         /** Represents a BytesValue. */
@@ -14211,7 +14320,7 @@ export namespace google {
             constructor(properties?: google.protobuf.IBytesValue);
 
             /** BytesValue value. */
-            public value: (Uint8Array|string);
+            public value: (Uint8Array|Buffer|string);
 
             /**
              * Creates a new BytesValue instance using the specified properties.
@@ -14298,7 +14407,7 @@ export namespace google {
             type_url?: (string|null);
 
             /** Any value */
-            value?: (Uint8Array|string|null);
+            value?: (Uint8Array|Buffer|string|null);
         }
 
         /** Represents an Any. */
@@ -14314,7 +14423,7 @@ export namespace google {
             public type_url: string;
 
             /** Any value. */
-            public value: (Uint8Array|string);
+            public value: (Uint8Array|Buffer|string);
 
             /**
              * Creates a new Any instance using the specified properties.

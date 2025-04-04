@@ -48,7 +48,7 @@ export class ArrowRawTransform extends Transform {
   _transform(
     response: ReadRowsResponse,
     _: BufferEncoding,
-    callback: TransformCallback
+    callback: TransformCallback,
   ): void {
     if (
       !(
@@ -81,7 +81,7 @@ export class ArrowRecordReaderTransform extends Transform {
   _transform(
     serializedRecordBatch: Uint8Array,
     _: BufferEncoding,
-    callback: TransformCallback
+    callback: TransformCallback,
   ): void {
     const buf = Buffer.concat([
       this.session.arrowSchema?.serializedSchema as Uint8Array,
@@ -106,7 +106,7 @@ export class ArrowRecordBatchTransform extends Transform {
   _transform(
     reader: RecordBatchStreamReader,
     _: BufferEncoding,
-    callback: TransformCallback
+    callback: TransformCallback,
   ): void {
     const batches = reader.readAll();
     for (const row of batches) {
@@ -130,7 +130,7 @@ export class ArrowRecordBatchTableRowTransform extends Transform {
   _transform(
     batch: RecordBatch,
     _: BufferEncoding,
-    callback: TransformCallback
+    callback: TransformCallback,
   ): void {
     const rows = new Array(batch.numRows);
     for (let i = 0; i < batch.numRows; i++) {

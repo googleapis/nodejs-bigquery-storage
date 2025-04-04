@@ -287,13 +287,13 @@ $root.SampleData = (function () {
     )
       $root.SampleData.SampleStruct.encode(
         message.structCol,
-        writer.uint32(/* id 14, wireType 2 =*/ 114).fork()
+        writer.uint32(/* id 14, wireType 2 =*/ 114).fork(),
       ).ldelim();
     if (message.structList != null && message.structList.length)
       for (var i = 0; i < message.structList.length; ++i)
         $root.SampleData.SampleStruct.encode(
           message.structList[i],
-          writer.uint32(/* id 15, wireType 2 =*/ 122).fork()
+          writer.uint32(/* id 15, wireType 2 =*/ 122).fork(),
         ).ldelim();
     if (
       message.rangeCol != null &&
@@ -301,7 +301,7 @@ $root.SampleData = (function () {
     )
       $root.SampleData.SampleRange.encode(
         message.rangeCol,
-        writer.uint32(/* id 16, wireType 2 =*/ 130).fork()
+        writer.uint32(/* id 16, wireType 2 =*/ 130).fork(),
       ).ldelim();
     writer.uint32(/* id 17, wireType 0 =*/ 136).int64(message.rowNum);
     return writer;
@@ -398,7 +398,7 @@ $root.SampleData = (function () {
         case 14: {
           message.structCol = $root.SampleData.SampleStruct.decode(
             reader,
-            reader.uint32()
+            reader.uint32(),
           );
           break;
         }
@@ -406,14 +406,14 @@ $root.SampleData = (function () {
           if (!(message.structList && message.structList.length))
             message.structList = [];
           message.structList.push(
-            $root.SampleData.SampleStruct.decode(reader, reader.uint32())
+            $root.SampleData.SampleStruct.decode(reader, reader.uint32()),
           );
           break;
         }
         case 16: {
           message.rangeCol = $root.SampleData.SampleRange.decode(
             reader,
-            reader.uint32()
+            reader.uint32(),
           );
           break;
         }
@@ -581,9 +581,9 @@ $root.SampleData = (function () {
         $util.base64.decode(
           object.bytesCol,
           (message.bytesCol = $util.newBuffer(
-            $util.base64.length(object.bytesCol)
+            $util.base64.length(object.bytesCol),
           )),
-          0
+          0,
         );
       else if (object.bytesCol.length >= 0) message.bytesCol = object.bytesCol;
     if (object.float64Col != null)
@@ -599,7 +599,7 @@ $root.SampleData = (function () {
       else if (typeof object.int64Col === 'object')
         message.int64Col = new $util.LongBits(
           object.int64Col.low >>> 0,
-          object.int64Col.high >>> 0
+          object.int64Col.high >>> 0,
         ).toNumber();
     if (object.stringCol != null) message.stringCol = String(object.stringCol);
     if (object.dateCol != null)
@@ -613,7 +613,7 @@ $root.SampleData = (function () {
       else if (typeof object.dateCol === 'object')
         message.dateCol = new $util.LongBits(
           object.dateCol.low >>> 0,
-          object.dateCol.high >>> 0
+          object.dateCol.high >>> 0,
         ).toNumber();
     if (object.datetimeCol != null)
       message.datetimeCol = String(object.datetimeCol);
@@ -627,7 +627,7 @@ $root.SampleData = (function () {
     if (object.timestampCol != null)
       if ($util.Long)
         (message.timestampCol = $util.Long.fromValue(
-          object.timestampCol
+          object.timestampCol,
         )).unsigned = false;
       else if (typeof object.timestampCol === 'string')
         message.timestampCol = parseInt(object.timestampCol, 10);
@@ -636,7 +636,7 @@ $root.SampleData = (function () {
       else if (typeof object.timestampCol === 'object')
         message.timestampCol = new $util.LongBits(
           object.timestampCol.low >>> 0,
-          object.timestampCol.high >>> 0
+          object.timestampCol.high >>> 0,
         ).toNumber();
     if (object.int64List) {
       if (!Array.isArray(object.int64List))
@@ -645,7 +645,7 @@ $root.SampleData = (function () {
       for (var i = 0; i < object.int64List.length; ++i)
         if ($util.Long)
           (message.int64List[i] = $util.Long.fromValue(
-            object.int64List[i]
+            object.int64List[i],
           )).unsigned = false;
         else if (typeof object.int64List[i] === 'string')
           message.int64List[i] = parseInt(object.int64List[i], 10);
@@ -654,14 +654,14 @@ $root.SampleData = (function () {
         else if (typeof object.int64List[i] === 'object')
           message.int64List[i] = new $util.LongBits(
             object.int64List[i].low >>> 0,
-            object.int64List[i].high >>> 0
+            object.int64List[i].high >>> 0,
           ).toNumber();
     }
     if (object.structCol != null) {
       if (typeof object.structCol !== 'object')
         throw TypeError('.SampleData.structCol: object expected');
       message.structCol = $root.SampleData.SampleStruct.fromObject(
-        object.structCol
+        object.structCol,
       );
     }
     if (object.structList) {
@@ -672,7 +672,7 @@ $root.SampleData = (function () {
         if (typeof object.structList[i] !== 'object')
           throw TypeError('.SampleData.structList: object expected');
         message.structList[i] = $root.SampleData.SampleStruct.fromObject(
-          object.structList[i]
+          object.structList[i],
         );
       }
     }
@@ -680,7 +680,7 @@ $root.SampleData = (function () {
       if (typeof object.rangeCol !== 'object')
         throw TypeError('.SampleData.rangeCol: object expected');
       message.rangeCol = $root.SampleData.SampleRange.fromObject(
-        object.rangeCol
+        object.rangeCol,
       );
     }
     if (object.rowNum != null)
@@ -693,7 +693,7 @@ $root.SampleData = (function () {
       else if (typeof object.rowNum === 'object')
         message.rowNum = new $util.LongBits(
           object.rowNum.low >>> 0,
-          object.rowNum.high >>> 0
+          object.rowNum.high >>> 0,
         ).toNumber();
     return message;
   };
@@ -795,7 +795,7 @@ $root.SampleData = (function () {
             : options.longs === Number
               ? new $util.LongBits(
                   message.int64Col.low >>> 0,
-                  message.int64Col.high >>> 0
+                  message.int64Col.high >>> 0,
                 ).toNumber()
               : message.int64Col;
     if (message.stringCol != null && message.hasOwnProperty('stringCol'))
@@ -811,7 +811,7 @@ $root.SampleData = (function () {
             : options.longs === Number
               ? new $util.LongBits(
                   message.dateCol.low >>> 0,
-                  message.dateCol.high >>> 0
+                  message.dateCol.high >>> 0,
                 ).toNumber()
               : message.dateCol;
     if (message.datetimeCol != null && message.hasOwnProperty('datetimeCol'))
@@ -840,7 +840,7 @@ $root.SampleData = (function () {
             : options.longs === Number
               ? new $util.LongBits(
                   message.timestampCol.low >>> 0,
-                  message.timestampCol.high >>> 0
+                  message.timestampCol.high >>> 0,
                 ).toNumber()
               : message.timestampCol;
     if (message.int64List && message.int64List.length) {
@@ -858,27 +858,27 @@ $root.SampleData = (function () {
               : options.longs === Number
                 ? new $util.LongBits(
                     message.int64List[j].low >>> 0,
-                    message.int64List[j].high >>> 0
+                    message.int64List[j].high >>> 0,
                   ).toNumber()
                 : message.int64List[j];
     }
     if (message.structCol != null && message.hasOwnProperty('structCol'))
       object.structCol = $root.SampleData.SampleStruct.toObject(
         message.structCol,
-        options
+        options,
       );
     if (message.structList && message.structList.length) {
       object.structList = [];
       for (var j = 0; j < message.structList.length; ++j)
         object.structList[j] = $root.SampleData.SampleStruct.toObject(
           message.structList[j],
-          options
+          options,
         );
     }
     if (message.rangeCol != null && message.hasOwnProperty('rangeCol'))
       object.rangeCol = $root.SampleData.SampleRange.toObject(
         message.rangeCol,
-        options
+        options,
       );
     if (message.rowNum != null && message.hasOwnProperty('rowNum'))
       if (typeof message.rowNum === 'number')
@@ -891,7 +891,7 @@ $root.SampleData = (function () {
             : options.longs === Number
               ? new $util.LongBits(
                   message.rowNum.low >>> 0,
-                  message.rowNum.high >>> 0
+                  message.rowNum.high >>> 0,
                 ).toNumber()
               : message.rowNum;
     return object;
@@ -1082,7 +1082,7 @@ $root.SampleData = (function () {
       if (object.subIntCol != null)
         if ($util.Long)
           (message.subIntCol = $util.Long.fromValue(
-            object.subIntCol
+            object.subIntCol,
           )).unsigned = false;
         else if (typeof object.subIntCol === 'string')
           message.subIntCol = parseInt(object.subIntCol, 10);
@@ -1091,7 +1091,7 @@ $root.SampleData = (function () {
         else if (typeof object.subIntCol === 'object')
           message.subIntCol = new $util.LongBits(
             object.subIntCol.low >>> 0,
-            object.subIntCol.high >>> 0
+            object.subIntCol.high >>> 0,
           ).toNumber();
       return message;
     };
@@ -1131,7 +1131,7 @@ $root.SampleData = (function () {
               : options.longs === Number
                 ? new $util.LongBits(
                     message.subIntCol.low >>> 0,
-                    message.subIntCol.high >>> 0
+                    message.subIntCol.high >>> 0,
                   ).toNumber()
                 : message.subIntCol;
       return object;
@@ -1355,7 +1355,7 @@ $root.SampleData = (function () {
         else if (typeof object.start === 'object')
           message.start = new $util.LongBits(
             object.start.low >>> 0,
-            object.start.high >>> 0
+            object.start.high >>> 0,
           ).toNumber();
       if (object.end != null)
         if ($util.Long)
@@ -1366,7 +1366,7 @@ $root.SampleData = (function () {
         else if (typeof object.end === 'object')
           message.end = new $util.LongBits(
             object.end.low >>> 0,
-            object.end.high >>> 0
+            object.end.high >>> 0,
           ).toNumber();
       return message;
     };
@@ -1414,7 +1414,7 @@ $root.SampleData = (function () {
               : options.longs === Number
                 ? new $util.LongBits(
                     message.start.low >>> 0,
-                    message.start.high >>> 0
+                    message.start.high >>> 0,
                   ).toNumber()
                 : message.start;
       if (message.end != null && message.hasOwnProperty('end'))
@@ -1428,7 +1428,7 @@ $root.SampleData = (function () {
               : options.longs === Number
                 ? new $util.LongBits(
                     message.end.low >>> 0,
-                    message.end.high >>> 0
+                    message.end.high >>> 0,
                   ).toNumber()
                 : message.end;
       return object;

@@ -70,7 +70,7 @@ export class JSONWriter {
   private onSchemaUpdated = (schema: TableSchema) => {
     const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
       schema,
-      'root'
+      'root',
     );
     this.setProtoDescriptor(protoDescriptor);
   };
@@ -93,10 +93,10 @@ export class JSONWriter {
    * @param {MissingValueInterpretation} defaultMissingValueInterpretation
    */
   setDefaultMissingValueInterpretation(
-    defaultMissingValueInterpretation: MissingValueInterpretation
+    defaultMissingValueInterpretation: MissingValueInterpretation,
   ) {
     this._writer.setDefaultMissingValueInterpretation(
-      defaultMissingValueInterpretation
+      defaultMissingValueInterpretation,
     );
   }
 
@@ -106,7 +106,7 @@ export class JSONWriter {
    * @param {MissingValueInterpretationMap} missingValueInterpretations
    */
   setMissingValueInterpretations(
-    missingValueInterpretations: MissingValueInterpretationMap
+    missingValueInterpretations: MissingValueInterpretationMap,
   ) {
     this._writer.setMissingValueInterpretations(missingValueInterpretations);
   }
@@ -126,7 +126,7 @@ export class JSONWriter {
       {
         serializedRows,
       },
-      offsetValue
+      offsetValue,
     );
     return pw;
   }

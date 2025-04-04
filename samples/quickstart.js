@@ -115,7 +115,7 @@ async function main() {
           do {
             const decodedData = avroType.decode(
               data.avroRows.serializedBinaryRows,
-              pos
+              pos,
             );
 
             if (decodedData.value) {

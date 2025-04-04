@@ -56,7 +56,7 @@ export class ReadSession {
   constructor(
     readClient: ReadClient,
     tableRef: TableReference,
-    format: DataFormat
+    format: DataFormat,
   ) {
     this._info = null;
     this._format = format;
@@ -75,7 +75,7 @@ export class ReadSession {
   }
 
   private async getOrCreateSession(
-    options?: GetStreamOptions
+    options?: GetStreamOptions,
   ): Promise<ReadSessionInfo> {
     if (this._info) {
       return this._info;
@@ -90,7 +90,7 @@ export class ReadSession {
       'session created',
       session.name,
       session.streams,
-      session.estimatedRowCount
+      session.estimatedRowCount,
     );
     this._info = session;
 
@@ -101,7 +101,7 @@ export class ReadSession {
           streamName: readStream.name!,
           session,
         },
-        options
+        options,
       );
       this._readStreams.push(r);
     }
@@ -115,7 +115,7 @@ export class ReadSession {
    * @param {GetStreamOptions} options
    */
   async getStream(
-    options?: GetStreamOptions
+    options?: GetStreamOptions,
   ): Promise<ResourceStream<ReadRowsResponse>> {
     this.trace('getStream', options);
 
@@ -125,7 +125,7 @@ export class ReadSession {
       this._readStreams.map(r => {
         const stream = r.getRowsStream();
         return stream;
-      })
+      }),
     );
     const joined = Readable.from(mergedStream);
     this.trace('joined streams', joined);
