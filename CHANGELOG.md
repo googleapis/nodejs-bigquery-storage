@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.0.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.11.0...v5.0.0) (2025-04-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade to node 18 ([#542](https://github.com/googleapis/nodejs-bigquery-storage/issues/542))
+
+### Miscellaneous Chores
+
+* Upgrade to node 18 ([#542](https://github.com/googleapis/nodejs-bigquery-storage/issues/542)) ([b3eb245](https://github.com/googleapis/nodejs-bigquery-storage/commit/b3eb245dbd1a32b8f49497bc8d3d487422b853ec))
+
 ## [4.11.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.10.1...v4.11.0) (2025-01-09)
 
 
