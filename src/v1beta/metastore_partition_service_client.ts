@@ -31,7 +31,7 @@ import {loggingUtils as logging} from 'google-gax';
 
 /**
  * Client JSON configuration object, loaded from
- * `src/v1alpha/metastore_partition_service_client_config.json`.
+ * `src/v1beta/metastore_partition_service_client_config.json`.
  * This file defines retry strategy and timeouts for all API methods in this library.
  */
 import * as gapicConfig from './metastore_partition_service_client_config.json';
@@ -42,7 +42,7 @@ const version = require('../../../package.json').version;
  *   This service is used for managing metastore partitions in BigQuery
  *   metastore. The service supports only batch operations for write.
  * @class
- * @memberof v1alpha
+ * @memberof v1beta
  */
 export class MetastorePartitionServiceClient {
   private _terminated = false;
@@ -223,7 +223,7 @@ export class MetastorePartitionServiceClient {
 
     // Put together the default options sent with requests.
     this._defaults = this._gaxGrpc.constructSettings(
-      'google.cloud.bigquery.storage.v1alpha.MetastorePartitionService',
+      'google.cloud.bigquery.storage.v1beta.MetastorePartitionService',
       gapicConfig as gax.ClientConfig,
       opts.clientConfig || {},
       {'x-goog-api-client': clientHeader.join(' ')},
@@ -256,14 +256,14 @@ export class MetastorePartitionServiceClient {
     }
 
     // Put together the "service stub" for
-    // google.cloud.bigquery.storage.v1alpha.MetastorePartitionService.
+    // google.cloud.bigquery.storage.v1beta.MetastorePartitionService.
     this.metastorePartitionServiceStub = this._gaxGrpc.createStub(
       this._opts.fallback
         ? (this._protos as protobuf.Root).lookupService(
-            'google.cloud.bigquery.storage.v1alpha.MetastorePartitionService',
+            'google.cloud.bigquery.storage.v1beta.MetastorePartitionService',
           )
         : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (this._protos as any).google.cloud.bigquery.storage.v1alpha
+          (this._protos as any).google.cloud.bigquery.storage.v1beta
             .MetastorePartitionService,
       this._opts,
       this._providedCustomServicePath,
@@ -432,69 +432,69 @@ export class MetastorePartitionServiceClient {
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse|BatchCreateMetastorePartitionsResponse}.
+   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsResponse|BatchCreateMetastorePartitionsResponse}.
    *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
    *   for more details and examples.
-   * @example <caption>include:samples/generated/v1alpha/metastore_partition_service.batch_create_metastore_partitions.js</caption>
-   * region_tag:bigquerystorage_v1alpha_generated_MetastorePartitionService_BatchCreateMetastorePartitions_async
+   * @example <caption>include:samples/generated/v1beta/metastore_partition_service.batch_create_metastore_partitions.js</caption>
+   * region_tag:bigquerystorage_v1beta_generated_MetastorePartitionService_BatchCreateMetastorePartitions_async
    */
   batchCreateMetastorePartitions(
-    request?: protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest,
+    request?: protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest,
     options?: CallOptions,
   ): Promise<
     [
-      protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse,
+      protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsResponse,
       (
-        | protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest
+        | protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest
         | undefined
       ),
       {} | undefined,
     ]
   >;
   batchCreateMetastorePartitions(
-    request: protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest,
+    request: protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest,
     options: CallOptions,
     callback: Callback<
-      protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse,
-      | protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest
+      protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsResponse,
+      | protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest
       | null
       | undefined,
       {} | null | undefined
     >,
   ): void;
   batchCreateMetastorePartitions(
-    request: protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest,
+    request: protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest,
     callback: Callback<
-      protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse,
-      | protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest
+      protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsResponse,
+      | protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest
       | null
       | undefined,
       {} | null | undefined
     >,
   ): void;
   batchCreateMetastorePartitions(
-    request?: protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest,
+    request?: protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest,
     optionsOrCallback?:
       | CallOptions
       | Callback<
-          protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse,
-          | protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest
+          protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsResponse,
+          | protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest
           | null
           | undefined,
           {} | null | undefined
         >,
     callback?: Callback<
-      protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse,
-      | protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest
+      protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsResponse,
+      | protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest
       | null
       | undefined,
       {} | null | undefined
     >,
   ): Promise<
     [
-      protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse,
+      protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsResponse,
       (
-        | protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest
+        | protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest
         | undefined
       ),
       {} | undefined,
@@ -521,8 +521,8 @@ export class MetastorePartitionServiceClient {
     this._log.info('batchCreateMetastorePartitions request %j', request);
     const wrappedCallback:
       | Callback<
-          protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse,
-          | protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest
+          protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsResponse,
+          | protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest
           | null
           | undefined,
           {} | null | undefined
@@ -540,9 +540,9 @@ export class MetastorePartitionServiceClient {
       .batchCreateMetastorePartitions(request, options, wrappedCallback)
       ?.then(
         ([response, options, rawResponse]: [
-          protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse,
+          protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsResponse,
           (
-            | protos.google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest
+            | protos.google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest
             | undefined
           ),
           {} | undefined,
@@ -579,57 +579,57 @@ export class MetastorePartitionServiceClient {
    *   The first element of the array is an object representing {@link protos.google.protobuf.Empty|Empty}.
    *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
    *   for more details and examples.
-   * @example <caption>include:samples/generated/v1alpha/metastore_partition_service.batch_delete_metastore_partitions.js</caption>
-   * region_tag:bigquerystorage_v1alpha_generated_MetastorePartitionService_BatchDeleteMetastorePartitions_async
+   * @example <caption>include:samples/generated/v1beta/metastore_partition_service.batch_delete_metastore_partitions.js</caption>
+   * region_tag:bigquerystorage_v1beta_generated_MetastorePartitionService_BatchDeleteMetastorePartitions_async
    */
   batchDeleteMetastorePartitions(
-    request?: protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest,
+    request?: protos.google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest,
     options?: CallOptions,
   ): Promise<
     [
       protos.google.protobuf.IEmpty,
       (
-        | protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest
+        | protos.google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest
         | undefined
       ),
       {} | undefined,
     ]
   >;
   batchDeleteMetastorePartitions(
-    request: protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest,
+    request: protos.google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest,
     options: CallOptions,
     callback: Callback<
       protos.google.protobuf.IEmpty,
-      | protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest
+      | protos.google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest
       | null
       | undefined,
       {} | null | undefined
     >,
   ): void;
   batchDeleteMetastorePartitions(
-    request: protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest,
+    request: protos.google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest,
     callback: Callback<
       protos.google.protobuf.IEmpty,
-      | protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest
+      | protos.google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest
       | null
       | undefined,
       {} | null | undefined
     >,
   ): void;
   batchDeleteMetastorePartitions(
-    request?: protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest,
+    request?: protos.google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest,
     optionsOrCallback?:
       | CallOptions
       | Callback<
           protos.google.protobuf.IEmpty,
-          | protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest
+          | protos.google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest
           | null
           | undefined,
           {} | null | undefined
         >,
     callback?: Callback<
       protos.google.protobuf.IEmpty,
-      | protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest
+      | protos.google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest
       | null
       | undefined,
       {} | null | undefined
@@ -638,7 +638,7 @@ export class MetastorePartitionServiceClient {
     [
       protos.google.protobuf.IEmpty,
       (
-        | protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest
+        | protos.google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest
         | undefined
       ),
       {} | undefined,
@@ -666,7 +666,7 @@ export class MetastorePartitionServiceClient {
     const wrappedCallback:
       | Callback<
           protos.google.protobuf.IEmpty,
-          | protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest
+          | protos.google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest
           | null
           | undefined,
           {} | null | undefined
@@ -686,7 +686,7 @@ export class MetastorePartitionServiceClient {
         ([response, options, rawResponse]: [
           protos.google.protobuf.IEmpty,
           (
-            | protos.google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest
+            | protos.google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest
             | undefined
           ),
           {} | undefined,
@@ -719,69 +719,69 @@ export class MetastorePartitionServiceClient {
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse|BatchUpdateMetastorePartitionsResponse}.
+   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsResponse|BatchUpdateMetastorePartitionsResponse}.
    *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
    *   for more details and examples.
-   * @example <caption>include:samples/generated/v1alpha/metastore_partition_service.batch_update_metastore_partitions.js</caption>
-   * region_tag:bigquerystorage_v1alpha_generated_MetastorePartitionService_BatchUpdateMetastorePartitions_async
+   * @example <caption>include:samples/generated/v1beta/metastore_partition_service.batch_update_metastore_partitions.js</caption>
+   * region_tag:bigquerystorage_v1beta_generated_MetastorePartitionService_BatchUpdateMetastorePartitions_async
    */
   batchUpdateMetastorePartitions(
-    request?: protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest,
+    request?: protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest,
     options?: CallOptions,
   ): Promise<
     [
-      protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse,
+      protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsResponse,
       (
-        | protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest
+        | protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest
         | undefined
       ),
       {} | undefined,
     ]
   >;
   batchUpdateMetastorePartitions(
-    request: protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest,
+    request: protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest,
     options: CallOptions,
     callback: Callback<
-      protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse,
-      | protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest
+      protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsResponse,
+      | protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest
       | null
       | undefined,
       {} | null | undefined
     >,
   ): void;
   batchUpdateMetastorePartitions(
-    request: protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest,
+    request: protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest,
     callback: Callback<
-      protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse,
-      | protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest
+      protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsResponse,
+      | protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest
       | null
       | undefined,
       {} | null | undefined
     >,
   ): void;
   batchUpdateMetastorePartitions(
-    request?: protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest,
+    request?: protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest,
     optionsOrCallback?:
       | CallOptions
       | Callback<
-          protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse,
-          | protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest
+          protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsResponse,
+          | protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest
           | null
           | undefined,
           {} | null | undefined
         >,
     callback?: Callback<
-      protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse,
-      | protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest
+      protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsResponse,
+      | protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest
       | null
       | undefined,
       {} | null | undefined
     >,
   ): Promise<
     [
-      protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse,
+      protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsResponse,
       (
-        | protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest
+        | protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest
         | undefined
       ),
       {} | undefined,
@@ -808,8 +808,8 @@ export class MetastorePartitionServiceClient {
     this._log.info('batchUpdateMetastorePartitions request %j', request);
     const wrappedCallback:
       | Callback<
-          protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse,
-          | protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest
+          protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsResponse,
+          | protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest
           | null
           | undefined,
           {} | null | undefined
@@ -827,9 +827,9 @@ export class MetastorePartitionServiceClient {
       .batchUpdateMetastorePartitions(request, options, wrappedCallback)
       ?.then(
         ([response, options, rawResponse]: [
-          protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse,
+          protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsResponse,
           (
-            | protos.google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest
+            | protos.google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest
             | undefined
           ),
           {} | undefined,
@@ -856,12 +856,14 @@ export class MetastorePartitionServiceClient {
    *   query. Only supports single-row expressions.  Aggregate functions are not
    *   supported.
    *
-   *   Examples: "int_field > 5"
-   *             "date_field = CAST('2014-9-27' as DATE)"
-   *             "nullable_field is not NULL"
-   *             "st_equals(geo_field, st_geofromtext("POINT(2, 2)"))"
-   *             "numeric_field BETWEEN 1.0 AND 5.0"
-   *   Restricted to a maximum length for 1 MB.
+   *   Examples:
+   *   * "int_field > 5"
+   *   * "date_field = CAST('2014-9-27' as DATE)"
+   *   * "nullable_field is not NULL"
+   *   * "st_equals(geo_field, st_geofromtext("POINT(2, 2)"))"
+   *   * "numeric_field BETWEEN 1.0 AND 5.0"
+   *
+   *   Restricted to a maximum length of 1 MB.
    * @param {string} [request.traceId]
    *   Optional. Optional trace id to be used for debugging. It is expected that
    *   the client sets the same `trace_id` for all the batches in the same
@@ -871,69 +873,69 @@ export class MetastorePartitionServiceClient {
    * @param {object} [options]
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse|ListMetastorePartitionsResponse}.
+   *   The first element of the array is an object representing {@link protos.google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsResponse|ListMetastorePartitionsResponse}.
    *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods | documentation }
    *   for more details and examples.
-   * @example <caption>include:samples/generated/v1alpha/metastore_partition_service.list_metastore_partitions.js</caption>
-   * region_tag:bigquerystorage_v1alpha_generated_MetastorePartitionService_ListMetastorePartitions_async
+   * @example <caption>include:samples/generated/v1beta/metastore_partition_service.list_metastore_partitions.js</caption>
+   * region_tag:bigquerystorage_v1beta_generated_MetastorePartitionService_ListMetastorePartitions_async
    */
   listMetastorePartitions(
-    request?: protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest,
+    request?: protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest,
     options?: CallOptions,
   ): Promise<
     [
-      protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse,
+      protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsResponse,
       (
-        | protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest
+        | protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest
         | undefined
       ),
       {} | undefined,
     ]
   >;
   listMetastorePartitions(
-    request: protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest,
+    request: protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest,
     options: CallOptions,
     callback: Callback<
-      protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse,
-      | protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest
+      protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsResponse,
+      | protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest
       | null
       | undefined,
       {} | null | undefined
     >,
   ): void;
   listMetastorePartitions(
-    request: protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest,
+    request: protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest,
     callback: Callback<
-      protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse,
-      | protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest
+      protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsResponse,
+      | protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest
       | null
       | undefined,
       {} | null | undefined
     >,
   ): void;
   listMetastorePartitions(
-    request?: protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest,
+    request?: protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest,
     optionsOrCallback?:
       | CallOptions
       | Callback<
-          protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse,
-          | protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest
+          protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsResponse,
+          | protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest
           | null
           | undefined,
           {} | null | undefined
         >,
     callback?: Callback<
-      protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse,
-      | protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest
+      protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsResponse,
+      | protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest
       | null
       | undefined,
       {} | null | undefined
     >,
   ): Promise<
     [
-      protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse,
+      protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsResponse,
       (
-        | protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest
+        | protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest
         | undefined
       ),
       {} | undefined,
@@ -960,8 +962,8 @@ export class MetastorePartitionServiceClient {
     this._log.info('listMetastorePartitions request %j', request);
     const wrappedCallback:
       | Callback<
-          protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse,
-          | protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest
+          protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsResponse,
+          | protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest
           | null
           | undefined,
           {} | null | undefined
@@ -976,9 +978,9 @@ export class MetastorePartitionServiceClient {
       .listMetastorePartitions(request, options, wrappedCallback)
       ?.then(
         ([response, options, rawResponse]: [
-          protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse,
+          protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsResponse,
           (
-            | protos.google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest
+            | protos.google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest
             | undefined
           ),
           {} | undefined,
@@ -1001,12 +1003,12 @@ export class MetastorePartitionServiceClient {
    *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
    * @returns {Stream}
    *   An object stream which is both readable and writable. It accepts objects
-   *   representing {@link protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest|StreamMetastorePartitionsRequest} for write() method, and
-   *   will emit objects representing {@link protos.google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse|StreamMetastorePartitionsResponse} on 'data' event asynchronously.
+   *   representing {@link protos.google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsRequest|StreamMetastorePartitionsRequest} for write() method, and
+   *   will emit objects representing {@link protos.google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsResponse|StreamMetastorePartitionsResponse} on 'data' event asynchronously.
    *   Please see the {@link https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#bi-directional-streaming | documentation }
    *   for more details and examples.
-   * @example <caption>include:samples/generated/v1alpha/metastore_partition_service.stream_metastore_partitions.js</caption>
-   * region_tag:bigquerystorage_v1alpha_generated_MetastorePartitionService_StreamMetastorePartitions_async
+   * @example <caption>include:samples/generated/v1beta/metastore_partition_service.stream_metastore_partitions.js</caption>
+   * region_tag:bigquerystorage_v1beta_generated_MetastorePartitionService_StreamMetastorePartitions_async
    */
   streamMetastorePartitions(options?: CallOptions): gax.CancellableStream {
     this.initialize().catch(err => {

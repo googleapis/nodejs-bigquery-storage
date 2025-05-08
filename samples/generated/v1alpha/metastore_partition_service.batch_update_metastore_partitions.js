@@ -38,6 +38,14 @@ function main(parent, requests) {
    *  Required. Requests to update metastore partitions in the table.
    */
   // const requests = [1,2,3,4]
+  /**
+   *  Optional. Optional trace id to be used for debugging. It is expected that
+   *  the client sets the same `trace_id` for all the batches in the same
+   *  operation, so that it is possible to tie together the logs to all the
+   *  batches in the same operation. This is expected, but not required, to be
+   *  globally unique.
+   */
+  // const traceId = 'abc123'
 
   // Imports the Storage library
   const {MetastorePartitionServiceClient} = require('@google-cloud/storage').v1alpha;
