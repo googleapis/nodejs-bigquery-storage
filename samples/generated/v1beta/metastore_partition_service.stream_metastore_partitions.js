@@ -20,8 +20,8 @@
 
 'use strict';
 
-function main(parent, requests) {
-  // [START bigquerystorage_v1alpha_generated_MetastorePartitionService_BatchUpdateMetastorePartitions_async]
+function main(parent) {
+  // [START bigquerystorage_v1beta_generated_MetastorePartitionService_StreamMetastorePartitions_async]
   /**
    * This snippet has been automatically generated and should be regarded as a code template only.
    * It will require modifications to work.
@@ -29,44 +29,50 @@ function main(parent, requests) {
    * TODO(developer): Uncomment these variables before running the sample.
    */
   /**
-   *  Required. Reference to the table to which these metastore partitions
-   *  belong, in the format of
+   *  Required. Reference to the table to where the partition to be added, in the
+   *  format of
    *  projects/{project}/locations/{location}/datasets/{dataset}/tables/{table}.
    */
   // const parent = 'abc123'
   /**
-   *  Required. Requests to update metastore partitions in the table.
+   *  Optional. A list of metastore partitions to be added to the table.
    */
-  // const requests = [1,2,3,4]
+  // const metastorePartitions = [1,2,3,4]
   /**
-   *  Optional. Optional trace id to be used for debugging. It is expected that
-   *  the client sets the same `trace_id` for all the batches in the same
-   *  operation, so that it is possible to tie together the logs to all the
-   *  batches in the same operation. This is expected, but not required, to be
-   *  globally unique.
+   *  Optional. Mimics the ifNotExists flag in IMetaStoreClient
+   *  add_partitions(..). If the flag is set to false, the server will return
+   *  ALREADY_EXISTS on commit if any partition already exists. If the flag is
+   *  set to true:
+   *   1) the server will skip existing partitions
+   *   insert only the non-existing partitions as part of the commit.
+   *   2) The client must set the `skip_existing_partitions` field to true for
+   *   all requests in the stream.
    */
-  // const traceId = 'abc123'
+  // const skipExistingPartitions = true
 
   // Imports the Storage library
-  const {MetastorePartitionServiceClient} = require('@google-cloud/storage').v1alpha;
+  const {MetastorePartitionServiceClient} = require('@google-cloud/storage').v1beta;
 
   // Instantiates a client
   const storageClient = new MetastorePartitionServiceClient();
 
-  async function callBatchUpdateMetastorePartitions() {
+  async function callStreamMetastorePartitions() {
     // Construct request
     const request = {
       parent,
-      requests,
     };
 
     // Run request
-    const response = await storageClient.batchUpdateMetastorePartitions(request);
-    console.log(response);
+    const stream = await storageClient.streamMetastorePartitions();
+    stream.on('data', (response) => { console.log(response) });
+    stream.on('error', (err) => { throw(err) });
+    stream.on('end', () => { /* API call completed */ });
+    stream.write(request);
+    stream.end();
   }
 
-  callBatchUpdateMetastorePartitions();
-  // [END bigquerystorage_v1alpha_generated_MetastorePartitionService_BatchUpdateMetastorePartitions_async]
+  callStreamMetastorePartitions();
+  // [END bigquerystorage_v1beta_generated_MetastorePartitionService_StreamMetastorePartitions_async]
 }
 
 process.on('unhandledRejection', err => {

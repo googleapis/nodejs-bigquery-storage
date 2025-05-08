@@ -20,8 +20,8 @@
 
 'use strict';
 
-function main(parent, requests) {
-  // [START bigquerystorage_v1alpha_generated_MetastorePartitionService_BatchUpdateMetastorePartitions_async]
+function main(parent) {
+  // [START bigquerystorage_v1beta_generated_MetastorePartitionService_ListMetastorePartitions_async]
   /**
    * This snippet has been automatically generated and should be regarded as a code template only.
    * It will require modifications to work.
@@ -35,38 +35,46 @@ function main(parent, requests) {
    */
   // const parent = 'abc123'
   /**
-   *  Required. Requests to update metastore partitions in the table.
+   *  Optional. SQL text filtering statement, similar to a WHERE clause in a
+   *  query. Only supports single-row expressions.  Aggregate functions are not
+   *  supported.
+   *  Examples:
+   *  * "int_field > 5"
+   *  * "date_field = CAST('2014-9-27' as DATE)"
+   *  * "nullable_field is not NULL"
+   *  * "st_equals(geo_field, st_geofromtext("POINT(2, 2)"))"
+   *  * "numeric_field BETWEEN 1.0 AND 5.0"
+   *  Restricted to a maximum length of 1 MB.
    */
-  // const requests = [1,2,3,4]
+  // const filter = 'abc123'
   /**
    *  Optional. Optional trace id to be used for debugging. It is expected that
    *  the client sets the same `trace_id` for all the batches in the same
    *  operation, so that it is possible to tie together the logs to all the
-   *  batches in the same operation. This is expected, but not required, to be
-   *  globally unique.
+   *  batches in the same operation. Limited to 256 characters. This is expected,
+   *  but not required, to be globally unique.
    */
   // const traceId = 'abc123'
 
   // Imports the Storage library
-  const {MetastorePartitionServiceClient} = require('@google-cloud/storage').v1alpha;
+  const {MetastorePartitionServiceClient} = require('@google-cloud/storage').v1beta;
 
   // Instantiates a client
   const storageClient = new MetastorePartitionServiceClient();
 
-  async function callBatchUpdateMetastorePartitions() {
+  async function callListMetastorePartitions() {
     // Construct request
     const request = {
       parent,
-      requests,
     };
 
     // Run request
-    const response = await storageClient.batchUpdateMetastorePartitions(request);
+    const response = await storageClient.listMetastorePartitions(request);
     console.log(response);
   }
 
-  callBatchUpdateMetastorePartitions();
-  // [END bigquerystorage_v1alpha_generated_MetastorePartitionService_BatchUpdateMetastorePartitions_async]
+  callListMetastorePartitions();
+  // [END bigquerystorage_v1beta_generated_MetastorePartitionService_ListMetastorePartitions_async]
 }
 
 process.on('unhandledRejection', err => {

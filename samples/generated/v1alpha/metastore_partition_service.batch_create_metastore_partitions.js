@@ -43,9 +43,17 @@ function main(parent, requests) {
    *  add_partitions(..). If the flag is set to false, the server will return
    *  ALREADY_EXISTS if any partition already exists. If the flag is set to true,
    *  the server will skip existing partitions and insert only the non-existing
-   *  partitions.
+   *  partitions. A maximum of 900 partitions can be inserted in a batch.
    */
   // const skipExistingPartitions = true
+  /**
+   *  Optional. Optional trace id to be used for debugging. It is expected that
+   *  the client sets the same `trace_id` for all the batches in the same
+   *  operation, so that it is possible to tie together the logs to all the
+   *  batches in the same operation. Limited to 256 characters. This is expected,
+   *  but not required, to be globally unique.
+   */
+  // const traceId = 'abc123'
 
   // Imports the Storage library
   const {MetastorePartitionServiceClient} = require('@google-cloud/storage').v1alpha;

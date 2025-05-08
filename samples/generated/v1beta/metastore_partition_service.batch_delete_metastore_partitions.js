@@ -20,8 +20,8 @@
 
 'use strict';
 
-function main(parent, requests) {
-  // [START bigquerystorage_v1alpha_generated_MetastorePartitionService_BatchUpdateMetastorePartitions_async]
+function main(parent, partitionValues) {
+  // [START bigquerystorage_v1beta_generated_MetastorePartitionService_BatchDeleteMetastorePartitions_async]
   /**
    * This snippet has been automatically generated and should be regarded as a code template only.
    * It will require modifications to work.
@@ -35,9 +35,10 @@ function main(parent, requests) {
    */
   // const parent = 'abc123'
   /**
-   *  Required. Requests to update metastore partitions in the table.
+   *  Required. The list of metastore partitions (identified by its values) to be
+   *  deleted. A maximum of 900 partitions can be deleted in a batch.
    */
-  // const requests = [1,2,3,4]
+  // const partitionValues = [1,2,3,4]
   /**
    *  Optional. Optional trace id to be used for debugging. It is expected that
    *  the client sets the same `trace_id` for all the batches in the same
@@ -48,25 +49,25 @@ function main(parent, requests) {
   // const traceId = 'abc123'
 
   // Imports the Storage library
-  const {MetastorePartitionServiceClient} = require('@google-cloud/storage').v1alpha;
+  const {MetastorePartitionServiceClient} = require('@google-cloud/storage').v1beta;
 
   // Instantiates a client
   const storageClient = new MetastorePartitionServiceClient();
 
-  async function callBatchUpdateMetastorePartitions() {
+  async function callBatchDeleteMetastorePartitions() {
     // Construct request
     const request = {
       parent,
-      requests,
+      partitionValues,
     };
 
     // Run request
-    const response = await storageClient.batchUpdateMetastorePartitions(request);
+    const response = await storageClient.batchDeleteMetastorePartitions(request);
     console.log(response);
   }
 
-  callBatchUpdateMetastorePartitions();
-  // [END bigquerystorage_v1alpha_generated_MetastorePartitionService_BatchUpdateMetastorePartitions_async]
+  callBatchDeleteMetastorePartitions();
+  // [END bigquerystorage_v1beta_generated_MetastorePartitionService_BatchDeleteMetastorePartitions_async]
 }
 
 process.on('unhandledRejection', err => {

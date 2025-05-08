@@ -21,7 +21,7 @@
 'use strict';
 
 function main(parent, requests) {
-  // [START bigquerystorage_v1alpha_generated_MetastorePartitionService_BatchUpdateMetastorePartitions_async]
+  // [START bigquerystorage_v1beta_generated_MetastorePartitionService_BatchUpdateMetastorePartitions_async]
   /**
    * This snippet has been automatically generated and should be regarded as a code template only.
    * It will require modifications to work.
@@ -48,7 +48,7 @@ function main(parent, requests) {
   // const traceId = 'abc123'
 
   // Imports the Storage library
-  const {MetastorePartitionServiceClient} = require('@google-cloud/storage').v1alpha;
+  const {MetastorePartitionServiceClient} = require('@google-cloud/storage').v1beta;
 
   // Instantiates a client
   const storageClient = new MetastorePartitionServiceClient();
@@ -66,7 +66,7 @@ function main(parent, requests) {
   }
 
   callBatchUpdateMetastorePartitions();
-  // [END bigquerystorage_v1alpha_generated_MetastorePartitionService_BatchUpdateMetastorePartitions_async]
+  // [END bigquerystorage_v1beta_generated_MetastorePartitionService_BatchUpdateMetastorePartitions_async]
 }
 
 process.on('unhandledRejection', err => {
