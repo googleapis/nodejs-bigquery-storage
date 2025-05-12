@@ -1,5 +1,29 @@
 # Changelog
 
+## [6.0.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v5.0.0...v6.0.0) (2025-05-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove `location` from http annotations in all of the service requests
+
+### Features
+
+* Add BigQuery Metastore Partition Service API version v1beta ([#549](https://github.com/googleapis/nodejs-bigquery-storage/issues/549)) ([21122f5](https://github.com/googleapis/nodejs-bigquery-storage/commit/21122f5901fd5b6670c4a3271045a9b3828b7f6b))
+* Add protobufjs 2023 edition support ([21122f5](https://github.com/googleapis/nodejs-bigquery-storage/commit/21122f5901fd5b6670c4a3271045a9b3828b7f6b))
+* Increased the number of partitions can be written in a single request ([21122f5](https://github.com/googleapis/nodejs-bigquery-storage/commit/21122f5901fd5b6670c4a3271045a9b3828b7f6b))
+* Selective gapic support for typescript generation ([21122f5](https://github.com/googleapis/nodejs-bigquery-storage/commit/21122f5901fd5b6670c4a3271045a9b3828b7f6b))
+
+
+### Bug Fixes
+
+* Catch dangling promises ([21122f5](https://github.com/googleapis/nodejs-bigquery-storage/commit/21122f5901fd5b6670c4a3271045a9b3828b7f6b))
+
+
+### Documentation
+
+* Updated the number of partitions (from 100 to 900) can be inserted, updated and deleted in a single request ([21122f5](https://github.com/googleapis/nodejs-bigquery-storage/commit/21122f5901fd5b6670c4a3271045a9b3828b7f6b))
+
 ## [5.0.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.11.0...v5.0.0) (2025-05-08)
 
 
