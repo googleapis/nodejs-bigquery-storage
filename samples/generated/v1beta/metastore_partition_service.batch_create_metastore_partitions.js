@@ -21,7 +21,7 @@
 'use strict';
 
 function main(parent, requests) {
-  // [START bigquerystorage_v1alpha_generated_MetastorePartitionService_BatchUpdateMetastorePartitions_async]
+  // [START bigquerystorage_v1beta_generated_MetastorePartitionService_BatchCreateMetastorePartitions_async]
   /**
    * This snippet has been automatically generated and should be regarded as a code template only.
    * It will require modifications to work.
@@ -29,31 +29,39 @@ function main(parent, requests) {
    * TODO(developer): Uncomment these variables before running the sample.
    */
   /**
-   *  Required. Reference to the table to which these metastore partitions
-   *  belong, in the format of
+   *  Required. Reference to the table to where the metastore partitions to be
+   *  added, in the format of
    *  projects/{project}/locations/{location}/datasets/{dataset}/tables/{table}.
    */
   // const parent = 'abc123'
   /**
-   *  Required. Requests to update metastore partitions in the table.
+   *  Required. Requests to add metastore partitions to the table.
    */
   // const requests = [1,2,3,4]
+  /**
+   *  Optional. Mimics the ifNotExists flag in IMetaStoreClient
+   *  add_partitions(..). If the flag is set to false, the server will return
+   *  ALREADY_EXISTS if any partition already exists. If the flag is set to true,
+   *  the server will skip existing partitions and insert only the non-existing
+   *  partitions. A maximum of 900 partitions can be inserted in a batch.
+   */
+  // const skipExistingPartitions = true
   /**
    *  Optional. Optional trace id to be used for debugging. It is expected that
    *  the client sets the same `trace_id` for all the batches in the same
    *  operation, so that it is possible to tie together the logs to all the
-   *  batches in the same operation. This is expected, but not required, to be
-   *  globally unique.
+   *  batches in the same operation. Limited to 256 characters. This is expected,
+   *  but not required, to be globally unique.
    */
   // const traceId = 'abc123'
 
   // Imports the Storage library
-  const {MetastorePartitionServiceClient} = require('@google-cloud/storage').v1alpha;
+  const {MetastorePartitionServiceClient} = require('@google-cloud/storage').v1beta;
 
   // Instantiates a client
   const storageClient = new MetastorePartitionServiceClient();
 
-  async function callBatchUpdateMetastorePartitions() {
+  async function callBatchCreateMetastorePartitions() {
     // Construct request
     const request = {
       parent,
@@ -61,12 +69,12 @@ function main(parent, requests) {
     };
 
     // Run request
-    const response = await storageClient.batchUpdateMetastorePartitions(request);
+    const response = await storageClient.batchCreateMetastorePartitions(request);
     console.log(response);
   }
 
-  callBatchUpdateMetastorePartitions();
-  // [END bigquerystorage_v1alpha_generated_MetastorePartitionService_BatchUpdateMetastorePartitions_async]
+  callBatchCreateMetastorePartitions();
+  // [END bigquerystorage_v1beta_generated_MetastorePartitionService_BatchCreateMetastorePartitions_async]
 }
 
 process.on('unhandledRejection', err => {
