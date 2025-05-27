@@ -167,13 +167,15 @@ export class JSONEncoder {
       case 'int32': // DATE
         // The value is the number of days since the Unix epoch (1970-01-01)
         return value.getTime() / (1000 * 60 * 60 * 24);
-      case 'int64': // TIMESTAMP
+      case 'int64': {
+        // TIMESTAMP
         let microseconds = 0;
         if (value instanceof PreciseDate) {
           microseconds = value.getMicroseconds();
         }
         // The value is given in microseconds since the Unix epoch (1970-01-01)
         return value.getTime() * 1000 + microseconds;
+      }
       case 'string': // DATETIME
         return value.toJSON().replace(/^(.*)T(.*)Z$/, '$1 $2');
     }
