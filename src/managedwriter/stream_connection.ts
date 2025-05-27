@@ -374,7 +374,7 @@ export class StreamConnection extends EventEmitter {
    * Close the bi-directional stream connection.
    */
   close() {
-    if (!this._connection) {
+    if (this.isConnectionClosed() || !this._connection) {
       return;
     }
     this._connection.end();
