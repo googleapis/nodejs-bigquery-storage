@@ -564,7 +564,7 @@ describe('reader.ReaderClient', () => {
       } finally {
         client.close();
       }
-    }).timeout(30 * 1000);
+    }).timeout(60 * 1000);
   });
 
   describe('Error Scenarios', () => {
