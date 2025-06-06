@@ -1,5 +1,23 @@
 # Changelog
 
+## [5.1.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v5.0.0...v5.1.0) (2025-06-06)
+
+
+### Features
+
+* Add protobufjs 2023 edition support ([21122f5](https://github.com/googleapis/nodejs-bigquery-storage/commit/21122f5901fd5b6670c4a3271045a9b3828b7f6b))
+* Increased the number of partitions can be written in a single request ([21122f5](https://github.com/googleapis/nodejs-bigquery-storage/commit/21122f5901fd5b6670c4a3271045a9b3828b7f6b))
+* Selective gapic support for typescript generation ([21122f5](https://github.com/googleapis/nodejs-bigquery-storage/commit/21122f5901fd5b6670c4a3271045a9b3828b7f6b))
+* Support precise dates and microsecond resolution ([#569](https://github.com/googleapis/nodejs-bigquery-storage/issues/569)) ([2ae69a8](https://github.com/googleapis/nodejs-bigquery-storage/commit/2ae69a89309a538e413bf15639c0b9b11ee4cf47))
+
+
+### Bug Fixes
+
+* Catch dangling promises ([21122f5](https://github.com/googleapis/nodejs-bigquery-storage/commit/21122f5901fd5b6670c4a3271045a9b3828b7f6b))
+* Limit protobufjs version to one that breaks ([#567](https://github.com/googleapis/nodejs-bigquery-storage/issues/567)) ([61f92d4](https://github.com/googleapis/nodejs-bigquery-storage/commit/61f92d488400318f4669a42a88e1056b864143d1))
+* **managedwriter:** Improve checks before closing connection ([#568](https://github.com/googleapis/nodejs-bigquery-storage/issues/568)) ([338f8bb](https://github.com/googleapis/nodejs-bigquery-storage/commit/338f8bbf6ba0aec47c82888a8ec3cafdc30950e9))
+* Remove `location` from http annotations in all of the service requests ([21122f5](https://github.com/googleapis/nodejs-bigquery-storage/commit/21122f5901fd5b6670c4a3271045a9b3828b7f6b))
+
 ## [5.0.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v4.11.0...v5.0.0) (2025-05-08)
 
 
