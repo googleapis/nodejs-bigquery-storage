@@ -21,6 +21,7 @@ import {
 } from '../adapt/proto';
 import * as extend from 'extend';
 import {JSONObject, JSONValue} from './json_writer';
+import {PreciseDate} from '@google-cloud/precise-date';
 
 type IDescriptorProto = protos.google.protobuf.IDescriptorProto;
 type DescriptorProto = protos.google.protobuf.DescriptorProto;
@@ -127,18 +128,8 @@ export class JSONEncoder {
     if (!pfield) {
       return undefined;
     }
-    if (value instanceof Date) {
-      switch (pfield.type) {
-        case 'int32': // DATE
-          // The value is the number of days since the Unix epoch (1970-01-01)
-          return value.getTime() / (1000 * 60 * 60 * 24);
-        case 'int64': // TIMESTAMP
-          // The value is given in microseconds since the Unix epoch (1970-01-01)
-          return value.getTime() * 1000;
-        case 'string': // DATETIME
-          return value.toJSON().replace(/^(.*)T(.*)Z$/, '$1 $2');
-      }
-      return undefined;
+    if (value instanceof Date || value instanceof PreciseDate) {
+      return this.encodeDateValue(pfield.type, value);
     }
     // NUMERIC and BIGNUMERIC integer
     if (typeof value === 'number' || typeof value === 'bigint') {
@@ -164,6 +155,29 @@ export class JSONEncoder {
     if (this.isPlainObject(value)) {
       const subType = this.getSubType(key, ptype);
       return this.convertRow(value as JSONObject, subType);
+    }
+    return undefined;
+  }
+
+  private encodeDateValue(
+    fieldType: string,
+    value: Date | PreciseDate,
+  ): JSONValue | undefined {
+    switch (fieldType) {
+      case 'int32': // DATE
+        // The value is the number of days since the Unix epoch (1970-01-01)
+        return value.getTime() / (1000 * 60 * 60 * 24);
+      case 'int64': {
+        // TIMESTAMP
+        let microseconds = 0;
+        if (value instanceof PreciseDate) {
+          microseconds = value.getMicroseconds();
+        }
+        // The value is given in microseconds since the Unix epoch (1970-01-01)
+        return value.getTime() * 1000 + microseconds;
+      }
+      case 'string': // DATETIME
+        return value.toJSON().replace(/^(.*)T(.*)Z$/, '$1 $2');
     }
     return undefined;
   }

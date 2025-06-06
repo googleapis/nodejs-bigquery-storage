@@ -27,6 +27,7 @@ import {ClientOptions} from 'google-gax';
 import * as customerRecordProtoJson from '../samples/customer_record.json';
 import {JSONEncoder} from '../src/managedwriter/encoder';
 import {PendingWrite} from '../src/managedwriter/pending_write';
+import {PreciseDate} from '@google-cloud/precise-date';
 
 const pkg = JSON.parse(
   readFileSync(path.resolve(__dirname, '../../package.json'), 'utf-8'),
@@ -500,12 +501,12 @@ describe('managedwriter.WriterClient', () => {
         row_num: 1,
         customer_birthday: new Date('1815-12-10'),
         customer_metadata: {
-          customer_created_at: new Date('2022-01-09T03:49:46.564Z'),
-          customer_updated_at: new Date('2023-01-09T03:49:46.564Z'),
+          customer_created_at: new Date('2022-01-09T03:49:46.564000Z'),
+          customer_updated_at: new Date('2023-01-09T03:49:46.564000Z'),
         },
         customer_last_purchase_dates: [
-          new Date('2022-01-09T03:49:46.564Z'),
-          new Date('2023-01-09T03:49:46.564Z'),
+          new PreciseDate('2022-01-09T03:49:46.564321Z'),
+          new PreciseDate('2023-01-09T03:49:46.564321Z'),
         ],
       };
 
@@ -515,12 +516,12 @@ describe('managedwriter.WriterClient', () => {
         row_num: 2,
         customer_birthday: new Date('1912-07-23'),
         customer_metadata: {
-          customer_created_at: new Date('2022-01-09T03:49:46.564Z'),
-          customer_updated_at: new Date('2023-01-09T03:49:46.564Z'),
+          customer_created_at: new Date('2022-01-09T03:49:46.564000Z'),
+          customer_updated_at: new Date('2023-01-09T03:49:46.564000Z'),
         },
         customer_last_purchase_dates: [
-          new Date('2022-01-09T03:49:46.564Z'),
-          new Date('2023-01-09T03:49:46.564Z'),
+          new PreciseDate('2022-01-09T03:49:46.564321Z'),
+          new PreciseDate('2023-01-09T03:49:46.564321Z'),
         ],
       };
 
@@ -537,7 +538,7 @@ describe('managedwriter.WriterClient', () => {
           customer_created_at: '2022-01-09 03:49:46.564',
           customer_updated_at: '1673236186564000',
         },
-        customer_last_purchase_dates: ['1641700186564000', '1673236186564000'],
+        customer_last_purchase_dates: ['1641700186564321', '1673236186564321'],
       });
 
       const encodedRow2 = encoded[1];
@@ -550,7 +551,7 @@ describe('managedwriter.WriterClient', () => {
           customer_created_at: '2022-01-09 03:49:46.564',
           customer_updated_at: '1673236186564000',
         },
-        customer_last_purchase_dates: ['1641700186564000', '1673236186564000'],
+        customer_last_purchase_dates: ['1641700186564321', '1673236186564321'],
       });
     });
 
