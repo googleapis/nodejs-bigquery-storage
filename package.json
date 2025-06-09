@@ -29,7 +29,7 @@
   "dependencies": {
     "@google-cloud/paginator": "^6.0.0",
     "@google-cloud/precise-date": "^5.0.0",
-    "apache-arrow": "^19.0.1",
+    "apache-arrow": "^20.0.0",
     "core-js": "^3.41.0",
     "extend": "^3.0.2",
     "google-auth-library": "^10.0.0-rc.1",
