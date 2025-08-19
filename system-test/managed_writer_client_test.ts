@@ -1946,7 +1946,7 @@ describe('managedwriter.WriterClient', () => {
         .getMetadata()
         .then(res => {
           const [metadata] = res;
-      const creationTime = Number(metadata.creationTime);
+          const creationTime = Number(metadata.creationTime);
           return isResourceStale(creationTime);
         })
         .catch(e => {
