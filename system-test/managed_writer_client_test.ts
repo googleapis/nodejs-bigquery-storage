@@ -1942,9 +1942,19 @@ describe('managedwriter.WriterClient', () => {
     );
 
     for (const dataset of datasets) {
-      const [metadata] = await dataset.getMetadata();
+      const isDatasetStable = await dataset
+        .getMetadata()
+        .then(res => {
+          const [metadata] = res;
       const creationTime = Number(metadata.creationTime);
-      if (isResourceStale(creationTime)) {
+          return isResourceStale(creationTime);
+        })
+        .catch(e => {
+          console.log(`dataset(${dataset.id}).getMetadata() failed`);
+          console.log(e);
+          return false;
+        });
+      if (isDatasetStable) {
         try {
           await dataset.delete({force: true});
         } catch (e) {
