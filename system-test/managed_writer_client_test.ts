@@ -1020,7 +1020,6 @@ describe('managedwriter.WriterClient', () => {
         client.close();
       }
     });
-  });
 
   it('should fill default values when MissingValuesInterpretation is set', async () => {
     bqWriteClient.initialize().catch(err => {
@@ -1160,6 +1159,7 @@ describe('managedwriter.WriterClient', () => {
     } finally {
       client.close();
     }
+  });
   });
 
   describe('Flaky Scenarios', () => {
