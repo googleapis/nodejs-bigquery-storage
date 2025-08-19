@@ -698,7 +698,11 @@ describe('reader.ReaderClient', () => {
   }
 
   async function deleteDatasets() {
-    let [datasets] = await bigquery.getDatasets();
+    let [datasets] = await bigquery.getDatasets().catch(e => {
+      console.log('bigquery.getDatasets() failed');
+      console.log(e);
+      return [[]];
+    });
     datasets = datasets.filter(dataset =>
       dataset.id?.includes(GCLOUD_TESTS_PREFIX),
     );
