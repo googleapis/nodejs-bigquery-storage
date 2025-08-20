@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.1.1](https://github.com/googleapis/nodejs-bigquery-storage/compare/v5.1.0...v5.1.1) (2025-08-20)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency google-auth-library to v10 ([#573](https://github.com/googleapis/nodejs-bigquery-storage/issues/573)) ([5ef6bdd](https://github.com/googleapis/nodejs-bigquery-storage/commit/5ef6bdd383ca08cdcd14366a04b380fba211952e))
+
 ## [5.1.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v5.0.0...v5.1.0) (2025-06-06)
 
 
