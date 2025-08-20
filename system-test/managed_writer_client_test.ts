@@ -28,6 +28,7 @@ import * as customerRecordProtoJson from '../samples/customer_record.json';
 import {JSONEncoder} from '../src/managedwriter/encoder';
 import {PendingWrite} from '../src/managedwriter/pending_write';
 import {PreciseDate} from '@google-cloud/precise-date';
+import {cleanupDatasets} from './util';
 
 const pkg = JSON.parse(
   readFileSync(path.resolve(__dirname, '../../package.json'), 'utf-8'),
@@ -109,10 +110,10 @@ describe('managedwriter.WriterClient', () => {
   };
 
   before(async () => {
-    await deleteDatasets();
+    await cleanupDatasets(bigquery, GCLOUD_TESTS_PREFIX);
 
     await bigquery.createDataset(datasetId);
-  });
+  }).timeout(2 * 60 * 1000);
 
   beforeEach(async () => {
     tableId = generateUuid();
@@ -1020,146 +1021,146 @@ describe('managedwriter.WriterClient', () => {
         client.close();
       }
     });
-  });
 
-  it('should fill default values when MissingValuesInterpretation is set', async () => {
-    bqWriteClient.initialize().catch(err => {
-      throw err;
+    it('should fill default values when MissingValuesInterpretation is set', async () => {
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
+      const client = new WriterClient();
+      client.setClient(bqWriteClient);
+
+      const schema: TableSchema = {
+        fields: [
+          {
+            name: 'customer_name',
+            type: 'STRING',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'row_num',
+            type: 'INTEGER',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'id',
+            type: 'STRING',
+            mode: 'REQUIRED',
+            defaultValueExpression: 'GENERATE_UUID()',
+          },
+          {
+            name: 'created_at',
+            type: 'TIMESTAMP',
+            defaultValueExpression: 'CURRENT_TIMESTAMP()',
+          },
+          {
+            name: 'updated_at',
+            type: 'TIMESTAMP',
+            defaultValueExpression: 'CURRENT_TIMESTAMP()',
+          },
+        ],
+      };
+      const [table] = await bigquery
+        .dataset(datasetId)
+        .createTable(tableId + '_default_values', {schema});
+      const parent = `projects/${projectId}/datasets/${datasetId}/tables/${table.id}`;
+
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const protoDescriptor: DescriptorProto =
+        adapt.convertStorageSchemaToProto2Descriptor(storageSchema, 'root');
+
+      const row1 = {
+        customer_name: 'Ada Lovelace',
+        row_num: 1,
+      };
+
+      const row2 = {
+        customer_name: 'Alan Turing',
+        row_num: 2,
+      };
+
+      try {
+        const connection = await client.createStreamConnection({
+          streamType: managedwriter.PendingStream,
+          destinationTable: parent,
+        });
+
+        const streamId = connection.getStreamId();
+        const writer = new JSONWriter({
+          connection,
+          protoDescriptor,
+          defaultMissingValueInterpretation: 'DEFAULT_VALUE',
+          missingValueInterpretations: {
+            updated_at: 'NULL_VALUE',
+          },
+        });
+
+        let pw = writer.appendRows([row1, row2], 0);
+        let result = await pw.getResult();
+
+        // change MVI config
+        writer.setDefaultMissingValueInterpretation('NULL_VALUE');
+        writer.setMissingValueInterpretations({
+          id: 'DEFAULT_VALUE',
+          updated_at: 'DEFAULT_VALUE',
+        });
+
+        const row3 = {
+          customer_name: 'Charles Babbage',
+          row_num: 3,
+        };
+
+        const row4 = {
+          customer_name: 'Lord Byron',
+          row_num: 4,
+        };
+
+        pw = writer.appendRows([row3, row4], 2);
+        result = await pw.getResult();
+
+        assert.equal(result.error, null);
+
+        const res = await connection.finalize();
+        connection.close();
+        assert.equal(res?.rowCount, 4);
+
+        const commitResponse = await client.batchCommitWriteStream({
+          parent,
+          writeStreams: [streamId],
+        });
+        assert.equal(commitResponse.streamErrors?.length, 0);
+
+        const [rows] = await bigquery.query(
+          `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\` order by row_num`,
+        );
+        assert.strictEqual(rows.length, 4);
+
+        const first = rows[0];
+        assert.notEqual(first.id, '');
+        assert.notEqual(first.created_at, null);
+        assert.equal(first.updated_at, null);
+
+        const second = rows[1];
+        assert.notEqual(second.id, '');
+        assert.notEqual(second.created_at, null);
+        assert.equal(second.updated_at, null);
+
+        // After change on MVI config
+        const third = rows[2];
+        assert.notEqual(third.id, '');
+        assert.equal(third.created_at, null);
+        assert.notEqual(third.updated_at, null);
+
+        const forth = rows[3];
+        assert.notEqual(forth.id, '');
+        assert.equal(forth.created_at, null);
+        assert.notEqual(forth.updated_at, null);
+
+        writer.close();
+      } finally {
+        client.close();
+      }
     });
-    const client = new WriterClient();
-    client.setClient(bqWriteClient);
-
-    const schema: TableSchema = {
-      fields: [
-        {
-          name: 'customer_name',
-          type: 'STRING',
-          mode: 'REQUIRED',
-        },
-        {
-          name: 'row_num',
-          type: 'INTEGER',
-          mode: 'REQUIRED',
-        },
-        {
-          name: 'id',
-          type: 'STRING',
-          mode: 'REQUIRED',
-          defaultValueExpression: 'GENERATE_UUID()',
-        },
-        {
-          name: 'created_at',
-          type: 'TIMESTAMP',
-          defaultValueExpression: 'CURRENT_TIMESTAMP()',
-        },
-        {
-          name: 'updated_at',
-          type: 'TIMESTAMP',
-          defaultValueExpression: 'CURRENT_TIMESTAMP()',
-        },
-      ],
-    };
-    const [table] = await bigquery
-      .dataset(datasetId)
-      .createTable(tableId + '_default_values', {schema});
-    const parent = `projects/${projectId}/datasets/${datasetId}/tables/${table.id}`;
-
-    const storageSchema =
-      adapt.convertBigQuerySchemaToStorageTableSchema(schema);
-    const protoDescriptor: DescriptorProto =
-      adapt.convertStorageSchemaToProto2Descriptor(storageSchema, 'root');
-
-    const row1 = {
-      customer_name: 'Ada Lovelace',
-      row_num: 1,
-    };
-
-    const row2 = {
-      customer_name: 'Alan Turing',
-      row_num: 2,
-    };
-
-    try {
-      const connection = await client.createStreamConnection({
-        streamType: managedwriter.PendingStream,
-        destinationTable: parent,
-      });
-
-      const streamId = connection.getStreamId();
-      const writer = new JSONWriter({
-        connection,
-        protoDescriptor,
-        defaultMissingValueInterpretation: 'DEFAULT_VALUE',
-        missingValueInterpretations: {
-          updated_at: 'NULL_VALUE',
-        },
-      });
-
-      let pw = writer.appendRows([row1, row2], 0);
-      let result = await pw.getResult();
-
-      // change MVI config
-      writer.setDefaultMissingValueInterpretation('NULL_VALUE');
-      writer.setMissingValueInterpretations({
-        id: 'DEFAULT_VALUE',
-        updated_at: 'DEFAULT_VALUE',
-      });
-
-      const row3 = {
-        customer_name: 'Charles Babbage',
-        row_num: 3,
-      };
-
-      const row4 = {
-        customer_name: 'Lord Byron',
-        row_num: 4,
-      };
-
-      pw = writer.appendRows([row3, row4], 2);
-      result = await pw.getResult();
-
-      assert.equal(result.error, null);
-
-      const res = await connection.finalize();
-      connection.close();
-      assert.equal(res?.rowCount, 4);
-
-      const commitResponse = await client.batchCommitWriteStream({
-        parent,
-        writeStreams: [streamId],
-      });
-      assert.equal(commitResponse.streamErrors?.length, 0);
-
-      const [rows] = await bigquery.query(
-        `SELECT * FROM \`${projectId}.${datasetId}.${table.id}\` order by row_num`,
-      );
-      assert.strictEqual(rows.length, 4);
-
-      const first = rows[0];
-      assert.notEqual(first.id, '');
-      assert.notEqual(first.created_at, null);
-      assert.equal(first.updated_at, null);
-
-      const second = rows[1];
-      assert.notEqual(second.id, '');
-      assert.notEqual(second.created_at, null);
-      assert.equal(second.updated_at, null);
-
-      // After change on MVI config
-      const third = rows[2];
-      assert.notEqual(third.id, '');
-      assert.equal(third.created_at, null);
-      assert.notEqual(third.updated_at, null);
-
-      const forth = rows[3];
-      assert.notEqual(forth.id, '');
-      assert.equal(forth.created_at, null);
-      assert.notEqual(forth.updated_at, null);
-
-      writer.close();
-    } finally {
-      client.close();
-    }
   });
 
   describe('Flaky Scenarios', () => {
@@ -1925,33 +1926,4 @@ describe('managedwriter.WriterClient', () => {
       }
     });
   });
-
-  // Only delete a resource if it is older than 24 hours. That will prevent
-  // collisions with parallel CI test runs.
-  function isResourceStale(creationTime: number) {
-    const oneDayMs = 86400000;
-    const now = new Date();
-    const created = new Date(creationTime);
-    return now.getTime() - created.getTime() >= oneDayMs;
-  }
-
-  async function deleteDatasets() {
-    let [datasets] = await bigquery.getDatasets();
-    datasets = datasets.filter(dataset =>
-      dataset.id?.includes(GCLOUD_TESTS_PREFIX),
-    );
-
-    for (const dataset of datasets) {
-      const [metadata] = await dataset.getMetadata();
-      const creationTime = Number(metadata.creationTime);
-      if (isResourceStale(creationTime)) {
-        try {
-          await dataset.delete({force: true});
-        } catch (e) {
-          console.log(`dataset(${dataset.id}).delete() failed`);
-          console.log(e);
-        }
-      }
-    }
-  }
 });
