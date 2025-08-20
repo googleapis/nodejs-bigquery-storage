@@ -28,6 +28,7 @@ import * as customerRecordProtoJson from '../samples/customer_record.json';
 import {JSONEncoder} from '../src/managedwriter/encoder';
 import {PendingWrite} from '../src/managedwriter/pending_write';
 import {PreciseDate} from '@google-cloud/precise-date';
+import {cleanupDatasets} from './util';
 
 const pkg = JSON.parse(
   readFileSync(path.resolve(__dirname, '../../package.json'), 'utf-8'),
@@ -109,7 +110,7 @@ describe('managedwriter.WriterClient', () => {
   };
 
   before(async () => {
-    await deleteDatasets();
+    await cleanupDatasets(bigquery, GCLOUD_TESTS_PREFIX);
 
     await bigquery.createDataset(datasetId);
   });
@@ -1925,47 +1926,4 @@ describe('managedwriter.WriterClient', () => {
       }
     });
   });
-
-  // Only delete a resource if it is older than 24 hours. That will prevent
-  // collisions with parallel CI test runs.
-  function isResourceStale(creationTime: number) {
-    const oneDayMs = 86400000;
-    const now = new Date();
-    const created = new Date(creationTime);
-    return now.getTime() - created.getTime() >= oneDayMs;
-  }
-
-  async function deleteDatasets() {
-    let [datasets] = await bigquery.getDatasets().catch(e => {
-      console.log('bigquery.geDatasets() failed');
-      console.log(e);
-      return [[]];
-    });
-    datasets = datasets.filter(dataset =>
-      dataset.id?.includes(GCLOUD_TESTS_PREFIX),
-    );
-
-    for (const dataset of datasets) {
-      const isDatasetStable = await dataset
-        .getMetadata()
-        .then(res => {
-          const [metadata] = res;
-          const creationTime = Number(metadata.creationTime);
-          return isResourceStale(creationTime);
-        })
-        .catch(e => {
-          console.log(`dataset(${dataset.id}).getMetadata() failed`);
-          console.log(e);
-          return false;
-        });
-      if (isDatasetStable) {
-        try {
-          await dataset.delete({force: true});
-        } catch (e) {
-          console.log(`dataset(${dataset.id}).delete() failed`);
-          console.log(e);
-        }
-      }
-    }
-  }
 });
