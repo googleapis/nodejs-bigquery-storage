@@ -113,7 +113,7 @@ describe('managedwriter.WriterClient', () => {
     await cleanupDatasets(bigquery, GCLOUD_TESTS_PREFIX);
 
     await bigquery.createDataset(datasetId);
-  });
+  }).timeout(2 * 60 * 1000);
 
   beforeEach(async () => {
     tableId = generateUuid();
