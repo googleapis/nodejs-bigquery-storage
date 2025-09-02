@@ -534,8 +534,10 @@ export class BigQueryStorageClient {
     options.otherArgs.headers = options.otherArgs.headers || {};
     options.otherArgs.headers['x-goog-request-params'] =
       this._gaxModule.routingHeader.fromParams({
-        'table_reference.project_id': request.tableReference!.projectId ?? '',
-        'table_reference.dataset_id': request.tableReference!.datasetId ?? '',
+        'table_reference.project_id':
+          request.tableReference!.projectId?.toString() ?? '',
+        'table_reference.dataset_id':
+          request.tableReference!.datasetId?.toString() ?? '',
       });
     this.initialize().catch(err => {
       throw err;
