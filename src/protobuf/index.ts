@@ -22,10 +22,12 @@ declare module 'protobufjs' {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Type {
     let fromDescriptor: (
-      descriptor: Message<IDescriptorProto> | IDescriptorProto
+      descriptor: Message<IDescriptorProto> | IDescriptorProto,
     ) => Type;
   }
   interface Type {
-    toDescriptor(protoVersion: string): Message<IDescriptorProto> & IDescriptorProto;
+    toDescriptor(
+      protoVersion: string,
+    ): Message<IDescriptorProto> & IDescriptorProto;
   }
 }
