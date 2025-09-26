@@ -21,7 +21,11 @@ type IDescriptorProto = protos.google.protobuf.IDescriptorProto;
 declare module 'protobufjs' {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Type {
-    let toDescriptor: (protoVersion: string) => IDescriptorProto;
-    let fromDescriptor: (descriptor: IDescriptorProto) => Type;
+    let fromDescriptor: (
+      descriptor: Message<IDescriptorProto> | IDescriptorProto
+    ) => Type;
+  }
+  interface Type {
+    toDescriptor(protoVersion: string): Message<IDescriptorProto> & IDescriptorProto;
   }
 }
