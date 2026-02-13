@@ -1,4 +1,4 @@
-// Copyright 2025 Google LLC
+// Copyright 2026 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -234,6 +234,9 @@ export namespace google {
 
                         /** ArrowSerializationOptions bufferCompression */
                         bufferCompression?: (google.cloud.bigquery.storage.v1.ArrowSerializationOptions.CompressionCodec|keyof typeof google.cloud.bigquery.storage.v1.ArrowSerializationOptions.CompressionCodec|null);
+
+                        /** ArrowSerializationOptions timestampPrecision */
+                        timestampPrecision?: (google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosecondTimestampPrecision|keyof typeof google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosecondTimestampPrecision|null);
                     }
 
                     /** Represents an ArrowSerializationOptions. */
@@ -247,6 +250,9 @@ export namespace google {
 
                         /** ArrowSerializationOptions bufferCompression. */
                         public bufferCompression: (google.cloud.bigquery.storage.v1.ArrowSerializationOptions.CompressionCodec|keyof typeof google.cloud.bigquery.storage.v1.ArrowSerializationOptions.CompressionCodec);
+
+                        /** ArrowSerializationOptions timestampPrecision. */
+                        public timestampPrecision: (google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosecondTimestampPrecision|keyof typeof google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosecondTimestampPrecision);
 
                         /**
                          * Creates a new ArrowSerializationOptions instance using the specified properties.
@@ -333,6 +339,14 @@ export namespace google {
                             COMPRESSION_UNSPECIFIED = 0,
                             LZ4_FRAME = 1,
                             ZSTD = 2
+                        }
+
+                        /** PicosecondTimestampPrecision enum. */
+                        enum PicosecondTimestampPrecision {
+                            PICOSECOND_TIMESTAMP_PRECISION_UNSPECIFIED = 0,
+                            MICROSECOND = 1,
+                            NANOSECOND = 2,
+                            PICOSECOND = 3
                         }
                     }
 

@@ -61,6 +61,10 @@
                             "bufferCompression": {
                               "type": "CompressionCodec",
                               "id": 2
+                            },
+                            "timestampPrecision": {
+                              "type": "PicosecondTimestampPrecision",
+                              "id": 3
                             }
                           },
                           "nested": {
@@ -69,6 +73,14 @@
                                 "COMPRESSION_UNSPECIFIED": 0,
                                 "LZ4_FRAME": 1,
                                 "ZSTD": 2
+                              }
+                            },
+                            "PicosecondTimestampPrecision": {
+                              "values": {
+                                "PICOSECOND_TIMESTAMP_PRECISION_UNSPECIFIED": 0,
+                                "MICROSECOND": 1,
+                                "NANOSECOND": 2,
+                                "PICOSECOND": 3
                               }
                             }
                           }
@@ -3150,7 +3162,14 @@
                   "type": "ServiceOptions",
                   "id": 3
                 }
-              }
+              },
+              "reserved": [
+                [
+                  4,
+                  4
+                ],
+                "stream"
+              ]
             },
             "MethodDescriptorProto": {
               "edition": "proto2",

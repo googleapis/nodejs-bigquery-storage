@@ -1,4 +1,4 @@
-// Copyright 2025 Google LLC
+// Copyright 2026 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -548,6 +548,7 @@
                              * @memberof google.cloud.bigquery.storage.v1
                              * @interface IArrowSerializationOptions
                              * @property {google.cloud.bigquery.storage.v1.ArrowSerializationOptions.CompressionCodec|null} [bufferCompression] ArrowSerializationOptions bufferCompression
+                             * @property {google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosecondTimestampPrecision|null} [timestampPrecision] ArrowSerializationOptions timestampPrecision
                              */
     
                             /**
@@ -574,6 +575,14 @@
                             ArrowSerializationOptions.prototype.bufferCompression = 0;
     
                             /**
+                             * ArrowSerializationOptions timestampPrecision.
+                             * @member {google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosecondTimestampPrecision} timestampPrecision
+                             * @memberof google.cloud.bigquery.storage.v1.ArrowSerializationOptions
+                             * @instance
+                             */
+                            ArrowSerializationOptions.prototype.timestampPrecision = 0;
+
+                            /**
                              * Creates a new ArrowSerializationOptions instance using the specified properties.
                              * @function create
                              * @memberof google.cloud.bigquery.storage.v1.ArrowSerializationOptions
@@ -599,6 +608,8 @@
                                     writer = $Writer.create();
                                 if (message.bufferCompression != null && Object.hasOwnProperty.call(message, "bufferCompression"))
                                     writer.uint32(/* id 2, wireType 0 =*/16).int32(message.bufferCompression);
+                                if (message.timestampPrecision != null && Object.hasOwnProperty.call(message, "timestampPrecision"))
+                                    writer.uint32(/* id 3, wireType 0 =*/24).int32(message.timestampPrecision);
                                 return writer;
                             };
     
@@ -637,6 +648,10 @@
                                     switch (tag >>> 3) {
                                     case 2: {
                                             message.bufferCompression = reader.int32();
+                                            break;
+                                        }
+                                    case 3: {
+                                            message.timestampPrecision = reader.int32();
                                             break;
                                         }
                                     default:
@@ -683,6 +698,16 @@
                                     case 2:
                                         break;
                                     }
+                                if (message.timestampPrecision != null && message.hasOwnProperty("timestampPrecision"))
+                                    switch (message.timestampPrecision) {
+                                    default:
+                                        return "timestampPrecision: enum value expected";
+                                    case 0:
+                                    case 1:
+                                    case 2:
+                                    case 3:
+                                        break;
+                                    }
                                 return null;
                             };
     
@@ -718,6 +743,30 @@
                                     message.bufferCompression = 2;
                                     break;
                                 }
+                                switch (object.timestampPrecision) {
+                                default:
+                                    if (typeof object.timestampPrecision === "number") {
+                                        message.timestampPrecision = object.timestampPrecision;
+                                        break;
+                                    }
+                                    break;
+                                case "PICOSECOND_TIMESTAMP_PRECISION_UNSPECIFIED":
+                                case 0:
+                                    message.timestampPrecision = 0;
+                                    break;
+                                case "MICROSECOND":
+                                case 1:
+                                    message.timestampPrecision = 1;
+                                    break;
+                                case "NANOSECOND":
+                                case 2:
+                                    message.timestampPrecision = 2;
+                                    break;
+                                case "PICOSECOND":
+                                case 3:
+                                    message.timestampPrecision = 3;
+                                    break;
+                                }
                                 return message;
                             };
     
@@ -734,10 +783,14 @@
                                 if (!options)
                                     options = {};
                                 var object = {};
-                                if (options.defaults)
+                                if (options.defaults) {
                                     object.bufferCompression = options.enums === String ? "COMPRESSION_UNSPECIFIED" : 0;
+                                    object.timestampPrecision = options.enums === String ? "PICOSECOND_TIMESTAMP_PRECISION_UNSPECIFIED" : 0;
+                                }
                                 if (message.bufferCompression != null && message.hasOwnProperty("bufferCompression"))
                                     object.bufferCompression = options.enums === String ? $root.google.cloud.bigquery.storage.v1.ArrowSerializationOptions.CompressionCodec[message.bufferCompression] === undefined ? message.bufferCompression : $root.google.cloud.bigquery.storage.v1.ArrowSerializationOptions.CompressionCodec[message.bufferCompression] : message.bufferCompression;
+                                if (message.timestampPrecision != null && message.hasOwnProperty("timestampPrecision"))
+                                    object.timestampPrecision = options.enums === String ? $root.google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosecondTimestampPrecision[message.timestampPrecision] === undefined ? message.timestampPrecision : $root.google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosecondTimestampPrecision[message.timestampPrecision] : message.timestampPrecision;
                                 return object;
                             };
     
@@ -783,6 +836,24 @@
                                 return values;
                             })();
     
+                            /**
+                             * PicosecondTimestampPrecision enum.
+                             * @name google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosecondTimestampPrecision
+                             * @enum {number}
+                             * @property {number} PICOSECOND_TIMESTAMP_PRECISION_UNSPECIFIED=0 PICOSECOND_TIMESTAMP_PRECISION_UNSPECIFIED value
+                             * @property {number} MICROSECOND=1 MICROSECOND value
+                             * @property {number} NANOSECOND=2 NANOSECOND value
+                             * @property {number} PICOSECOND=3 PICOSECOND value
+                             */
+                            ArrowSerializationOptions.PicosecondTimestampPrecision = (function() {
+                                var valuesById = {}, values = Object.create(valuesById);
+                                values[valuesById[0] = "PICOSECOND_TIMESTAMP_PRECISION_UNSPECIFIED"] = 0;
+                                values[valuesById[1] = "MICROSECOND"] = 1;
+                                values[valuesById[2] = "NANOSECOND"] = 2;
+                                values[valuesById[3] = "PICOSECOND"] = 3;
+                                return values;
+                            })();
+
                             return ArrowSerializationOptions;
                         })();
     
