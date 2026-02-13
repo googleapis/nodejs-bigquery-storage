@@ -1,4 +1,4 @@
-// Copyright 2025 Google LLC
+// Copyright 2026 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -10618,6 +10618,7 @@
                              * @property {number|Long|null} [scale] TableFieldSchema scale
                              * @property {string|null} [defaultValueExpression] TableFieldSchema defaultValueExpression
                              * @property {google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType|null} [rangeElementType] TableFieldSchema rangeElementType
+                             * @property {number|Long|null} [timestampPrecision] TableFieldSchema timestampPrecision
                              */
     
                             /**
@@ -10717,6 +10718,14 @@
                             TableFieldSchema.prototype.rangeElementType = null;
     
                             /**
+                             * TableFieldSchema timestampPrecision.
+                             * @member {number|Long} timestampPrecision
+                             * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema
+                             * @instance
+                             */
+                            TableFieldSchema.prototype.timestampPrecision = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+                            /**
                              * Creates a new TableFieldSchema instance using the specified properties.
                              * @function create
                              * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema
@@ -10761,6 +10770,8 @@
                                     writer.uint32(/* id 10, wireType 2 =*/82).string(message.defaultValueExpression);
                                 if (message.rangeElementType != null && Object.hasOwnProperty.call(message, "rangeElementType"))
                                     $root.google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.encode(message.rangeElementType, writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
+                                if (message.timestampPrecision != null && Object.hasOwnProperty.call(message, "timestampPrecision"))
+                                    writer.uint32(/* id 12, wireType 0 =*/96).int64(message.timestampPrecision);
                                 return writer;
                             };
     
@@ -10837,6 +10848,10 @@
                                         }
                                     case 11: {
                                             message.rangeElementType = $root.google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.decode(reader, reader.uint32());
+                                            break;
+                                        }
+                                    case 12: {
+                                            message.timestampPrecision = reader.int64();
                                             break;
                                         }
                                     default:
@@ -10939,6 +10954,9 @@
                                     if (error)
                                         return "rangeElementType." + error;
                                 }
+                                if (message.timestampPrecision != null && message.hasOwnProperty("timestampPrecision"))
+                                    if (!$util.isInteger(message.timestampPrecision) && !(message.timestampPrecision && $util.isInteger(message.timestampPrecision.low) && $util.isInteger(message.timestampPrecision.high)))
+                                        return "timestampPrecision: integer|Long expected";
                                 return null;
                             };
     
@@ -11102,6 +11120,15 @@
                                         throw TypeError(".google.cloud.bigquery.storage.v1.TableFieldSchema.rangeElementType: object expected");
                                     message.rangeElementType = $root.google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.fromObject(object.rangeElementType);
                                 }
+                                if (object.timestampPrecision != null)
+                                    if ($util.Long)
+                                        (message.timestampPrecision = $util.Long.fromValue(object.timestampPrecision)).unsigned = false;
+                                    else if (typeof object.timestampPrecision === "string")
+                                        message.timestampPrecision = parseInt(object.timestampPrecision, 10);
+                                    else if (typeof object.timestampPrecision === "number")
+                                        message.timestampPrecision = object.timestampPrecision;
+                                    else if (typeof object.timestampPrecision === "object")
+                                        message.timestampPrecision = new $util.LongBits(object.timestampPrecision.low >>> 0, object.timestampPrecision.high >>> 0).toNumber();
                                 return message;
                             };
     
@@ -11142,6 +11169,11 @@
                                         object.scale = options.longs === String ? "0" : 0;
                                     object.defaultValueExpression = "";
                                     object.rangeElementType = null;
+                                    if ($util.Long) {
+                                        var long = new $util.Long(0, 0, false);
+                                        object.timestampPrecision = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                                    } else
+                                        object.timestampPrecision = options.longs === String ? "0" : 0;
                                 }
                                 if (message.name != null && message.hasOwnProperty("name"))
                                     object.name = message.name;
@@ -11175,6 +11207,11 @@
                                     object.defaultValueExpression = message.defaultValueExpression;
                                 if (message.rangeElementType != null && message.hasOwnProperty("rangeElementType"))
                                     object.rangeElementType = $root.google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.toObject(message.rangeElementType, options);
+                                if (message.timestampPrecision != null && message.hasOwnProperty("timestampPrecision"))
+                                    if (typeof message.timestampPrecision === "number")
+                                        object.timestampPrecision = options.longs === String ? String(message.timestampPrecision) : message.timestampPrecision;
+                                    else
+                                        object.timestampPrecision = options.longs === String ? $util.Long.prototype.toString.call(message.timestampPrecision) : options.longs === Number ? new $util.LongBits(message.timestampPrecision.low >>> 0, message.timestampPrecision.high >>> 0).toNumber() : message.timestampPrecision;
                                 return object;
                             };
     

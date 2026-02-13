@@ -1,4 +1,4 @@
-// Copyright 2025 Google LLC
+// Copyright 2026 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -4365,6 +4365,9 @@ export namespace google {
 
                         /** TableFieldSchema rangeElementType */
                         rangeElementType?: (google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType|null);
+
+                        /** TableFieldSchema timestampPrecision */
+                        timestampPrecision?: (number|Long|string|null);
                     }
 
                     /** Represents a TableFieldSchema. */
@@ -4405,6 +4408,9 @@ export namespace google {
 
                         /** TableFieldSchema rangeElementType. */
                         public rangeElementType?: (google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType|null);
+
+                        /** TableFieldSchema timestampPrecision. */
+                        public timestampPrecision: (number|Long|string);
 
                         /**
                          * Creates a new TableFieldSchema instance using the specified properties.

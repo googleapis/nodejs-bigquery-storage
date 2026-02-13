@@ -345,7 +345,13 @@ function convertTableFieldSchemaToFieldDescriptorProto(
       label: label,
     });
   } else {
-    const pType = bqTypeToFieldTypeMap[type];
+    let pType = bqTypeToFieldTypeMap[type];
+    if (
+      type === TableFieldSchema.Type.TIMESTAMP &&
+      Number(field.timestampPrecision) === 12
+    ) {
+      pType = FieldDescriptorProto.Type.TYPE_STRING;
+    }
     if (pType === null) {
       throw Error(`table field type ${type} not supported`);
     }

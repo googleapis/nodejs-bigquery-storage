@@ -186,4 +186,8 @@ message TableFieldSchema {
   // * TIMESTAMP
   FieldElementType range_element_type = 11
       [(google.api.field_behavior) = OPTIONAL];
+
+  // Optional. The precision of the TIMESTAMP field. A value of 6 denotes
+  // microsecond precision, while 12 denotes picosecond precision.
+  int64 timestamp_precision = 12 [(google.api.field_behavior) = OPTIONAL];
 }
