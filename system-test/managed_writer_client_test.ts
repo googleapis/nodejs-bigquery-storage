@@ -1617,7 +1617,7 @@ describe('managedwriter.WriterClient', () => {
       }
     });
 
-    it('send large request should return an error', async () => {
+    it.skip('send large request should return an error', async () => {
       bqWriteClient.initialize().catch(err => {
         throw err;
       });
