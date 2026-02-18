@@ -1618,12 +1618,9 @@ describe('managedwriter.WriterClient', () => {
     });
 
     it.skip('send large request should return an error', async () => {
-      // TODO:
-      // The service does not seem to be propogating errors up to the test
-      // runner when large requests are made. We should find out why the
-      // test runner is suppressing these errors. It could be due to a
-      // dependency update or something.
+      // Service limits changes are in flux, so this we disabled this test as is prone to flakes
       //
+      // TODO: This will be tracked in bug https://b.corp.google.com/issues/485577546
       bqWriteClient.initialize().catch(err => {
         throw err;
       });
