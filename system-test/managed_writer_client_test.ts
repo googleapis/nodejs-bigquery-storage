@@ -1617,7 +1617,10 @@ describe('managedwriter.WriterClient', () => {
       }
     });
 
-    it('send large request should return an error', async () => {
+    it.skip('send large request should return an error', async () => {
+      // Service limits changes are in flux, so this we disabled this test as is prone to flakes
+      //
+      // TODO: This will be tracked in bug https://b.corp.google.com/issues/485577546
       bqWriteClient.initialize().catch(err => {
         throw err;
       });
