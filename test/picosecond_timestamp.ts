@@ -19,7 +19,8 @@ import * as adapt from '../src/adapt';
 import {protos} from '../src';
 import {JSONEncoder} from '../src/managedwriter/encoder';
 
-const TableFieldSchema = protos.google.cloud.bigquery.storage.v1.TableFieldSchema;
+const TableFieldSchema =
+  protos.google.cloud.bigquery.storage.v1.TableFieldSchema;
 const {Type} = protobuf;
 
 describe('Picosecond Timestamp Support', () => {
@@ -43,10 +44,20 @@ describe('Picosecond Timestamp Support', () => {
           },
         ],
       };
-      const storageSchema = adapt.convertBigQuerySchemaToStorageTableSchema(schema);
-      assert.strictEqual(Number(storageSchema.fields![0].timestampPrecision), 12);
-      assert.strictEqual(Number(storageSchema.fields![1].timestampPrecision), 6);
-      assert.strictEqual(storageSchema.fields![2].timestampPrecision, undefined);
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      assert.strictEqual(
+        Number(storageSchema.fields![0].timestampPrecision),
+        12
+      );
+      assert.strictEqual(
+        Number(storageSchema.fields![1].timestampPrecision),
+        6
+      );
+      assert.strictEqual(
+        storageSchema.fields![2].timestampPrecision,
+        undefined
+      );
     });
   });
 
@@ -71,9 +82,15 @@ describe('Picosecond Timestamp Support', () => {
         'TestPico'
       );
       assert.strictEqual(protoDescriptor.field![0].name, 'ts_pico');
-      assert.strictEqual(protoDescriptor.field![0].type, protos.google.protobuf.FieldDescriptorProto.Type.TYPE_STRING);
+      assert.strictEqual(
+        protoDescriptor.field![0].type,
+        protos.google.protobuf.FieldDescriptorProto.Type.TYPE_STRING
+      );
       assert.strictEqual(protoDescriptor.field![1].name, 'ts_micro');
-      assert.strictEqual(protoDescriptor.field![1].type, protos.google.protobuf.FieldDescriptorProto.Type.TYPE_INT64);
+      assert.strictEqual(
+        protoDescriptor.field![1].type,
+        protos.google.protobuf.FieldDescriptorProto.Type.TYPE_INT64
+      );
     });
   });
 
