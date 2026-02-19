@@ -67,7 +67,7 @@
             "regionTag": "bigquerystorage_v1_generated_BigQueryRead_ReadRows_async",
             "title": "BigQueryRead readRows Sample",
             "origin": "API_DEFINITION",
-            "description": " Reads rows from the stream in the format prescribed by the ReadSession. Each response contains one or more table rows, up to a maximum of 100 MiB per response; read requests which attempt to read individual rows larger than 100 MiB will fail. Each request also returns a set of stream statistics reflecting the current state of the stream.",
+            "description": " Reads rows from the stream in the format prescribed by the ReadSession. Each response contains one or more table rows, up to a maximum of 128 MB per response; read requests which attempt to read individual rows larger than 128 MB will fail. Each request also returns a set of stream statistics reflecting the current state of the stream.",
             "canonical": true,
             "file": "big_query_read.read_rows.js",
             "language": "JAVASCRIPT",
@@ -206,7 +206,7 @@
             "segments": [
                 {
                     "start": 25,
-                    "end": 125,
+                    "end": 124,
                     "type": "FULL"
                 }
             ],
