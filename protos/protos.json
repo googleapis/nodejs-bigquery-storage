@@ -1223,6 +1223,1513 @@
                           }
                         }
                       }
+                    },
+                    "v1alpha": {
+                      "options": {
+                        "csharp_namespace": "Google.Cloud.BigQuery.Storage.V1Alpha",
+                        "go_package": "cloud.google.com/go/bigquery/storage/apiv1alpha/storagepb;storagepb",
+                        "java_multiple_files": true,
+                        "java_outer_classname": "MetastorePartitionProto",
+                        "java_package": "com.google.cloud.bigquery.storage.v1alpha",
+                        "php_namespace": "Google\\Cloud\\BigQuery\\Storage\\V1alpha",
+                        "(google.api.resource_definition).type": "bigquery.googleapis.com/Table",
+                        "(google.api.resource_definition).pattern": "projects/{project}/datasets/{dataset}/tables/{table}"
+                      },
+                      "nested": {
+                        "MetastorePartitionService": {
+                          "options": {
+                            "(google.api.default_host)": "bigquerystorage.googleapis.com",
+                            "(google.api.oauth_scopes)": "https://www.googleapis.com/auth/bigquery,https://www.googleapis.com/auth/cloud-platform"
+                          },
+                          "methods": {
+                            "BatchCreateMetastorePartitions": {
+                              "requestType": "BatchCreateMetastorePartitionsRequest",
+                              "responseType": "BatchCreateMetastorePartitionsResponse",
+                              "options": {
+                                "(google.api.http).post": "/v1alpha/{parent=projects/*/datasets/*/tables/*}/partitions:batchCreate",
+                                "(google.api.http).body": "*"
+                              },
+                              "parsedOptions": [
+                                {
+                                  "(google.api.http)": {
+                                    "post": "/v1alpha/{parent=projects/*/datasets/*/tables/*}/partitions:batchCreate",
+                                    "body": "*"
+                                  }
+                                }
+                              ]
+                            },
+                            "BatchDeleteMetastorePartitions": {
+                              "requestType": "BatchDeleteMetastorePartitionsRequest",
+                              "responseType": "google.protobuf.Empty",
+                              "options": {
+                                "(google.api.http).post": "/v1alpha/{parent=projects/*/datasets/*/tables/*}/partitions:batchDelete",
+                                "(google.api.http).body": "*"
+                              },
+                              "parsedOptions": [
+                                {
+                                  "(google.api.http)": {
+                                    "post": "/v1alpha/{parent=projects/*/datasets/*/tables/*}/partitions:batchDelete",
+                                    "body": "*"
+                                  }
+                                }
+                              ]
+                            },
+                            "BatchUpdateMetastorePartitions": {
+                              "requestType": "BatchUpdateMetastorePartitionsRequest",
+                              "responseType": "BatchUpdateMetastorePartitionsResponse",
+                              "options": {
+                                "(google.api.http).post": "/v1alpha/{parent=projects/*/datasets/*/tables/*}/partitions:batchUpdate",
+                                "(google.api.http).body": "*"
+                              },
+                              "parsedOptions": [
+                                {
+                                  "(google.api.http)": {
+                                    "post": "/v1alpha/{parent=projects/*/datasets/*/tables/*}/partitions:batchUpdate",
+                                    "body": "*"
+                                  }
+                                }
+                              ]
+                            },
+                            "ListMetastorePartitions": {
+                              "requestType": "ListMetastorePartitionsRequest",
+                              "responseType": "ListMetastorePartitionsResponse",
+                              "options": {
+                                "(google.api.http).get": "/v1alpha/{parent=projects/*/locations/*/datasets/*/tables/*}/partitions:list",
+                                "(google.api.method_signature)": "parent"
+                              },
+                              "parsedOptions": [
+                                {
+                                  "(google.api.http)": {
+                                    "get": "/v1alpha/{parent=projects/*/locations/*/datasets/*/tables/*}/partitions:list"
+                                  }
+                                },
+                                {
+                                  "(google.api.method_signature)": "parent"
+                                }
+                              ]
+                            },
+                            "StreamMetastorePartitions": {
+                              "requestType": "StreamMetastorePartitionsRequest",
+                              "requestStream": true,
+                              "responseType": "StreamMetastorePartitionsResponse",
+                              "responseStream": true
+                            }
+                          }
+                        },
+                        "CreateMetastorePartitionRequest": {
+                          "fields": {
+                            "parent": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED",
+                                "(google.api.resource_reference).type": "bigquery.googleapis.com/Table"
+                              }
+                            },
+                            "metastorePartition": {
+                              "type": "MetastorePartition",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            }
+                          }
+                        },
+                        "BatchCreateMetastorePartitionsRequest": {
+                          "fields": {
+                            "parent": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED",
+                                "(google.api.resource_reference).type": "bigquery.googleapis.com/Table"
+                              }
+                            },
+                            "requests": {
+                              "rule": "repeated",
+                              "type": "CreateMetastorePartitionRequest",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "skipExistingPartitions": {
+                              "type": "bool",
+                              "id": 3,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "traceId": {
+                              "type": "string",
+                              "id": 4,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "BatchCreateMetastorePartitionsResponse": {
+                          "fields": {
+                            "partitions": {
+                              "rule": "repeated",
+                              "type": "MetastorePartition",
+                              "id": 1
+                            }
+                          }
+                        },
+                        "BatchDeleteMetastorePartitionsRequest": {
+                          "fields": {
+                            "parent": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED",
+                                "(google.api.resource_reference).type": "bigquery.googleapis.com/Table"
+                              }
+                            },
+                            "partitionValues": {
+                              "rule": "repeated",
+                              "type": "MetastorePartitionValues",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "traceId": {
+                              "type": "string",
+                              "id": 4,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "UpdateMetastorePartitionRequest": {
+                          "fields": {
+                            "metastorePartition": {
+                              "type": "MetastorePartition",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "updateMask": {
+                              "type": "google.protobuf.FieldMask",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "BatchUpdateMetastorePartitionsRequest": {
+                          "fields": {
+                            "parent": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED",
+                                "(google.api.resource_reference).type": "bigquery.googleapis.com/Table"
+                              }
+                            },
+                            "requests": {
+                              "rule": "repeated",
+                              "type": "UpdateMetastorePartitionRequest",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "traceId": {
+                              "type": "string",
+                              "id": 4,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "BatchUpdateMetastorePartitionsResponse": {
+                          "fields": {
+                            "partitions": {
+                              "rule": "repeated",
+                              "type": "MetastorePartition",
+                              "id": 1
+                            }
+                          }
+                        },
+                        "ListMetastorePartitionsRequest": {
+                          "fields": {
+                            "parent": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED",
+                                "(google.api.resource_reference).type": "bigquery.googleapis.com/Table"
+                              }
+                            },
+                            "filter": {
+                              "type": "string",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "traceId": {
+                              "type": "string",
+                              "id": 3,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "ListMetastorePartitionsResponse": {
+                          "oneofs": {
+                            "response": {
+                              "oneof": [
+                                "partitions",
+                                "streams"
+                              ]
+                            }
+                          },
+                          "fields": {
+                            "partitions": {
+                              "type": "MetastorePartitionList",
+                              "id": 1
+                            },
+                            "streams": {
+                              "type": "StreamList",
+                              "id": 2
+                            }
+                          }
+                        },
+                        "StreamMetastorePartitionsRequest": {
+                          "fields": {
+                            "parent": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED",
+                                "(google.api.resource_reference).type": "bigquery.googleapis.com/Table"
+                              }
+                            },
+                            "metastorePartitions": {
+                              "rule": "repeated",
+                              "type": "MetastorePartition",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "skipExistingPartitions": {
+                              "type": "bool",
+                              "id": 3,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "StreamMetastorePartitionsResponse": {
+                          "fields": {
+                            "totalPartitionsStreamedCount": {
+                              "type": "int64",
+                              "id": 2
+                            },
+                            "totalPartitionsInsertedCount": {
+                              "type": "int64",
+                              "id": 3
+                            }
+                          }
+                        },
+                        "BatchSizeTooLargeError": {
+                          "fields": {
+                            "maxBatchSize": {
+                              "type": "int64",
+                              "id": 1
+                            },
+                            "errorMessage": {
+                              "type": "string",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "FieldSchema": {
+                          "fields": {
+                            "name": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "type": {
+                              "type": "string",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            }
+                          }
+                        },
+                        "StorageDescriptor": {
+                          "fields": {
+                            "locationUri": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "inputFormat": {
+                              "type": "string",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "outputFormat": {
+                              "type": "string",
+                              "id": 3,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "serdeInfo": {
+                              "type": "SerDeInfo",
+                              "id": 4,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "SerDeInfo": {
+                          "fields": {
+                            "name": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "serializationLibrary": {
+                              "type": "string",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "parameters": {
+                              "keyType": "string",
+                              "type": "string",
+                              "id": 3,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "MetastorePartition": {
+                          "fields": {
+                            "values": {
+                              "rule": "repeated",
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "createTime": {
+                              "type": "google.protobuf.Timestamp",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "OUTPUT_ONLY"
+                              }
+                            },
+                            "storageDescriptor": {
+                              "type": "StorageDescriptor",
+                              "id": 3,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "parameters": {
+                              "keyType": "string",
+                              "type": "string",
+                              "id": 4,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "fields": {
+                              "rule": "repeated",
+                              "type": "FieldSchema",
+                              "id": 5,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "MetastorePartitionList": {
+                          "fields": {
+                            "partitions": {
+                              "rule": "repeated",
+                              "type": "MetastorePartition",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            }
+                          }
+                        },
+                        "ReadStream": {
+                          "options": {
+                            "(google.api.resource).type": "bigquerystorage.googleapis.com/ReadStream",
+                            "(google.api.resource).pattern": "projects/{project}/locations/{location}/sessions/{session}/streams/{stream}",
+                            "(google.api.resource).plural": "readStreams",
+                            "(google.api.resource).singular": "readStream"
+                          },
+                          "fields": {
+                            "name": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "IDENTIFIER"
+                              }
+                            }
+                          }
+                        },
+                        "StreamList": {
+                          "fields": {
+                            "streams": {
+                              "rule": "repeated",
+                              "type": "ReadStream",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "OUTPUT_ONLY"
+                              }
+                            }
+                          }
+                        },
+                        "MetastorePartitionValues": {
+                          "fields": {
+                            "values": {
+                              "rule": "repeated",
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "v1beta": {
+                      "options": {
+                        "csharp_namespace": "Google.Cloud.BigQuery.Storage.V1Beta",
+                        "go_package": "cloud.google.com/go/bigquery/storage/apiv1beta/storagepb;storagepb",
+                        "java_multiple_files": true,
+                        "java_outer_classname": "MetastorePartitionProto",
+                        "java_package": "com.google.cloud.bigquery.storage.v1beta",
+                        "php_namespace": "Google\\Cloud\\BigQuery\\Storage\\V1beta",
+                        "(google.api.resource_definition).type": "bigquery.googleapis.com/Table",
+                        "(google.api.resource_definition).pattern": "projects/{project}/datasets/{dataset}/tables/{table}"
+                      },
+                      "nested": {
+                        "MetastorePartitionService": {
+                          "options": {
+                            "(google.api.default_host)": "bigquerystorage.googleapis.com",
+                            "(google.api.oauth_scopes)": "https://www.googleapis.com/auth/bigquery,https://www.googleapis.com/auth/cloud-platform"
+                          },
+                          "methods": {
+                            "BatchCreateMetastorePartitions": {
+                              "requestType": "BatchCreateMetastorePartitionsRequest",
+                              "responseType": "BatchCreateMetastorePartitionsResponse",
+                              "options": {
+                                "(google.api.http).post": "/v1beta/{parent=projects/*/datasets/*/tables/*}/partitions:batchCreate",
+                                "(google.api.http).body": "*"
+                              },
+                              "parsedOptions": [
+                                {
+                                  "(google.api.http)": {
+                                    "post": "/v1beta/{parent=projects/*/datasets/*/tables/*}/partitions:batchCreate",
+                                    "body": "*"
+                                  }
+                                }
+                              ]
+                            },
+                            "BatchDeleteMetastorePartitions": {
+                              "requestType": "BatchDeleteMetastorePartitionsRequest",
+                              "responseType": "google.protobuf.Empty",
+                              "options": {
+                                "(google.api.http).post": "/v1beta/{parent=projects/*/datasets/*/tables/*}/partitions:batchDelete",
+                                "(google.api.http).body": "*"
+                              },
+                              "parsedOptions": [
+                                {
+                                  "(google.api.http)": {
+                                    "post": "/v1beta/{parent=projects/*/datasets/*/tables/*}/partitions:batchDelete",
+                                    "body": "*"
+                                  }
+                                }
+                              ]
+                            },
+                            "BatchUpdateMetastorePartitions": {
+                              "requestType": "BatchUpdateMetastorePartitionsRequest",
+                              "responseType": "BatchUpdateMetastorePartitionsResponse",
+                              "options": {
+                                "(google.api.http).post": "/v1beta/{parent=projects/*/datasets/*/tables/*}/partitions:batchUpdate",
+                                "(google.api.http).body": "*"
+                              },
+                              "parsedOptions": [
+                                {
+                                  "(google.api.http)": {
+                                    "post": "/v1beta/{parent=projects/*/datasets/*/tables/*}/partitions:batchUpdate",
+                                    "body": "*"
+                                  }
+                                }
+                              ]
+                            },
+                            "ListMetastorePartitions": {
+                              "requestType": "ListMetastorePartitionsRequest",
+                              "responseType": "ListMetastorePartitionsResponse",
+                              "options": {
+                                "(google.api.http).get": "/v1beta/{parent=projects/*/locations/*/datasets/*/tables/*}/partitions:list",
+                                "(google.api.method_signature)": "parent"
+                              },
+                              "parsedOptions": [
+                                {
+                                  "(google.api.http)": {
+                                    "get": "/v1beta/{parent=projects/*/locations/*/datasets/*/tables/*}/partitions:list"
+                                  }
+                                },
+                                {
+                                  "(google.api.method_signature)": "parent"
+                                }
+                              ]
+                            },
+                            "StreamMetastorePartitions": {
+                              "requestType": "StreamMetastorePartitionsRequest",
+                              "requestStream": true,
+                              "responseType": "StreamMetastorePartitionsResponse",
+                              "responseStream": true
+                            }
+                          }
+                        },
+                        "CreateMetastorePartitionRequest": {
+                          "fields": {
+                            "parent": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED",
+                                "(google.api.resource_reference).type": "bigquery.googleapis.com/Table"
+                              }
+                            },
+                            "metastorePartition": {
+                              "type": "MetastorePartition",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            }
+                          }
+                        },
+                        "BatchCreateMetastorePartitionsRequest": {
+                          "fields": {
+                            "parent": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED",
+                                "(google.api.resource_reference).type": "bigquery.googleapis.com/Table"
+                              }
+                            },
+                            "requests": {
+                              "rule": "repeated",
+                              "type": "CreateMetastorePartitionRequest",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "skipExistingPartitions": {
+                              "type": "bool",
+                              "id": 3,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "traceId": {
+                              "type": "string",
+                              "id": 4,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "BatchCreateMetastorePartitionsResponse": {
+                          "fields": {
+                            "partitions": {
+                              "rule": "repeated",
+                              "type": "MetastorePartition",
+                              "id": 1
+                            }
+                          }
+                        },
+                        "BatchDeleteMetastorePartitionsRequest": {
+                          "fields": {
+                            "parent": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED",
+                                "(google.api.resource_reference).type": "bigquery.googleapis.com/Table"
+                              }
+                            },
+                            "partitionValues": {
+                              "rule": "repeated",
+                              "type": "MetastorePartitionValues",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "traceId": {
+                              "type": "string",
+                              "id": 4,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "UpdateMetastorePartitionRequest": {
+                          "fields": {
+                            "metastorePartition": {
+                              "type": "MetastorePartition",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "updateMask": {
+                              "type": "google.protobuf.FieldMask",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "BatchUpdateMetastorePartitionsRequest": {
+                          "fields": {
+                            "parent": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED",
+                                "(google.api.resource_reference).type": "bigquery.googleapis.com/Table"
+                              }
+                            },
+                            "requests": {
+                              "rule": "repeated",
+                              "type": "UpdateMetastorePartitionRequest",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "traceId": {
+                              "type": "string",
+                              "id": 4,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "BatchUpdateMetastorePartitionsResponse": {
+                          "fields": {
+                            "partitions": {
+                              "rule": "repeated",
+                              "type": "MetastorePartition",
+                              "id": 1
+                            }
+                          }
+                        },
+                        "ListMetastorePartitionsRequest": {
+                          "fields": {
+                            "parent": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED",
+                                "(google.api.resource_reference).type": "bigquery.googleapis.com/Table"
+                              }
+                            },
+                            "filter": {
+                              "type": "string",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "traceId": {
+                              "type": "string",
+                              "id": 3,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "ListMetastorePartitionsResponse": {
+                          "oneofs": {
+                            "response": {
+                              "oneof": [
+                                "partitions",
+                                "streams"
+                              ]
+                            }
+                          },
+                          "fields": {
+                            "partitions": {
+                              "type": "MetastorePartitionList",
+                              "id": 1
+                            },
+                            "streams": {
+                              "type": "StreamList",
+                              "id": 2
+                            }
+                          }
+                        },
+                        "StreamMetastorePartitionsRequest": {
+                          "fields": {
+                            "parent": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED",
+                                "(google.api.resource_reference).type": "bigquery.googleapis.com/Table"
+                              }
+                            },
+                            "metastorePartitions": {
+                              "rule": "repeated",
+                              "type": "MetastorePartition",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "skipExistingPartitions": {
+                              "type": "bool",
+                              "id": 3,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "StreamMetastorePartitionsResponse": {
+                          "fields": {
+                            "totalPartitionsStreamedCount": {
+                              "type": "int64",
+                              "id": 2
+                            },
+                            "totalPartitionsInsertedCount": {
+                              "type": "int64",
+                              "id": 3
+                            }
+                          }
+                        },
+                        "BatchSizeTooLargeError": {
+                          "fields": {
+                            "maxBatchSize": {
+                              "type": "int64",
+                              "id": 1
+                            },
+                            "errorMessage": {
+                              "type": "string",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "FieldSchema": {
+                          "fields": {
+                            "name": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "type": {
+                              "type": "string",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            }
+                          }
+                        },
+                        "StorageDescriptor": {
+                          "fields": {
+                            "locationUri": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "inputFormat": {
+                              "type": "string",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "outputFormat": {
+                              "type": "string",
+                              "id": 3,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "serdeInfo": {
+                              "type": "SerDeInfo",
+                              "id": 4,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "SerDeInfo": {
+                          "fields": {
+                            "name": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "serializationLibrary": {
+                              "type": "string",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "parameters": {
+                              "keyType": "string",
+                              "type": "string",
+                              "id": 3,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "MetastorePartition": {
+                          "fields": {
+                            "values": {
+                              "rule": "repeated",
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "createTime": {
+                              "type": "google.protobuf.Timestamp",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "OUTPUT_ONLY"
+                              }
+                            },
+                            "storageDescriptor": {
+                              "type": "StorageDescriptor",
+                              "id": 3,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "parameters": {
+                              "keyType": "string",
+                              "type": "string",
+                              "id": 4,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "fields": {
+                              "rule": "repeated",
+                              "type": "FieldSchema",
+                              "id": 5,
+                              "options": {
+                                "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            }
+                          }
+                        },
+                        "MetastorePartitionList": {
+                          "fields": {
+                            "partitions": {
+                              "rule": "repeated",
+                              "type": "MetastorePartition",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            }
+                          }
+                        },
+                        "ReadStream": {
+                          "options": {
+                            "(google.api.resource).type": "bigquerystorage.googleapis.com/ReadStream",
+                            "(google.api.resource).pattern": "projects/{project}/locations/{location}/sessions/{session}/streams/{stream}",
+                            "(google.api.resource).plural": "readStreams",
+                            "(google.api.resource).singular": "readStream"
+                          },
+                          "fields": {
+                            "name": {
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "IDENTIFIER"
+                              }
+                            }
+                          }
+                        },
+                        "StreamList": {
+                          "fields": {
+                            "streams": {
+                              "rule": "repeated",
+                              "type": "ReadStream",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "OUTPUT_ONLY"
+                              }
+                            }
+                          }
+                        },
+                        "MetastorePartitionValues": {
+                          "fields": {
+                            "values": {
+                              "rule": "repeated",
+                              "type": "string",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "v1beta1": {
+                      "options": {
+                        "go_package": "cloud.google.com/go/bigquery/storage/apiv1beta1/storagepb;storagepb",
+                        "java_outer_classname": "TableReferenceProto",
+                        "java_package": "com.google.cloud.bigquery.storage.v1beta1"
+                      },
+                      "nested": {
+                        "ArrowSchema": {
+                          "fields": {
+                            "serializedSchema": {
+                              "type": "bytes",
+                              "id": 1
+                            }
+                          }
+                        },
+                        "ArrowRecordBatch": {
+                          "fields": {
+                            "serializedRecordBatch": {
+                              "type": "bytes",
+                              "id": 1
+                            },
+                            "rowCount": {
+                              "type": "int64",
+                              "id": 2
+                            }
+                          }
+                        },
+                        "AvroSchema": {
+                          "fields": {
+                            "schema": {
+                              "type": "string",
+                              "id": 1
+                            }
+                          }
+                        },
+                        "AvroRows": {
+                          "fields": {
+                            "serializedBinaryRows": {
+                              "type": "bytes",
+                              "id": 1
+                            },
+                            "rowCount": {
+                              "type": "int64",
+                              "id": 2
+                            }
+                          }
+                        },
+                        "TableReadOptions": {
+                          "fields": {
+                            "selectedFields": {
+                              "rule": "repeated",
+                              "type": "string",
+                              "id": 1
+                            },
+                            "rowRestriction": {
+                              "type": "string",
+                              "id": 2
+                            }
+                          }
+                        },
+                        "BigQueryStorage": {
+                          "options": {
+                            "(google.api.default_host)": "bigquerystorage.googleapis.com",
+                            "(google.api.oauth_scopes)": "https://www.googleapis.com/auth/bigquery,https://www.googleapis.com/auth/cloud-platform"
+                          },
+                          "methods": {
+                            "CreateReadSession": {
+                              "requestType": "CreateReadSessionRequest",
+                              "responseType": "ReadSession",
+                              "options": {
+                                "(google.api.http).post": "/v1beta1/{table_reference.project_id=projects/*}",
+                                "(google.api.http).body": "*",
+                                "(google.api.http).additional_bindings.post": "/v1beta1/{table_reference.dataset_id=projects/*/datasets/*}",
+                                "(google.api.http).additional_bindings.body": "*",
+                                "(google.api.method_signature)": "table_reference,parent,requested_streams"
+                              },
+                              "parsedOptions": [
+                                {
+                                  "(google.api.http)": {
+                                    "post": "/v1beta1/{table_reference.project_id=projects/*}",
+                                    "body": "*",
+                                    "additional_bindings": {
+                                      "post": "/v1beta1/{table_reference.dataset_id=projects/*/datasets/*}",
+                                      "body": "*"
+                                    }
+                                  }
+                                },
+                                {
+                                  "(google.api.method_signature)": "table_reference,parent,requested_streams"
+                                }
+                              ]
+                            },
+                            "ReadRows": {
+                              "requestType": "ReadRowsRequest",
+                              "responseType": "ReadRowsResponse",
+                              "responseStream": true,
+                              "options": {
+                                "(google.api.http).get": "/v1beta1/{read_position.stream.name=projects/*/streams/*}",
+                                "(google.api.method_signature)": "read_position"
+                              },
+                              "parsedOptions": [
+                                {
+                                  "(google.api.http)": {
+                                    "get": "/v1beta1/{read_position.stream.name=projects/*/streams/*}"
+                                  }
+                                },
+                                {
+                                  "(google.api.method_signature)": "read_position"
+                                }
+                              ]
+                            },
+                            "BatchCreateReadSessionStreams": {
+                              "requestType": "BatchCreateReadSessionStreamsRequest",
+                              "responseType": "BatchCreateReadSessionStreamsResponse",
+                              "options": {
+                                "(google.api.http).post": "/v1beta1/{session.name=projects/*/sessions/*}",
+                                "(google.api.http).body": "*",
+                                "(google.api.method_signature)": "session,requested_streams"
+                              },
+                              "parsedOptions": [
+                                {
+                                  "(google.api.http)": {
+                                    "post": "/v1beta1/{session.name=projects/*/sessions/*}",
+                                    "body": "*"
+                                  }
+                                },
+                                {
+                                  "(google.api.method_signature)": "session,requested_streams"
+                                }
+                              ]
+                            },
+                            "FinalizeStream": {
+                              "requestType": "FinalizeStreamRequest",
+                              "responseType": "google.protobuf.Empty",
+                              "options": {
+                                "(google.api.http).post": "/v1beta1/{stream.name=projects/*/streams/*}",
+                                "(google.api.http).body": "*",
+                                "(google.api.method_signature)": "stream"
+                              },
+                              "parsedOptions": [
+                                {
+                                  "(google.api.http)": {
+                                    "post": "/v1beta1/{stream.name=projects/*/streams/*}",
+                                    "body": "*"
+                                  }
+                                },
+                                {
+                                  "(google.api.method_signature)": "stream"
+                                }
+                              ]
+                            },
+                            "SplitReadStream": {
+                              "requestType": "SplitReadStreamRequest",
+                              "responseType": "SplitReadStreamResponse",
+                              "options": {
+                                "(google.api.http).get": "/v1beta1/{original_stream.name=projects/*/streams/*}",
+                                "(google.api.method_signature)": "original_stream"
+                              },
+                              "parsedOptions": [
+                                {
+                                  "(google.api.http)": {
+                                    "get": "/v1beta1/{original_stream.name=projects/*/streams/*}"
+                                  }
+                                },
+                                {
+                                  "(google.api.method_signature)": "original_stream"
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "Stream": {
+                          "options": {
+                            "(google.api.resource).type": "bigquerystorage.googleapis.com/Stream",
+                            "(google.api.resource).pattern": "projects/{project}/locations/{location}/streams/{stream}"
+                          },
+                          "fields": {
+                            "name": {
+                              "type": "string",
+                              "id": 1
+                            }
+                          }
+                        },
+                        "StreamPosition": {
+                          "fields": {
+                            "stream": {
+                              "type": "Stream",
+                              "id": 1
+                            },
+                            "offset": {
+                              "type": "int64",
+                              "id": 2
+                            }
+                          }
+                        },
+                        "ReadSession": {
+                          "options": {
+                            "(google.api.resource).type": "bigquerystorage.googleapis.com/ReadSession",
+                            "(google.api.resource).pattern": "projects/{project}/locations/{location}/sessions/{session}"
+                          },
+                          "oneofs": {
+                            "schema": {
+                              "oneof": [
+                                "avroSchema",
+                                "arrowSchema"
+                              ]
+                            }
+                          },
+                          "fields": {
+                            "name": {
+                              "type": "string",
+                              "id": 1
+                            },
+                            "expireTime": {
+                              "type": "google.protobuf.Timestamp",
+                              "id": 2
+                            },
+                            "avroSchema": {
+                              "type": "AvroSchema",
+                              "id": 5
+                            },
+                            "arrowSchema": {
+                              "type": "ArrowSchema",
+                              "id": 6
+                            },
+                            "streams": {
+                              "rule": "repeated",
+                              "type": "Stream",
+                              "id": 4
+                            },
+                            "tableReference": {
+                              "type": "TableReference",
+                              "id": 7
+                            },
+                            "tableModifiers": {
+                              "type": "TableModifiers",
+                              "id": 8
+                            },
+                            "shardingStrategy": {
+                              "type": "ShardingStrategy",
+                              "id": 9
+                            }
+                          }
+                        },
+                        "DataFormat": {
+                          "values": {
+                            "DATA_FORMAT_UNSPECIFIED": 0,
+                            "AVRO": 1,
+                            "ARROW": 3
+                          }
+                        },
+                        "ShardingStrategy": {
+                          "values": {
+                            "SHARDING_STRATEGY_UNSPECIFIED": 0,
+                            "LIQUID": 1,
+                            "BALANCED": 2
+                          }
+                        },
+                        "CreateReadSessionRequest": {
+                          "fields": {
+                            "tableReference": {
+                              "type": "TableReference",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "parent": {
+                              "type": "string",
+                              "id": 6,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED",
+                                "(google.api.resource_reference).type": "cloudresourcemanager.googleapis.com/Project"
+                              }
+                            },
+                            "tableModifiers": {
+                              "type": "TableModifiers",
+                              "id": 2
+                            },
+                            "requestedStreams": {
+                              "type": "int32",
+                              "id": 3
+                            },
+                            "readOptions": {
+                              "type": "TableReadOptions",
+                              "id": 4
+                            },
+                            "format": {
+                              "type": "DataFormat",
+                              "id": 5
+                            },
+                            "shardingStrategy": {
+                              "type": "ShardingStrategy",
+                              "id": 7
+                            }
+                          }
+                        },
+                        "ReadRowsRequest": {
+                          "fields": {
+                            "readPosition": {
+                              "type": "StreamPosition",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            }
+                          }
+                        },
+                        "StreamStatus": {
+                          "fields": {
+                            "estimatedRowCount": {
+                              "type": "int64",
+                              "id": 1
+                            },
+                            "fractionConsumed": {
+                              "type": "float",
+                              "id": 2
+                            },
+                            "progress": {
+                              "type": "Progress",
+                              "id": 4
+                            },
+                            "isSplittable": {
+                              "type": "bool",
+                              "id": 3
+                            }
+                          }
+                        },
+                        "Progress": {
+                          "fields": {
+                            "atResponseStart": {
+                              "type": "float",
+                              "id": 1
+                            },
+                            "atResponseEnd": {
+                              "type": "float",
+                              "id": 2
+                            }
+                          }
+                        },
+                        "ThrottleStatus": {
+                          "fields": {
+                            "throttlePercent": {
+                              "type": "int32",
+                              "id": 1
+                            }
+                          }
+                        },
+                        "ReadRowsResponse": {
+                          "oneofs": {
+                            "rows": {
+                              "oneof": [
+                                "avroRows",
+                                "arrowRecordBatch"
+                              ]
+                            },
+                            "schema": {
+                              "oneof": [
+                                "avroSchema",
+                                "arrowSchema"
+                              ]
+                            }
+                          },
+                          "fields": {
+                            "avroRows": {
+                              "type": "AvroRows",
+                              "id": 3
+                            },
+                            "arrowRecordBatch": {
+                              "type": "ArrowRecordBatch",
+                              "id": 4
+                            },
+                            "rowCount": {
+                              "type": "int64",
+                              "id": 6
+                            },
+                            "status": {
+                              "type": "StreamStatus",
+                              "id": 2
+                            },
+                            "throttleStatus": {
+                              "type": "ThrottleStatus",
+                              "id": 5
+                            },
+                            "avroSchema": {
+                              "type": "AvroSchema",
+                              "id": 7,
+                              "options": {
+                                "(google.api.field_behavior)": "OUTPUT_ONLY"
+                              }
+                            },
+                            "arrowSchema": {
+                              "type": "ArrowSchema",
+                              "id": 8,
+                              "options": {
+                                "(google.api.field_behavior)": "OUTPUT_ONLY"
+                              }
+                            }
+                          }
+                        },
+                        "BatchCreateReadSessionStreamsRequest": {
+                          "fields": {
+                            "session": {
+                              "type": "ReadSession",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "requestedStreams": {
+                              "type": "int32",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            }
+                          }
+                        },
+                        "BatchCreateReadSessionStreamsResponse": {
+                          "fields": {
+                            "streams": {
+                              "rule": "repeated",
+                              "type": "Stream",
+                              "id": 1
+                            }
+                          }
+                        },
+                        "FinalizeStreamRequest": {
+                          "fields": {
+                            "stream": {
+                              "type": "Stream",
+                              "id": 2,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            }
+                          }
+                        },
+                        "SplitReadStreamRequest": {
+                          "fields": {
+                            "originalStream": {
+                              "type": "Stream",
+                              "id": 1,
+                              "options": {
+                                "(google.api.field_behavior)": "REQUIRED"
+                              }
+                            },
+                            "fraction": {
+                              "type": "float",
+                              "id": 2
+                            }
+                          }
+                        },
+                        "SplitReadStreamResponse": {
+                          "fields": {
+                            "primaryStream": {
+                              "type": "Stream",
+                              "id": 1
+                            },
+                            "remainderStream": {
+                              "type": "Stream",
+                              "id": 2
+                            }
+                          }
+                        },
+                        "TableReference": {
+                          "fields": {
+                            "projectId": {
+                              "type": "string",
+                              "id": 1
+                            },
+                            "datasetId": {
+                              "type": "string",
+                              "id": 2
+                            },
+                            "tableId": {
+                              "type": "string",
+                              "id": 3
+                            }
+                          }
+                        },
+                        "TableModifiers": {
+                          "fields": {
+                            "snapshotTime": {
+                              "type": "google.protobuf.Timestamp",
+                              "id": 1
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -1249,12 +2756,19 @@
                   "type": "FileDescriptorProto",
                   "id": 1
                 }
-              }
+              },
+              "extensions": [
+                [
+                  536000000,
+                  536000000
+                ]
+              ]
             },
             "Edition": {
               "edition": "proto2",
               "values": {
                 "EDITION_UNKNOWN": 0,
+                "EDITION_LEGACY": 900,
                 "EDITION_PROTO2": 998,
                 "EDITION_PROTO3": 999,
                 "EDITION_2023": 1000,
@@ -1292,6 +2806,11 @@
                   "rule": "repeated",
                   "type": "int32",
                   "id": 11
+                },
+                "optionDependency": {
+                  "rule": "repeated",
+                  "type": "string",
+                  "id": 15
                 },
                 "messageType": {
                   "rule": "repeated",
@@ -1381,6 +2900,10 @@
                   "rule": "repeated",
                   "type": "string",
                   "id": 10
+                },
+                "visibility": {
+                  "type": "SymbolVisibility",
+                  "id": 11
                 }
               },
               "nested": {
@@ -1606,6 +3129,10 @@
                   "rule": "repeated",
                   "type": "string",
                   "id": 5
+                },
+                "visibility": {
+                  "type": "SymbolVisibility",
+                  "id": 6
                 }
               },
               "nested": {
@@ -1656,7 +3183,14 @@
                   "type": "ServiceOptions",
                   "id": 3
                 }
-              }
+              },
+              "reserved": [
+                [
+                  4,
+                  4
+                ],
+                "stream"
+              ]
             },
             "MethodDescriptorProto": {
               "edition": "proto2",
@@ -1820,6 +3354,7 @@
                   42,
                   42
                 ],
+                "php_generic_services",
                 [
                   38,
                   38
@@ -1955,7 +3490,8 @@
                   "type": "bool",
                   "id": 10,
                   "options": {
-                    "default": false
+                    "default": false,
+                    "deprecated": true
                   }
                 },
                 "debugRedact": {
@@ -1982,6 +3518,10 @@
                 "features": {
                   "type": "FeatureSet",
                   "id": 21
+                },
+                "featureSupport": {
+                  "type": "FeatureSupport",
+                  "id": 22
                 },
                 "uninterpretedOption": {
                   "rule": "repeated",
@@ -2050,6 +3590,26 @@
                     "value": {
                       "type": "string",
                       "id": 2
+                    }
+                  }
+                },
+                "FeatureSupport": {
+                  "fields": {
+                    "editionIntroduced": {
+                      "type": "Edition",
+                      "id": 1
+                    },
+                    "editionDeprecated": {
+                      "type": "Edition",
+                      "id": 2
+                    },
+                    "deprecationWarning": {
+                      "type": "string",
+                      "id": 3
+                    },
+                    "editionRemoved": {
+                      "type": "Edition",
+                      "id": 4
                     }
                   }
                 }
@@ -2139,6 +3699,10 @@
                   "options": {
                     "default": false
                   }
+                },
+                "featureSupport": {
+                  "type": "FieldOptions.FeatureSupport",
+                  "id": 4
                 },
                 "uninterpretedOption": {
                   "rule": "repeated",
@@ -2282,6 +3846,7 @@
                   "options": {
                     "retention": "RETENTION_RUNTIME",
                     "targets": "TARGET_TYPE_FILE",
+                    "feature_support.edition_introduced": "EDITION_2023",
                     "edition_defaults.edition": "EDITION_2023",
                     "edition_defaults.value": "EXPLICIT"
                   }
@@ -2292,6 +3857,7 @@
                   "options": {
                     "retention": "RETENTION_RUNTIME",
                     "targets": "TARGET_TYPE_FILE",
+                    "feature_support.edition_introduced": "EDITION_2023",
                     "edition_defaults.edition": "EDITION_PROTO3",
                     "edition_defaults.value": "OPEN"
                   }
@@ -2302,6 +3868,7 @@
                   "options": {
                     "retention": "RETENTION_RUNTIME",
                     "targets": "TARGET_TYPE_FILE",
+                    "feature_support.edition_introduced": "EDITION_2023",
                     "edition_defaults.edition": "EDITION_PROTO3",
                     "edition_defaults.value": "PACKED"
                   }
@@ -2312,6 +3879,7 @@
                   "options": {
                     "retention": "RETENTION_RUNTIME",
                     "targets": "TARGET_TYPE_FILE",
+                    "feature_support.edition_introduced": "EDITION_2023",
                     "edition_defaults.edition": "EDITION_PROTO3",
                     "edition_defaults.value": "VERIFY"
                   }
@@ -2322,7 +3890,8 @@
                   "options": {
                     "retention": "RETENTION_RUNTIME",
                     "targets": "TARGET_TYPE_FILE",
-                    "edition_defaults.edition": "EDITION_PROTO2",
+                    "feature_support.edition_introduced": "EDITION_2023",
+                    "edition_defaults.edition": "EDITION_LEGACY",
                     "edition_defaults.value": "LENGTH_PREFIXED"
                   }
                 },
@@ -2332,27 +3901,38 @@
                   "options": {
                     "retention": "RETENTION_RUNTIME",
                     "targets": "TARGET_TYPE_FILE",
+                    "feature_support.edition_introduced": "EDITION_2023",
                     "edition_defaults.edition": "EDITION_PROTO3",
                     "edition_defaults.value": "ALLOW"
+                  }
+                },
+                "enforceNamingStyle": {
+                  "type": "EnforceNamingStyle",
+                  "id": 7,
+                  "options": {
+                    "retention": "RETENTION_SOURCE",
+                    "targets": "TARGET_TYPE_METHOD",
+                    "feature_support.edition_introduced": "EDITION_2024",
+                    "edition_defaults.edition": "EDITION_2024",
+                    "edition_defaults.value": "STYLE2024"
+                  }
+                },
+                "defaultSymbolVisibility": {
+                  "type": "VisibilityFeature.DefaultSymbolVisibility",
+                  "id": 8,
+                  "options": {
+                    "retention": "RETENTION_SOURCE",
+                    "targets": "TARGET_TYPE_FILE",
+                    "feature_support.edition_introduced": "EDITION_2024",
+                    "edition_defaults.edition": "EDITION_2024",
+                    "edition_defaults.value": "EXPORT_TOP_LEVEL"
                   }
                 }
               },
               "extensions": [
                 [
                   1000,
-                  1000
-                ],
-                [
-                  1001,
-                  1001
-                ],
-                [
-                  1002,
-                  1002
-                ],
-                [
-                  9990,
-                  9990
+                  9994
                 ],
                 [
                   9995,
@@ -2397,7 +3977,13 @@
                     "UTF8_VALIDATION_UNKNOWN": 0,
                     "VERIFY": 2,
                     "NONE": 3
-                  }
+                  },
+                  "reserved": [
+                    [
+                      1,
+                      1
+                    ]
+                  ]
                 },
                 "MessageEncoding": {
                   "values": {
@@ -2411,6 +3997,33 @@
                     "JSON_FORMAT_UNKNOWN": 0,
                     "ALLOW": 1,
                     "LEGACY_BEST_EFFORT": 2
+                  }
+                },
+                "EnforceNamingStyle": {
+                  "values": {
+                    "ENFORCE_NAMING_STYLE_UNKNOWN": 0,
+                    "STYLE2024": 1,
+                    "STYLE_LEGACY": 2
+                  }
+                },
+                "VisibilityFeature": {
+                  "fields": {},
+                  "reserved": [
+                    [
+                      1,
+                      536870911
+                    ]
+                  ],
+                  "nested": {
+                    "DefaultSymbolVisibility": {
+                      "values": {
+                        "DEFAULT_SYMBOL_VISIBILITY_UNKNOWN": 0,
+                        "EXPORT_ALL": 1,
+                        "EXPORT_TOP_LEVEL": 2,
+                        "LOCAL_ALL": 3,
+                        "STRICT": 4
+                      }
+                    }
                   }
                 }
               }
@@ -2439,11 +4052,26 @@
                       "type": "Edition",
                       "id": 3
                     },
-                    "features": {
+                    "overridableFeatures": {
                       "type": "FeatureSet",
-                      "id": 2
+                      "id": 4
+                    },
+                    "fixedFeatures": {
+                      "type": "FeatureSet",
+                      "id": 5
                     }
-                  }
+                  },
+                  "reserved": [
+                    [
+                      1,
+                      1
+                    ],
+                    [
+                      2,
+                      2
+                    ],
+                    "features"
+                  ]
                 }
               }
             },
@@ -2456,6 +4084,12 @@
                   "id": 1
                 }
               },
+              "extensions": [
+                [
+                  536000000,
+                  536000000
+                ]
+              ],
               "nested": {
                 "Location": {
                   "fields": {
@@ -2539,6 +4173,14 @@
                     }
                   }
                 }
+              }
+            },
+            "SymbolVisibility": {
+              "edition": "proto2",
+              "values": {
+                "VISIBILITY_UNSET": 0,
+                "VISIBILITY_LOCAL": 1,
+                "VISIBILITY_EXPORT": 2
               }
             },
             "Duration": {
@@ -2648,6 +4290,18 @@
                   "id": 2
                 }
               }
+            },
+            "Empty": {
+              "fields": {}
+            },
+            "FieldMask": {
+              "fields": {
+                "paths": {
+                  "rule": "repeated",
+                  "type": "string",
+                  "id": 1
+                }
+              }
             }
           }
         },
@@ -2657,8 +4311,7 @@
             "java_multiple_files": true,
             "java_outer_classname": "ResourceProto",
             "java_package": "com.google.api",
-            "objc_class_prefix": "GAPI",
-            "cc_enable_arenas": true
+            "objc_class_prefix": "GAPI"
           },
           "nested": {
             "http": {
@@ -2782,6 +4435,10 @@
                   "rule": "repeated",
                   "type": "ClientLibraryDestination",
                   "id": 2
+                },
+                "selectiveGapicGeneration": {
+                  "type": "SelectiveGapicGeneration",
+                  "id": 3
                 }
               }
             },
@@ -2922,6 +4579,28 @@
                 "common": {
                   "type": "CommonLanguageSettings",
                   "id": 1
+                },
+                "experimentalFeatures": {
+                  "type": "ExperimentalFeatures",
+                  "id": 2
+                }
+              },
+              "nested": {
+                "ExperimentalFeatures": {
+                  "fields": {
+                    "restAsyncIoEnabled": {
+                      "type": "bool",
+                      "id": 1
+                    },
+                    "protobufPythonicTypesEnabled": {
+                      "type": "bool",
+                      "id": 2
+                    },
+                    "unversionedPackageDisabled": {
+                      "type": "bool",
+                      "id": 3
+                    }
+                  }
                 }
               }
             },
@@ -2979,6 +4658,11 @@
                 "common": {
                   "type": "CommonLanguageSettings",
                   "id": 1
+                },
+                "renamedServices": {
+                  "keyType": "string",
+                  "type": "string",
+                  "id": 2
                 }
               }
             },
@@ -3038,6 +4722,19 @@
                 "CLIENT_LIBRARY_DESTINATION_UNSPECIFIED": 0,
                 "GITHUB": 10,
                 "PACKAGE_MANAGER": 20
+              }
+            },
+            "SelectiveGapicGeneration": {
+              "fields": {
+                "methods": {
+                  "rule": "repeated",
+                  "type": "string",
+                  "id": 1
+                },
+                "generateOmittedAsInternal": {
+                  "type": "bool",
+                  "id": 2
+                }
               }
             },
             "LaunchStage": {

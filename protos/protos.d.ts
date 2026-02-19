@@ -4650,6 +4650,6855 @@ export namespace google {
                         }
                     }
                 }
+
+                /** Namespace v1alpha. */
+                namespace v1alpha {
+
+                    /** Represents a MetastorePartitionService */
+                    class MetastorePartitionService extends $protobuf.rpc.Service {
+
+                        /**
+                         * Constructs a new MetastorePartitionService service.
+                         * @param rpcImpl RPC implementation
+                         * @param [requestDelimited=false] Whether requests are length-delimited
+                         * @param [responseDelimited=false] Whether responses are length-delimited
+                         */
+                        constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
+
+                        /**
+                         * Creates new MetastorePartitionService service using the specified rpc implementation.
+                         * @param rpcImpl RPC implementation
+                         * @param [requestDelimited=false] Whether requests are length-delimited
+                         * @param [responseDelimited=false] Whether responses are length-delimited
+                         * @returns RPC service. Useful where requests and/or responses are streamed.
+                         */
+                        public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): MetastorePartitionService;
+
+                        /**
+                         * Calls BatchCreateMetastorePartitions.
+                         * @param request BatchCreateMetastorePartitionsRequest message or plain object
+                         * @param callback Node-style callback called with the error, if any, and BatchCreateMetastorePartitionsResponse
+                         */
+                        public batchCreateMetastorePartitions(request: google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest, callback: google.cloud.bigquery.storage.v1alpha.MetastorePartitionService.BatchCreateMetastorePartitionsCallback): void;
+
+                        /**
+                         * Calls BatchCreateMetastorePartitions.
+                         * @param request BatchCreateMetastorePartitionsRequest message or plain object
+                         * @returns Promise
+                         */
+                        public batchCreateMetastorePartitions(request: google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest): Promise<google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse>;
+
+                        /**
+                         * Calls BatchDeleteMetastorePartitions.
+                         * @param request BatchDeleteMetastorePartitionsRequest message or plain object
+                         * @param callback Node-style callback called with the error, if any, and Empty
+                         */
+                        public batchDeleteMetastorePartitions(request: google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest, callback: google.cloud.bigquery.storage.v1alpha.MetastorePartitionService.BatchDeleteMetastorePartitionsCallback): void;
+
+                        /**
+                         * Calls BatchDeleteMetastorePartitions.
+                         * @param request BatchDeleteMetastorePartitionsRequest message or plain object
+                         * @returns Promise
+                         */
+                        public batchDeleteMetastorePartitions(request: google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest): Promise<google.protobuf.Empty>;
+
+                        /**
+                         * Calls BatchUpdateMetastorePartitions.
+                         * @param request BatchUpdateMetastorePartitionsRequest message or plain object
+                         * @param callback Node-style callback called with the error, if any, and BatchUpdateMetastorePartitionsResponse
+                         */
+                        public batchUpdateMetastorePartitions(request: google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest, callback: google.cloud.bigquery.storage.v1alpha.MetastorePartitionService.BatchUpdateMetastorePartitionsCallback): void;
+
+                        /**
+                         * Calls BatchUpdateMetastorePartitions.
+                         * @param request BatchUpdateMetastorePartitionsRequest message or plain object
+                         * @returns Promise
+                         */
+                        public batchUpdateMetastorePartitions(request: google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest): Promise<google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse>;
+
+                        /**
+                         * Calls ListMetastorePartitions.
+                         * @param request ListMetastorePartitionsRequest message or plain object
+                         * @param callback Node-style callback called with the error, if any, and ListMetastorePartitionsResponse
+                         */
+                        public listMetastorePartitions(request: google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest, callback: google.cloud.bigquery.storage.v1alpha.MetastorePartitionService.ListMetastorePartitionsCallback): void;
+
+                        /**
+                         * Calls ListMetastorePartitions.
+                         * @param request ListMetastorePartitionsRequest message or plain object
+                         * @returns Promise
+                         */
+                        public listMetastorePartitions(request: google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest): Promise<google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse>;
+
+                        /**
+                         * Calls StreamMetastorePartitions.
+                         * @param request StreamMetastorePartitionsRequest message or plain object
+                         * @param callback Node-style callback called with the error, if any, and StreamMetastorePartitionsResponse
+                         */
+                        public streamMetastorePartitions(request: google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsRequest, callback: google.cloud.bigquery.storage.v1alpha.MetastorePartitionService.StreamMetastorePartitionsCallback): void;
+
+                        /**
+                         * Calls StreamMetastorePartitions.
+                         * @param request StreamMetastorePartitionsRequest message or plain object
+                         * @returns Promise
+                         */
+                        public streamMetastorePartitions(request: google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsRequest): Promise<google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse>;
+                    }
+
+                    namespace MetastorePartitionService {
+
+                        /**
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionService|batchCreateMetastorePartitions}.
+                         * @param error Error, if any
+                         * @param [response] BatchCreateMetastorePartitionsResponse
+                         */
+                        type BatchCreateMetastorePartitionsCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse) => void;
+
+                        /**
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionService|batchDeleteMetastorePartitions}.
+                         * @param error Error, if any
+                         * @param [response] Empty
+                         */
+                        type BatchDeleteMetastorePartitionsCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
+
+                        /**
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionService|batchUpdateMetastorePartitions}.
+                         * @param error Error, if any
+                         * @param [response] BatchUpdateMetastorePartitionsResponse
+                         */
+                        type BatchUpdateMetastorePartitionsCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse) => void;
+
+                        /**
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionService|listMetastorePartitions}.
+                         * @param error Error, if any
+                         * @param [response] ListMetastorePartitionsResponse
+                         */
+                        type ListMetastorePartitionsCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse) => void;
+
+                        /**
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionService|streamMetastorePartitions}.
+                         * @param error Error, if any
+                         * @param [response] StreamMetastorePartitionsResponse
+                         */
+                        type StreamMetastorePartitionsCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse) => void;
+                    }
+
+                    /** Properties of a CreateMetastorePartitionRequest. */
+                    interface ICreateMetastorePartitionRequest {
+
+                        /** CreateMetastorePartitionRequest parent */
+                        parent?: (string|null);
+
+                        /** CreateMetastorePartitionRequest metastorePartition */
+                        metastorePartition?: (google.cloud.bigquery.storage.v1alpha.IMetastorePartition|null);
+                    }
+
+                    /** Represents a CreateMetastorePartitionRequest. */
+                    class CreateMetastorePartitionRequest implements ICreateMetastorePartitionRequest {
+
+                        /**
+                         * Constructs a new CreateMetastorePartitionRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.ICreateMetastorePartitionRequest);
+
+                        /** CreateMetastorePartitionRequest parent. */
+                        public parent: string;
+
+                        /** CreateMetastorePartitionRequest metastorePartition. */
+                        public metastorePartition?: (google.cloud.bigquery.storage.v1alpha.IMetastorePartition|null);
+
+                        /**
+                         * Creates a new CreateMetastorePartitionRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns CreateMetastorePartitionRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.ICreateMetastorePartitionRequest): google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest;
+
+                        /**
+                         * Encodes the specified CreateMetastorePartitionRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest.verify|verify} messages.
+                         * @param message CreateMetastorePartitionRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.ICreateMetastorePartitionRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified CreateMetastorePartitionRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest.verify|verify} messages.
+                         * @param message CreateMetastorePartitionRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.ICreateMetastorePartitionRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a CreateMetastorePartitionRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns CreateMetastorePartitionRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest;
+
+                        /**
+                         * Decodes a CreateMetastorePartitionRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns CreateMetastorePartitionRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest;
+
+                        /**
+                         * Verifies a CreateMetastorePartitionRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a CreateMetastorePartitionRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns CreateMetastorePartitionRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest;
+
+                        /**
+                         * Creates a plain object from a CreateMetastorePartitionRequest message. Also converts values to other types if specified.
+                         * @param message CreateMetastorePartitionRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.CreateMetastorePartitionRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this CreateMetastorePartitionRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for CreateMetastorePartitionRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a BatchCreateMetastorePartitionsRequest. */
+                    interface IBatchCreateMetastorePartitionsRequest {
+
+                        /** BatchCreateMetastorePartitionsRequest parent */
+                        parent?: (string|null);
+
+                        /** BatchCreateMetastorePartitionsRequest requests */
+                        requests?: (google.cloud.bigquery.storage.v1alpha.ICreateMetastorePartitionRequest[]|null);
+
+                        /** BatchCreateMetastorePartitionsRequest skipExistingPartitions */
+                        skipExistingPartitions?: (boolean|null);
+
+                        /** BatchCreateMetastorePartitionsRequest traceId */
+                        traceId?: (string|null);
+                    }
+
+                    /** Represents a BatchCreateMetastorePartitionsRequest. */
+                    class BatchCreateMetastorePartitionsRequest implements IBatchCreateMetastorePartitionsRequest {
+
+                        /**
+                         * Constructs a new BatchCreateMetastorePartitionsRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest);
+
+                        /** BatchCreateMetastorePartitionsRequest parent. */
+                        public parent: string;
+
+                        /** BatchCreateMetastorePartitionsRequest requests. */
+                        public requests: google.cloud.bigquery.storage.v1alpha.ICreateMetastorePartitionRequest[];
+
+                        /** BatchCreateMetastorePartitionsRequest skipExistingPartitions. */
+                        public skipExistingPartitions: boolean;
+
+                        /** BatchCreateMetastorePartitionsRequest traceId. */
+                        public traceId: string;
+
+                        /**
+                         * Creates a new BatchCreateMetastorePartitionsRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns BatchCreateMetastorePartitionsRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest): google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest;
+
+                        /**
+                         * Encodes the specified BatchCreateMetastorePartitionsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message BatchCreateMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified BatchCreateMetastorePartitionsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message BatchCreateMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a BatchCreateMetastorePartitionsRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns BatchCreateMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest;
+
+                        /**
+                         * Decodes a BatchCreateMetastorePartitionsRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns BatchCreateMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest;
+
+                        /**
+                         * Verifies a BatchCreateMetastorePartitionsRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a BatchCreateMetastorePartitionsRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns BatchCreateMetastorePartitionsRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest;
+
+                        /**
+                         * Creates a plain object from a BatchCreateMetastorePartitionsRequest message. Also converts values to other types if specified.
+                         * @param message BatchCreateMetastorePartitionsRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this BatchCreateMetastorePartitionsRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for BatchCreateMetastorePartitionsRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a BatchCreateMetastorePartitionsResponse. */
+                    interface IBatchCreateMetastorePartitionsResponse {
+
+                        /** BatchCreateMetastorePartitionsResponse partitions */
+                        partitions?: (google.cloud.bigquery.storage.v1alpha.IMetastorePartition[]|null);
+                    }
+
+                    /** Represents a BatchCreateMetastorePartitionsResponse. */
+                    class BatchCreateMetastorePartitionsResponse implements IBatchCreateMetastorePartitionsResponse {
+
+                        /**
+                         * Constructs a new BatchCreateMetastorePartitionsResponse.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse);
+
+                        /** BatchCreateMetastorePartitionsResponse partitions. */
+                        public partitions: google.cloud.bigquery.storage.v1alpha.IMetastorePartition[];
+
+                        /**
+                         * Creates a new BatchCreateMetastorePartitionsResponse instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns BatchCreateMetastorePartitionsResponse instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse): google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse;
+
+                        /**
+                         * Encodes the specified BatchCreateMetastorePartitionsResponse message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message BatchCreateMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified BatchCreateMetastorePartitionsResponse message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message BatchCreateMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IBatchCreateMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a BatchCreateMetastorePartitionsResponse message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns BatchCreateMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse;
+
+                        /**
+                         * Decodes a BatchCreateMetastorePartitionsResponse message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns BatchCreateMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse;
+
+                        /**
+                         * Verifies a BatchCreateMetastorePartitionsResponse message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a BatchCreateMetastorePartitionsResponse message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns BatchCreateMetastorePartitionsResponse
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse;
+
+                        /**
+                         * Creates a plain object from a BatchCreateMetastorePartitionsResponse message. Also converts values to other types if specified.
+                         * @param message BatchCreateMetastorePartitionsResponse
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.BatchCreateMetastorePartitionsResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this BatchCreateMetastorePartitionsResponse to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for BatchCreateMetastorePartitionsResponse
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a BatchDeleteMetastorePartitionsRequest. */
+                    interface IBatchDeleteMetastorePartitionsRequest {
+
+                        /** BatchDeleteMetastorePartitionsRequest parent */
+                        parent?: (string|null);
+
+                        /** BatchDeleteMetastorePartitionsRequest partitionValues */
+                        partitionValues?: (google.cloud.bigquery.storage.v1alpha.IMetastorePartitionValues[]|null);
+
+                        /** BatchDeleteMetastorePartitionsRequest traceId */
+                        traceId?: (string|null);
+                    }
+
+                    /** Represents a BatchDeleteMetastorePartitionsRequest. */
+                    class BatchDeleteMetastorePartitionsRequest implements IBatchDeleteMetastorePartitionsRequest {
+
+                        /**
+                         * Constructs a new BatchDeleteMetastorePartitionsRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest);
+
+                        /** BatchDeleteMetastorePartitionsRequest parent. */
+                        public parent: string;
+
+                        /** BatchDeleteMetastorePartitionsRequest partitionValues. */
+                        public partitionValues: google.cloud.bigquery.storage.v1alpha.IMetastorePartitionValues[];
+
+                        /** BatchDeleteMetastorePartitionsRequest traceId. */
+                        public traceId: string;
+
+                        /**
+                         * Creates a new BatchDeleteMetastorePartitionsRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns BatchDeleteMetastorePartitionsRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest): google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest;
+
+                        /**
+                         * Encodes the specified BatchDeleteMetastorePartitionsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message BatchDeleteMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified BatchDeleteMetastorePartitionsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message BatchDeleteMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IBatchDeleteMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a BatchDeleteMetastorePartitionsRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns BatchDeleteMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest;
+
+                        /**
+                         * Decodes a BatchDeleteMetastorePartitionsRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns BatchDeleteMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest;
+
+                        /**
+                         * Verifies a BatchDeleteMetastorePartitionsRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a BatchDeleteMetastorePartitionsRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns BatchDeleteMetastorePartitionsRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest;
+
+                        /**
+                         * Creates a plain object from a BatchDeleteMetastorePartitionsRequest message. Also converts values to other types if specified.
+                         * @param message BatchDeleteMetastorePartitionsRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.BatchDeleteMetastorePartitionsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this BatchDeleteMetastorePartitionsRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for BatchDeleteMetastorePartitionsRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of an UpdateMetastorePartitionRequest. */
+                    interface IUpdateMetastorePartitionRequest {
+
+                        /** UpdateMetastorePartitionRequest metastorePartition */
+                        metastorePartition?: (google.cloud.bigquery.storage.v1alpha.IMetastorePartition|null);
+
+                        /** UpdateMetastorePartitionRequest updateMask */
+                        updateMask?: (google.protobuf.IFieldMask|null);
+                    }
+
+                    /** Represents an UpdateMetastorePartitionRequest. */
+                    class UpdateMetastorePartitionRequest implements IUpdateMetastorePartitionRequest {
+
+                        /**
+                         * Constructs a new UpdateMetastorePartitionRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IUpdateMetastorePartitionRequest);
+
+                        /** UpdateMetastorePartitionRequest metastorePartition. */
+                        public metastorePartition?: (google.cloud.bigquery.storage.v1alpha.IMetastorePartition|null);
+
+                        /** UpdateMetastorePartitionRequest updateMask. */
+                        public updateMask?: (google.protobuf.IFieldMask|null);
+
+                        /**
+                         * Creates a new UpdateMetastorePartitionRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns UpdateMetastorePartitionRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IUpdateMetastorePartitionRequest): google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest;
+
+                        /**
+                         * Encodes the specified UpdateMetastorePartitionRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest.verify|verify} messages.
+                         * @param message UpdateMetastorePartitionRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IUpdateMetastorePartitionRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified UpdateMetastorePartitionRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest.verify|verify} messages.
+                         * @param message UpdateMetastorePartitionRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IUpdateMetastorePartitionRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes an UpdateMetastorePartitionRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns UpdateMetastorePartitionRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest;
+
+                        /**
+                         * Decodes an UpdateMetastorePartitionRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns UpdateMetastorePartitionRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest;
+
+                        /**
+                         * Verifies an UpdateMetastorePartitionRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates an UpdateMetastorePartitionRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns UpdateMetastorePartitionRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest;
+
+                        /**
+                         * Creates a plain object from an UpdateMetastorePartitionRequest message. Also converts values to other types if specified.
+                         * @param message UpdateMetastorePartitionRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.UpdateMetastorePartitionRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this UpdateMetastorePartitionRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for UpdateMetastorePartitionRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a BatchUpdateMetastorePartitionsRequest. */
+                    interface IBatchUpdateMetastorePartitionsRequest {
+
+                        /** BatchUpdateMetastorePartitionsRequest parent */
+                        parent?: (string|null);
+
+                        /** BatchUpdateMetastorePartitionsRequest requests */
+                        requests?: (google.cloud.bigquery.storage.v1alpha.IUpdateMetastorePartitionRequest[]|null);
+
+                        /** BatchUpdateMetastorePartitionsRequest traceId */
+                        traceId?: (string|null);
+                    }
+
+                    /** Represents a BatchUpdateMetastorePartitionsRequest. */
+                    class BatchUpdateMetastorePartitionsRequest implements IBatchUpdateMetastorePartitionsRequest {
+
+                        /**
+                         * Constructs a new BatchUpdateMetastorePartitionsRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest);
+
+                        /** BatchUpdateMetastorePartitionsRequest parent. */
+                        public parent: string;
+
+                        /** BatchUpdateMetastorePartitionsRequest requests. */
+                        public requests: google.cloud.bigquery.storage.v1alpha.IUpdateMetastorePartitionRequest[];
+
+                        /** BatchUpdateMetastorePartitionsRequest traceId. */
+                        public traceId: string;
+
+                        /**
+                         * Creates a new BatchUpdateMetastorePartitionsRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns BatchUpdateMetastorePartitionsRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest): google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest;
+
+                        /**
+                         * Encodes the specified BatchUpdateMetastorePartitionsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message BatchUpdateMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified BatchUpdateMetastorePartitionsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message BatchUpdateMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a BatchUpdateMetastorePartitionsRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns BatchUpdateMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest;
+
+                        /**
+                         * Decodes a BatchUpdateMetastorePartitionsRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns BatchUpdateMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest;
+
+                        /**
+                         * Verifies a BatchUpdateMetastorePartitionsRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a BatchUpdateMetastorePartitionsRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns BatchUpdateMetastorePartitionsRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest;
+
+                        /**
+                         * Creates a plain object from a BatchUpdateMetastorePartitionsRequest message. Also converts values to other types if specified.
+                         * @param message BatchUpdateMetastorePartitionsRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this BatchUpdateMetastorePartitionsRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for BatchUpdateMetastorePartitionsRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a BatchUpdateMetastorePartitionsResponse. */
+                    interface IBatchUpdateMetastorePartitionsResponse {
+
+                        /** BatchUpdateMetastorePartitionsResponse partitions */
+                        partitions?: (google.cloud.bigquery.storage.v1alpha.IMetastorePartition[]|null);
+                    }
+
+                    /** Represents a BatchUpdateMetastorePartitionsResponse. */
+                    class BatchUpdateMetastorePartitionsResponse implements IBatchUpdateMetastorePartitionsResponse {
+
+                        /**
+                         * Constructs a new BatchUpdateMetastorePartitionsResponse.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse);
+
+                        /** BatchUpdateMetastorePartitionsResponse partitions. */
+                        public partitions: google.cloud.bigquery.storage.v1alpha.IMetastorePartition[];
+
+                        /**
+                         * Creates a new BatchUpdateMetastorePartitionsResponse instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns BatchUpdateMetastorePartitionsResponse instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse): google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse;
+
+                        /**
+                         * Encodes the specified BatchUpdateMetastorePartitionsResponse message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message BatchUpdateMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified BatchUpdateMetastorePartitionsResponse message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message BatchUpdateMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IBatchUpdateMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a BatchUpdateMetastorePartitionsResponse message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns BatchUpdateMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse;
+
+                        /**
+                         * Decodes a BatchUpdateMetastorePartitionsResponse message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns BatchUpdateMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse;
+
+                        /**
+                         * Verifies a BatchUpdateMetastorePartitionsResponse message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a BatchUpdateMetastorePartitionsResponse message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns BatchUpdateMetastorePartitionsResponse
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse;
+
+                        /**
+                         * Creates a plain object from a BatchUpdateMetastorePartitionsResponse message. Also converts values to other types if specified.
+                         * @param message BatchUpdateMetastorePartitionsResponse
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.BatchUpdateMetastorePartitionsResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this BatchUpdateMetastorePartitionsResponse to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for BatchUpdateMetastorePartitionsResponse
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a ListMetastorePartitionsRequest. */
+                    interface IListMetastorePartitionsRequest {
+
+                        /** ListMetastorePartitionsRequest parent */
+                        parent?: (string|null);
+
+                        /** ListMetastorePartitionsRequest filter */
+                        filter?: (string|null);
+
+                        /** ListMetastorePartitionsRequest traceId */
+                        traceId?: (string|null);
+                    }
+
+                    /** Represents a ListMetastorePartitionsRequest. */
+                    class ListMetastorePartitionsRequest implements IListMetastorePartitionsRequest {
+
+                        /**
+                         * Constructs a new ListMetastorePartitionsRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest);
+
+                        /** ListMetastorePartitionsRequest parent. */
+                        public parent: string;
+
+                        /** ListMetastorePartitionsRequest filter. */
+                        public filter: string;
+
+                        /** ListMetastorePartitionsRequest traceId. */
+                        public traceId: string;
+
+                        /**
+                         * Creates a new ListMetastorePartitionsRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns ListMetastorePartitionsRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest): google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest;
+
+                        /**
+                         * Encodes the specified ListMetastorePartitionsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message ListMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified ListMetastorePartitionsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message ListMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a ListMetastorePartitionsRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns ListMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest;
+
+                        /**
+                         * Decodes a ListMetastorePartitionsRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns ListMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest;
+
+                        /**
+                         * Verifies a ListMetastorePartitionsRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a ListMetastorePartitionsRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns ListMetastorePartitionsRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest;
+
+                        /**
+                         * Creates a plain object from a ListMetastorePartitionsRequest message. Also converts values to other types if specified.
+                         * @param message ListMetastorePartitionsRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this ListMetastorePartitionsRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for ListMetastorePartitionsRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a ListMetastorePartitionsResponse. */
+                    interface IListMetastorePartitionsResponse {
+
+                        /** ListMetastorePartitionsResponse partitions */
+                        partitions?: (google.cloud.bigquery.storage.v1alpha.IMetastorePartitionList|null);
+
+                        /** ListMetastorePartitionsResponse streams */
+                        streams?: (google.cloud.bigquery.storage.v1alpha.IStreamList|null);
+                    }
+
+                    /** Represents a ListMetastorePartitionsResponse. */
+                    class ListMetastorePartitionsResponse implements IListMetastorePartitionsResponse {
+
+                        /**
+                         * Constructs a new ListMetastorePartitionsResponse.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse);
+
+                        /** ListMetastorePartitionsResponse partitions. */
+                        public partitions?: (google.cloud.bigquery.storage.v1alpha.IMetastorePartitionList|null);
+
+                        /** ListMetastorePartitionsResponse streams. */
+                        public streams?: (google.cloud.bigquery.storage.v1alpha.IStreamList|null);
+
+                        /** ListMetastorePartitionsResponse response. */
+                        public response?: ("partitions"|"streams");
+
+                        /**
+                         * Creates a new ListMetastorePartitionsResponse instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns ListMetastorePartitionsResponse instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse): google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse;
+
+                        /**
+                         * Encodes the specified ListMetastorePartitionsResponse message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message ListMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified ListMetastorePartitionsResponse message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message ListMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IListMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a ListMetastorePartitionsResponse message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns ListMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse;
+
+                        /**
+                         * Decodes a ListMetastorePartitionsResponse message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns ListMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse;
+
+                        /**
+                         * Verifies a ListMetastorePartitionsResponse message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a ListMetastorePartitionsResponse message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns ListMetastorePartitionsResponse
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse;
+
+                        /**
+                         * Creates a plain object from a ListMetastorePartitionsResponse message. Also converts values to other types if specified.
+                         * @param message ListMetastorePartitionsResponse
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.ListMetastorePartitionsResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this ListMetastorePartitionsResponse to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for ListMetastorePartitionsResponse
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a StreamMetastorePartitionsRequest. */
+                    interface IStreamMetastorePartitionsRequest {
+
+                        /** StreamMetastorePartitionsRequest parent */
+                        parent?: (string|null);
+
+                        /** StreamMetastorePartitionsRequest metastorePartitions */
+                        metastorePartitions?: (google.cloud.bigquery.storage.v1alpha.IMetastorePartition[]|null);
+
+                        /** StreamMetastorePartitionsRequest skipExistingPartitions */
+                        skipExistingPartitions?: (boolean|null);
+                    }
+
+                    /** Represents a StreamMetastorePartitionsRequest. */
+                    class StreamMetastorePartitionsRequest implements IStreamMetastorePartitionsRequest {
+
+                        /**
+                         * Constructs a new StreamMetastorePartitionsRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsRequest);
+
+                        /** StreamMetastorePartitionsRequest parent. */
+                        public parent: string;
+
+                        /** StreamMetastorePartitionsRequest metastorePartitions. */
+                        public metastorePartitions: google.cloud.bigquery.storage.v1alpha.IMetastorePartition[];
+
+                        /** StreamMetastorePartitionsRequest skipExistingPartitions. */
+                        public skipExistingPartitions: boolean;
+
+                        /**
+                         * Creates a new StreamMetastorePartitionsRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns StreamMetastorePartitionsRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsRequest): google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest;
+
+                        /**
+                         * Encodes the specified StreamMetastorePartitionsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message StreamMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified StreamMetastorePartitionsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message StreamMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a StreamMetastorePartitionsRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns StreamMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest;
+
+                        /**
+                         * Decodes a StreamMetastorePartitionsRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns StreamMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest;
+
+                        /**
+                         * Verifies a StreamMetastorePartitionsRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a StreamMetastorePartitionsRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns StreamMetastorePartitionsRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest;
+
+                        /**
+                         * Creates a plain object from a StreamMetastorePartitionsRequest message. Also converts values to other types if specified.
+                         * @param message StreamMetastorePartitionsRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this StreamMetastorePartitionsRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for StreamMetastorePartitionsRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a StreamMetastorePartitionsResponse. */
+                    interface IStreamMetastorePartitionsResponse {
+
+                        /** StreamMetastorePartitionsResponse totalPartitionsStreamedCount */
+                        totalPartitionsStreamedCount?: (number|Long|string|null);
+
+                        /** StreamMetastorePartitionsResponse totalPartitionsInsertedCount */
+                        totalPartitionsInsertedCount?: (number|Long|string|null);
+                    }
+
+                    /** Represents a StreamMetastorePartitionsResponse. */
+                    class StreamMetastorePartitionsResponse implements IStreamMetastorePartitionsResponse {
+
+                        /**
+                         * Constructs a new StreamMetastorePartitionsResponse.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsResponse);
+
+                        /** StreamMetastorePartitionsResponse totalPartitionsStreamedCount. */
+                        public totalPartitionsStreamedCount: (number|Long|string);
+
+                        /** StreamMetastorePartitionsResponse totalPartitionsInsertedCount. */
+                        public totalPartitionsInsertedCount: (number|Long|string);
+
+                        /**
+                         * Creates a new StreamMetastorePartitionsResponse instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns StreamMetastorePartitionsResponse instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsResponse): google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse;
+
+                        /**
+                         * Encodes the specified StreamMetastorePartitionsResponse message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message StreamMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified StreamMetastorePartitionsResponse message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message StreamMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IStreamMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a StreamMetastorePartitionsResponse message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns StreamMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse;
+
+                        /**
+                         * Decodes a StreamMetastorePartitionsResponse message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns StreamMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse;
+
+                        /**
+                         * Verifies a StreamMetastorePartitionsResponse message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a StreamMetastorePartitionsResponse message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns StreamMetastorePartitionsResponse
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse;
+
+                        /**
+                         * Creates a plain object from a StreamMetastorePartitionsResponse message. Also converts values to other types if specified.
+                         * @param message StreamMetastorePartitionsResponse
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.StreamMetastorePartitionsResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this StreamMetastorePartitionsResponse to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for StreamMetastorePartitionsResponse
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a BatchSizeTooLargeError. */
+                    interface IBatchSizeTooLargeError {
+
+                        /** BatchSizeTooLargeError maxBatchSize */
+                        maxBatchSize?: (number|Long|string|null);
+
+                        /** BatchSizeTooLargeError errorMessage */
+                        errorMessage?: (string|null);
+                    }
+
+                    /** Represents a BatchSizeTooLargeError. */
+                    class BatchSizeTooLargeError implements IBatchSizeTooLargeError {
+
+                        /**
+                         * Constructs a new BatchSizeTooLargeError.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IBatchSizeTooLargeError);
+
+                        /** BatchSizeTooLargeError maxBatchSize. */
+                        public maxBatchSize: (number|Long|string);
+
+                        /** BatchSizeTooLargeError errorMessage. */
+                        public errorMessage: string;
+
+                        /**
+                         * Creates a new BatchSizeTooLargeError instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns BatchSizeTooLargeError instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IBatchSizeTooLargeError): google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError;
+
+                        /**
+                         * Encodes the specified BatchSizeTooLargeError message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError.verify|verify} messages.
+                         * @param message BatchSizeTooLargeError message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IBatchSizeTooLargeError, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified BatchSizeTooLargeError message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError.verify|verify} messages.
+                         * @param message BatchSizeTooLargeError message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IBatchSizeTooLargeError, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a BatchSizeTooLargeError message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns BatchSizeTooLargeError
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError;
+
+                        /**
+                         * Decodes a BatchSizeTooLargeError message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns BatchSizeTooLargeError
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError;
+
+                        /**
+                         * Verifies a BatchSizeTooLargeError message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a BatchSizeTooLargeError message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns BatchSizeTooLargeError
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError;
+
+                        /**
+                         * Creates a plain object from a BatchSizeTooLargeError message. Also converts values to other types if specified.
+                         * @param message BatchSizeTooLargeError
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.BatchSizeTooLargeError, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this BatchSizeTooLargeError to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for BatchSizeTooLargeError
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a FieldSchema. */
+                    interface IFieldSchema {
+
+                        /** FieldSchema name */
+                        name?: (string|null);
+
+                        /** FieldSchema type */
+                        type?: (string|null);
+                    }
+
+                    /** Represents a FieldSchema. */
+                    class FieldSchema implements IFieldSchema {
+
+                        /**
+                         * Constructs a new FieldSchema.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IFieldSchema);
+
+                        /** FieldSchema name. */
+                        public name: string;
+
+                        /** FieldSchema type. */
+                        public type: string;
+
+                        /**
+                         * Creates a new FieldSchema instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns FieldSchema instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IFieldSchema): google.cloud.bigquery.storage.v1alpha.FieldSchema;
+
+                        /**
+                         * Encodes the specified FieldSchema message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.FieldSchema.verify|verify} messages.
+                         * @param message FieldSchema message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IFieldSchema, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified FieldSchema message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.FieldSchema.verify|verify} messages.
+                         * @param message FieldSchema message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IFieldSchema, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a FieldSchema message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns FieldSchema
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.FieldSchema;
+
+                        /**
+                         * Decodes a FieldSchema message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns FieldSchema
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.FieldSchema;
+
+                        /**
+                         * Verifies a FieldSchema message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a FieldSchema message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns FieldSchema
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.FieldSchema;
+
+                        /**
+                         * Creates a plain object from a FieldSchema message. Also converts values to other types if specified.
+                         * @param message FieldSchema
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.FieldSchema, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this FieldSchema to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for FieldSchema
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a StorageDescriptor. */
+                    interface IStorageDescriptor {
+
+                        /** StorageDescriptor locationUri */
+                        locationUri?: (string|null);
+
+                        /** StorageDescriptor inputFormat */
+                        inputFormat?: (string|null);
+
+                        /** StorageDescriptor outputFormat */
+                        outputFormat?: (string|null);
+
+                        /** StorageDescriptor serdeInfo */
+                        serdeInfo?: (google.cloud.bigquery.storage.v1alpha.ISerDeInfo|null);
+                    }
+
+                    /** Represents a StorageDescriptor. */
+                    class StorageDescriptor implements IStorageDescriptor {
+
+                        /**
+                         * Constructs a new StorageDescriptor.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IStorageDescriptor);
+
+                        /** StorageDescriptor locationUri. */
+                        public locationUri: string;
+
+                        /** StorageDescriptor inputFormat. */
+                        public inputFormat: string;
+
+                        /** StorageDescriptor outputFormat. */
+                        public outputFormat: string;
+
+                        /** StorageDescriptor serdeInfo. */
+                        public serdeInfo?: (google.cloud.bigquery.storage.v1alpha.ISerDeInfo|null);
+
+                        /**
+                         * Creates a new StorageDescriptor instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns StorageDescriptor instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IStorageDescriptor): google.cloud.bigquery.storage.v1alpha.StorageDescriptor;
+
+                        /**
+                         * Encodes the specified StorageDescriptor message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StorageDescriptor.verify|verify} messages.
+                         * @param message StorageDescriptor message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IStorageDescriptor, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified StorageDescriptor message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StorageDescriptor.verify|verify} messages.
+                         * @param message StorageDescriptor message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IStorageDescriptor, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a StorageDescriptor message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns StorageDescriptor
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.StorageDescriptor;
+
+                        /**
+                         * Decodes a StorageDescriptor message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns StorageDescriptor
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.StorageDescriptor;
+
+                        /**
+                         * Verifies a StorageDescriptor message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a StorageDescriptor message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns StorageDescriptor
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.StorageDescriptor;
+
+                        /**
+                         * Creates a plain object from a StorageDescriptor message. Also converts values to other types if specified.
+                         * @param message StorageDescriptor
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.StorageDescriptor, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this StorageDescriptor to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for StorageDescriptor
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a SerDeInfo. */
+                    interface ISerDeInfo {
+
+                        /** SerDeInfo name */
+                        name?: (string|null);
+
+                        /** SerDeInfo serializationLibrary */
+                        serializationLibrary?: (string|null);
+
+                        /** SerDeInfo parameters */
+                        parameters?: ({ [k: string]: string }|null);
+                    }
+
+                    /** Represents a SerDeInfo. */
+                    class SerDeInfo implements ISerDeInfo {
+
+                        /**
+                         * Constructs a new SerDeInfo.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.ISerDeInfo);
+
+                        /** SerDeInfo name. */
+                        public name: string;
+
+                        /** SerDeInfo serializationLibrary. */
+                        public serializationLibrary: string;
+
+                        /** SerDeInfo parameters. */
+                        public parameters: { [k: string]: string };
+
+                        /**
+                         * Creates a new SerDeInfo instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns SerDeInfo instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.ISerDeInfo): google.cloud.bigquery.storage.v1alpha.SerDeInfo;
+
+                        /**
+                         * Encodes the specified SerDeInfo message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.SerDeInfo.verify|verify} messages.
+                         * @param message SerDeInfo message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.ISerDeInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified SerDeInfo message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.SerDeInfo.verify|verify} messages.
+                         * @param message SerDeInfo message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.ISerDeInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a SerDeInfo message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns SerDeInfo
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.SerDeInfo;
+
+                        /**
+                         * Decodes a SerDeInfo message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns SerDeInfo
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.SerDeInfo;
+
+                        /**
+                         * Verifies a SerDeInfo message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a SerDeInfo message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns SerDeInfo
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.SerDeInfo;
+
+                        /**
+                         * Creates a plain object from a SerDeInfo message. Also converts values to other types if specified.
+                         * @param message SerDeInfo
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.SerDeInfo, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this SerDeInfo to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for SerDeInfo
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a MetastorePartition. */
+                    interface IMetastorePartition {
+
+                        /** MetastorePartition values */
+                        values?: (string[]|null);
+
+                        /** MetastorePartition createTime */
+                        createTime?: (google.protobuf.ITimestamp|null);
+
+                        /** MetastorePartition storageDescriptor */
+                        storageDescriptor?: (google.cloud.bigquery.storage.v1alpha.IStorageDescriptor|null);
+
+                        /** MetastorePartition parameters */
+                        parameters?: ({ [k: string]: string }|null);
+
+                        /** MetastorePartition fields */
+                        fields?: (google.cloud.bigquery.storage.v1alpha.IFieldSchema[]|null);
+                    }
+
+                    /** Represents a MetastorePartition. */
+                    class MetastorePartition implements IMetastorePartition {
+
+                        /**
+                         * Constructs a new MetastorePartition.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IMetastorePartition);
+
+                        /** MetastorePartition values. */
+                        public values: string[];
+
+                        /** MetastorePartition createTime. */
+                        public createTime?: (google.protobuf.ITimestamp|null);
+
+                        /** MetastorePartition storageDescriptor. */
+                        public storageDescriptor?: (google.cloud.bigquery.storage.v1alpha.IStorageDescriptor|null);
+
+                        /** MetastorePartition parameters. */
+                        public parameters: { [k: string]: string };
+
+                        /** MetastorePartition fields. */
+                        public fields: google.cloud.bigquery.storage.v1alpha.IFieldSchema[];
+
+                        /**
+                         * Creates a new MetastorePartition instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns MetastorePartition instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IMetastorePartition): google.cloud.bigquery.storage.v1alpha.MetastorePartition;
+
+                        /**
+                         * Encodes the specified MetastorePartition message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.MetastorePartition.verify|verify} messages.
+                         * @param message MetastorePartition message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IMetastorePartition, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified MetastorePartition message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.MetastorePartition.verify|verify} messages.
+                         * @param message MetastorePartition message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IMetastorePartition, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a MetastorePartition message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns MetastorePartition
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.MetastorePartition;
+
+                        /**
+                         * Decodes a MetastorePartition message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns MetastorePartition
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.MetastorePartition;
+
+                        /**
+                         * Verifies a MetastorePartition message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a MetastorePartition message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns MetastorePartition
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.MetastorePartition;
+
+                        /**
+                         * Creates a plain object from a MetastorePartition message. Also converts values to other types if specified.
+                         * @param message MetastorePartition
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.MetastorePartition, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this MetastorePartition to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for MetastorePartition
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a MetastorePartitionList. */
+                    interface IMetastorePartitionList {
+
+                        /** MetastorePartitionList partitions */
+                        partitions?: (google.cloud.bigquery.storage.v1alpha.IMetastorePartition[]|null);
+                    }
+
+                    /** Represents a MetastorePartitionList. */
+                    class MetastorePartitionList implements IMetastorePartitionList {
+
+                        /**
+                         * Constructs a new MetastorePartitionList.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IMetastorePartitionList);
+
+                        /** MetastorePartitionList partitions. */
+                        public partitions: google.cloud.bigquery.storage.v1alpha.IMetastorePartition[];
+
+                        /**
+                         * Creates a new MetastorePartitionList instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns MetastorePartitionList instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IMetastorePartitionList): google.cloud.bigquery.storage.v1alpha.MetastorePartitionList;
+
+                        /**
+                         * Encodes the specified MetastorePartitionList message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionList.verify|verify} messages.
+                         * @param message MetastorePartitionList message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IMetastorePartitionList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified MetastorePartitionList message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionList.verify|verify} messages.
+                         * @param message MetastorePartitionList message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IMetastorePartitionList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a MetastorePartitionList message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns MetastorePartitionList
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.MetastorePartitionList;
+
+                        /**
+                         * Decodes a MetastorePartitionList message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns MetastorePartitionList
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.MetastorePartitionList;
+
+                        /**
+                         * Verifies a MetastorePartitionList message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a MetastorePartitionList message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns MetastorePartitionList
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.MetastorePartitionList;
+
+                        /**
+                         * Creates a plain object from a MetastorePartitionList message. Also converts values to other types if specified.
+                         * @param message MetastorePartitionList
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.MetastorePartitionList, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this MetastorePartitionList to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for MetastorePartitionList
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a ReadStream. */
+                    interface IReadStream {
+
+                        /** ReadStream name */
+                        name?: (string|null);
+                    }
+
+                    /** Represents a ReadStream. */
+                    class ReadStream implements IReadStream {
+
+                        /**
+                         * Constructs a new ReadStream.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IReadStream);
+
+                        /** ReadStream name. */
+                        public name: string;
+
+                        /**
+                         * Creates a new ReadStream instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns ReadStream instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IReadStream): google.cloud.bigquery.storage.v1alpha.ReadStream;
+
+                        /**
+                         * Encodes the specified ReadStream message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.ReadStream.verify|verify} messages.
+                         * @param message ReadStream message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IReadStream, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified ReadStream message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.ReadStream.verify|verify} messages.
+                         * @param message ReadStream message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IReadStream, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a ReadStream message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns ReadStream
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.ReadStream;
+
+                        /**
+                         * Decodes a ReadStream message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns ReadStream
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.ReadStream;
+
+                        /**
+                         * Verifies a ReadStream message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a ReadStream message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns ReadStream
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.ReadStream;
+
+                        /**
+                         * Creates a plain object from a ReadStream message. Also converts values to other types if specified.
+                         * @param message ReadStream
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.ReadStream, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this ReadStream to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for ReadStream
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a StreamList. */
+                    interface IStreamList {
+
+                        /** StreamList streams */
+                        streams?: (google.cloud.bigquery.storage.v1alpha.IReadStream[]|null);
+                    }
+
+                    /** Represents a StreamList. */
+                    class StreamList implements IStreamList {
+
+                        /**
+                         * Constructs a new StreamList.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IStreamList);
+
+                        /** StreamList streams. */
+                        public streams: google.cloud.bigquery.storage.v1alpha.IReadStream[];
+
+                        /**
+                         * Creates a new StreamList instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns StreamList instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IStreamList): google.cloud.bigquery.storage.v1alpha.StreamList;
+
+                        /**
+                         * Encodes the specified StreamList message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StreamList.verify|verify} messages.
+                         * @param message StreamList message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IStreamList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified StreamList message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.StreamList.verify|verify} messages.
+                         * @param message StreamList message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IStreamList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a StreamList message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns StreamList
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.StreamList;
+
+                        /**
+                         * Decodes a StreamList message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns StreamList
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.StreamList;
+
+                        /**
+                         * Verifies a StreamList message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a StreamList message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns StreamList
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.StreamList;
+
+                        /**
+                         * Creates a plain object from a StreamList message. Also converts values to other types if specified.
+                         * @param message StreamList
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.StreamList, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this StreamList to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for StreamList
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a MetastorePartitionValues. */
+                    interface IMetastorePartitionValues {
+
+                        /** MetastorePartitionValues values */
+                        values?: (string[]|null);
+                    }
+
+                    /** Represents a MetastorePartitionValues. */
+                    class MetastorePartitionValues implements IMetastorePartitionValues {
+
+                        /**
+                         * Constructs a new MetastorePartitionValues.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1alpha.IMetastorePartitionValues);
+
+                        /** MetastorePartitionValues values. */
+                        public values: string[];
+
+                        /**
+                         * Creates a new MetastorePartitionValues instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns MetastorePartitionValues instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1alpha.IMetastorePartitionValues): google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues;
+
+                        /**
+                         * Encodes the specified MetastorePartitionValues message. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues.verify|verify} messages.
+                         * @param message MetastorePartitionValues message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1alpha.IMetastorePartitionValues, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified MetastorePartitionValues message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues.verify|verify} messages.
+                         * @param message MetastorePartitionValues message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1alpha.IMetastorePartitionValues, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a MetastorePartitionValues message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns MetastorePartitionValues
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues;
+
+                        /**
+                         * Decodes a MetastorePartitionValues message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns MetastorePartitionValues
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues;
+
+                        /**
+                         * Verifies a MetastorePartitionValues message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a MetastorePartitionValues message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns MetastorePartitionValues
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues;
+
+                        /**
+                         * Creates a plain object from a MetastorePartitionValues message. Also converts values to other types if specified.
+                         * @param message MetastorePartitionValues
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1alpha.MetastorePartitionValues, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this MetastorePartitionValues to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for MetastorePartitionValues
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+                }
+
+                /** Namespace v1beta. */
+                namespace v1beta {
+
+                    /** Represents a MetastorePartitionService */
+                    class MetastorePartitionService extends $protobuf.rpc.Service {
+
+                        /**
+                         * Constructs a new MetastorePartitionService service.
+                         * @param rpcImpl RPC implementation
+                         * @param [requestDelimited=false] Whether requests are length-delimited
+                         * @param [responseDelimited=false] Whether responses are length-delimited
+                         */
+                        constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
+
+                        /**
+                         * Creates new MetastorePartitionService service using the specified rpc implementation.
+                         * @param rpcImpl RPC implementation
+                         * @param [requestDelimited=false] Whether requests are length-delimited
+                         * @param [responseDelimited=false] Whether responses are length-delimited
+                         * @returns RPC service. Useful where requests and/or responses are streamed.
+                         */
+                        public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): MetastorePartitionService;
+
+                        /**
+                         * Calls BatchCreateMetastorePartitions.
+                         * @param request BatchCreateMetastorePartitionsRequest message or plain object
+                         * @param callback Node-style callback called with the error, if any, and BatchCreateMetastorePartitionsResponse
+                         */
+                        public batchCreateMetastorePartitions(request: google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest, callback: google.cloud.bigquery.storage.v1beta.MetastorePartitionService.BatchCreateMetastorePartitionsCallback): void;
+
+                        /**
+                         * Calls BatchCreateMetastorePartitions.
+                         * @param request BatchCreateMetastorePartitionsRequest message or plain object
+                         * @returns Promise
+                         */
+                        public batchCreateMetastorePartitions(request: google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest): Promise<google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsResponse>;
+
+                        /**
+                         * Calls BatchDeleteMetastorePartitions.
+                         * @param request BatchDeleteMetastorePartitionsRequest message or plain object
+                         * @param callback Node-style callback called with the error, if any, and Empty
+                         */
+                        public batchDeleteMetastorePartitions(request: google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest, callback: google.cloud.bigquery.storage.v1beta.MetastorePartitionService.BatchDeleteMetastorePartitionsCallback): void;
+
+                        /**
+                         * Calls BatchDeleteMetastorePartitions.
+                         * @param request BatchDeleteMetastorePartitionsRequest message or plain object
+                         * @returns Promise
+                         */
+                        public batchDeleteMetastorePartitions(request: google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest): Promise<google.protobuf.Empty>;
+
+                        /**
+                         * Calls BatchUpdateMetastorePartitions.
+                         * @param request BatchUpdateMetastorePartitionsRequest message or plain object
+                         * @param callback Node-style callback called with the error, if any, and BatchUpdateMetastorePartitionsResponse
+                         */
+                        public batchUpdateMetastorePartitions(request: google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest, callback: google.cloud.bigquery.storage.v1beta.MetastorePartitionService.BatchUpdateMetastorePartitionsCallback): void;
+
+                        /**
+                         * Calls BatchUpdateMetastorePartitions.
+                         * @param request BatchUpdateMetastorePartitionsRequest message or plain object
+                         * @returns Promise
+                         */
+                        public batchUpdateMetastorePartitions(request: google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest): Promise<google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsResponse>;
+
+                        /**
+                         * Calls ListMetastorePartitions.
+                         * @param request ListMetastorePartitionsRequest message or plain object
+                         * @param callback Node-style callback called with the error, if any, and ListMetastorePartitionsResponse
+                         */
+                        public listMetastorePartitions(request: google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest, callback: google.cloud.bigquery.storage.v1beta.MetastorePartitionService.ListMetastorePartitionsCallback): void;
+
+                        /**
+                         * Calls ListMetastorePartitions.
+                         * @param request ListMetastorePartitionsRequest message or plain object
+                         * @returns Promise
+                         */
+                        public listMetastorePartitions(request: google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest): Promise<google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsResponse>;
+
+                        /**
+                         * Calls StreamMetastorePartitions.
+                         * @param request StreamMetastorePartitionsRequest message or plain object
+                         * @param callback Node-style callback called with the error, if any, and StreamMetastorePartitionsResponse
+                         */
+                        public streamMetastorePartitions(request: google.cloud.bigquery.storage.v1beta.IStreamMetastorePartitionsRequest, callback: google.cloud.bigquery.storage.v1beta.MetastorePartitionService.StreamMetastorePartitionsCallback): void;
+
+                        /**
+                         * Calls StreamMetastorePartitions.
+                         * @param request StreamMetastorePartitionsRequest message or plain object
+                         * @returns Promise
+                         */
+                        public streamMetastorePartitions(request: google.cloud.bigquery.storage.v1beta.IStreamMetastorePartitionsRequest): Promise<google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsResponse>;
+                    }
+
+                    namespace MetastorePartitionService {
+
+                        /**
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta.MetastorePartitionService|batchCreateMetastorePartitions}.
+                         * @param error Error, if any
+                         * @param [response] BatchCreateMetastorePartitionsResponse
+                         */
+                        type BatchCreateMetastorePartitionsCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsResponse) => void;
+
+                        /**
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta.MetastorePartitionService|batchDeleteMetastorePartitions}.
+                         * @param error Error, if any
+                         * @param [response] Empty
+                         */
+                        type BatchDeleteMetastorePartitionsCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
+
+                        /**
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta.MetastorePartitionService|batchUpdateMetastorePartitions}.
+                         * @param error Error, if any
+                         * @param [response] BatchUpdateMetastorePartitionsResponse
+                         */
+                        type BatchUpdateMetastorePartitionsCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsResponse) => void;
+
+                        /**
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta.MetastorePartitionService|listMetastorePartitions}.
+                         * @param error Error, if any
+                         * @param [response] ListMetastorePartitionsResponse
+                         */
+                        type ListMetastorePartitionsCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsResponse) => void;
+
+                        /**
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta.MetastorePartitionService|streamMetastorePartitions}.
+                         * @param error Error, if any
+                         * @param [response] StreamMetastorePartitionsResponse
+                         */
+                        type StreamMetastorePartitionsCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsResponse) => void;
+                    }
+
+                    /** Properties of a CreateMetastorePartitionRequest. */
+                    interface ICreateMetastorePartitionRequest {
+
+                        /** CreateMetastorePartitionRequest parent */
+                        parent?: (string|null);
+
+                        /** CreateMetastorePartitionRequest metastorePartition */
+                        metastorePartition?: (google.cloud.bigquery.storage.v1beta.IMetastorePartition|null);
+                    }
+
+                    /** Represents a CreateMetastorePartitionRequest. */
+                    class CreateMetastorePartitionRequest implements ICreateMetastorePartitionRequest {
+
+                        /**
+                         * Constructs a new CreateMetastorePartitionRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.ICreateMetastorePartitionRequest);
+
+                        /** CreateMetastorePartitionRequest parent. */
+                        public parent: string;
+
+                        /** CreateMetastorePartitionRequest metastorePartition. */
+                        public metastorePartition?: (google.cloud.bigquery.storage.v1beta.IMetastorePartition|null);
+
+                        /**
+                         * Creates a new CreateMetastorePartitionRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns CreateMetastorePartitionRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.ICreateMetastorePartitionRequest): google.cloud.bigquery.storage.v1beta.CreateMetastorePartitionRequest;
+
+                        /**
+                         * Encodes the specified CreateMetastorePartitionRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.CreateMetastorePartitionRequest.verify|verify} messages.
+                         * @param message CreateMetastorePartitionRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.ICreateMetastorePartitionRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified CreateMetastorePartitionRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.CreateMetastorePartitionRequest.verify|verify} messages.
+                         * @param message CreateMetastorePartitionRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.ICreateMetastorePartitionRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a CreateMetastorePartitionRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns CreateMetastorePartitionRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.CreateMetastorePartitionRequest;
+
+                        /**
+                         * Decodes a CreateMetastorePartitionRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns CreateMetastorePartitionRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.CreateMetastorePartitionRequest;
+
+                        /**
+                         * Verifies a CreateMetastorePartitionRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a CreateMetastorePartitionRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns CreateMetastorePartitionRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.CreateMetastorePartitionRequest;
+
+                        /**
+                         * Creates a plain object from a CreateMetastorePartitionRequest message. Also converts values to other types if specified.
+                         * @param message CreateMetastorePartitionRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.CreateMetastorePartitionRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this CreateMetastorePartitionRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for CreateMetastorePartitionRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a BatchCreateMetastorePartitionsRequest. */
+                    interface IBatchCreateMetastorePartitionsRequest {
+
+                        /** BatchCreateMetastorePartitionsRequest parent */
+                        parent?: (string|null);
+
+                        /** BatchCreateMetastorePartitionsRequest requests */
+                        requests?: (google.cloud.bigquery.storage.v1beta.ICreateMetastorePartitionRequest[]|null);
+
+                        /** BatchCreateMetastorePartitionsRequest skipExistingPartitions */
+                        skipExistingPartitions?: (boolean|null);
+
+                        /** BatchCreateMetastorePartitionsRequest traceId */
+                        traceId?: (string|null);
+                    }
+
+                    /** Represents a BatchCreateMetastorePartitionsRequest. */
+                    class BatchCreateMetastorePartitionsRequest implements IBatchCreateMetastorePartitionsRequest {
+
+                        /**
+                         * Constructs a new BatchCreateMetastorePartitionsRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest);
+
+                        /** BatchCreateMetastorePartitionsRequest parent. */
+                        public parent: string;
+
+                        /** BatchCreateMetastorePartitionsRequest requests. */
+                        public requests: google.cloud.bigquery.storage.v1beta.ICreateMetastorePartitionRequest[];
+
+                        /** BatchCreateMetastorePartitionsRequest skipExistingPartitions. */
+                        public skipExistingPartitions: boolean;
+
+                        /** BatchCreateMetastorePartitionsRequest traceId. */
+                        public traceId: string;
+
+                        /**
+                         * Creates a new BatchCreateMetastorePartitionsRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns BatchCreateMetastorePartitionsRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest): google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsRequest;
+
+                        /**
+                         * Encodes the specified BatchCreateMetastorePartitionsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message BatchCreateMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified BatchCreateMetastorePartitionsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message BatchCreateMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a BatchCreateMetastorePartitionsRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns BatchCreateMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsRequest;
+
+                        /**
+                         * Decodes a BatchCreateMetastorePartitionsRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns BatchCreateMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsRequest;
+
+                        /**
+                         * Verifies a BatchCreateMetastorePartitionsRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a BatchCreateMetastorePartitionsRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns BatchCreateMetastorePartitionsRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsRequest;
+
+                        /**
+                         * Creates a plain object from a BatchCreateMetastorePartitionsRequest message. Also converts values to other types if specified.
+                         * @param message BatchCreateMetastorePartitionsRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this BatchCreateMetastorePartitionsRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for BatchCreateMetastorePartitionsRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a BatchCreateMetastorePartitionsResponse. */
+                    interface IBatchCreateMetastorePartitionsResponse {
+
+                        /** BatchCreateMetastorePartitionsResponse partitions */
+                        partitions?: (google.cloud.bigquery.storage.v1beta.IMetastorePartition[]|null);
+                    }
+
+                    /** Represents a BatchCreateMetastorePartitionsResponse. */
+                    class BatchCreateMetastorePartitionsResponse implements IBatchCreateMetastorePartitionsResponse {
+
+                        /**
+                         * Constructs a new BatchCreateMetastorePartitionsResponse.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsResponse);
+
+                        /** BatchCreateMetastorePartitionsResponse partitions. */
+                        public partitions: google.cloud.bigquery.storage.v1beta.IMetastorePartition[];
+
+                        /**
+                         * Creates a new BatchCreateMetastorePartitionsResponse instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns BatchCreateMetastorePartitionsResponse instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsResponse): google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsResponse;
+
+                        /**
+                         * Encodes the specified BatchCreateMetastorePartitionsResponse message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message BatchCreateMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified BatchCreateMetastorePartitionsResponse message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message BatchCreateMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IBatchCreateMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a BatchCreateMetastorePartitionsResponse message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns BatchCreateMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsResponse;
+
+                        /**
+                         * Decodes a BatchCreateMetastorePartitionsResponse message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns BatchCreateMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsResponse;
+
+                        /**
+                         * Verifies a BatchCreateMetastorePartitionsResponse message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a BatchCreateMetastorePartitionsResponse message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns BatchCreateMetastorePartitionsResponse
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsResponse;
+
+                        /**
+                         * Creates a plain object from a BatchCreateMetastorePartitionsResponse message. Also converts values to other types if specified.
+                         * @param message BatchCreateMetastorePartitionsResponse
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.BatchCreateMetastorePartitionsResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this BatchCreateMetastorePartitionsResponse to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for BatchCreateMetastorePartitionsResponse
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a BatchDeleteMetastorePartitionsRequest. */
+                    interface IBatchDeleteMetastorePartitionsRequest {
+
+                        /** BatchDeleteMetastorePartitionsRequest parent */
+                        parent?: (string|null);
+
+                        /** BatchDeleteMetastorePartitionsRequest partitionValues */
+                        partitionValues?: (google.cloud.bigquery.storage.v1beta.IMetastorePartitionValues[]|null);
+
+                        /** BatchDeleteMetastorePartitionsRequest traceId */
+                        traceId?: (string|null);
+                    }
+
+                    /** Represents a BatchDeleteMetastorePartitionsRequest. */
+                    class BatchDeleteMetastorePartitionsRequest implements IBatchDeleteMetastorePartitionsRequest {
+
+                        /**
+                         * Constructs a new BatchDeleteMetastorePartitionsRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest);
+
+                        /** BatchDeleteMetastorePartitionsRequest parent. */
+                        public parent: string;
+
+                        /** BatchDeleteMetastorePartitionsRequest partitionValues. */
+                        public partitionValues: google.cloud.bigquery.storage.v1beta.IMetastorePartitionValues[];
+
+                        /** BatchDeleteMetastorePartitionsRequest traceId. */
+                        public traceId: string;
+
+                        /**
+                         * Creates a new BatchDeleteMetastorePartitionsRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns BatchDeleteMetastorePartitionsRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest): google.cloud.bigquery.storage.v1beta.BatchDeleteMetastorePartitionsRequest;
+
+                        /**
+                         * Encodes the specified BatchDeleteMetastorePartitionsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.BatchDeleteMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message BatchDeleteMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified BatchDeleteMetastorePartitionsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.BatchDeleteMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message BatchDeleteMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IBatchDeleteMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a BatchDeleteMetastorePartitionsRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns BatchDeleteMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.BatchDeleteMetastorePartitionsRequest;
+
+                        /**
+                         * Decodes a BatchDeleteMetastorePartitionsRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns BatchDeleteMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.BatchDeleteMetastorePartitionsRequest;
+
+                        /**
+                         * Verifies a BatchDeleteMetastorePartitionsRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a BatchDeleteMetastorePartitionsRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns BatchDeleteMetastorePartitionsRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.BatchDeleteMetastorePartitionsRequest;
+
+                        /**
+                         * Creates a plain object from a BatchDeleteMetastorePartitionsRequest message. Also converts values to other types if specified.
+                         * @param message BatchDeleteMetastorePartitionsRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.BatchDeleteMetastorePartitionsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this BatchDeleteMetastorePartitionsRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for BatchDeleteMetastorePartitionsRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of an UpdateMetastorePartitionRequest. */
+                    interface IUpdateMetastorePartitionRequest {
+
+                        /** UpdateMetastorePartitionRequest metastorePartition */
+                        metastorePartition?: (google.cloud.bigquery.storage.v1beta.IMetastorePartition|null);
+
+                        /** UpdateMetastorePartitionRequest updateMask */
+                        updateMask?: (google.protobuf.IFieldMask|null);
+                    }
+
+                    /** Represents an UpdateMetastorePartitionRequest. */
+                    class UpdateMetastorePartitionRequest implements IUpdateMetastorePartitionRequest {
+
+                        /**
+                         * Constructs a new UpdateMetastorePartitionRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IUpdateMetastorePartitionRequest);
+
+                        /** UpdateMetastorePartitionRequest metastorePartition. */
+                        public metastorePartition?: (google.cloud.bigquery.storage.v1beta.IMetastorePartition|null);
+
+                        /** UpdateMetastorePartitionRequest updateMask. */
+                        public updateMask?: (google.protobuf.IFieldMask|null);
+
+                        /**
+                         * Creates a new UpdateMetastorePartitionRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns UpdateMetastorePartitionRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IUpdateMetastorePartitionRequest): google.cloud.bigquery.storage.v1beta.UpdateMetastorePartitionRequest;
+
+                        /**
+                         * Encodes the specified UpdateMetastorePartitionRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.UpdateMetastorePartitionRequest.verify|verify} messages.
+                         * @param message UpdateMetastorePartitionRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IUpdateMetastorePartitionRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified UpdateMetastorePartitionRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.UpdateMetastorePartitionRequest.verify|verify} messages.
+                         * @param message UpdateMetastorePartitionRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IUpdateMetastorePartitionRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes an UpdateMetastorePartitionRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns UpdateMetastorePartitionRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.UpdateMetastorePartitionRequest;
+
+                        /**
+                         * Decodes an UpdateMetastorePartitionRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns UpdateMetastorePartitionRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.UpdateMetastorePartitionRequest;
+
+                        /**
+                         * Verifies an UpdateMetastorePartitionRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates an UpdateMetastorePartitionRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns UpdateMetastorePartitionRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.UpdateMetastorePartitionRequest;
+
+                        /**
+                         * Creates a plain object from an UpdateMetastorePartitionRequest message. Also converts values to other types if specified.
+                         * @param message UpdateMetastorePartitionRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.UpdateMetastorePartitionRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this UpdateMetastorePartitionRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for UpdateMetastorePartitionRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a BatchUpdateMetastorePartitionsRequest. */
+                    interface IBatchUpdateMetastorePartitionsRequest {
+
+                        /** BatchUpdateMetastorePartitionsRequest parent */
+                        parent?: (string|null);
+
+                        /** BatchUpdateMetastorePartitionsRequest requests */
+                        requests?: (google.cloud.bigquery.storage.v1beta.IUpdateMetastorePartitionRequest[]|null);
+
+                        /** BatchUpdateMetastorePartitionsRequest traceId */
+                        traceId?: (string|null);
+                    }
+
+                    /** Represents a BatchUpdateMetastorePartitionsRequest. */
+                    class BatchUpdateMetastorePartitionsRequest implements IBatchUpdateMetastorePartitionsRequest {
+
+                        /**
+                         * Constructs a new BatchUpdateMetastorePartitionsRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest);
+
+                        /** BatchUpdateMetastorePartitionsRequest parent. */
+                        public parent: string;
+
+                        /** BatchUpdateMetastorePartitionsRequest requests. */
+                        public requests: google.cloud.bigquery.storage.v1beta.IUpdateMetastorePartitionRequest[];
+
+                        /** BatchUpdateMetastorePartitionsRequest traceId. */
+                        public traceId: string;
+
+                        /**
+                         * Creates a new BatchUpdateMetastorePartitionsRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns BatchUpdateMetastorePartitionsRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest): google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsRequest;
+
+                        /**
+                         * Encodes the specified BatchUpdateMetastorePartitionsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message BatchUpdateMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified BatchUpdateMetastorePartitionsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message BatchUpdateMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a BatchUpdateMetastorePartitionsRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns BatchUpdateMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsRequest;
+
+                        /**
+                         * Decodes a BatchUpdateMetastorePartitionsRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns BatchUpdateMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsRequest;
+
+                        /**
+                         * Verifies a BatchUpdateMetastorePartitionsRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a BatchUpdateMetastorePartitionsRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns BatchUpdateMetastorePartitionsRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsRequest;
+
+                        /**
+                         * Creates a plain object from a BatchUpdateMetastorePartitionsRequest message. Also converts values to other types if specified.
+                         * @param message BatchUpdateMetastorePartitionsRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this BatchUpdateMetastorePartitionsRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for BatchUpdateMetastorePartitionsRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a BatchUpdateMetastorePartitionsResponse. */
+                    interface IBatchUpdateMetastorePartitionsResponse {
+
+                        /** BatchUpdateMetastorePartitionsResponse partitions */
+                        partitions?: (google.cloud.bigquery.storage.v1beta.IMetastorePartition[]|null);
+                    }
+
+                    /** Represents a BatchUpdateMetastorePartitionsResponse. */
+                    class BatchUpdateMetastorePartitionsResponse implements IBatchUpdateMetastorePartitionsResponse {
+
+                        /**
+                         * Constructs a new BatchUpdateMetastorePartitionsResponse.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsResponse);
+
+                        /** BatchUpdateMetastorePartitionsResponse partitions. */
+                        public partitions: google.cloud.bigquery.storage.v1beta.IMetastorePartition[];
+
+                        /**
+                         * Creates a new BatchUpdateMetastorePartitionsResponse instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns BatchUpdateMetastorePartitionsResponse instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsResponse): google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsResponse;
+
+                        /**
+                         * Encodes the specified BatchUpdateMetastorePartitionsResponse message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message BatchUpdateMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified BatchUpdateMetastorePartitionsResponse message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message BatchUpdateMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IBatchUpdateMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a BatchUpdateMetastorePartitionsResponse message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns BatchUpdateMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsResponse;
+
+                        /**
+                         * Decodes a BatchUpdateMetastorePartitionsResponse message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns BatchUpdateMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsResponse;
+
+                        /**
+                         * Verifies a BatchUpdateMetastorePartitionsResponse message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a BatchUpdateMetastorePartitionsResponse message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns BatchUpdateMetastorePartitionsResponse
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsResponse;
+
+                        /**
+                         * Creates a plain object from a BatchUpdateMetastorePartitionsResponse message. Also converts values to other types if specified.
+                         * @param message BatchUpdateMetastorePartitionsResponse
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.BatchUpdateMetastorePartitionsResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this BatchUpdateMetastorePartitionsResponse to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for BatchUpdateMetastorePartitionsResponse
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a ListMetastorePartitionsRequest. */
+                    interface IListMetastorePartitionsRequest {
+
+                        /** ListMetastorePartitionsRequest parent */
+                        parent?: (string|null);
+
+                        /** ListMetastorePartitionsRequest filter */
+                        filter?: (string|null);
+
+                        /** ListMetastorePartitionsRequest traceId */
+                        traceId?: (string|null);
+                    }
+
+                    /** Represents a ListMetastorePartitionsRequest. */
+                    class ListMetastorePartitionsRequest implements IListMetastorePartitionsRequest {
+
+                        /**
+                         * Constructs a new ListMetastorePartitionsRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest);
+
+                        /** ListMetastorePartitionsRequest parent. */
+                        public parent: string;
+
+                        /** ListMetastorePartitionsRequest filter. */
+                        public filter: string;
+
+                        /** ListMetastorePartitionsRequest traceId. */
+                        public traceId: string;
+
+                        /**
+                         * Creates a new ListMetastorePartitionsRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns ListMetastorePartitionsRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest): google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsRequest;
+
+                        /**
+                         * Encodes the specified ListMetastorePartitionsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message ListMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified ListMetastorePartitionsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message ListMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a ListMetastorePartitionsRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns ListMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsRequest;
+
+                        /**
+                         * Decodes a ListMetastorePartitionsRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns ListMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsRequest;
+
+                        /**
+                         * Verifies a ListMetastorePartitionsRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a ListMetastorePartitionsRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns ListMetastorePartitionsRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsRequest;
+
+                        /**
+                         * Creates a plain object from a ListMetastorePartitionsRequest message. Also converts values to other types if specified.
+                         * @param message ListMetastorePartitionsRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this ListMetastorePartitionsRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for ListMetastorePartitionsRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a ListMetastorePartitionsResponse. */
+                    interface IListMetastorePartitionsResponse {
+
+                        /** ListMetastorePartitionsResponse partitions */
+                        partitions?: (google.cloud.bigquery.storage.v1beta.IMetastorePartitionList|null);
+
+                        /** ListMetastorePartitionsResponse streams */
+                        streams?: (google.cloud.bigquery.storage.v1beta.IStreamList|null);
+                    }
+
+                    /** Represents a ListMetastorePartitionsResponse. */
+                    class ListMetastorePartitionsResponse implements IListMetastorePartitionsResponse {
+
+                        /**
+                         * Constructs a new ListMetastorePartitionsResponse.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsResponse);
+
+                        /** ListMetastorePartitionsResponse partitions. */
+                        public partitions?: (google.cloud.bigquery.storage.v1beta.IMetastorePartitionList|null);
+
+                        /** ListMetastorePartitionsResponse streams. */
+                        public streams?: (google.cloud.bigquery.storage.v1beta.IStreamList|null);
+
+                        /** ListMetastorePartitionsResponse response. */
+                        public response?: ("partitions"|"streams");
+
+                        /**
+                         * Creates a new ListMetastorePartitionsResponse instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns ListMetastorePartitionsResponse instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsResponse): google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsResponse;
+
+                        /**
+                         * Encodes the specified ListMetastorePartitionsResponse message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message ListMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified ListMetastorePartitionsResponse message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message ListMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IListMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a ListMetastorePartitionsResponse message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns ListMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsResponse;
+
+                        /**
+                         * Decodes a ListMetastorePartitionsResponse message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns ListMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsResponse;
+
+                        /**
+                         * Verifies a ListMetastorePartitionsResponse message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a ListMetastorePartitionsResponse message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns ListMetastorePartitionsResponse
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsResponse;
+
+                        /**
+                         * Creates a plain object from a ListMetastorePartitionsResponse message. Also converts values to other types if specified.
+                         * @param message ListMetastorePartitionsResponse
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.ListMetastorePartitionsResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this ListMetastorePartitionsResponse to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for ListMetastorePartitionsResponse
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a StreamMetastorePartitionsRequest. */
+                    interface IStreamMetastorePartitionsRequest {
+
+                        /** StreamMetastorePartitionsRequest parent */
+                        parent?: (string|null);
+
+                        /** StreamMetastorePartitionsRequest metastorePartitions */
+                        metastorePartitions?: (google.cloud.bigquery.storage.v1beta.IMetastorePartition[]|null);
+
+                        /** StreamMetastorePartitionsRequest skipExistingPartitions */
+                        skipExistingPartitions?: (boolean|null);
+                    }
+
+                    /** Represents a StreamMetastorePartitionsRequest. */
+                    class StreamMetastorePartitionsRequest implements IStreamMetastorePartitionsRequest {
+
+                        /**
+                         * Constructs a new StreamMetastorePartitionsRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IStreamMetastorePartitionsRequest);
+
+                        /** StreamMetastorePartitionsRequest parent. */
+                        public parent: string;
+
+                        /** StreamMetastorePartitionsRequest metastorePartitions. */
+                        public metastorePartitions: google.cloud.bigquery.storage.v1beta.IMetastorePartition[];
+
+                        /** StreamMetastorePartitionsRequest skipExistingPartitions. */
+                        public skipExistingPartitions: boolean;
+
+                        /**
+                         * Creates a new StreamMetastorePartitionsRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns StreamMetastorePartitionsRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IStreamMetastorePartitionsRequest): google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsRequest;
+
+                        /**
+                         * Encodes the specified StreamMetastorePartitionsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message StreamMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IStreamMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified StreamMetastorePartitionsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsRequest.verify|verify} messages.
+                         * @param message StreamMetastorePartitionsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IStreamMetastorePartitionsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a StreamMetastorePartitionsRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns StreamMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsRequest;
+
+                        /**
+                         * Decodes a StreamMetastorePartitionsRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns StreamMetastorePartitionsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsRequest;
+
+                        /**
+                         * Verifies a StreamMetastorePartitionsRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a StreamMetastorePartitionsRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns StreamMetastorePartitionsRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsRequest;
+
+                        /**
+                         * Creates a plain object from a StreamMetastorePartitionsRequest message. Also converts values to other types if specified.
+                         * @param message StreamMetastorePartitionsRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this StreamMetastorePartitionsRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for StreamMetastorePartitionsRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a StreamMetastorePartitionsResponse. */
+                    interface IStreamMetastorePartitionsResponse {
+
+                        /** StreamMetastorePartitionsResponse totalPartitionsStreamedCount */
+                        totalPartitionsStreamedCount?: (number|Long|string|null);
+
+                        /** StreamMetastorePartitionsResponse totalPartitionsInsertedCount */
+                        totalPartitionsInsertedCount?: (number|Long|string|null);
+                    }
+
+                    /** Represents a StreamMetastorePartitionsResponse. */
+                    class StreamMetastorePartitionsResponse implements IStreamMetastorePartitionsResponse {
+
+                        /**
+                         * Constructs a new StreamMetastorePartitionsResponse.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IStreamMetastorePartitionsResponse);
+
+                        /** StreamMetastorePartitionsResponse totalPartitionsStreamedCount. */
+                        public totalPartitionsStreamedCount: (number|Long|string);
+
+                        /** StreamMetastorePartitionsResponse totalPartitionsInsertedCount. */
+                        public totalPartitionsInsertedCount: (number|Long|string);
+
+                        /**
+                         * Creates a new StreamMetastorePartitionsResponse instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns StreamMetastorePartitionsResponse instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IStreamMetastorePartitionsResponse): google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsResponse;
+
+                        /**
+                         * Encodes the specified StreamMetastorePartitionsResponse message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message StreamMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IStreamMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified StreamMetastorePartitionsResponse message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsResponse.verify|verify} messages.
+                         * @param message StreamMetastorePartitionsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IStreamMetastorePartitionsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a StreamMetastorePartitionsResponse message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns StreamMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsResponse;
+
+                        /**
+                         * Decodes a StreamMetastorePartitionsResponse message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns StreamMetastorePartitionsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsResponse;
+
+                        /**
+                         * Verifies a StreamMetastorePartitionsResponse message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a StreamMetastorePartitionsResponse message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns StreamMetastorePartitionsResponse
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsResponse;
+
+                        /**
+                         * Creates a plain object from a StreamMetastorePartitionsResponse message. Also converts values to other types if specified.
+                         * @param message StreamMetastorePartitionsResponse
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.StreamMetastorePartitionsResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this StreamMetastorePartitionsResponse to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for StreamMetastorePartitionsResponse
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a BatchSizeTooLargeError. */
+                    interface IBatchSizeTooLargeError {
+
+                        /** BatchSizeTooLargeError maxBatchSize */
+                        maxBatchSize?: (number|Long|string|null);
+
+                        /** BatchSizeTooLargeError errorMessage */
+                        errorMessage?: (string|null);
+                    }
+
+                    /** Represents a BatchSizeTooLargeError. */
+                    class BatchSizeTooLargeError implements IBatchSizeTooLargeError {
+
+                        /**
+                         * Constructs a new BatchSizeTooLargeError.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IBatchSizeTooLargeError);
+
+                        /** BatchSizeTooLargeError maxBatchSize. */
+                        public maxBatchSize: (number|Long|string);
+
+                        /** BatchSizeTooLargeError errorMessage. */
+                        public errorMessage: string;
+
+                        /**
+                         * Creates a new BatchSizeTooLargeError instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns BatchSizeTooLargeError instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IBatchSizeTooLargeError): google.cloud.bigquery.storage.v1beta.BatchSizeTooLargeError;
+
+                        /**
+                         * Encodes the specified BatchSizeTooLargeError message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.BatchSizeTooLargeError.verify|verify} messages.
+                         * @param message BatchSizeTooLargeError message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IBatchSizeTooLargeError, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified BatchSizeTooLargeError message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.BatchSizeTooLargeError.verify|verify} messages.
+                         * @param message BatchSizeTooLargeError message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IBatchSizeTooLargeError, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a BatchSizeTooLargeError message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns BatchSizeTooLargeError
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.BatchSizeTooLargeError;
+
+                        /**
+                         * Decodes a BatchSizeTooLargeError message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns BatchSizeTooLargeError
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.BatchSizeTooLargeError;
+
+                        /**
+                         * Verifies a BatchSizeTooLargeError message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a BatchSizeTooLargeError message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns BatchSizeTooLargeError
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.BatchSizeTooLargeError;
+
+                        /**
+                         * Creates a plain object from a BatchSizeTooLargeError message. Also converts values to other types if specified.
+                         * @param message BatchSizeTooLargeError
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.BatchSizeTooLargeError, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this BatchSizeTooLargeError to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for BatchSizeTooLargeError
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a FieldSchema. */
+                    interface IFieldSchema {
+
+                        /** FieldSchema name */
+                        name?: (string|null);
+
+                        /** FieldSchema type */
+                        type?: (string|null);
+                    }
+
+                    /** Represents a FieldSchema. */
+                    class FieldSchema implements IFieldSchema {
+
+                        /**
+                         * Constructs a new FieldSchema.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IFieldSchema);
+
+                        /** FieldSchema name. */
+                        public name: string;
+
+                        /** FieldSchema type. */
+                        public type: string;
+
+                        /**
+                         * Creates a new FieldSchema instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns FieldSchema instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IFieldSchema): google.cloud.bigquery.storage.v1beta.FieldSchema;
+
+                        /**
+                         * Encodes the specified FieldSchema message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.FieldSchema.verify|verify} messages.
+                         * @param message FieldSchema message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IFieldSchema, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified FieldSchema message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.FieldSchema.verify|verify} messages.
+                         * @param message FieldSchema message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IFieldSchema, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a FieldSchema message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns FieldSchema
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.FieldSchema;
+
+                        /**
+                         * Decodes a FieldSchema message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns FieldSchema
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.FieldSchema;
+
+                        /**
+                         * Verifies a FieldSchema message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a FieldSchema message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns FieldSchema
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.FieldSchema;
+
+                        /**
+                         * Creates a plain object from a FieldSchema message. Also converts values to other types if specified.
+                         * @param message FieldSchema
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.FieldSchema, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this FieldSchema to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for FieldSchema
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a StorageDescriptor. */
+                    interface IStorageDescriptor {
+
+                        /** StorageDescriptor locationUri */
+                        locationUri?: (string|null);
+
+                        /** StorageDescriptor inputFormat */
+                        inputFormat?: (string|null);
+
+                        /** StorageDescriptor outputFormat */
+                        outputFormat?: (string|null);
+
+                        /** StorageDescriptor serdeInfo */
+                        serdeInfo?: (google.cloud.bigquery.storage.v1beta.ISerDeInfo|null);
+                    }
+
+                    /** Represents a StorageDescriptor. */
+                    class StorageDescriptor implements IStorageDescriptor {
+
+                        /**
+                         * Constructs a new StorageDescriptor.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IStorageDescriptor);
+
+                        /** StorageDescriptor locationUri. */
+                        public locationUri: string;
+
+                        /** StorageDescriptor inputFormat. */
+                        public inputFormat: string;
+
+                        /** StorageDescriptor outputFormat. */
+                        public outputFormat: string;
+
+                        /** StorageDescriptor serdeInfo. */
+                        public serdeInfo?: (google.cloud.bigquery.storage.v1beta.ISerDeInfo|null);
+
+                        /**
+                         * Creates a new StorageDescriptor instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns StorageDescriptor instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IStorageDescriptor): google.cloud.bigquery.storage.v1beta.StorageDescriptor;
+
+                        /**
+                         * Encodes the specified StorageDescriptor message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.StorageDescriptor.verify|verify} messages.
+                         * @param message StorageDescriptor message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IStorageDescriptor, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified StorageDescriptor message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.StorageDescriptor.verify|verify} messages.
+                         * @param message StorageDescriptor message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IStorageDescriptor, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a StorageDescriptor message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns StorageDescriptor
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.StorageDescriptor;
+
+                        /**
+                         * Decodes a StorageDescriptor message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns StorageDescriptor
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.StorageDescriptor;
+
+                        /**
+                         * Verifies a StorageDescriptor message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a StorageDescriptor message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns StorageDescriptor
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.StorageDescriptor;
+
+                        /**
+                         * Creates a plain object from a StorageDescriptor message. Also converts values to other types if specified.
+                         * @param message StorageDescriptor
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.StorageDescriptor, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this StorageDescriptor to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for StorageDescriptor
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a SerDeInfo. */
+                    interface ISerDeInfo {
+
+                        /** SerDeInfo name */
+                        name?: (string|null);
+
+                        /** SerDeInfo serializationLibrary */
+                        serializationLibrary?: (string|null);
+
+                        /** SerDeInfo parameters */
+                        parameters?: ({ [k: string]: string }|null);
+                    }
+
+                    /** Represents a SerDeInfo. */
+                    class SerDeInfo implements ISerDeInfo {
+
+                        /**
+                         * Constructs a new SerDeInfo.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.ISerDeInfo);
+
+                        /** SerDeInfo name. */
+                        public name: string;
+
+                        /** SerDeInfo serializationLibrary. */
+                        public serializationLibrary: string;
+
+                        /** SerDeInfo parameters. */
+                        public parameters: { [k: string]: string };
+
+                        /**
+                         * Creates a new SerDeInfo instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns SerDeInfo instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.ISerDeInfo): google.cloud.bigquery.storage.v1beta.SerDeInfo;
+
+                        /**
+                         * Encodes the specified SerDeInfo message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.SerDeInfo.verify|verify} messages.
+                         * @param message SerDeInfo message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.ISerDeInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified SerDeInfo message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.SerDeInfo.verify|verify} messages.
+                         * @param message SerDeInfo message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.ISerDeInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a SerDeInfo message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns SerDeInfo
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.SerDeInfo;
+
+                        /**
+                         * Decodes a SerDeInfo message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns SerDeInfo
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.SerDeInfo;
+
+                        /**
+                         * Verifies a SerDeInfo message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a SerDeInfo message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns SerDeInfo
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.SerDeInfo;
+
+                        /**
+                         * Creates a plain object from a SerDeInfo message. Also converts values to other types if specified.
+                         * @param message SerDeInfo
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.SerDeInfo, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this SerDeInfo to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for SerDeInfo
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a MetastorePartition. */
+                    interface IMetastorePartition {
+
+                        /** MetastorePartition values */
+                        values?: (string[]|null);
+
+                        /** MetastorePartition createTime */
+                        createTime?: (google.protobuf.ITimestamp|null);
+
+                        /** MetastorePartition storageDescriptor */
+                        storageDescriptor?: (google.cloud.bigquery.storage.v1beta.IStorageDescriptor|null);
+
+                        /** MetastorePartition parameters */
+                        parameters?: ({ [k: string]: string }|null);
+
+                        /** MetastorePartition fields */
+                        fields?: (google.cloud.bigquery.storage.v1beta.IFieldSchema[]|null);
+                    }
+
+                    /** Represents a MetastorePartition. */
+                    class MetastorePartition implements IMetastorePartition {
+
+                        /**
+                         * Constructs a new MetastorePartition.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IMetastorePartition);
+
+                        /** MetastorePartition values. */
+                        public values: string[];
+
+                        /** MetastorePartition createTime. */
+                        public createTime?: (google.protobuf.ITimestamp|null);
+
+                        /** MetastorePartition storageDescriptor. */
+                        public storageDescriptor?: (google.cloud.bigquery.storage.v1beta.IStorageDescriptor|null);
+
+                        /** MetastorePartition parameters. */
+                        public parameters: { [k: string]: string };
+
+                        /** MetastorePartition fields. */
+                        public fields: google.cloud.bigquery.storage.v1beta.IFieldSchema[];
+
+                        /**
+                         * Creates a new MetastorePartition instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns MetastorePartition instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IMetastorePartition): google.cloud.bigquery.storage.v1beta.MetastorePartition;
+
+                        /**
+                         * Encodes the specified MetastorePartition message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.MetastorePartition.verify|verify} messages.
+                         * @param message MetastorePartition message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IMetastorePartition, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified MetastorePartition message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.MetastorePartition.verify|verify} messages.
+                         * @param message MetastorePartition message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IMetastorePartition, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a MetastorePartition message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns MetastorePartition
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.MetastorePartition;
+
+                        /**
+                         * Decodes a MetastorePartition message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns MetastorePartition
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.MetastorePartition;
+
+                        /**
+                         * Verifies a MetastorePartition message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a MetastorePartition message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns MetastorePartition
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.MetastorePartition;
+
+                        /**
+                         * Creates a plain object from a MetastorePartition message. Also converts values to other types if specified.
+                         * @param message MetastorePartition
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.MetastorePartition, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this MetastorePartition to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for MetastorePartition
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a MetastorePartitionList. */
+                    interface IMetastorePartitionList {
+
+                        /** MetastorePartitionList partitions */
+                        partitions?: (google.cloud.bigquery.storage.v1beta.IMetastorePartition[]|null);
+                    }
+
+                    /** Represents a MetastorePartitionList. */
+                    class MetastorePartitionList implements IMetastorePartitionList {
+
+                        /**
+                         * Constructs a new MetastorePartitionList.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IMetastorePartitionList);
+
+                        /** MetastorePartitionList partitions. */
+                        public partitions: google.cloud.bigquery.storage.v1beta.IMetastorePartition[];
+
+                        /**
+                         * Creates a new MetastorePartitionList instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns MetastorePartitionList instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IMetastorePartitionList): google.cloud.bigquery.storage.v1beta.MetastorePartitionList;
+
+                        /**
+                         * Encodes the specified MetastorePartitionList message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.MetastorePartitionList.verify|verify} messages.
+                         * @param message MetastorePartitionList message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IMetastorePartitionList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified MetastorePartitionList message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.MetastorePartitionList.verify|verify} messages.
+                         * @param message MetastorePartitionList message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IMetastorePartitionList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a MetastorePartitionList message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns MetastorePartitionList
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.MetastorePartitionList;
+
+                        /**
+                         * Decodes a MetastorePartitionList message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns MetastorePartitionList
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.MetastorePartitionList;
+
+                        /**
+                         * Verifies a MetastorePartitionList message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a MetastorePartitionList message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns MetastorePartitionList
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.MetastorePartitionList;
+
+                        /**
+                         * Creates a plain object from a MetastorePartitionList message. Also converts values to other types if specified.
+                         * @param message MetastorePartitionList
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.MetastorePartitionList, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this MetastorePartitionList to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for MetastorePartitionList
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a ReadStream. */
+                    interface IReadStream {
+
+                        /** ReadStream name */
+                        name?: (string|null);
+                    }
+
+                    /** Represents a ReadStream. */
+                    class ReadStream implements IReadStream {
+
+                        /**
+                         * Constructs a new ReadStream.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IReadStream);
+
+                        /** ReadStream name. */
+                        public name: string;
+
+                        /**
+                         * Creates a new ReadStream instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns ReadStream instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IReadStream): google.cloud.bigquery.storage.v1beta.ReadStream;
+
+                        /**
+                         * Encodes the specified ReadStream message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.ReadStream.verify|verify} messages.
+                         * @param message ReadStream message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IReadStream, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified ReadStream message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.ReadStream.verify|verify} messages.
+                         * @param message ReadStream message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IReadStream, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a ReadStream message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns ReadStream
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.ReadStream;
+
+                        /**
+                         * Decodes a ReadStream message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns ReadStream
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.ReadStream;
+
+                        /**
+                         * Verifies a ReadStream message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a ReadStream message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns ReadStream
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.ReadStream;
+
+                        /**
+                         * Creates a plain object from a ReadStream message. Also converts values to other types if specified.
+                         * @param message ReadStream
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.ReadStream, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this ReadStream to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for ReadStream
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a StreamList. */
+                    interface IStreamList {
+
+                        /** StreamList streams */
+                        streams?: (google.cloud.bigquery.storage.v1beta.IReadStream[]|null);
+                    }
+
+                    /** Represents a StreamList. */
+                    class StreamList implements IStreamList {
+
+                        /**
+                         * Constructs a new StreamList.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IStreamList);
+
+                        /** StreamList streams. */
+                        public streams: google.cloud.bigquery.storage.v1beta.IReadStream[];
+
+                        /**
+                         * Creates a new StreamList instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns StreamList instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IStreamList): google.cloud.bigquery.storage.v1beta.StreamList;
+
+                        /**
+                         * Encodes the specified StreamList message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.StreamList.verify|verify} messages.
+                         * @param message StreamList message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IStreamList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified StreamList message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.StreamList.verify|verify} messages.
+                         * @param message StreamList message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IStreamList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a StreamList message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns StreamList
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.StreamList;
+
+                        /**
+                         * Decodes a StreamList message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns StreamList
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.StreamList;
+
+                        /**
+                         * Verifies a StreamList message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a StreamList message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns StreamList
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.StreamList;
+
+                        /**
+                         * Creates a plain object from a StreamList message. Also converts values to other types if specified.
+                         * @param message StreamList
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.StreamList, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this StreamList to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for StreamList
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a MetastorePartitionValues. */
+                    interface IMetastorePartitionValues {
+
+                        /** MetastorePartitionValues values */
+                        values?: (string[]|null);
+                    }
+
+                    /** Represents a MetastorePartitionValues. */
+                    class MetastorePartitionValues implements IMetastorePartitionValues {
+
+                        /**
+                         * Constructs a new MetastorePartitionValues.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta.IMetastorePartitionValues);
+
+                        /** MetastorePartitionValues values. */
+                        public values: string[];
+
+                        /**
+                         * Creates a new MetastorePartitionValues instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns MetastorePartitionValues instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta.IMetastorePartitionValues): google.cloud.bigquery.storage.v1beta.MetastorePartitionValues;
+
+                        /**
+                         * Encodes the specified MetastorePartitionValues message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.MetastorePartitionValues.verify|verify} messages.
+                         * @param message MetastorePartitionValues message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta.IMetastorePartitionValues, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified MetastorePartitionValues message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta.MetastorePartitionValues.verify|verify} messages.
+                         * @param message MetastorePartitionValues message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta.IMetastorePartitionValues, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a MetastorePartitionValues message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns MetastorePartitionValues
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta.MetastorePartitionValues;
+
+                        /**
+                         * Decodes a MetastorePartitionValues message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns MetastorePartitionValues
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta.MetastorePartitionValues;
+
+                        /**
+                         * Verifies a MetastorePartitionValues message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a MetastorePartitionValues message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns MetastorePartitionValues
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta.MetastorePartitionValues;
+
+                        /**
+                         * Creates a plain object from a MetastorePartitionValues message. Also converts values to other types if specified.
+                         * @param message MetastorePartitionValues
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta.MetastorePartitionValues, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this MetastorePartitionValues to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for MetastorePartitionValues
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+                }
+
+                /** Namespace v1beta1. */
+                namespace v1beta1 {
+
+                    /** Properties of an ArrowSchema. */
+                    interface IArrowSchema {
+
+                        /** ArrowSchema serializedSchema */
+                        serializedSchema?: (Uint8Array|Buffer|string|null);
+                    }
+
+                    /** Represents an ArrowSchema. */
+                    class ArrowSchema implements IArrowSchema {
+
+                        /**
+                         * Constructs a new ArrowSchema.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.IArrowSchema);
+
+                        /** ArrowSchema serializedSchema. */
+                        public serializedSchema: (Uint8Array|Buffer|string);
+
+                        /**
+                         * Creates a new ArrowSchema instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns ArrowSchema instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.IArrowSchema): google.cloud.bigquery.storage.v1beta1.ArrowSchema;
+
+                        /**
+                         * Encodes the specified ArrowSchema message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.ArrowSchema.verify|verify} messages.
+                         * @param message ArrowSchema message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.IArrowSchema, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified ArrowSchema message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.ArrowSchema.verify|verify} messages.
+                         * @param message ArrowSchema message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.IArrowSchema, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes an ArrowSchema message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns ArrowSchema
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.ArrowSchema;
+
+                        /**
+                         * Decodes an ArrowSchema message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns ArrowSchema
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.ArrowSchema;
+
+                        /**
+                         * Verifies an ArrowSchema message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates an ArrowSchema message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns ArrowSchema
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.ArrowSchema;
+
+                        /**
+                         * Creates a plain object from an ArrowSchema message. Also converts values to other types if specified.
+                         * @param message ArrowSchema
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.ArrowSchema, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this ArrowSchema to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for ArrowSchema
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of an ArrowRecordBatch. */
+                    interface IArrowRecordBatch {
+
+                        /** ArrowRecordBatch serializedRecordBatch */
+                        serializedRecordBatch?: (Uint8Array|Buffer|string|null);
+
+                        /** ArrowRecordBatch rowCount */
+                        rowCount?: (number|Long|string|null);
+                    }
+
+                    /** Represents an ArrowRecordBatch. */
+                    class ArrowRecordBatch implements IArrowRecordBatch {
+
+                        /**
+                         * Constructs a new ArrowRecordBatch.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.IArrowRecordBatch);
+
+                        /** ArrowRecordBatch serializedRecordBatch. */
+                        public serializedRecordBatch: (Uint8Array|Buffer|string);
+
+                        /** ArrowRecordBatch rowCount. */
+                        public rowCount: (number|Long|string);
+
+                        /**
+                         * Creates a new ArrowRecordBatch instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns ArrowRecordBatch instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.IArrowRecordBatch): google.cloud.bigquery.storage.v1beta1.ArrowRecordBatch;
+
+                        /**
+                         * Encodes the specified ArrowRecordBatch message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.ArrowRecordBatch.verify|verify} messages.
+                         * @param message ArrowRecordBatch message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.IArrowRecordBatch, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified ArrowRecordBatch message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.ArrowRecordBatch.verify|verify} messages.
+                         * @param message ArrowRecordBatch message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.IArrowRecordBatch, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes an ArrowRecordBatch message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns ArrowRecordBatch
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.ArrowRecordBatch;
+
+                        /**
+                         * Decodes an ArrowRecordBatch message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns ArrowRecordBatch
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.ArrowRecordBatch;
+
+                        /**
+                         * Verifies an ArrowRecordBatch message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates an ArrowRecordBatch message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns ArrowRecordBatch
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.ArrowRecordBatch;
+
+                        /**
+                         * Creates a plain object from an ArrowRecordBatch message. Also converts values to other types if specified.
+                         * @param message ArrowRecordBatch
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.ArrowRecordBatch, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this ArrowRecordBatch to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for ArrowRecordBatch
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of an AvroSchema. */
+                    interface IAvroSchema {
+
+                        /** AvroSchema schema */
+                        schema?: (string|null);
+                    }
+
+                    /** Represents an AvroSchema. */
+                    class AvroSchema implements IAvroSchema {
+
+                        /**
+                         * Constructs a new AvroSchema.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.IAvroSchema);
+
+                        /** AvroSchema schema. */
+                        public schema: string;
+
+                        /**
+                         * Creates a new AvroSchema instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns AvroSchema instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.IAvroSchema): google.cloud.bigquery.storage.v1beta1.AvroSchema;
+
+                        /**
+                         * Encodes the specified AvroSchema message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.AvroSchema.verify|verify} messages.
+                         * @param message AvroSchema message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.IAvroSchema, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified AvroSchema message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.AvroSchema.verify|verify} messages.
+                         * @param message AvroSchema message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.IAvroSchema, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes an AvroSchema message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns AvroSchema
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.AvroSchema;
+
+                        /**
+                         * Decodes an AvroSchema message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns AvroSchema
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.AvroSchema;
+
+                        /**
+                         * Verifies an AvroSchema message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates an AvroSchema message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns AvroSchema
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.AvroSchema;
+
+                        /**
+                         * Creates a plain object from an AvroSchema message. Also converts values to other types if specified.
+                         * @param message AvroSchema
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.AvroSchema, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this AvroSchema to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for AvroSchema
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of an AvroRows. */
+                    interface IAvroRows {
+
+                        /** AvroRows serializedBinaryRows */
+                        serializedBinaryRows?: (Uint8Array|Buffer|string|null);
+
+                        /** AvroRows rowCount */
+                        rowCount?: (number|Long|string|null);
+                    }
+
+                    /** Represents an AvroRows. */
+                    class AvroRows implements IAvroRows {
+
+                        /**
+                         * Constructs a new AvroRows.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.IAvroRows);
+
+                        /** AvroRows serializedBinaryRows. */
+                        public serializedBinaryRows: (Uint8Array|Buffer|string);
+
+                        /** AvroRows rowCount. */
+                        public rowCount: (number|Long|string);
+
+                        /**
+                         * Creates a new AvroRows instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns AvroRows instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.IAvroRows): google.cloud.bigquery.storage.v1beta1.AvroRows;
+
+                        /**
+                         * Encodes the specified AvroRows message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.AvroRows.verify|verify} messages.
+                         * @param message AvroRows message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.IAvroRows, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified AvroRows message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.AvroRows.verify|verify} messages.
+                         * @param message AvroRows message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.IAvroRows, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes an AvroRows message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns AvroRows
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.AvroRows;
+
+                        /**
+                         * Decodes an AvroRows message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns AvroRows
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.AvroRows;
+
+                        /**
+                         * Verifies an AvroRows message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates an AvroRows message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns AvroRows
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.AvroRows;
+
+                        /**
+                         * Creates a plain object from an AvroRows message. Also converts values to other types if specified.
+                         * @param message AvroRows
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.AvroRows, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this AvroRows to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for AvroRows
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a TableReadOptions. */
+                    interface ITableReadOptions {
+
+                        /** TableReadOptions selectedFields */
+                        selectedFields?: (string[]|null);
+
+                        /** TableReadOptions rowRestriction */
+                        rowRestriction?: (string|null);
+                    }
+
+                    /** Represents a TableReadOptions. */
+                    class TableReadOptions implements ITableReadOptions {
+
+                        /**
+                         * Constructs a new TableReadOptions.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.ITableReadOptions);
+
+                        /** TableReadOptions selectedFields. */
+                        public selectedFields: string[];
+
+                        /** TableReadOptions rowRestriction. */
+                        public rowRestriction: string;
+
+                        /**
+                         * Creates a new TableReadOptions instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns TableReadOptions instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.ITableReadOptions): google.cloud.bigquery.storage.v1beta1.TableReadOptions;
+
+                        /**
+                         * Encodes the specified TableReadOptions message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableReadOptions.verify|verify} messages.
+                         * @param message TableReadOptions message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.ITableReadOptions, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified TableReadOptions message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableReadOptions.verify|verify} messages.
+                         * @param message TableReadOptions message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.ITableReadOptions, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a TableReadOptions message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns TableReadOptions
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.TableReadOptions;
+
+                        /**
+                         * Decodes a TableReadOptions message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns TableReadOptions
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.TableReadOptions;
+
+                        /**
+                         * Verifies a TableReadOptions message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a TableReadOptions message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns TableReadOptions
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.TableReadOptions;
+
+                        /**
+                         * Creates a plain object from a TableReadOptions message. Also converts values to other types if specified.
+                         * @param message TableReadOptions
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.TableReadOptions, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this TableReadOptions to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for TableReadOptions
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Represents a BigQueryStorage */
+                    class BigQueryStorage extends $protobuf.rpc.Service {
+
+                        /**
+                         * Constructs a new BigQueryStorage service.
+                         * @param rpcImpl RPC implementation
+                         * @param [requestDelimited=false] Whether requests are length-delimited
+                         * @param [responseDelimited=false] Whether responses are length-delimited
+                         */
+                        constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
+
+                        /**
+                         * Creates new BigQueryStorage service using the specified rpc implementation.
+                         * @param rpcImpl RPC implementation
+                         * @param [requestDelimited=false] Whether requests are length-delimited
+                         * @param [responseDelimited=false] Whether responses are length-delimited
+                         * @returns RPC service. Useful where requests and/or responses are streamed.
+                         */
+                        public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): BigQueryStorage;
+
+                        /**
+                         * Calls CreateReadSession.
+                         * @param request CreateReadSessionRequest message or plain object
+                         * @param callback Node-style callback called with the error, if any, and ReadSession
+                         */
+                        public createReadSession(request: google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest, callback: google.cloud.bigquery.storage.v1beta1.BigQueryStorage.CreateReadSessionCallback): void;
+
+                        /**
+                         * Calls CreateReadSession.
+                         * @param request CreateReadSessionRequest message or plain object
+                         * @returns Promise
+                         */
+                        public createReadSession(request: google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest): Promise<google.cloud.bigquery.storage.v1beta1.ReadSession>;
+
+                        /**
+                         * Calls ReadRows.
+                         * @param request ReadRowsRequest message or plain object
+                         * @param callback Node-style callback called with the error, if any, and ReadRowsResponse
+                         */
+                        public readRows(request: google.cloud.bigquery.storage.v1beta1.IReadRowsRequest, callback: google.cloud.bigquery.storage.v1beta1.BigQueryStorage.ReadRowsCallback): void;
+
+                        /**
+                         * Calls ReadRows.
+                         * @param request ReadRowsRequest message or plain object
+                         * @returns Promise
+                         */
+                        public readRows(request: google.cloud.bigquery.storage.v1beta1.IReadRowsRequest): Promise<google.cloud.bigquery.storage.v1beta1.ReadRowsResponse>;
+
+                        /**
+                         * Calls BatchCreateReadSessionStreams.
+                         * @param request BatchCreateReadSessionStreamsRequest message or plain object
+                         * @param callback Node-style callback called with the error, if any, and BatchCreateReadSessionStreamsResponse
+                         */
+                        public batchCreateReadSessionStreams(request: google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest, callback: google.cloud.bigquery.storage.v1beta1.BigQueryStorage.BatchCreateReadSessionStreamsCallback): void;
+
+                        /**
+                         * Calls BatchCreateReadSessionStreams.
+                         * @param request BatchCreateReadSessionStreamsRequest message or plain object
+                         * @returns Promise
+                         */
+                        public batchCreateReadSessionStreams(request: google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest): Promise<google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse>;
+
+                        /**
+                         * Calls FinalizeStream.
+                         * @param request FinalizeStreamRequest message or plain object
+                         * @param callback Node-style callback called with the error, if any, and Empty
+                         */
+                        public finalizeStream(request: google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest, callback: google.cloud.bigquery.storage.v1beta1.BigQueryStorage.FinalizeStreamCallback): void;
+
+                        /**
+                         * Calls FinalizeStream.
+                         * @param request FinalizeStreamRequest message or plain object
+                         * @returns Promise
+                         */
+                        public finalizeStream(request: google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest): Promise<google.protobuf.Empty>;
+
+                        /**
+                         * Calls SplitReadStream.
+                         * @param request SplitReadStreamRequest message or plain object
+                         * @param callback Node-style callback called with the error, if any, and SplitReadStreamResponse
+                         */
+                        public splitReadStream(request: google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest, callback: google.cloud.bigquery.storage.v1beta1.BigQueryStorage.SplitReadStreamCallback): void;
+
+                        /**
+                         * Calls SplitReadStream.
+                         * @param request SplitReadStreamRequest message or plain object
+                         * @returns Promise
+                         */
+                        public splitReadStream(request: google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest): Promise<google.cloud.bigquery.storage.v1beta1.SplitReadStreamResponse>;
+                    }
+
+                    namespace BigQueryStorage {
+
+                        /**
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta1.BigQueryStorage|createReadSession}.
+                         * @param error Error, if any
+                         * @param [response] ReadSession
+                         */
+                        type CreateReadSessionCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1beta1.ReadSession) => void;
+
+                        /**
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta1.BigQueryStorage|readRows}.
+                         * @param error Error, if any
+                         * @param [response] ReadRowsResponse
+                         */
+                        type ReadRowsCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1beta1.ReadRowsResponse) => void;
+
+                        /**
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta1.BigQueryStorage|batchCreateReadSessionStreams}.
+                         * @param error Error, if any
+                         * @param [response] BatchCreateReadSessionStreamsResponse
+                         */
+                        type BatchCreateReadSessionStreamsCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse) => void;
+
+                        /**
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta1.BigQueryStorage|finalizeStream}.
+                         * @param error Error, if any
+                         * @param [response] Empty
+                         */
+                        type FinalizeStreamCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
+
+                        /**
+                         * Callback as used by {@link google.cloud.bigquery.storage.v1beta1.BigQueryStorage|splitReadStream}.
+                         * @param error Error, if any
+                         * @param [response] SplitReadStreamResponse
+                         */
+                        type SplitReadStreamCallback = (error: (Error|null), response?: google.cloud.bigquery.storage.v1beta1.SplitReadStreamResponse) => void;
+                    }
+
+                    /** Properties of a Stream. */
+                    interface IStream {
+
+                        /** Stream name */
+                        name?: (string|null);
+                    }
+
+                    /** Represents a Stream. */
+                    class Stream implements IStream {
+
+                        /**
+                         * Constructs a new Stream.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.IStream);
+
+                        /** Stream name. */
+                        public name: string;
+
+                        /**
+                         * Creates a new Stream instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns Stream instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.IStream): google.cloud.bigquery.storage.v1beta1.Stream;
+
+                        /**
+                         * Encodes the specified Stream message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.Stream.verify|verify} messages.
+                         * @param message Stream message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.IStream, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified Stream message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.Stream.verify|verify} messages.
+                         * @param message Stream message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.IStream, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a Stream message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns Stream
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.Stream;
+
+                        /**
+                         * Decodes a Stream message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns Stream
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.Stream;
+
+                        /**
+                         * Verifies a Stream message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a Stream message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns Stream
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.Stream;
+
+                        /**
+                         * Creates a plain object from a Stream message. Also converts values to other types if specified.
+                         * @param message Stream
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.Stream, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this Stream to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for Stream
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a StreamPosition. */
+                    interface IStreamPosition {
+
+                        /** StreamPosition stream */
+                        stream?: (google.cloud.bigquery.storage.v1beta1.IStream|null);
+
+                        /** StreamPosition offset */
+                        offset?: (number|Long|string|null);
+                    }
+
+                    /** Represents a StreamPosition. */
+                    class StreamPosition implements IStreamPosition {
+
+                        /**
+                         * Constructs a new StreamPosition.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.IStreamPosition);
+
+                        /** StreamPosition stream. */
+                        public stream?: (google.cloud.bigquery.storage.v1beta1.IStream|null);
+
+                        /** StreamPosition offset. */
+                        public offset: (number|Long|string);
+
+                        /**
+                         * Creates a new StreamPosition instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns StreamPosition instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.IStreamPosition): google.cloud.bigquery.storage.v1beta1.StreamPosition;
+
+                        /**
+                         * Encodes the specified StreamPosition message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.StreamPosition.verify|verify} messages.
+                         * @param message StreamPosition message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.IStreamPosition, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified StreamPosition message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.StreamPosition.verify|verify} messages.
+                         * @param message StreamPosition message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.IStreamPosition, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a StreamPosition message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns StreamPosition
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.StreamPosition;
+
+                        /**
+                         * Decodes a StreamPosition message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns StreamPosition
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.StreamPosition;
+
+                        /**
+                         * Verifies a StreamPosition message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a StreamPosition message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns StreamPosition
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.StreamPosition;
+
+                        /**
+                         * Creates a plain object from a StreamPosition message. Also converts values to other types if specified.
+                         * @param message StreamPosition
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.StreamPosition, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this StreamPosition to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for StreamPosition
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a ReadSession. */
+                    interface IReadSession {
+
+                        /** ReadSession name */
+                        name?: (string|null);
+
+                        /** ReadSession expireTime */
+                        expireTime?: (google.protobuf.ITimestamp|null);
+
+                        /** ReadSession avroSchema */
+                        avroSchema?: (google.cloud.bigquery.storage.v1beta1.IAvroSchema|null);
+
+                        /** ReadSession arrowSchema */
+                        arrowSchema?: (google.cloud.bigquery.storage.v1beta1.IArrowSchema|null);
+
+                        /** ReadSession streams */
+                        streams?: (google.cloud.bigquery.storage.v1beta1.IStream[]|null);
+
+                        /** ReadSession tableReference */
+                        tableReference?: (google.cloud.bigquery.storage.v1beta1.ITableReference|null);
+
+                        /** ReadSession tableModifiers */
+                        tableModifiers?: (google.cloud.bigquery.storage.v1beta1.ITableModifiers|null);
+
+                        /** ReadSession shardingStrategy */
+                        shardingStrategy?: (google.cloud.bigquery.storage.v1beta1.ShardingStrategy|keyof typeof google.cloud.bigquery.storage.v1beta1.ShardingStrategy|null);
+                    }
+
+                    /** Represents a ReadSession. */
+                    class ReadSession implements IReadSession {
+
+                        /**
+                         * Constructs a new ReadSession.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.IReadSession);
+
+                        /** ReadSession name. */
+                        public name: string;
+
+                        /** ReadSession expireTime. */
+                        public expireTime?: (google.protobuf.ITimestamp|null);
+
+                        /** ReadSession avroSchema. */
+                        public avroSchema?: (google.cloud.bigquery.storage.v1beta1.IAvroSchema|null);
+
+                        /** ReadSession arrowSchema. */
+                        public arrowSchema?: (google.cloud.bigquery.storage.v1beta1.IArrowSchema|null);
+
+                        /** ReadSession streams. */
+                        public streams: google.cloud.bigquery.storage.v1beta1.IStream[];
+
+                        /** ReadSession tableReference. */
+                        public tableReference?: (google.cloud.bigquery.storage.v1beta1.ITableReference|null);
+
+                        /** ReadSession tableModifiers. */
+                        public tableModifiers?: (google.cloud.bigquery.storage.v1beta1.ITableModifiers|null);
+
+                        /** ReadSession shardingStrategy. */
+                        public shardingStrategy: (google.cloud.bigquery.storage.v1beta1.ShardingStrategy|keyof typeof google.cloud.bigquery.storage.v1beta1.ShardingStrategy);
+
+                        /** ReadSession schema. */
+                        public schema?: ("avroSchema"|"arrowSchema");
+
+                        /**
+                         * Creates a new ReadSession instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns ReadSession instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.IReadSession): google.cloud.bigquery.storage.v1beta1.ReadSession;
+
+                        /**
+                         * Encodes the specified ReadSession message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.ReadSession.verify|verify} messages.
+                         * @param message ReadSession message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.IReadSession, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified ReadSession message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.ReadSession.verify|verify} messages.
+                         * @param message ReadSession message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.IReadSession, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a ReadSession message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns ReadSession
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.ReadSession;
+
+                        /**
+                         * Decodes a ReadSession message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns ReadSession
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.ReadSession;
+
+                        /**
+                         * Verifies a ReadSession message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a ReadSession message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns ReadSession
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.ReadSession;
+
+                        /**
+                         * Creates a plain object from a ReadSession message. Also converts values to other types if specified.
+                         * @param message ReadSession
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.ReadSession, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this ReadSession to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for ReadSession
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** DataFormat enum. */
+                    enum DataFormat {
+                        DATA_FORMAT_UNSPECIFIED = 0,
+                        AVRO = 1,
+                        ARROW = 3
+                    }
+
+                    /** ShardingStrategy enum. */
+                    enum ShardingStrategy {
+                        SHARDING_STRATEGY_UNSPECIFIED = 0,
+                        LIQUID = 1,
+                        BALANCED = 2
+                    }
+
+                    /** Properties of a CreateReadSessionRequest. */
+                    interface ICreateReadSessionRequest {
+
+                        /** CreateReadSessionRequest tableReference */
+                        tableReference?: (google.cloud.bigquery.storage.v1beta1.ITableReference|null);
+
+                        /** CreateReadSessionRequest parent */
+                        parent?: (string|null);
+
+                        /** CreateReadSessionRequest tableModifiers */
+                        tableModifiers?: (google.cloud.bigquery.storage.v1beta1.ITableModifiers|null);
+
+                        /** CreateReadSessionRequest requestedStreams */
+                        requestedStreams?: (number|null);
+
+                        /** CreateReadSessionRequest readOptions */
+                        readOptions?: (google.cloud.bigquery.storage.v1beta1.ITableReadOptions|null);
+
+                        /** CreateReadSessionRequest format */
+                        format?: (google.cloud.bigquery.storage.v1beta1.DataFormat|keyof typeof google.cloud.bigquery.storage.v1beta1.DataFormat|null);
+
+                        /** CreateReadSessionRequest shardingStrategy */
+                        shardingStrategy?: (google.cloud.bigquery.storage.v1beta1.ShardingStrategy|keyof typeof google.cloud.bigquery.storage.v1beta1.ShardingStrategy|null);
+                    }
+
+                    /** Represents a CreateReadSessionRequest. */
+                    class CreateReadSessionRequest implements ICreateReadSessionRequest {
+
+                        /**
+                         * Constructs a new CreateReadSessionRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest);
+
+                        /** CreateReadSessionRequest tableReference. */
+                        public tableReference?: (google.cloud.bigquery.storage.v1beta1.ITableReference|null);
+
+                        /** CreateReadSessionRequest parent. */
+                        public parent: string;
+
+                        /** CreateReadSessionRequest tableModifiers. */
+                        public tableModifiers?: (google.cloud.bigquery.storage.v1beta1.ITableModifiers|null);
+
+                        /** CreateReadSessionRequest requestedStreams. */
+                        public requestedStreams: number;
+
+                        /** CreateReadSessionRequest readOptions. */
+                        public readOptions?: (google.cloud.bigquery.storage.v1beta1.ITableReadOptions|null);
+
+                        /** CreateReadSessionRequest format. */
+                        public format: (google.cloud.bigquery.storage.v1beta1.DataFormat|keyof typeof google.cloud.bigquery.storage.v1beta1.DataFormat);
+
+                        /** CreateReadSessionRequest shardingStrategy. */
+                        public shardingStrategy: (google.cloud.bigquery.storage.v1beta1.ShardingStrategy|keyof typeof google.cloud.bigquery.storage.v1beta1.ShardingStrategy);
+
+                        /**
+                         * Creates a new CreateReadSessionRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns CreateReadSessionRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest): google.cloud.bigquery.storage.v1beta1.CreateReadSessionRequest;
+
+                        /**
+                         * Encodes the specified CreateReadSessionRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.CreateReadSessionRequest.verify|verify} messages.
+                         * @param message CreateReadSessionRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified CreateReadSessionRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.CreateReadSessionRequest.verify|verify} messages.
+                         * @param message CreateReadSessionRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.ICreateReadSessionRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a CreateReadSessionRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns CreateReadSessionRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.CreateReadSessionRequest;
+
+                        /**
+                         * Decodes a CreateReadSessionRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns CreateReadSessionRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.CreateReadSessionRequest;
+
+                        /**
+                         * Verifies a CreateReadSessionRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a CreateReadSessionRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns CreateReadSessionRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.CreateReadSessionRequest;
+
+                        /**
+                         * Creates a plain object from a CreateReadSessionRequest message. Also converts values to other types if specified.
+                         * @param message CreateReadSessionRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.CreateReadSessionRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this CreateReadSessionRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for CreateReadSessionRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a ReadRowsRequest. */
+                    interface IReadRowsRequest {
+
+                        /** ReadRowsRequest readPosition */
+                        readPosition?: (google.cloud.bigquery.storage.v1beta1.IStreamPosition|null);
+                    }
+
+                    /** Represents a ReadRowsRequest. */
+                    class ReadRowsRequest implements IReadRowsRequest {
+
+                        /**
+                         * Constructs a new ReadRowsRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.IReadRowsRequest);
+
+                        /** ReadRowsRequest readPosition. */
+                        public readPosition?: (google.cloud.bigquery.storage.v1beta1.IStreamPosition|null);
+
+                        /**
+                         * Creates a new ReadRowsRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns ReadRowsRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.IReadRowsRequest): google.cloud.bigquery.storage.v1beta1.ReadRowsRequest;
+
+                        /**
+                         * Encodes the specified ReadRowsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.ReadRowsRequest.verify|verify} messages.
+                         * @param message ReadRowsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.IReadRowsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified ReadRowsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.ReadRowsRequest.verify|verify} messages.
+                         * @param message ReadRowsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.IReadRowsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a ReadRowsRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns ReadRowsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.ReadRowsRequest;
+
+                        /**
+                         * Decodes a ReadRowsRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns ReadRowsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.ReadRowsRequest;
+
+                        /**
+                         * Verifies a ReadRowsRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a ReadRowsRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns ReadRowsRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.ReadRowsRequest;
+
+                        /**
+                         * Creates a plain object from a ReadRowsRequest message. Also converts values to other types if specified.
+                         * @param message ReadRowsRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.ReadRowsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this ReadRowsRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for ReadRowsRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a StreamStatus. */
+                    interface IStreamStatus {
+
+                        /** StreamStatus estimatedRowCount */
+                        estimatedRowCount?: (number|Long|string|null);
+
+                        /** StreamStatus fractionConsumed */
+                        fractionConsumed?: (number|null);
+
+                        /** StreamStatus progress */
+                        progress?: (google.cloud.bigquery.storage.v1beta1.IProgress|null);
+
+                        /** StreamStatus isSplittable */
+                        isSplittable?: (boolean|null);
+                    }
+
+                    /** Represents a StreamStatus. */
+                    class StreamStatus implements IStreamStatus {
+
+                        /**
+                         * Constructs a new StreamStatus.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.IStreamStatus);
+
+                        /** StreamStatus estimatedRowCount. */
+                        public estimatedRowCount: (number|Long|string);
+
+                        /** StreamStatus fractionConsumed. */
+                        public fractionConsumed: number;
+
+                        /** StreamStatus progress. */
+                        public progress?: (google.cloud.bigquery.storage.v1beta1.IProgress|null);
+
+                        /** StreamStatus isSplittable. */
+                        public isSplittable: boolean;
+
+                        /**
+                         * Creates a new StreamStatus instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns StreamStatus instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.IStreamStatus): google.cloud.bigquery.storage.v1beta1.StreamStatus;
+
+                        /**
+                         * Encodes the specified StreamStatus message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.StreamStatus.verify|verify} messages.
+                         * @param message StreamStatus message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.IStreamStatus, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified StreamStatus message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.StreamStatus.verify|verify} messages.
+                         * @param message StreamStatus message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.IStreamStatus, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a StreamStatus message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns StreamStatus
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.StreamStatus;
+
+                        /**
+                         * Decodes a StreamStatus message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns StreamStatus
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.StreamStatus;
+
+                        /**
+                         * Verifies a StreamStatus message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a StreamStatus message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns StreamStatus
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.StreamStatus;
+
+                        /**
+                         * Creates a plain object from a StreamStatus message. Also converts values to other types if specified.
+                         * @param message StreamStatus
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.StreamStatus, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this StreamStatus to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for StreamStatus
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a Progress. */
+                    interface IProgress {
+
+                        /** Progress atResponseStart */
+                        atResponseStart?: (number|null);
+
+                        /** Progress atResponseEnd */
+                        atResponseEnd?: (number|null);
+                    }
+
+                    /** Represents a Progress. */
+                    class Progress implements IProgress {
+
+                        /**
+                         * Constructs a new Progress.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.IProgress);
+
+                        /** Progress atResponseStart. */
+                        public atResponseStart: number;
+
+                        /** Progress atResponseEnd. */
+                        public atResponseEnd: number;
+
+                        /**
+                         * Creates a new Progress instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns Progress instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.IProgress): google.cloud.bigquery.storage.v1beta1.Progress;
+
+                        /**
+                         * Encodes the specified Progress message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.Progress.verify|verify} messages.
+                         * @param message Progress message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.IProgress, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified Progress message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.Progress.verify|verify} messages.
+                         * @param message Progress message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.IProgress, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a Progress message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns Progress
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.Progress;
+
+                        /**
+                         * Decodes a Progress message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns Progress
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.Progress;
+
+                        /**
+                         * Verifies a Progress message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a Progress message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns Progress
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.Progress;
+
+                        /**
+                         * Creates a plain object from a Progress message. Also converts values to other types if specified.
+                         * @param message Progress
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.Progress, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this Progress to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for Progress
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a ThrottleStatus. */
+                    interface IThrottleStatus {
+
+                        /** ThrottleStatus throttlePercent */
+                        throttlePercent?: (number|null);
+                    }
+
+                    /** Represents a ThrottleStatus. */
+                    class ThrottleStatus implements IThrottleStatus {
+
+                        /**
+                         * Constructs a new ThrottleStatus.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.IThrottleStatus);
+
+                        /** ThrottleStatus throttlePercent. */
+                        public throttlePercent: number;
+
+                        /**
+                         * Creates a new ThrottleStatus instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns ThrottleStatus instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.IThrottleStatus): google.cloud.bigquery.storage.v1beta1.ThrottleStatus;
+
+                        /**
+                         * Encodes the specified ThrottleStatus message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.ThrottleStatus.verify|verify} messages.
+                         * @param message ThrottleStatus message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.IThrottleStatus, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified ThrottleStatus message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.ThrottleStatus.verify|verify} messages.
+                         * @param message ThrottleStatus message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.IThrottleStatus, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a ThrottleStatus message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns ThrottleStatus
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.ThrottleStatus;
+
+                        /**
+                         * Decodes a ThrottleStatus message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns ThrottleStatus
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.ThrottleStatus;
+
+                        /**
+                         * Verifies a ThrottleStatus message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a ThrottleStatus message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns ThrottleStatus
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.ThrottleStatus;
+
+                        /**
+                         * Creates a plain object from a ThrottleStatus message. Also converts values to other types if specified.
+                         * @param message ThrottleStatus
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.ThrottleStatus, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this ThrottleStatus to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for ThrottleStatus
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a ReadRowsResponse. */
+                    interface IReadRowsResponse {
+
+                        /** ReadRowsResponse avroRows */
+                        avroRows?: (google.cloud.bigquery.storage.v1beta1.IAvroRows|null);
+
+                        /** ReadRowsResponse arrowRecordBatch */
+                        arrowRecordBatch?: (google.cloud.bigquery.storage.v1beta1.IArrowRecordBatch|null);
+
+                        /** ReadRowsResponse rowCount */
+                        rowCount?: (number|Long|string|null);
+
+                        /** ReadRowsResponse status */
+                        status?: (google.cloud.bigquery.storage.v1beta1.IStreamStatus|null);
+
+                        /** ReadRowsResponse throttleStatus */
+                        throttleStatus?: (google.cloud.bigquery.storage.v1beta1.IThrottleStatus|null);
+
+                        /** ReadRowsResponse avroSchema */
+                        avroSchema?: (google.cloud.bigquery.storage.v1beta1.IAvroSchema|null);
+
+                        /** ReadRowsResponse arrowSchema */
+                        arrowSchema?: (google.cloud.bigquery.storage.v1beta1.IArrowSchema|null);
+                    }
+
+                    /** Represents a ReadRowsResponse. */
+                    class ReadRowsResponse implements IReadRowsResponse {
+
+                        /**
+                         * Constructs a new ReadRowsResponse.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.IReadRowsResponse);
+
+                        /** ReadRowsResponse avroRows. */
+                        public avroRows?: (google.cloud.bigquery.storage.v1beta1.IAvroRows|null);
+
+                        /** ReadRowsResponse arrowRecordBatch. */
+                        public arrowRecordBatch?: (google.cloud.bigquery.storage.v1beta1.IArrowRecordBatch|null);
+
+                        /** ReadRowsResponse rowCount. */
+                        public rowCount: (number|Long|string);
+
+                        /** ReadRowsResponse status. */
+                        public status?: (google.cloud.bigquery.storage.v1beta1.IStreamStatus|null);
+
+                        /** ReadRowsResponse throttleStatus. */
+                        public throttleStatus?: (google.cloud.bigquery.storage.v1beta1.IThrottleStatus|null);
+
+                        /** ReadRowsResponse avroSchema. */
+                        public avroSchema?: (google.cloud.bigquery.storage.v1beta1.IAvroSchema|null);
+
+                        /** ReadRowsResponse arrowSchema. */
+                        public arrowSchema?: (google.cloud.bigquery.storage.v1beta1.IArrowSchema|null);
+
+                        /** ReadRowsResponse rows. */
+                        public rows?: ("avroRows"|"arrowRecordBatch");
+
+                        /** ReadRowsResponse schema. */
+                        public schema?: ("avroSchema"|"arrowSchema");
+
+                        /**
+                         * Creates a new ReadRowsResponse instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns ReadRowsResponse instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.IReadRowsResponse): google.cloud.bigquery.storage.v1beta1.ReadRowsResponse;
+
+                        /**
+                         * Encodes the specified ReadRowsResponse message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.ReadRowsResponse.verify|verify} messages.
+                         * @param message ReadRowsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.IReadRowsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified ReadRowsResponse message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.ReadRowsResponse.verify|verify} messages.
+                         * @param message ReadRowsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.IReadRowsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a ReadRowsResponse message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns ReadRowsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.ReadRowsResponse;
+
+                        /**
+                         * Decodes a ReadRowsResponse message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns ReadRowsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.ReadRowsResponse;
+
+                        /**
+                         * Verifies a ReadRowsResponse message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a ReadRowsResponse message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns ReadRowsResponse
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.ReadRowsResponse;
+
+                        /**
+                         * Creates a plain object from a ReadRowsResponse message. Also converts values to other types if specified.
+                         * @param message ReadRowsResponse
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.ReadRowsResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this ReadRowsResponse to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for ReadRowsResponse
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a BatchCreateReadSessionStreamsRequest. */
+                    interface IBatchCreateReadSessionStreamsRequest {
+
+                        /** BatchCreateReadSessionStreamsRequest session */
+                        session?: (google.cloud.bigquery.storage.v1beta1.IReadSession|null);
+
+                        /** BatchCreateReadSessionStreamsRequest requestedStreams */
+                        requestedStreams?: (number|null);
+                    }
+
+                    /** Represents a BatchCreateReadSessionStreamsRequest. */
+                    class BatchCreateReadSessionStreamsRequest implements IBatchCreateReadSessionStreamsRequest {
+
+                        /**
+                         * Constructs a new BatchCreateReadSessionStreamsRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest);
+
+                        /** BatchCreateReadSessionStreamsRequest session. */
+                        public session?: (google.cloud.bigquery.storage.v1beta1.IReadSession|null);
+
+                        /** BatchCreateReadSessionStreamsRequest requestedStreams. */
+                        public requestedStreams: number;
+
+                        /**
+                         * Creates a new BatchCreateReadSessionStreamsRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns BatchCreateReadSessionStreamsRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest): google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsRequest;
+
+                        /**
+                         * Encodes the specified BatchCreateReadSessionStreamsRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsRequest.verify|verify} messages.
+                         * @param message BatchCreateReadSessionStreamsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified BatchCreateReadSessionStreamsRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsRequest.verify|verify} messages.
+                         * @param message BatchCreateReadSessionStreamsRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a BatchCreateReadSessionStreamsRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns BatchCreateReadSessionStreamsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsRequest;
+
+                        /**
+                         * Decodes a BatchCreateReadSessionStreamsRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns BatchCreateReadSessionStreamsRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsRequest;
+
+                        /**
+                         * Verifies a BatchCreateReadSessionStreamsRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a BatchCreateReadSessionStreamsRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns BatchCreateReadSessionStreamsRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsRequest;
+
+                        /**
+                         * Creates a plain object from a BatchCreateReadSessionStreamsRequest message. Also converts values to other types if specified.
+                         * @param message BatchCreateReadSessionStreamsRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this BatchCreateReadSessionStreamsRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for BatchCreateReadSessionStreamsRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a BatchCreateReadSessionStreamsResponse. */
+                    interface IBatchCreateReadSessionStreamsResponse {
+
+                        /** BatchCreateReadSessionStreamsResponse streams */
+                        streams?: (google.cloud.bigquery.storage.v1beta1.IStream[]|null);
+                    }
+
+                    /** Represents a BatchCreateReadSessionStreamsResponse. */
+                    class BatchCreateReadSessionStreamsResponse implements IBatchCreateReadSessionStreamsResponse {
+
+                        /**
+                         * Constructs a new BatchCreateReadSessionStreamsResponse.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsResponse);
+
+                        /** BatchCreateReadSessionStreamsResponse streams. */
+                        public streams: google.cloud.bigquery.storage.v1beta1.IStream[];
+
+                        /**
+                         * Creates a new BatchCreateReadSessionStreamsResponse instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns BatchCreateReadSessionStreamsResponse instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsResponse): google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse;
+
+                        /**
+                         * Encodes the specified BatchCreateReadSessionStreamsResponse message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse.verify|verify} messages.
+                         * @param message BatchCreateReadSessionStreamsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified BatchCreateReadSessionStreamsResponse message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse.verify|verify} messages.
+                         * @param message BatchCreateReadSessionStreamsResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.IBatchCreateReadSessionStreamsResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a BatchCreateReadSessionStreamsResponse message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns BatchCreateReadSessionStreamsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse;
+
+                        /**
+                         * Decodes a BatchCreateReadSessionStreamsResponse message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns BatchCreateReadSessionStreamsResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse;
+
+                        /**
+                         * Verifies a BatchCreateReadSessionStreamsResponse message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a BatchCreateReadSessionStreamsResponse message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns BatchCreateReadSessionStreamsResponse
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse;
+
+                        /**
+                         * Creates a plain object from a BatchCreateReadSessionStreamsResponse message. Also converts values to other types if specified.
+                         * @param message BatchCreateReadSessionStreamsResponse
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.BatchCreateReadSessionStreamsResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this BatchCreateReadSessionStreamsResponse to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for BatchCreateReadSessionStreamsResponse
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a FinalizeStreamRequest. */
+                    interface IFinalizeStreamRequest {
+
+                        /** FinalizeStreamRequest stream */
+                        stream?: (google.cloud.bigquery.storage.v1beta1.IStream|null);
+                    }
+
+                    /** Represents a FinalizeStreamRequest. */
+                    class FinalizeStreamRequest implements IFinalizeStreamRequest {
+
+                        /**
+                         * Constructs a new FinalizeStreamRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest);
+
+                        /** FinalizeStreamRequest stream. */
+                        public stream?: (google.cloud.bigquery.storage.v1beta1.IStream|null);
+
+                        /**
+                         * Creates a new FinalizeStreamRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns FinalizeStreamRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest): google.cloud.bigquery.storage.v1beta1.FinalizeStreamRequest;
+
+                        /**
+                         * Encodes the specified FinalizeStreamRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.FinalizeStreamRequest.verify|verify} messages.
+                         * @param message FinalizeStreamRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified FinalizeStreamRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.FinalizeStreamRequest.verify|verify} messages.
+                         * @param message FinalizeStreamRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.IFinalizeStreamRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a FinalizeStreamRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns FinalizeStreamRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.FinalizeStreamRequest;
+
+                        /**
+                         * Decodes a FinalizeStreamRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns FinalizeStreamRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.FinalizeStreamRequest;
+
+                        /**
+                         * Verifies a FinalizeStreamRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a FinalizeStreamRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns FinalizeStreamRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.FinalizeStreamRequest;
+
+                        /**
+                         * Creates a plain object from a FinalizeStreamRequest message. Also converts values to other types if specified.
+                         * @param message FinalizeStreamRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.FinalizeStreamRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this FinalizeStreamRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for FinalizeStreamRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a SplitReadStreamRequest. */
+                    interface ISplitReadStreamRequest {
+
+                        /** SplitReadStreamRequest originalStream */
+                        originalStream?: (google.cloud.bigquery.storage.v1beta1.IStream|null);
+
+                        /** SplitReadStreamRequest fraction */
+                        fraction?: (number|null);
+                    }
+
+                    /** Represents a SplitReadStreamRequest. */
+                    class SplitReadStreamRequest implements ISplitReadStreamRequest {
+
+                        /**
+                         * Constructs a new SplitReadStreamRequest.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest);
+
+                        /** SplitReadStreamRequest originalStream. */
+                        public originalStream?: (google.cloud.bigquery.storage.v1beta1.IStream|null);
+
+                        /** SplitReadStreamRequest fraction. */
+                        public fraction: number;
+
+                        /**
+                         * Creates a new SplitReadStreamRequest instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns SplitReadStreamRequest instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest): google.cloud.bigquery.storage.v1beta1.SplitReadStreamRequest;
+
+                        /**
+                         * Encodes the specified SplitReadStreamRequest message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.SplitReadStreamRequest.verify|verify} messages.
+                         * @param message SplitReadStreamRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified SplitReadStreamRequest message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.SplitReadStreamRequest.verify|verify} messages.
+                         * @param message SplitReadStreamRequest message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.ISplitReadStreamRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a SplitReadStreamRequest message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns SplitReadStreamRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.SplitReadStreamRequest;
+
+                        /**
+                         * Decodes a SplitReadStreamRequest message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns SplitReadStreamRequest
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.SplitReadStreamRequest;
+
+                        /**
+                         * Verifies a SplitReadStreamRequest message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a SplitReadStreamRequest message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns SplitReadStreamRequest
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.SplitReadStreamRequest;
+
+                        /**
+                         * Creates a plain object from a SplitReadStreamRequest message. Also converts values to other types if specified.
+                         * @param message SplitReadStreamRequest
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.SplitReadStreamRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this SplitReadStreamRequest to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for SplitReadStreamRequest
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a SplitReadStreamResponse. */
+                    interface ISplitReadStreamResponse {
+
+                        /** SplitReadStreamResponse primaryStream */
+                        primaryStream?: (google.cloud.bigquery.storage.v1beta1.IStream|null);
+
+                        /** SplitReadStreamResponse remainderStream */
+                        remainderStream?: (google.cloud.bigquery.storage.v1beta1.IStream|null);
+                    }
+
+                    /** Represents a SplitReadStreamResponse. */
+                    class SplitReadStreamResponse implements ISplitReadStreamResponse {
+
+                        /**
+                         * Constructs a new SplitReadStreamResponse.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.ISplitReadStreamResponse);
+
+                        /** SplitReadStreamResponse primaryStream. */
+                        public primaryStream?: (google.cloud.bigquery.storage.v1beta1.IStream|null);
+
+                        /** SplitReadStreamResponse remainderStream. */
+                        public remainderStream?: (google.cloud.bigquery.storage.v1beta1.IStream|null);
+
+                        /**
+                         * Creates a new SplitReadStreamResponse instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns SplitReadStreamResponse instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.ISplitReadStreamResponse): google.cloud.bigquery.storage.v1beta1.SplitReadStreamResponse;
+
+                        /**
+                         * Encodes the specified SplitReadStreamResponse message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.SplitReadStreamResponse.verify|verify} messages.
+                         * @param message SplitReadStreamResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.ISplitReadStreamResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified SplitReadStreamResponse message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.SplitReadStreamResponse.verify|verify} messages.
+                         * @param message SplitReadStreamResponse message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.ISplitReadStreamResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a SplitReadStreamResponse message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns SplitReadStreamResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.SplitReadStreamResponse;
+
+                        /**
+                         * Decodes a SplitReadStreamResponse message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns SplitReadStreamResponse
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.SplitReadStreamResponse;
+
+                        /**
+                         * Verifies a SplitReadStreamResponse message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a SplitReadStreamResponse message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns SplitReadStreamResponse
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.SplitReadStreamResponse;
+
+                        /**
+                         * Creates a plain object from a SplitReadStreamResponse message. Also converts values to other types if specified.
+                         * @param message SplitReadStreamResponse
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.SplitReadStreamResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this SplitReadStreamResponse to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for SplitReadStreamResponse
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a TableReference. */
+                    interface ITableReference {
+
+                        /** TableReference projectId */
+                        projectId?: (string|null);
+
+                        /** TableReference datasetId */
+                        datasetId?: (string|null);
+
+                        /** TableReference tableId */
+                        tableId?: (string|null);
+                    }
+
+                    /** Represents a TableReference. */
+                    class TableReference implements ITableReference {
+
+                        /**
+                         * Constructs a new TableReference.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.ITableReference);
+
+                        /** TableReference projectId. */
+                        public projectId: string;
+
+                        /** TableReference datasetId. */
+                        public datasetId: string;
+
+                        /** TableReference tableId. */
+                        public tableId: string;
+
+                        /**
+                         * Creates a new TableReference instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns TableReference instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.ITableReference): google.cloud.bigquery.storage.v1beta1.TableReference;
+
+                        /**
+                         * Encodes the specified TableReference message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableReference.verify|verify} messages.
+                         * @param message TableReference message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.ITableReference, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified TableReference message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableReference.verify|verify} messages.
+                         * @param message TableReference message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.ITableReference, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a TableReference message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns TableReference
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.TableReference;
+
+                        /**
+                         * Decodes a TableReference message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns TableReference
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.TableReference;
+
+                        /**
+                         * Verifies a TableReference message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a TableReference message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns TableReference
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.TableReference;
+
+                        /**
+                         * Creates a plain object from a TableReference message. Also converts values to other types if specified.
+                         * @param message TableReference
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.TableReference, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this TableReference to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for TableReference
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+
+                    /** Properties of a TableModifiers. */
+                    interface ITableModifiers {
+
+                        /** TableModifiers snapshotTime */
+                        snapshotTime?: (google.protobuf.ITimestamp|null);
+                    }
+
+                    /** Represents a TableModifiers. */
+                    class TableModifiers implements ITableModifiers {
+
+                        /**
+                         * Constructs a new TableModifiers.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: google.cloud.bigquery.storage.v1beta1.ITableModifiers);
+
+                        /** TableModifiers snapshotTime. */
+                        public snapshotTime?: (google.protobuf.ITimestamp|null);
+
+                        /**
+                         * Creates a new TableModifiers instance using the specified properties.
+                         * @param [properties] Properties to set
+                         * @returns TableModifiers instance
+                         */
+                        public static create(properties?: google.cloud.bigquery.storage.v1beta1.ITableModifiers): google.cloud.bigquery.storage.v1beta1.TableModifiers;
+
+                        /**
+                         * Encodes the specified TableModifiers message. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableModifiers.verify|verify} messages.
+                         * @param message TableModifiers message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encode(message: google.cloud.bigquery.storage.v1beta1.ITableModifiers, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Encodes the specified TableModifiers message, length delimited. Does not implicitly {@link google.cloud.bigquery.storage.v1beta1.TableModifiers.verify|verify} messages.
+                         * @param message TableModifiers message or plain object to encode
+                         * @param [writer] Writer to encode to
+                         * @returns Writer
+                         */
+                        public static encodeDelimited(message: google.cloud.bigquery.storage.v1beta1.ITableModifiers, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                        /**
+                         * Decodes a TableModifiers message from the specified reader or buffer.
+                         * @param reader Reader or buffer to decode from
+                         * @param [length] Message length if known beforehand
+                         * @returns TableModifiers
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.cloud.bigquery.storage.v1beta1.TableModifiers;
+
+                        /**
+                         * Decodes a TableModifiers message from the specified reader or buffer, length delimited.
+                         * @param reader Reader or buffer to decode from
+                         * @returns TableModifiers
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.cloud.bigquery.storage.v1beta1.TableModifiers;
+
+                        /**
+                         * Verifies a TableModifiers message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a TableModifiers message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns TableModifiers
+                         */
+                        public static fromObject(object: { [k: string]: any }): google.cloud.bigquery.storage.v1beta1.TableModifiers;
+
+                        /**
+                         * Creates a plain object from a TableModifiers message. Also converts values to other types if specified.
+                         * @param message TableModifiers
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: google.cloud.bigquery.storage.v1beta1.TableModifiers, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this TableModifiers to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+
+                        /**
+                         * Gets the default type url for TableModifiers
+                         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns The default type url
+                         */
+                        public static getTypeUrl(typeUrlPrefix?: string): string;
+                    }
+                }
             }
         }
     }
@@ -4757,6 +11606,7 @@ export namespace google {
         /** Edition enum. */
         enum Edition {
             EDITION_UNKNOWN = 0,
+            EDITION_LEGACY = 900,
             EDITION_PROTO2 = 998,
             EDITION_PROTO3 = 999,
             EDITION_2023 = 1000,
@@ -4786,6 +11636,9 @@ export namespace google {
 
             /** FileDescriptorProto weakDependency */
             weakDependency?: (number[]|null);
+
+            /** FileDescriptorProto optionDependency */
+            optionDependency?: (string[]|null);
 
             /** FileDescriptorProto messageType */
             messageType?: (google.protobuf.IDescriptorProto[]|null);
@@ -4835,6 +11688,9 @@ export namespace google {
 
             /** FileDescriptorProto weakDependency. */
             public weakDependency: number[];
+
+            /** FileDescriptorProto optionDependency. */
+            public optionDependency: string[];
 
             /** FileDescriptorProto messageType. */
             public messageType: google.protobuf.IDescriptorProto[];
@@ -4970,6 +11826,9 @@ export namespace google {
 
             /** DescriptorProto reservedName */
             reservedName?: (string[]|null);
+
+            /** DescriptorProto visibility */
+            visibility?: (google.protobuf.SymbolVisibility|keyof typeof google.protobuf.SymbolVisibility|null);
         }
 
         /** Represents a DescriptorProto. */
@@ -5010,6 +11869,9 @@ export namespace google {
 
             /** DescriptorProto reservedName. */
             public reservedName: string[];
+
+            /** DescriptorProto visibility. */
+            public visibility: (google.protobuf.SymbolVisibility|keyof typeof google.protobuf.SymbolVisibility);
 
             /**
              * Creates a new DescriptorProto instance using the specified properties.
@@ -5858,6 +12720,9 @@ export namespace google {
 
             /** EnumDescriptorProto reservedName */
             reservedName?: (string[]|null);
+
+            /** EnumDescriptorProto visibility */
+            visibility?: (google.protobuf.SymbolVisibility|keyof typeof google.protobuf.SymbolVisibility|null);
         }
 
         /** Represents an EnumDescriptorProto. */
@@ -5883,6 +12748,9 @@ export namespace google {
 
             /** EnumDescriptorProto reservedName. */
             public reservedName: string[];
+
+            /** EnumDescriptorProto visibility. */
+            public visibility: (google.protobuf.SymbolVisibility|keyof typeof google.protobuf.SymbolVisibility);
 
             /**
              * Creates a new EnumDescriptorProto instance using the specified properties.
@@ -6818,6 +13686,9 @@ export namespace google {
             /** FieldOptions features */
             features?: (google.protobuf.IFeatureSet|null);
 
+            /** FieldOptions featureSupport */
+            featureSupport?: (google.protobuf.FieldOptions.IFeatureSupport|null);
+
             /** FieldOptions uninterpretedOption */
             uninterpretedOption?: (google.protobuf.IUninterpretedOption[]|null);
 
@@ -6875,6 +13746,9 @@ export namespace google {
 
             /** FieldOptions features. */
             public features?: (google.protobuf.IFeatureSet|null);
+
+            /** FieldOptions featureSupport. */
+            public featureSupport?: (google.protobuf.FieldOptions.IFeatureSupport|null);
 
             /** FieldOptions uninterpretedOption. */
             public uninterpretedOption: google.protobuf.IUninterpretedOption[];
@@ -7091,6 +13965,121 @@ export namespace google {
 
                 /**
                  * Gets the default type url for EditionDefault
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            /** Properties of a FeatureSupport. */
+            interface IFeatureSupport {
+
+                /** FeatureSupport editionIntroduced */
+                editionIntroduced?: (google.protobuf.Edition|keyof typeof google.protobuf.Edition|null);
+
+                /** FeatureSupport editionDeprecated */
+                editionDeprecated?: (google.protobuf.Edition|keyof typeof google.protobuf.Edition|null);
+
+                /** FeatureSupport deprecationWarning */
+                deprecationWarning?: (string|null);
+
+                /** FeatureSupport editionRemoved */
+                editionRemoved?: (google.protobuf.Edition|keyof typeof google.protobuf.Edition|null);
+            }
+
+            /** Represents a FeatureSupport. */
+            class FeatureSupport implements IFeatureSupport {
+
+                /**
+                 * Constructs a new FeatureSupport.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: google.protobuf.FieldOptions.IFeatureSupport);
+
+                /** FeatureSupport editionIntroduced. */
+                public editionIntroduced: (google.protobuf.Edition|keyof typeof google.protobuf.Edition);
+
+                /** FeatureSupport editionDeprecated. */
+                public editionDeprecated: (google.protobuf.Edition|keyof typeof google.protobuf.Edition);
+
+                /** FeatureSupport deprecationWarning. */
+                public deprecationWarning: string;
+
+                /** FeatureSupport editionRemoved. */
+                public editionRemoved: (google.protobuf.Edition|keyof typeof google.protobuf.Edition);
+
+                /**
+                 * Creates a new FeatureSupport instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns FeatureSupport instance
+                 */
+                public static create(properties?: google.protobuf.FieldOptions.IFeatureSupport): google.protobuf.FieldOptions.FeatureSupport;
+
+                /**
+                 * Encodes the specified FeatureSupport message. Does not implicitly {@link google.protobuf.FieldOptions.FeatureSupport.verify|verify} messages.
+                 * @param message FeatureSupport message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: google.protobuf.FieldOptions.IFeatureSupport, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified FeatureSupport message, length delimited. Does not implicitly {@link google.protobuf.FieldOptions.FeatureSupport.verify|verify} messages.
+                 * @param message FeatureSupport message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: google.protobuf.FieldOptions.IFeatureSupport, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a FeatureSupport message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns FeatureSupport
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.FieldOptions.FeatureSupport;
+
+                /**
+                 * Decodes a FeatureSupport message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns FeatureSupport
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.FieldOptions.FeatureSupport;
+
+                /**
+                 * Verifies a FeatureSupport message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a FeatureSupport message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns FeatureSupport
+                 */
+                public static fromObject(object: { [k: string]: any }): google.protobuf.FieldOptions.FeatureSupport;
+
+                /**
+                 * Creates a plain object from a FeatureSupport message. Also converts values to other types if specified.
+                 * @param message FeatureSupport
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: google.protobuf.FieldOptions.FeatureSupport, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this FeatureSupport to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for FeatureSupport
                  * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
                  * @returns The default type url
                  */
@@ -7334,6 +14323,9 @@ export namespace google {
             /** EnumValueOptions debugRedact */
             debugRedact?: (boolean|null);
 
+            /** EnumValueOptions featureSupport */
+            featureSupport?: (google.protobuf.FieldOptions.IFeatureSupport|null);
+
             /** EnumValueOptions uninterpretedOption */
             uninterpretedOption?: (google.protobuf.IUninterpretedOption[]|null);
         }
@@ -7355,6 +14347,9 @@ export namespace google {
 
             /** EnumValueOptions debugRedact. */
             public debugRedact: boolean;
+
+            /** EnumValueOptions featureSupport. */
+            public featureSupport?: (google.protobuf.FieldOptions.IFeatureSupport|null);
 
             /** EnumValueOptions uninterpretedOption. */
             public uninterpretedOption: google.protobuf.IUninterpretedOption[];
@@ -7945,6 +14940,12 @@ export namespace google {
 
             /** FeatureSet jsonFormat */
             jsonFormat?: (google.protobuf.FeatureSet.JsonFormat|keyof typeof google.protobuf.FeatureSet.JsonFormat|null);
+
+            /** FeatureSet enforceNamingStyle */
+            enforceNamingStyle?: (google.protobuf.FeatureSet.EnforceNamingStyle|keyof typeof google.protobuf.FeatureSet.EnforceNamingStyle|null);
+
+            /** FeatureSet defaultSymbolVisibility */
+            defaultSymbolVisibility?: (google.protobuf.FeatureSet.VisibilityFeature.DefaultSymbolVisibility|keyof typeof google.protobuf.FeatureSet.VisibilityFeature.DefaultSymbolVisibility|null);
         }
 
         /** Represents a FeatureSet. */
@@ -7973,6 +14974,12 @@ export namespace google {
 
             /** FeatureSet jsonFormat. */
             public jsonFormat: (google.protobuf.FeatureSet.JsonFormat|keyof typeof google.protobuf.FeatureSet.JsonFormat);
+
+            /** FeatureSet enforceNamingStyle. */
+            public enforceNamingStyle: (google.protobuf.FeatureSet.EnforceNamingStyle|keyof typeof google.protobuf.FeatureSet.EnforceNamingStyle);
+
+            /** FeatureSet defaultSymbolVisibility. */
+            public defaultSymbolVisibility: (google.protobuf.FeatureSet.VisibilityFeature.DefaultSymbolVisibility|keyof typeof google.protobuf.FeatureSet.VisibilityFeature.DefaultSymbolVisibility);
 
             /**
              * Creates a new FeatureSet instance using the specified properties.
@@ -8096,6 +15103,116 @@ export namespace google {
                 ALLOW = 1,
                 LEGACY_BEST_EFFORT = 2
             }
+
+            /** EnforceNamingStyle enum. */
+            enum EnforceNamingStyle {
+                ENFORCE_NAMING_STYLE_UNKNOWN = 0,
+                STYLE2024 = 1,
+                STYLE_LEGACY = 2
+            }
+
+            /** Properties of a VisibilityFeature. */
+            interface IVisibilityFeature {
+            }
+
+            /** Represents a VisibilityFeature. */
+            class VisibilityFeature implements IVisibilityFeature {
+
+                /**
+                 * Constructs a new VisibilityFeature.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: google.protobuf.FeatureSet.IVisibilityFeature);
+
+                /**
+                 * Creates a new VisibilityFeature instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns VisibilityFeature instance
+                 */
+                public static create(properties?: google.protobuf.FeatureSet.IVisibilityFeature): google.protobuf.FeatureSet.VisibilityFeature;
+
+                /**
+                 * Encodes the specified VisibilityFeature message. Does not implicitly {@link google.protobuf.FeatureSet.VisibilityFeature.verify|verify} messages.
+                 * @param message VisibilityFeature message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: google.protobuf.FeatureSet.IVisibilityFeature, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified VisibilityFeature message, length delimited. Does not implicitly {@link google.protobuf.FeatureSet.VisibilityFeature.verify|verify} messages.
+                 * @param message VisibilityFeature message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: google.protobuf.FeatureSet.IVisibilityFeature, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a VisibilityFeature message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns VisibilityFeature
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.FeatureSet.VisibilityFeature;
+
+                /**
+                 * Decodes a VisibilityFeature message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns VisibilityFeature
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.FeatureSet.VisibilityFeature;
+
+                /**
+                 * Verifies a VisibilityFeature message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a VisibilityFeature message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns VisibilityFeature
+                 */
+                public static fromObject(object: { [k: string]: any }): google.protobuf.FeatureSet.VisibilityFeature;
+
+                /**
+                 * Creates a plain object from a VisibilityFeature message. Also converts values to other types if specified.
+                 * @param message VisibilityFeature
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: google.protobuf.FeatureSet.VisibilityFeature, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this VisibilityFeature to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for VisibilityFeature
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
+
+            namespace VisibilityFeature {
+
+                /** DefaultSymbolVisibility enum. */
+                enum DefaultSymbolVisibility {
+                    DEFAULT_SYMBOL_VISIBILITY_UNKNOWN = 0,
+                    EXPORT_ALL = 1,
+                    EXPORT_TOP_LEVEL = 2,
+                    LOCAL_ALL = 3,
+                    STRICT = 4
+                }
+            }
         }
 
         /** Properties of a FeatureSetDefaults. */
@@ -8215,8 +15332,11 @@ export namespace google {
                 /** FeatureSetEditionDefault edition */
                 edition?: (google.protobuf.Edition|keyof typeof google.protobuf.Edition|null);
 
-                /** FeatureSetEditionDefault features */
-                features?: (google.protobuf.IFeatureSet|null);
+                /** FeatureSetEditionDefault overridableFeatures */
+                overridableFeatures?: (google.protobuf.IFeatureSet|null);
+
+                /** FeatureSetEditionDefault fixedFeatures */
+                fixedFeatures?: (google.protobuf.IFeatureSet|null);
             }
 
             /** Represents a FeatureSetEditionDefault. */
@@ -8231,8 +15351,11 @@ export namespace google {
                 /** FeatureSetEditionDefault edition. */
                 public edition: (google.protobuf.Edition|keyof typeof google.protobuf.Edition);
 
-                /** FeatureSetEditionDefault features. */
-                public features?: (google.protobuf.IFeatureSet|null);
+                /** FeatureSetEditionDefault overridableFeatures. */
+                public overridableFeatures?: (google.protobuf.IFeatureSet|null);
+
+                /** FeatureSetEditionDefault fixedFeatures. */
+                public fixedFeatures?: (google.protobuf.IFeatureSet|null);
 
                 /**
                  * Creates a new FeatureSetEditionDefault instance using the specified properties.
@@ -8763,6 +15886,13 @@ export namespace google {
                     ALIAS = 2
                 }
             }
+        }
+
+        /** SymbolVisibility enum. */
+        enum SymbolVisibility {
+            VISIBILITY_UNSET = 0,
+            VISIBILITY_LOCAL = 1,
+            VISIBILITY_EXPORT = 2
         }
 
         /** Properties of a Duration. */
@@ -9946,6 +17076,194 @@ export namespace google {
              */
             public static getTypeUrl(typeUrlPrefix?: string): string;
         }
+
+        /** Properties of an Empty. */
+        interface IEmpty {
+        }
+
+        /** Represents an Empty. */
+        class Empty implements IEmpty {
+
+            /**
+             * Constructs a new Empty.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.protobuf.IEmpty);
+
+            /**
+             * Creates a new Empty instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns Empty instance
+             */
+            public static create(properties?: google.protobuf.IEmpty): google.protobuf.Empty;
+
+            /**
+             * Encodes the specified Empty message. Does not implicitly {@link google.protobuf.Empty.verify|verify} messages.
+             * @param message Empty message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.protobuf.IEmpty, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified Empty message, length delimited. Does not implicitly {@link google.protobuf.Empty.verify|verify} messages.
+             * @param message Empty message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.protobuf.IEmpty, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes an Empty message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns Empty
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.Empty;
+
+            /**
+             * Decodes an Empty message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns Empty
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.Empty;
+
+            /**
+             * Verifies an Empty message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates an Empty message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns Empty
+             */
+            public static fromObject(object: { [k: string]: any }): google.protobuf.Empty;
+
+            /**
+             * Creates a plain object from an Empty message. Also converts values to other types if specified.
+             * @param message Empty
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.protobuf.Empty, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this Empty to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for Empty
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of a FieldMask. */
+        interface IFieldMask {
+
+            /** FieldMask paths */
+            paths?: (string[]|null);
+        }
+
+        /** Represents a FieldMask. */
+        class FieldMask implements IFieldMask {
+
+            /**
+             * Constructs a new FieldMask.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.protobuf.IFieldMask);
+
+            /** FieldMask paths. */
+            public paths: string[];
+
+            /**
+             * Creates a new FieldMask instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns FieldMask instance
+             */
+            public static create(properties?: google.protobuf.IFieldMask): google.protobuf.FieldMask;
+
+            /**
+             * Encodes the specified FieldMask message. Does not implicitly {@link google.protobuf.FieldMask.verify|verify} messages.
+             * @param message FieldMask message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.protobuf.IFieldMask, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified FieldMask message, length delimited. Does not implicitly {@link google.protobuf.FieldMask.verify|verify} messages.
+             * @param message FieldMask message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.protobuf.IFieldMask, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a FieldMask message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns FieldMask
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.FieldMask;
+
+            /**
+             * Decodes a FieldMask message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns FieldMask
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.FieldMask;
+
+            /**
+             * Verifies a FieldMask message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a FieldMask message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns FieldMask
+             */
+            public static fromObject(object: { [k: string]: any }): google.protobuf.FieldMask;
+
+            /**
+             * Creates a plain object from a FieldMask message. Also converts values to other types if specified.
+             * @param message FieldMask
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.protobuf.FieldMask, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this FieldMask to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for FieldMask
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
     }
 
     /** Namespace api. */
@@ -10319,6 +17637,9 @@ export namespace google {
 
             /** CommonLanguageSettings destinations */
             destinations?: (google.api.ClientLibraryDestination[]|null);
+
+            /** CommonLanguageSettings selectiveGapicGeneration */
+            selectiveGapicGeneration?: (google.api.ISelectiveGapicGeneration|null);
         }
 
         /** Represents a CommonLanguageSettings. */
@@ -10335,6 +17656,9 @@ export namespace google {
 
             /** CommonLanguageSettings destinations. */
             public destinations: google.api.ClientLibraryDestination[];
+
+            /** CommonLanguageSettings selectiveGapicGeneration. */
+            public selectiveGapicGeneration?: (google.api.ISelectiveGapicGeneration|null);
 
             /**
              * Creates a new CommonLanguageSettings instance using the specified properties.
@@ -11036,6 +18360,9 @@ export namespace google {
 
             /** PythonSettings common */
             common?: (google.api.ICommonLanguageSettings|null);
+
+            /** PythonSettings experimentalFeatures */
+            experimentalFeatures?: (google.api.PythonSettings.IExperimentalFeatures|null);
         }
 
         /** Represents a PythonSettings. */
@@ -11049,6 +18376,9 @@ export namespace google {
 
             /** PythonSettings common. */
             public common?: (google.api.ICommonLanguageSettings|null);
+
+            /** PythonSettings experimentalFeatures. */
+            public experimentalFeatures?: (google.api.PythonSettings.IExperimentalFeatures|null);
 
             /**
              * Creates a new PythonSettings instance using the specified properties.
@@ -11126,6 +18456,118 @@ export namespace google {
              * @returns The default type url
              */
             public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        namespace PythonSettings {
+
+            /** Properties of an ExperimentalFeatures. */
+            interface IExperimentalFeatures {
+
+                /** ExperimentalFeatures restAsyncIoEnabled */
+                restAsyncIoEnabled?: (boolean|null);
+
+                /** ExperimentalFeatures protobufPythonicTypesEnabled */
+                protobufPythonicTypesEnabled?: (boolean|null);
+
+                /** ExperimentalFeatures unversionedPackageDisabled */
+                unversionedPackageDisabled?: (boolean|null);
+            }
+
+            /** Represents an ExperimentalFeatures. */
+            class ExperimentalFeatures implements IExperimentalFeatures {
+
+                /**
+                 * Constructs a new ExperimentalFeatures.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: google.api.PythonSettings.IExperimentalFeatures);
+
+                /** ExperimentalFeatures restAsyncIoEnabled. */
+                public restAsyncIoEnabled: boolean;
+
+                /** ExperimentalFeatures protobufPythonicTypesEnabled. */
+                public protobufPythonicTypesEnabled: boolean;
+
+                /** ExperimentalFeatures unversionedPackageDisabled. */
+                public unversionedPackageDisabled: boolean;
+
+                /**
+                 * Creates a new ExperimentalFeatures instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns ExperimentalFeatures instance
+                 */
+                public static create(properties?: google.api.PythonSettings.IExperimentalFeatures): google.api.PythonSettings.ExperimentalFeatures;
+
+                /**
+                 * Encodes the specified ExperimentalFeatures message. Does not implicitly {@link google.api.PythonSettings.ExperimentalFeatures.verify|verify} messages.
+                 * @param message ExperimentalFeatures message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: google.api.PythonSettings.IExperimentalFeatures, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified ExperimentalFeatures message, length delimited. Does not implicitly {@link google.api.PythonSettings.ExperimentalFeatures.verify|verify} messages.
+                 * @param message ExperimentalFeatures message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: google.api.PythonSettings.IExperimentalFeatures, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes an ExperimentalFeatures message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns ExperimentalFeatures
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.api.PythonSettings.ExperimentalFeatures;
+
+                /**
+                 * Decodes an ExperimentalFeatures message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns ExperimentalFeatures
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.api.PythonSettings.ExperimentalFeatures;
+
+                /**
+                 * Verifies an ExperimentalFeatures message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates an ExperimentalFeatures message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns ExperimentalFeatures
+                 */
+                public static fromObject(object: { [k: string]: any }): google.api.PythonSettings.ExperimentalFeatures;
+
+                /**
+                 * Creates a plain object from an ExperimentalFeatures message. Also converts values to other types if specified.
+                 * @param message ExperimentalFeatures
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: google.api.PythonSettings.ExperimentalFeatures, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this ExperimentalFeatures to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+
+                /**
+                 * Gets the default type url for ExperimentalFeatures
+                 * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns The default type url
+                 */
+                public static getTypeUrl(typeUrlPrefix?: string): string;
+            }
         }
 
         /** Properties of a NodeSettings. */
@@ -11454,6 +18896,9 @@ export namespace google {
 
             /** GoSettings common */
             common?: (google.api.ICommonLanguageSettings|null);
+
+            /** GoSettings renamedServices */
+            renamedServices?: ({ [k: string]: string }|null);
         }
 
         /** Represents a GoSettings. */
@@ -11467,6 +18912,9 @@ export namespace google {
 
             /** GoSettings common. */
             public common?: (google.api.ICommonLanguageSettings|null);
+
+            /** GoSettings renamedServices. */
+            public renamedServices: { [k: string]: string };
 
             /**
              * Creates a new GoSettings instance using the specified properties.
@@ -11790,6 +19238,109 @@ export namespace google {
             CLIENT_LIBRARY_DESTINATION_UNSPECIFIED = 0,
             GITHUB = 10,
             PACKAGE_MANAGER = 20
+        }
+
+        /** Properties of a SelectiveGapicGeneration. */
+        interface ISelectiveGapicGeneration {
+
+            /** SelectiveGapicGeneration methods */
+            methods?: (string[]|null);
+
+            /** SelectiveGapicGeneration generateOmittedAsInternal */
+            generateOmittedAsInternal?: (boolean|null);
+        }
+
+        /** Represents a SelectiveGapicGeneration. */
+        class SelectiveGapicGeneration implements ISelectiveGapicGeneration {
+
+            /**
+             * Constructs a new SelectiveGapicGeneration.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.api.ISelectiveGapicGeneration);
+
+            /** SelectiveGapicGeneration methods. */
+            public methods: string[];
+
+            /** SelectiveGapicGeneration generateOmittedAsInternal. */
+            public generateOmittedAsInternal: boolean;
+
+            /**
+             * Creates a new SelectiveGapicGeneration instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns SelectiveGapicGeneration instance
+             */
+            public static create(properties?: google.api.ISelectiveGapicGeneration): google.api.SelectiveGapicGeneration;
+
+            /**
+             * Encodes the specified SelectiveGapicGeneration message. Does not implicitly {@link google.api.SelectiveGapicGeneration.verify|verify} messages.
+             * @param message SelectiveGapicGeneration message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.api.ISelectiveGapicGeneration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified SelectiveGapicGeneration message, length delimited. Does not implicitly {@link google.api.SelectiveGapicGeneration.verify|verify} messages.
+             * @param message SelectiveGapicGeneration message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.api.ISelectiveGapicGeneration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a SelectiveGapicGeneration message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns SelectiveGapicGeneration
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.api.SelectiveGapicGeneration;
+
+            /**
+             * Decodes a SelectiveGapicGeneration message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns SelectiveGapicGeneration
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.api.SelectiveGapicGeneration;
+
+            /**
+             * Verifies a SelectiveGapicGeneration message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a SelectiveGapicGeneration message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns SelectiveGapicGeneration
+             */
+            public static fromObject(object: { [k: string]: any }): google.api.SelectiveGapicGeneration;
+
+            /**
+             * Creates a plain object from a SelectiveGapicGeneration message. Also converts values to other types if specified.
+             * @param message SelectiveGapicGeneration
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.api.SelectiveGapicGeneration, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this SelectiveGapicGeneration to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for SelectiveGapicGeneration
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
         }
 
         /** LaunchStage enum. */
