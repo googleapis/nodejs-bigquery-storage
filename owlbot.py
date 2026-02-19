@@ -16,5 +16,5 @@ import synthtool.languages.node as node
 
 node.owlbot_main(
     staging_excludes=['package.json', 'README.md', 'src/index.ts'],
-    templates_excludes=['src/index.ts']
+    templates_excludes=['src/index.ts','.OwlBot.yaml']
 )
