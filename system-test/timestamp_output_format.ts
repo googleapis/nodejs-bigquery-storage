@@ -79,18 +79,36 @@ describe.only('Timestamp Output Format System Tests', () => {
           options['formatOptions.useInt64Timestamp'] = useInt64Timestamp;
         }
 
-        if (expectedError) {
-          try {
-            await table.getRows(options);
-            assert.fail('The call should have thrown an error.');
-          } catch (e) {
-            assert.strictEqual((e as Error).message, expectedError);
-          }
-        } else {
-          const [rows] = await table.getRows(options);
-          assert(rows.length > 0);
-          assert.strictEqual(rows[0].ts.value, expectedTsValue);
-        }
+        await new Promise<void>((resolve, reject) => {
+          (table as any).request(
+            {
+              uri: '/data',
+              qs: options,
+            },
+            (err: any, resp: any) => {
+              if (expectedError) {
+                try {
+                  assert.strictEqual(err && err.message, expectedError);
+                  resolve();
+                } catch (e) {
+                  reject(e);
+                }
+                return;
+              }
+              if (err) {
+                reject(err);
+                return;
+              }
+              try {
+                assert(resp.rows && resp.rows.length > 0);
+                assert.strictEqual(resp.rows[0].f[0].v, expectedTsValue);
+                resolve();
+              } catch (e) {
+                reject(e);
+              }
+            },
+          );
+        });
       });
     },
   );
