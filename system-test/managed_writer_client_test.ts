@@ -694,7 +694,7 @@ describe('managedwriter.WriterClient', () => {
       }
     });
 
-    it('should invoke appendRows with picosecond precision timestamp without errors', async () => {
+    it.only('should invoke appendRows with picosecond precision timestamp without errors', async () => {
       const picosTableId = generateUuid();
       const picosSchema: any = {
         fields: [
@@ -786,6 +786,36 @@ describe('managedwriter.WriterClient', () => {
         assert.equal(commitResponse.streamErrors?.length, 0);
 
         writer.close();
+
+        // Now read to make sure the written data is correct:
+        const options: {[key: string]: any} = {};
+        const timestampOutputFormat = 'ISO8601_STRING';
+        const useInt64Timestamp = false;
+        const expectedTsValue = '2023-01-01T12:00:00.123456789123Z';
+        options['formatOptions.timestampOutputFormat'] = timestampOutputFormat;
+        options['formatOptions.useInt64Timestamp'] = useInt64Timestamp;
+
+        await new Promise<void>((resolve, reject) => {
+          (table as any).request(
+            {
+              uri: '/data',
+              qs: options,
+            },
+            (err: any, resp: any) => {
+              if (err) {
+                reject(err);
+                return;
+              }
+              try {
+                assert(resp.rows && resp.rows.length > 0);
+                assert.strictEqual(resp.rows[0].f[0].v, expectedTsValue);
+                resolve();
+              } catch (e) {
+                reject(e);
+              }
+            },
+          );
+        });
       } finally {
         client.close();
       }
