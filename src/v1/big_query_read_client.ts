@@ -542,6 +542,26 @@ export class BigQueryReadClient {
       this._gaxModule.routingHeader.fromParams({
         'read_session.table': request.readSession!.table ?? '',
       });
+
+    // Apache Arrow does not currently support picosecond precision in JavaScript.
+    // If picosecond precision is requested, we fall back to microsecond precision
+    // to avoid deserialization errors.
+    const timestampPrecision =
+      request.readSession?.readOptions?.arrowSerializationOptions
+        ?.timestampPrecision;
+    if (
+      timestampPrecision ===
+        protos.google.cloud.bigquery.storage.v1.ArrowSerializationOptions
+          .PicosecondTimestampPrecision.PICOSECOND ||
+      timestampPrecision === 'PICOSECOND'
+    ) {
+      console.warn(
+        'Apache Arrow does not support picosecond precision. Falling back to microsecond precision.'
+      );
+      request.readSession!.readOptions!.arrowSerializationOptions!.timestampPrecision =
+        protos.google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosecondTimestampPrecision.MICROSECOND;
+    }
+
     this.initialize().catch(err => {
       throw err;
     });

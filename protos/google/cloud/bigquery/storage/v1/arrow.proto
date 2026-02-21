@@ -58,7 +58,25 @@ message ArrowSerializationOptions {
     ZSTD = 2;
   }
 
+  // Precision of the TIMESTAMP type.
+  enum PicosecondTimestampPrecision {
+    // If unspecified, microsecond precision will be used.
+    PICOSECOND_TIMESTAMP_PRECISION_UNSPECIFIED = 0;
+
+    // Use microsecond precision.
+    MICROSECOND = 1;
+
+    // Use nanosecond precision.
+    NANOSECOND = 2;
+
+    // Use picosecond precision.
+    PICOSECOND = 3;
+  }
+
   // The compression codec to use for Arrow buffers in serialized record
   // batches.
   CompressionCodec buffer_compression = 2;
+
+  // The precision of the TIMESTAMP type.
+  PicosecondTimestampPrecision timestamp_precision = 3;
 }

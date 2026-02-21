@@ -105,3 +105,7 @@ introduction: |-
     Read more how to [use the BigQuery Storage Read API](https://cloud.google.com/bigquery/docs/reference/storage).
 
     See sample code on the [Quickstart section](#quickstart).
+
+    ### Apache Arrow Picosecond Precision Limitation
+    Please note that the Apache Arrow JavaScript library currently does not support picosecond precision (`Timestamp[ps]`) logical types.
+    When using the Storage Read API with Arrow format, if picosecond precision is requested, the Node.js client library will automatically fall back to microsecond precision and log a warning to prevent deserialization errors.
