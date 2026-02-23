@@ -6,4 +6,4 @@
 
 
 # Unless specified, the jsteam is the default owner for nodejs repositories.
-*     @googleapis/api-bigquery @googleapis/jsteam
+*     @googleapis/bigquery-team @googleapis/cloud-sdk-nodejs-team @googleapis/jsteam
