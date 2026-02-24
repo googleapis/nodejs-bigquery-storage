@@ -734,10 +734,11 @@ describe('managedwriter.WriterClient', () => {
         adapt.convertStorageSchemaToProto2Descriptor(storageSchema, 'root');
 
       // Row 1
+      const expectedTsValue = '2023-01-01T12:00:00.123456789123Z';
       const row1 = {
         customer_name: 'Ada Lovelace',
         row_num: 1,
-        created_at: '2023-10-10 12:00:00.123456789012',
+        created_at: expectedTsValue,
       };
 
       const offset: IInt64Value['value'] = '0';
@@ -791,7 +792,7 @@ describe('managedwriter.WriterClient', () => {
         const options: {[key: string]: any} = {};
         const timestampOutputFormat = 'ISO8601_STRING';
         const useInt64Timestamp = false;
-        const expectedTsValue = '2023-01-01T12:00:00.123456789123Z';
+
         options['formatOptions.timestampOutputFormat'] = timestampOutputFormat;
         options['formatOptions.useInt64Timestamp'] = useInt64Timestamp;
 
@@ -808,7 +809,7 @@ describe('managedwriter.WriterClient', () => {
               }
               try {
                 assert(resp.rows && resp.rows.length > 0);
-                assert.strictEqual(resp.rows[0].f[0].v, expectedTsValue);
+                assert.strictEqual(resp.rows[0].f[2].v, expectedTsValue);
                 resolve();
               } catch (e) {
                 reject(e);
