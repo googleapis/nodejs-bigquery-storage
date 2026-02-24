@@ -246,7 +246,8 @@ describe('Adapt Schemas', () => {
         ],
       });
 
-      const bqSchema = adapt.convertStorageSchemaToBigQuerySchema(storageSchema);
+      const bqSchema =
+        adapt.convertStorageSchemaToBigQuerySchema(storageSchema);
       assert.notEqual(bqSchema, null);
       if (!bqSchema) {
         throw Error('null bq schema');
