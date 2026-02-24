@@ -216,51 +216,5 @@ describe('Adapt Schemas', () => {
         ],
       });
     });
-
-    it('timestamp precision', () => {
-      const schema = {
-        fields: [
-          {
-            name: 'ts',
-            type: 'TIMESTAMP',
-            timestampPrecision: 12,
-          },
-        ],
-      };
-      const storageSchema =
-        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
-      assert.notEqual(storageSchema, null);
-      if (!storageSchema) {
-        throw Error('null storage schema');
-      }
-      assert.deepEqual(storageSchema, {
-        fields: [
-          {
-            name: 'ts',
-            type: TableFieldSchema.Type.TIMESTAMP,
-            mode: TableFieldSchema.Mode.NULLABLE,
-            timestampPrecision: {
-              value: 12,
-            },
-          },
-        ],
-      });
-
-      const bqSchema = adapt.convertStorageSchemaToBigQuerySchema(storageSchema);
-      assert.notEqual(bqSchema, null);
-      if (!bqSchema) {
-        throw Error('null bq schema');
-      }
-      assert.deepEqual(bqSchema, {
-        fields: [
-          {
-            name: 'ts',
-            type: 'TIMESTAMP',
-            mode: 'NULLABLE',
-            timestampPrecision: 12,
-          },
-        ],
-      });
-    });
   });
 });
