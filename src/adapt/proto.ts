@@ -348,7 +348,9 @@ function convertTableFieldSchemaToFieldDescriptorProto(
     let pType = bqTypeToFieldTypeMap[type];
     if (
       type === TableFieldSchema.Type.TIMESTAMP &&
-      Number(field.timestampPrecision) === 12
+      field.timestampPrecision &&
+      field.timestampPrecision.value &&
+      Number(field.timestampPrecision.value) === 12
     ) {
       pType = FieldDescriptorProto.Type.TYPE_STRING;
     }
