@@ -61,10 +61,6 @@
                             "bufferCompression": {
                               "type": "CompressionCodec",
                               "id": 2
-                            },
-                            "picosTimestampPrecision": {
-                              "type": "PicosTimestampPrecision",
-                              "id": 3
                             }
                           },
                           "nested": {
@@ -73,14 +69,6 @@
                                 "COMPRESSION_UNSPECIFIED": 0,
                                 "LZ4_FRAME": 1,
                                 "ZSTD": 2
-                              }
-                            },
-                            "PicosTimestampPrecision": {
-                              "values": {
-                                "PICOS_TIMESTAMP_PRECISION_UNSPECIFIED": 0,
-                                "TIMESTAMP_PRECISION_MICROS": 1,
-                                "TIMESTAMP_PRECISION_NANOS": 2,
-                                "TIMESTAMP_PRECISION_PICOS": 3
                               }
                             }
                           }
@@ -113,20 +101,6 @@
                             "enableDisplayNameAttribute": {
                               "type": "bool",
                               "id": 1
-                            },
-                            "picosTimestampPrecision": {
-                              "type": "PicosTimestampPrecision",
-                              "id": 2
-                            }
-                          },
-                          "nested": {
-                            "PicosTimestampPrecision": {
-                              "values": {
-                                "PICOS_TIMESTAMP_PRECISION_UNSPECIFIED": 0,
-                                "TIMESTAMP_PRECISION_MICROS": 1,
-                                "TIMESTAMP_PRECISION_NANOS": 2,
-                                "TIMESTAMP_PRECISION_PICOS": 3
-                              }
                             }
                           }
                         },
@@ -1068,7 +1042,7 @@
                               "type": "string",
                               "id": 8,
                               "options": {
-                                "(google.api.field_behavior)": "OUTPUT_ONLY"
+                                "(google.api.field_behavior)": "IMMUTABLE"
                               }
                             }
                           },
@@ -1160,13 +1134,6 @@
                             "defaultValueExpression": {
                               "type": "string",
                               "id": 10,
-                              "options": {
-                                "(google.api.field_behavior)": "OPTIONAL"
-                              }
-                            },
-                            "timestampPrecision": {
-                              "type": "google.protobuf.Int64Value",
-                              "id": 27,
                               "options": {
                                 "(google.api.field_behavior)": "OPTIONAL"
                               }
@@ -4195,6 +4162,18 @@
                 }
               }
             },
+            "Timestamp": {
+              "fields": {
+                "seconds": {
+                  "type": "int64",
+                  "id": 1
+                },
+                "nanos": {
+                  "type": "int32",
+                  "id": 2
+                }
+              }
+            },
             "DoubleValue": {
               "fields": {
                 "value": {
@@ -4264,18 +4243,6 @@
                 "value": {
                   "type": "bytes",
                   "id": 1
-                }
-              }
-            },
-            "Timestamp": {
-              "fields": {
-                "seconds": {
-                  "type": "int64",
-                  "id": 1
-                },
-                "nanos": {
-                  "type": "int32",
-                  "id": 2
                 }
               }
             },

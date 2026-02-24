@@ -548,7 +548,6 @@
                              * @memberof google.cloud.bigquery.storage.v1
                              * @interface IArrowSerializationOptions
                              * @property {google.cloud.bigquery.storage.v1.ArrowSerializationOptions.CompressionCodec|null} [bufferCompression] ArrowSerializationOptions bufferCompression
-                             * @property {google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosTimestampPrecision|null} [picosTimestampPrecision] ArrowSerializationOptions picosTimestampPrecision
                              */
     
                             /**
@@ -573,14 +572,6 @@
                              * @instance
                              */
                             ArrowSerializationOptions.prototype.bufferCompression = 0;
-    
-                            /**
-                             * ArrowSerializationOptions picosTimestampPrecision.
-                             * @member {google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosTimestampPrecision} picosTimestampPrecision
-                             * @memberof google.cloud.bigquery.storage.v1.ArrowSerializationOptions
-                             * @instance
-                             */
-                            ArrowSerializationOptions.prototype.picosTimestampPrecision = 0;
     
                             /**
                              * Creates a new ArrowSerializationOptions instance using the specified properties.
@@ -608,8 +599,6 @@
                                     writer = $Writer.create();
                                 if (message.bufferCompression != null && Object.hasOwnProperty.call(message, "bufferCompression"))
                                     writer.uint32(/* id 2, wireType 0 =*/16).int32(message.bufferCompression);
-                                if (message.picosTimestampPrecision != null && Object.hasOwnProperty.call(message, "picosTimestampPrecision"))
-                                    writer.uint32(/* id 3, wireType 0 =*/24).int32(message.picosTimestampPrecision);
                                 return writer;
                             };
     
@@ -648,10 +637,6 @@
                                     switch (tag >>> 3) {
                                     case 2: {
                                             message.bufferCompression = reader.int32();
-                                            break;
-                                        }
-                                    case 3: {
-                                            message.picosTimestampPrecision = reader.int32();
                                             break;
                                         }
                                     default:
@@ -698,16 +683,6 @@
                                     case 2:
                                         break;
                                     }
-                                if (message.picosTimestampPrecision != null && message.hasOwnProperty("picosTimestampPrecision"))
-                                    switch (message.picosTimestampPrecision) {
-                                    default:
-                                        return "picosTimestampPrecision: enum value expected";
-                                    case 0:
-                                    case 1:
-                                    case 2:
-                                    case 3:
-                                        break;
-                                    }
                                 return null;
                             };
     
@@ -743,30 +718,6 @@
                                     message.bufferCompression = 2;
                                     break;
                                 }
-                                switch (object.picosTimestampPrecision) {
-                                default:
-                                    if (typeof object.picosTimestampPrecision === "number") {
-                                        message.picosTimestampPrecision = object.picosTimestampPrecision;
-                                        break;
-                                    }
-                                    break;
-                                case "PICOS_TIMESTAMP_PRECISION_UNSPECIFIED":
-                                case 0:
-                                    message.picosTimestampPrecision = 0;
-                                    break;
-                                case "TIMESTAMP_PRECISION_MICROS":
-                                case 1:
-                                    message.picosTimestampPrecision = 1;
-                                    break;
-                                case "TIMESTAMP_PRECISION_NANOS":
-                                case 2:
-                                    message.picosTimestampPrecision = 2;
-                                    break;
-                                case "TIMESTAMP_PRECISION_PICOS":
-                                case 3:
-                                    message.picosTimestampPrecision = 3;
-                                    break;
-                                }
                                 return message;
                             };
     
@@ -783,14 +734,10 @@
                                 if (!options)
                                     options = {};
                                 var object = {};
-                                if (options.defaults) {
+                                if (options.defaults)
                                     object.bufferCompression = options.enums === String ? "COMPRESSION_UNSPECIFIED" : 0;
-                                    object.picosTimestampPrecision = options.enums === String ? "PICOS_TIMESTAMP_PRECISION_UNSPECIFIED" : 0;
-                                }
                                 if (message.bufferCompression != null && message.hasOwnProperty("bufferCompression"))
                                     object.bufferCompression = options.enums === String ? $root.google.cloud.bigquery.storage.v1.ArrowSerializationOptions.CompressionCodec[message.bufferCompression] === undefined ? message.bufferCompression : $root.google.cloud.bigquery.storage.v1.ArrowSerializationOptions.CompressionCodec[message.bufferCompression] : message.bufferCompression;
-                                if (message.picosTimestampPrecision != null && message.hasOwnProperty("picosTimestampPrecision"))
-                                    object.picosTimestampPrecision = options.enums === String ? $root.google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosTimestampPrecision[message.picosTimestampPrecision] === undefined ? message.picosTimestampPrecision : $root.google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosTimestampPrecision[message.picosTimestampPrecision] : message.picosTimestampPrecision;
                                 return object;
                             };
     
@@ -833,24 +780,6 @@
                                 values[valuesById[0] = "COMPRESSION_UNSPECIFIED"] = 0;
                                 values[valuesById[1] = "LZ4_FRAME"] = 1;
                                 values[valuesById[2] = "ZSTD"] = 2;
-                                return values;
-                            })();
-    
-                            /**
-                             * PicosTimestampPrecision enum.
-                             * @name google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosTimestampPrecision
-                             * @enum {number}
-                             * @property {number} PICOS_TIMESTAMP_PRECISION_UNSPECIFIED=0 PICOS_TIMESTAMP_PRECISION_UNSPECIFIED value
-                             * @property {number} TIMESTAMP_PRECISION_MICROS=1 TIMESTAMP_PRECISION_MICROS value
-                             * @property {number} TIMESTAMP_PRECISION_NANOS=2 TIMESTAMP_PRECISION_NANOS value
-                             * @property {number} TIMESTAMP_PRECISION_PICOS=3 TIMESTAMP_PRECISION_PICOS value
-                             */
-                            ArrowSerializationOptions.PicosTimestampPrecision = (function() {
-                                var valuesById = {}, values = Object.create(valuesById);
-                                values[valuesById[0] = "PICOS_TIMESTAMP_PRECISION_UNSPECIFIED"] = 0;
-                                values[valuesById[1] = "TIMESTAMP_PRECISION_MICROS"] = 1;
-                                values[valuesById[2] = "TIMESTAMP_PRECISION_NANOS"] = 2;
-                                values[valuesById[3] = "TIMESTAMP_PRECISION_PICOS"] = 3;
                                 return values;
                             })();
     
@@ -1321,7 +1250,6 @@
                              * @memberof google.cloud.bigquery.storage.v1
                              * @interface IAvroSerializationOptions
                              * @property {boolean|null} [enableDisplayNameAttribute] AvroSerializationOptions enableDisplayNameAttribute
-                             * @property {google.cloud.bigquery.storage.v1.AvroSerializationOptions.PicosTimestampPrecision|null} [picosTimestampPrecision] AvroSerializationOptions picosTimestampPrecision
                              */
     
                             /**
@@ -1346,14 +1274,6 @@
                              * @instance
                              */
                             AvroSerializationOptions.prototype.enableDisplayNameAttribute = false;
-    
-                            /**
-                             * AvroSerializationOptions picosTimestampPrecision.
-                             * @member {google.cloud.bigquery.storage.v1.AvroSerializationOptions.PicosTimestampPrecision} picosTimestampPrecision
-                             * @memberof google.cloud.bigquery.storage.v1.AvroSerializationOptions
-                             * @instance
-                             */
-                            AvroSerializationOptions.prototype.picosTimestampPrecision = 0;
     
                             /**
                              * Creates a new AvroSerializationOptions instance using the specified properties.
@@ -1381,8 +1301,6 @@
                                     writer = $Writer.create();
                                 if (message.enableDisplayNameAttribute != null && Object.hasOwnProperty.call(message, "enableDisplayNameAttribute"))
                                     writer.uint32(/* id 1, wireType 0 =*/8).bool(message.enableDisplayNameAttribute);
-                                if (message.picosTimestampPrecision != null && Object.hasOwnProperty.call(message, "picosTimestampPrecision"))
-                                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.picosTimestampPrecision);
                                 return writer;
                             };
     
@@ -1423,10 +1341,6 @@
                                             message.enableDisplayNameAttribute = reader.bool();
                                             break;
                                         }
-                                    case 2: {
-                                            message.picosTimestampPrecision = reader.int32();
-                                            break;
-                                        }
                                     default:
                                         reader.skipType(tag & 7);
                                         break;
@@ -1465,16 +1379,6 @@
                                 if (message.enableDisplayNameAttribute != null && message.hasOwnProperty("enableDisplayNameAttribute"))
                                     if (typeof message.enableDisplayNameAttribute !== "boolean")
                                         return "enableDisplayNameAttribute: boolean expected";
-                                if (message.picosTimestampPrecision != null && message.hasOwnProperty("picosTimestampPrecision"))
-                                    switch (message.picosTimestampPrecision) {
-                                    default:
-                                        return "picosTimestampPrecision: enum value expected";
-                                    case 0:
-                                    case 1:
-                                    case 2:
-                                    case 3:
-                                        break;
-                                    }
                                 return null;
                             };
     
@@ -1492,30 +1396,6 @@
                                 var message = new $root.google.cloud.bigquery.storage.v1.AvroSerializationOptions();
                                 if (object.enableDisplayNameAttribute != null)
                                     message.enableDisplayNameAttribute = Boolean(object.enableDisplayNameAttribute);
-                                switch (object.picosTimestampPrecision) {
-                                default:
-                                    if (typeof object.picosTimestampPrecision === "number") {
-                                        message.picosTimestampPrecision = object.picosTimestampPrecision;
-                                        break;
-                                    }
-                                    break;
-                                case "PICOS_TIMESTAMP_PRECISION_UNSPECIFIED":
-                                case 0:
-                                    message.picosTimestampPrecision = 0;
-                                    break;
-                                case "TIMESTAMP_PRECISION_MICROS":
-                                case 1:
-                                    message.picosTimestampPrecision = 1;
-                                    break;
-                                case "TIMESTAMP_PRECISION_NANOS":
-                                case 2:
-                                    message.picosTimestampPrecision = 2;
-                                    break;
-                                case "TIMESTAMP_PRECISION_PICOS":
-                                case 3:
-                                    message.picosTimestampPrecision = 3;
-                                    break;
-                                }
                                 return message;
                             };
     
@@ -1532,14 +1412,10 @@
                                 if (!options)
                                     options = {};
                                 var object = {};
-                                if (options.defaults) {
+                                if (options.defaults)
                                     object.enableDisplayNameAttribute = false;
-                                    object.picosTimestampPrecision = options.enums === String ? "PICOS_TIMESTAMP_PRECISION_UNSPECIFIED" : 0;
-                                }
                                 if (message.enableDisplayNameAttribute != null && message.hasOwnProperty("enableDisplayNameAttribute"))
                                     object.enableDisplayNameAttribute = message.enableDisplayNameAttribute;
-                                if (message.picosTimestampPrecision != null && message.hasOwnProperty("picosTimestampPrecision"))
-                                    object.picosTimestampPrecision = options.enums === String ? $root.google.cloud.bigquery.storage.v1.AvroSerializationOptions.PicosTimestampPrecision[message.picosTimestampPrecision] === undefined ? message.picosTimestampPrecision : $root.google.cloud.bigquery.storage.v1.AvroSerializationOptions.PicosTimestampPrecision[message.picosTimestampPrecision] : message.picosTimestampPrecision;
                                 return object;
                             };
     
@@ -1568,24 +1444,6 @@
                                 }
                                 return typeUrlPrefix + "/google.cloud.bigquery.storage.v1.AvroSerializationOptions";
                             };
-    
-                            /**
-                             * PicosTimestampPrecision enum.
-                             * @name google.cloud.bigquery.storage.v1.AvroSerializationOptions.PicosTimestampPrecision
-                             * @enum {number}
-                             * @property {number} PICOS_TIMESTAMP_PRECISION_UNSPECIFIED=0 PICOS_TIMESTAMP_PRECISION_UNSPECIFIED value
-                             * @property {number} TIMESTAMP_PRECISION_MICROS=1 TIMESTAMP_PRECISION_MICROS value
-                             * @property {number} TIMESTAMP_PRECISION_NANOS=2 TIMESTAMP_PRECISION_NANOS value
-                             * @property {number} TIMESTAMP_PRECISION_PICOS=3 TIMESTAMP_PRECISION_PICOS value
-                             */
-                            AvroSerializationOptions.PicosTimestampPrecision = (function() {
-                                var valuesById = {}, values = Object.create(valuesById);
-                                values[valuesById[0] = "PICOS_TIMESTAMP_PRECISION_UNSPECIFIED"] = 0;
-                                values[valuesById[1] = "TIMESTAMP_PRECISION_MICROS"] = 1;
-                                values[valuesById[2] = "TIMESTAMP_PRECISION_NANOS"] = 2;
-                                values[valuesById[3] = "TIMESTAMP_PRECISION_PICOS"] = 3;
-                                return values;
-                            })();
     
                             return AvroSerializationOptions;
                         })();
@@ -10759,7 +10617,6 @@
                              * @property {number|Long|null} [precision] TableFieldSchema precision
                              * @property {number|Long|null} [scale] TableFieldSchema scale
                              * @property {string|null} [defaultValueExpression] TableFieldSchema defaultValueExpression
-                             * @property {google.protobuf.IInt64Value|null} [timestampPrecision] TableFieldSchema timestampPrecision
                              * @property {google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType|null} [rangeElementType] TableFieldSchema rangeElementType
                              */
     
@@ -10852,14 +10709,6 @@
                             TableFieldSchema.prototype.defaultValueExpression = "";
     
                             /**
-                             * TableFieldSchema timestampPrecision.
-                             * @member {google.protobuf.IInt64Value|null|undefined} timestampPrecision
-                             * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema
-                             * @instance
-                             */
-                            TableFieldSchema.prototype.timestampPrecision = null;
-    
-                            /**
                              * TableFieldSchema rangeElementType.
                              * @member {google.cloud.bigquery.storage.v1.TableFieldSchema.IFieldElementType|null|undefined} rangeElementType
                              * @memberof google.cloud.bigquery.storage.v1.TableFieldSchema
@@ -10912,8 +10761,6 @@
                                     writer.uint32(/* id 10, wireType 2 =*/82).string(message.defaultValueExpression);
                                 if (message.rangeElementType != null && Object.hasOwnProperty.call(message, "rangeElementType"))
                                     $root.google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.encode(message.rangeElementType, writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
-                                if (message.timestampPrecision != null && Object.hasOwnProperty.call(message, "timestampPrecision"))
-                                    $root.google.protobuf.Int64Value.encode(message.timestampPrecision, writer.uint32(/* id 27, wireType 2 =*/218).fork()).ldelim();
                                 return writer;
                             };
     
@@ -10986,10 +10833,6 @@
                                         }
                                     case 10: {
                                             message.defaultValueExpression = reader.string();
-                                            break;
-                                        }
-                                    case 27: {
-                                            message.timestampPrecision = $root.google.protobuf.Int64Value.decode(reader, reader.uint32());
                                             break;
                                         }
                                     case 11: {
@@ -11091,11 +10934,6 @@
                                 if (message.defaultValueExpression != null && message.hasOwnProperty("defaultValueExpression"))
                                     if (!$util.isString(message.defaultValueExpression))
                                         return "defaultValueExpression: string expected";
-                                if (message.timestampPrecision != null && message.hasOwnProperty("timestampPrecision")) {
-                                    var error = $root.google.protobuf.Int64Value.verify(message.timestampPrecision);
-                                    if (error)
-                                        return "timestampPrecision." + error;
-                                }
                                 if (message.rangeElementType != null && message.hasOwnProperty("rangeElementType")) {
                                     var error = $root.google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.verify(message.rangeElementType);
                                     if (error)
@@ -11259,11 +11097,6 @@
                                         message.scale = new $util.LongBits(object.scale.low >>> 0, object.scale.high >>> 0).toNumber();
                                 if (object.defaultValueExpression != null)
                                     message.defaultValueExpression = String(object.defaultValueExpression);
-                                if (object.timestampPrecision != null) {
-                                    if (typeof object.timestampPrecision !== "object")
-                                        throw TypeError(".google.cloud.bigquery.storage.v1.TableFieldSchema.timestampPrecision: object expected");
-                                    message.timestampPrecision = $root.google.protobuf.Int64Value.fromObject(object.timestampPrecision);
-                                }
                                 if (object.rangeElementType != null) {
                                     if (typeof object.rangeElementType !== "object")
                                         throw TypeError(".google.cloud.bigquery.storage.v1.TableFieldSchema.rangeElementType: object expected");
@@ -11309,7 +11142,6 @@
                                         object.scale = options.longs === String ? "0" : 0;
                                     object.defaultValueExpression = "";
                                     object.rangeElementType = null;
-                                    object.timestampPrecision = null;
                                 }
                                 if (message.name != null && message.hasOwnProperty("name"))
                                     object.name = message.name;
@@ -11343,8 +11175,6 @@
                                     object.defaultValueExpression = message.defaultValueExpression;
                                 if (message.rangeElementType != null && message.hasOwnProperty("rangeElementType"))
                                     object.rangeElementType = $root.google.cloud.bigquery.storage.v1.TableFieldSchema.FieldElementType.toObject(message.rangeElementType, options);
-                                if (message.timestampPrecision != null && message.hasOwnProperty("timestampPrecision"))
-                                    object.timestampPrecision = $root.google.protobuf.Int64Value.toObject(message.timestampPrecision, options);
                                 return object;
                             };
     
@@ -41534,6 +41364,249 @@
                 return Duration;
             })();
     
+            protobuf.Timestamp = (function() {
+    
+                /**
+                 * Properties of a Timestamp.
+                 * @memberof google.protobuf
+                 * @interface ITimestamp
+                 * @property {number|Long|null} [seconds] Timestamp seconds
+                 * @property {number|null} [nanos] Timestamp nanos
+                 */
+    
+                /**
+                 * Constructs a new Timestamp.
+                 * @memberof google.protobuf
+                 * @classdesc Represents a Timestamp.
+                 * @implements ITimestamp
+                 * @constructor
+                 * @param {google.protobuf.ITimestamp=} [properties] Properties to set
+                 */
+                function Timestamp(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null)
+                                this[keys[i]] = properties[keys[i]];
+                }
+    
+                /**
+                 * Timestamp seconds.
+                 * @member {number|Long} seconds
+                 * @memberof google.protobuf.Timestamp
+                 * @instance
+                 */
+                Timestamp.prototype.seconds = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    
+                /**
+                 * Timestamp nanos.
+                 * @member {number} nanos
+                 * @memberof google.protobuf.Timestamp
+                 * @instance
+                 */
+                Timestamp.prototype.nanos = 0;
+    
+                /**
+                 * Creates a new Timestamp instance using the specified properties.
+                 * @function create
+                 * @memberof google.protobuf.Timestamp
+                 * @static
+                 * @param {google.protobuf.ITimestamp=} [properties] Properties to set
+                 * @returns {google.protobuf.Timestamp} Timestamp instance
+                 */
+                Timestamp.create = function create(properties) {
+                    return new Timestamp(properties);
+                };
+    
+                /**
+                 * Encodes the specified Timestamp message. Does not implicitly {@link google.protobuf.Timestamp.verify|verify} messages.
+                 * @function encode
+                 * @memberof google.protobuf.Timestamp
+                 * @static
+                 * @param {google.protobuf.ITimestamp} message Timestamp message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Timestamp.encode = function encode(message, writer) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (message.seconds != null && Object.hasOwnProperty.call(message, "seconds"))
+                        writer.uint32(/* id 1, wireType 0 =*/8).int64(message.seconds);
+                    if (message.nanos != null && Object.hasOwnProperty.call(message, "nanos"))
+                        writer.uint32(/* id 2, wireType 0 =*/16).int32(message.nanos);
+                    return writer;
+                };
+    
+                /**
+                 * Encodes the specified Timestamp message, length delimited. Does not implicitly {@link google.protobuf.Timestamp.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof google.protobuf.Timestamp
+                 * @static
+                 * @param {google.protobuf.ITimestamp} message Timestamp message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                Timestamp.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer).ldelim();
+                };
+    
+                /**
+                 * Decodes a Timestamp message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof google.protobuf.Timestamp
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {google.protobuf.Timestamp} Timestamp
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Timestamp.decode = function decode(reader, length, error) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.Timestamp();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        if (tag === error)
+                            break;
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.seconds = reader.int64();
+                                break;
+                            }
+                        case 2: {
+                                message.nanos = reader.int32();
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
+                        }
+                    }
+                    return message;
+                };
+    
+                /**
+                 * Decodes a Timestamp message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof google.protobuf.Timestamp
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {google.protobuf.Timestamp} Timestamp
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                Timestamp.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+    
+                /**
+                 * Verifies a Timestamp message.
+                 * @function verify
+                 * @memberof google.protobuf.Timestamp
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                Timestamp.verify = function verify(message) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (message.seconds != null && message.hasOwnProperty("seconds"))
+                        if (!$util.isInteger(message.seconds) && !(message.seconds && $util.isInteger(message.seconds.low) && $util.isInteger(message.seconds.high)))
+                            return "seconds: integer|Long expected";
+                    if (message.nanos != null && message.hasOwnProperty("nanos"))
+                        if (!$util.isInteger(message.nanos))
+                            return "nanos: integer expected";
+                    return null;
+                };
+    
+                /**
+                 * Creates a Timestamp message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof google.protobuf.Timestamp
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {google.protobuf.Timestamp} Timestamp
+                 */
+                Timestamp.fromObject = function fromObject(object) {
+                    if (object instanceof $root.google.protobuf.Timestamp)
+                        return object;
+                    var message = new $root.google.protobuf.Timestamp();
+                    if (object.seconds != null)
+                        if ($util.Long)
+                            (message.seconds = $util.Long.fromValue(object.seconds)).unsigned = false;
+                        else if (typeof object.seconds === "string")
+                            message.seconds = parseInt(object.seconds, 10);
+                        else if (typeof object.seconds === "number")
+                            message.seconds = object.seconds;
+                        else if (typeof object.seconds === "object")
+                            message.seconds = new $util.LongBits(object.seconds.low >>> 0, object.seconds.high >>> 0).toNumber();
+                    if (object.nanos != null)
+                        message.nanos = object.nanos | 0;
+                    return message;
+                };
+    
+                /**
+                 * Creates a plain object from a Timestamp message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof google.protobuf.Timestamp
+                 * @static
+                 * @param {google.protobuf.Timestamp} message Timestamp
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                Timestamp.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.defaults) {
+                        if ($util.Long) {
+                            var long = new $util.Long(0, 0, false);
+                            object.seconds = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                        } else
+                            object.seconds = options.longs === String ? "0" : 0;
+                        object.nanos = 0;
+                    }
+                    if (message.seconds != null && message.hasOwnProperty("seconds"))
+                        if (typeof message.seconds === "number")
+                            object.seconds = options.longs === String ? String(message.seconds) : message.seconds;
+                        else
+                            object.seconds = options.longs === String ? $util.Long.prototype.toString.call(message.seconds) : options.longs === Number ? new $util.LongBits(message.seconds.low >>> 0, message.seconds.high >>> 0).toNumber() : message.seconds;
+                    if (message.nanos != null && message.hasOwnProperty("nanos"))
+                        object.nanos = message.nanos;
+                    return object;
+                };
+    
+                /**
+                 * Converts this Timestamp to JSON.
+                 * @function toJSON
+                 * @memberof google.protobuf.Timestamp
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                Timestamp.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+    
+                /**
+                 * Gets the default type url for Timestamp
+                 * @function getTypeUrl
+                 * @memberof google.protobuf.Timestamp
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                Timestamp.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/google.protobuf.Timestamp";
+                };
+    
+                return Timestamp;
+            })();
+    
             protobuf.DoubleValue = (function() {
     
                 /**
@@ -43414,249 +43487,6 @@
                 };
     
                 return BytesValue;
-            })();
-    
-            protobuf.Timestamp = (function() {
-    
-                /**
-                 * Properties of a Timestamp.
-                 * @memberof google.protobuf
-                 * @interface ITimestamp
-                 * @property {number|Long|null} [seconds] Timestamp seconds
-                 * @property {number|null} [nanos] Timestamp nanos
-                 */
-    
-                /**
-                 * Constructs a new Timestamp.
-                 * @memberof google.protobuf
-                 * @classdesc Represents a Timestamp.
-                 * @implements ITimestamp
-                 * @constructor
-                 * @param {google.protobuf.ITimestamp=} [properties] Properties to set
-                 */
-                function Timestamp(properties) {
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-    
-                /**
-                 * Timestamp seconds.
-                 * @member {number|Long} seconds
-                 * @memberof google.protobuf.Timestamp
-                 * @instance
-                 */
-                Timestamp.prototype.seconds = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-    
-                /**
-                 * Timestamp nanos.
-                 * @member {number} nanos
-                 * @memberof google.protobuf.Timestamp
-                 * @instance
-                 */
-                Timestamp.prototype.nanos = 0;
-    
-                /**
-                 * Creates a new Timestamp instance using the specified properties.
-                 * @function create
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {google.protobuf.ITimestamp=} [properties] Properties to set
-                 * @returns {google.protobuf.Timestamp} Timestamp instance
-                 */
-                Timestamp.create = function create(properties) {
-                    return new Timestamp(properties);
-                };
-    
-                /**
-                 * Encodes the specified Timestamp message. Does not implicitly {@link google.protobuf.Timestamp.verify|verify} messages.
-                 * @function encode
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {google.protobuf.ITimestamp} message Timestamp message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                Timestamp.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.seconds != null && Object.hasOwnProperty.call(message, "seconds"))
-                        writer.uint32(/* id 1, wireType 0 =*/8).int64(message.seconds);
-                    if (message.nanos != null && Object.hasOwnProperty.call(message, "nanos"))
-                        writer.uint32(/* id 2, wireType 0 =*/16).int32(message.nanos);
-                    return writer;
-                };
-    
-                /**
-                 * Encodes the specified Timestamp message, length delimited. Does not implicitly {@link google.protobuf.Timestamp.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {google.protobuf.ITimestamp} message Timestamp message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                Timestamp.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-    
-                /**
-                 * Decodes a Timestamp message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {google.protobuf.Timestamp} Timestamp
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                Timestamp.decode = function decode(reader, length, error) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.Timestamp();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        if (tag === error)
-                            break;
-                        switch (tag >>> 3) {
-                        case 1: {
-                                message.seconds = reader.int64();
-                                break;
-                            }
-                        case 2: {
-                                message.nanos = reader.int32();
-                                break;
-                            }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-    
-                /**
-                 * Decodes a Timestamp message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {google.protobuf.Timestamp} Timestamp
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                Timestamp.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-    
-                /**
-                 * Verifies a Timestamp message.
-                 * @function verify
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                Timestamp.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.seconds != null && message.hasOwnProperty("seconds"))
-                        if (!$util.isInteger(message.seconds) && !(message.seconds && $util.isInteger(message.seconds.low) && $util.isInteger(message.seconds.high)))
-                            return "seconds: integer|Long expected";
-                    if (message.nanos != null && message.hasOwnProperty("nanos"))
-                        if (!$util.isInteger(message.nanos))
-                            return "nanos: integer expected";
-                    return null;
-                };
-    
-                /**
-                 * Creates a Timestamp message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {google.protobuf.Timestamp} Timestamp
-                 */
-                Timestamp.fromObject = function fromObject(object) {
-                    if (object instanceof $root.google.protobuf.Timestamp)
-                        return object;
-                    var message = new $root.google.protobuf.Timestamp();
-                    if (object.seconds != null)
-                        if ($util.Long)
-                            (message.seconds = $util.Long.fromValue(object.seconds)).unsigned = false;
-                        else if (typeof object.seconds === "string")
-                            message.seconds = parseInt(object.seconds, 10);
-                        else if (typeof object.seconds === "number")
-                            message.seconds = object.seconds;
-                        else if (typeof object.seconds === "object")
-                            message.seconds = new $util.LongBits(object.seconds.low >>> 0, object.seconds.high >>> 0).toNumber();
-                    if (object.nanos != null)
-                        message.nanos = object.nanos | 0;
-                    return message;
-                };
-    
-                /**
-                 * Creates a plain object from a Timestamp message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {google.protobuf.Timestamp} message Timestamp
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                Timestamp.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.defaults) {
-                        if ($util.Long) {
-                            var long = new $util.Long(0, 0, false);
-                            object.seconds = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                        } else
-                            object.seconds = options.longs === String ? "0" : 0;
-                        object.nanos = 0;
-                    }
-                    if (message.seconds != null && message.hasOwnProperty("seconds"))
-                        if (typeof message.seconds === "number")
-                            object.seconds = options.longs === String ? String(message.seconds) : message.seconds;
-                        else
-                            object.seconds = options.longs === String ? $util.Long.prototype.toString.call(message.seconds) : options.longs === Number ? new $util.LongBits(message.seconds.low >>> 0, message.seconds.high >>> 0).toNumber() : message.seconds;
-                    if (message.nanos != null && message.hasOwnProperty("nanos"))
-                        object.nanos = message.nanos;
-                    return object;
-                };
-    
-                /**
-                 * Converts this Timestamp to JSON.
-                 * @function toJSON
-                 * @memberof google.protobuf.Timestamp
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                Timestamp.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-    
-                /**
-                 * Gets the default type url for Timestamp
-                 * @function getTypeUrl
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-                 * @returns {string} The default type url
-                 */
-                Timestamp.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                    if (typeUrlPrefix === undefined) {
-                        typeUrlPrefix = "type.googleapis.com";
-                    }
-                    return typeUrlPrefix + "/google.protobuf.Timestamp";
-                };
-    
-                return Timestamp;
             })();
     
             protobuf.Any = (function() {
