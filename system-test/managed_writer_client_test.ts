@@ -694,7 +694,7 @@ describe('managedwriter.WriterClient', () => {
       }
     });
 
-    it.only('should invoke appendRows with picosecond precision timestamp without errors', async () => {
+    it('should invoke appendRows with picosecond precision timestamp without errors', async () => {
       const picosTableId = generateUuid();
       const picosSchema: any = {
         fields: [
