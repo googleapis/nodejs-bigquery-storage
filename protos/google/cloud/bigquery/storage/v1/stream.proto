@@ -328,8 +328,8 @@ message WriteStream {
   // Immutable. Mode of the stream.
   WriteMode write_mode = 7 [(google.api.field_behavior) = IMMUTABLE];
 
-  // Output only. The geographic location where the stream's dataset resides.
-  // See https://cloud.google.com/bigquery/docs/locations for supported
+  // Immutable. The geographic location where the stream's dataset resides. See
+  // https://cloud.google.com/bigquery/docs/locations for supported
   // locations.
-  string location = 8 [(google.api.field_behavior) = OUTPUT_ONLY];
+  string location = 8 [(google.api.field_behavior) = IMMUTABLE];
 }
