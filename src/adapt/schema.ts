@@ -107,7 +107,9 @@ function bqFieldToStorageField(field: ITableFieldSchema): StorageTableField {
   }
 
   if (field.timestampPrecision) {
-    out.timestampPrecision = field.timestampPrecision;
+    out.timestampPrecision = {
+      value: field.timestampPrecision,
+    };
   }
 
   if (!field.type) {
