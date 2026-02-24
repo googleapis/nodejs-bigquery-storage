@@ -468,7 +468,7 @@ describe('Adapt Protos', () => {
       }
       const TestProto = Type.fromDescriptor(protoDescriptor);
       const raw = {
-        ts: '2024-04-05T15:45:58.981123Z',
+        ts: '2024-04-05T15:45:58.981123456789Z',
       };
       const serialized = TestProto.encode(raw).finish();
       const decoded = TestProto.decode(serialized).toJSON();
