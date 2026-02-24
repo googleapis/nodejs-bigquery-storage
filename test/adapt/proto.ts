@@ -445,6 +445,49 @@ describe('Adapt Protos', () => {
       const decoded = TestProto.decode(serialized).toJSON();
       assert.deepEqual(raw, decoded);
     });
+
+    it('timestamp precision', () => {
+      const schema = {
+        fields: [
+          {
+            name: 'ts',
+            type: 'TIMESTAMP',
+            timestampPrecision: 12,
+          },
+        ],
+      };
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
+        storageSchema,
+        'Test',
+      );
+      assert.notEqual(protoDescriptor, null);
+      if (!protoDescriptor) {
+        throw Error('null proto descriptor set');
+      }
+      const TestProto = Type.fromDescriptor(protoDescriptor);
+      const raw = {
+        ts: '2024-04-05T15:45:58.981123Z',
+      };
+      const serialized = TestProto.encode(raw).finish();
+      const decoded = TestProto.decode(serialized).toJSON();
+      assert.deepEqual(raw, decoded);
+    });
+  });
+
+  describe('generatePlaceholderFieldName', () => {
+    it('should generate a valid placeholder name', () => {
+      const fieldName = 'foo-bar';
+      const placeholder = adapt.generatePlaceholderFieldName(fieldName);
+      assert.equal(placeholder, 'field_Zm9vLWJhcg');
+    });
+
+    it('should generate a valid placeholder name with special characters', () => {
+      const fieldName = 'foo_👍';
+      const placeholder = adapt.generatePlaceholderFieldName(fieldName);
+      assert.equal(placeholder, 'field_Zm9vX_RjA');
+    });
   });
 
   describe('Proto descriptor normalization', () => {
