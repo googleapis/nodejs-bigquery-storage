@@ -463,6 +463,18 @@ describe('Adapt Protos', () => {
         'Test',
       );
       assert.notEqual(protoDescriptor, null);
+      assert.deepStrictEqual(JSON.parse(JSON.stringify(protoDescriptor)), {
+        name: 'Test',
+        field: [
+          {
+            name: 'ts',
+            number: 1,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_STRING',
+            options: {},
+          },
+        ],
+      });
       if (!protoDescriptor) {
         throw Error('null proto descriptor set');
       }
