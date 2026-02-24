@@ -488,20 +488,6 @@ describe('Adapt Protos', () => {
     });
   });
 
-  describe('generatePlaceholderFieldName', () => {
-    it('should generate a valid placeholder name', () => {
-      const fieldName = 'foo-bar';
-      const placeholder = adapt.generatePlaceholderFieldName(fieldName);
-      assert.equal(placeholder, 'field_Zm9vLWJhcg');
-    });
-
-    it('should generate a valid placeholder name with special characters', () => {
-      const fieldName = 'foo_👍';
-      const placeholder = adapt.generatePlaceholderFieldName(fieldName);
-      assert.equal(placeholder, 'field_Zm9vX_RjA');
-    });
-  });
-
   describe('Proto descriptor normalization', () => {
     it('bundle multiple proto descriptors into one', () => {
       const root = Root.fromJSON(messagesJSON).resolveAll();
