@@ -445,6 +445,47 @@ describe('Adapt Protos', () => {
       const decoded = TestProto.decode(serialized).toJSON();
       assert.deepEqual(raw, decoded);
     });
+
+    it('timestamp precision', () => {
+      const schema = {
+        fields: [
+          {
+            name: 'ts',
+            type: 'TIMESTAMP',
+            timestampPrecision: 12,
+          },
+        ],
+      };
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(schema);
+      const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(
+        storageSchema,
+        'Test',
+      );
+      assert.notEqual(protoDescriptor, null);
+      assert.deepStrictEqual(JSON.parse(JSON.stringify(protoDescriptor)), {
+        name: 'Test',
+        field: [
+          {
+            name: 'ts',
+            number: 1,
+            label: 'LABEL_OPTIONAL',
+            type: 'TYPE_STRING',
+            options: {},
+          },
+        ],
+      });
+      if (!protoDescriptor) {
+        throw Error('null proto descriptor set');
+      }
+      const TestProto = Type.fromDescriptor(protoDescriptor);
+      const raw = {
+        ts: '2024-04-05T15:45:58.981123456789Z',
+      };
+      const serialized = TestProto.encode(raw).finish();
+      const decoded = TestProto.decode(serialized).toJSON();
+      assert.deepEqual(raw, decoded);
+    });
   });
 
   describe('Proto descriptor normalization', () => {

@@ -48,6 +48,11 @@ type ITableFieldSchema = {
   type?: string;
 
   /**
+   * [Optional] The precision for TIMESTAMP fields. 6 for microsecond, 12 for picosecond.
+   */
+  timestampPrecision?: number | string;
+
+  /**
    * Represents the type of a field element.
    */
   rangeElementType?: {
@@ -99,6 +104,12 @@ function bqFieldToStorageField(field: ITableFieldSchema): StorageTableField {
 
   if (field.description) {
     out.description = field.description;
+  }
+
+  if (field.timestampPrecision) {
+    out.timestampPrecision = {
+      value: field.timestampPrecision,
+    };
   }
 
   if (!field.type) {

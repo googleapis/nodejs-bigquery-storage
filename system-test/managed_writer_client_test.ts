@@ -694,6 +694,136 @@ describe('managedwriter.WriterClient', () => {
       }
     });
 
+    it('should invoke appendRows with picosecond precision timestamp without errors', async () => {
+      const picosTableId = generateUuid();
+      const picosSchema: any = {
+        fields: [
+          {
+            name: 'customer_name',
+            type: 'STRING',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'row_num',
+            type: 'INTEGER',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'created_at',
+            type: 'TIMESTAMP',
+            mode: 'NULLABLE',
+            timestampPrecision: 12,
+          },
+        ],
+      };
+      const [table] = await bigquery
+        .dataset(datasetId)
+        .createTable(picosTableId, {schema: picosSchema});
+      const picosParent = `projects/${projectId}/datasets/${datasetId}/tables/${table.id}`;
+
+      bqWriteClient.initialize().catch(err => {
+        throw err;
+      });
+      const streamType: WriteStream['type'] = managedwriter.PendingStream;
+      const client = new WriterClient();
+      client.setClient(bqWriteClient);
+
+      const storageSchema =
+        adapt.convertBigQuerySchemaToStorageTableSchema(picosSchema);
+      const protoDescriptor: DescriptorProto =
+        adapt.convertStorageSchemaToProto2Descriptor(storageSchema, 'root');
+
+      // Row 1
+      const expectedTsValue = '2023-01-01T12:00:00.123456789123Z';
+      const row1 = {
+        customer_name: 'Ada Lovelace',
+        row_num: 1,
+        created_at: expectedTsValue,
+      };
+
+      const offset: IInt64Value['value'] = '0';
+
+      const streamId = await client.createWriteStream({
+        streamType,
+        destinationTable: picosParent,
+      });
+      const appendRowsResponsesResult: AppendRowsResponse[] = [
+        {
+          appendResult: {
+            offset: {
+              value: offset,
+            },
+          },
+          writeStream: streamId,
+        },
+      ];
+      try {
+        const connection = await client.createStreamConnection({
+          streamId,
+        });
+        const writer = new JSONWriter({
+          connection,
+          protoDescriptor,
+        });
+        const pw = writer.appendRows([row1], offset);
+        const result = await pw.getResult();
+        const responses: AppendRowsResponse[] = [
+          {
+            appendResult: result.appendResult,
+            writeStream: result.writeStream,
+          },
+        ];
+
+        assert.deepEqual(appendRowsResponsesResult, responses);
+
+        const res = await connection.finalize();
+        connection.close();
+        assert.equal(res?.rowCount, 1);
+
+        const commitResponse = await client.batchCommitWriteStream({
+          parent: picosParent,
+          writeStreams: [streamId],
+        });
+        assert.equal(commitResponse.streamErrors?.length, 0);
+
+        writer.close();
+
+        // Now read to make sure the written data is correct:
+        const options: {[key: string]: any} = {};
+        const timestampOutputFormat = 'ISO8601_STRING';
+        const useInt64Timestamp = false;
+
+        options['formatOptions.timestampOutputFormat'] = timestampOutputFormat;
+        options['formatOptions.useInt64Timestamp'] = useInt64Timestamp;
+
+        // TODO: When the latest version of Bigquery is released supporting high
+        // precision reads then we should use that instead of request here.
+        await new Promise<void>((resolve, reject) => {
+          (table as any).request(
+            {
+              uri: '/data',
+              qs: options,
+            },
+            (err: any, resp: any) => {
+              if (err) {
+                reject(err);
+                return;
+              }
+              try {
+                assert(resp.rows && resp.rows.length > 0);
+                assert.strictEqual(resp.rows[0].f[2].v, expectedTsValue);
+                resolve();
+              } catch (e) {
+                reject(e);
+              }
+            },
+          );
+        });
+      } finally {
+        client.close();
+      }
+    });
+
     it('should update proto descriptor automatically with appendRows without errors', async () => {
       bqWriteClient.initialize().catch(err => {
         throw err;
