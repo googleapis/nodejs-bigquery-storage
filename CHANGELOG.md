@@ -1,5 +1,21 @@
 # Changelog
 
+## [5.2.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v5.1.0...v5.2.0) (2026-02-25)
+
+
+### Features
+
+* Add high precision Picosecond timestamp support for write calls ([#654](https://github.com/googleapis/nodejs-bigquery-storage/issues/654)) ([5c90e88](https://github.com/googleapis/nodejs-bigquery-storage/commit/5c90e8865ead7a8b4a6febf62648676927ad670e))
+
+
+### Bug Fixes
+
+* Delete the whole owlbot yaml file to trigger next googlegen-apis release ([#648](https://github.com/googleapis/nodejs-bigquery-storage/issues/648)) ([602ef9b](https://github.com/googleapis/nodejs-bigquery-storage/commit/602ef9b61f5cb6f971a82b8fec13a135840238cd))
+* **deps:** Update dependency apache-arrow to v21 ([#579](https://github.com/googleapis/nodejs-bigquery-storage/issues/579)) ([0a3643e](https://github.com/googleapis/nodejs-bigquery-storage/commit/0a3643e97a52bc5f588ca6843fb320617b09954f))
+* **deps:** Update dependency google-auth-library to v10 ([#573](https://github.com/googleapis/nodejs-bigquery-storage/issues/573)) ([5ef6bdd](https://github.com/googleapis/nodejs-bigquery-storage/commit/5ef6bdd383ca08cdcd14366a04b380fba211952e))
+* **deps:** Update dependency google-gax to v5 ([#575](https://github.com/googleapis/nodejs-bigquery-storage/issues/575)) ([bb4b2ff](https://github.com/googleapis/nodejs-bigquery-storage/commit/bb4b2ff6251580ce81d5c7641ae8dadbd058e1b3))
+* Update gax version, adjust monkeypatch for protobufjs ([#607](https://github.com/googleapis/nodejs-bigquery-storage/issues/607)) ([6fe249d](https://github.com/googleapis/nodejs-bigquery-storage/commit/6fe249d0c322ad1029fa8f1aa7494ffe5220ec23))
+
 ## [5.1.0](https://github.com/googleapis/nodejs-bigquery-storage/compare/v5.0.0...v5.1.0) (2025-06-06)
 
 
