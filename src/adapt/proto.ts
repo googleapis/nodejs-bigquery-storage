@@ -346,10 +346,10 @@ function convertTableFieldSchemaToFieldDescriptorProto(
     });
   } else {
     let pType = bqTypeToFieldTypeMap[type];
-if (
+    if (
       type === TableFieldSchema.Type.TIMESTAMP &&
       Number(field?.timestampPrecision?.value) === 12
-) {
+    ) {
       pType = FieldDescriptorProto.Type.TYPE_STRING;
     }
     if (pType === null) {
