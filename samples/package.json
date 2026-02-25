@@ -18,7 +18,7 @@
     "google-auth-library": "^10.0.0",
     "avsc": "^5.4.18",
     "google-gax": "^5.0.0",
-    "protobufjs": "^7.2.4",
+    "protobufjs": "^8.0.0",
     "snappy": "^7.0.0"
   },
   "devDependencies": {
