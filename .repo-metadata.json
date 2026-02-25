@@ -11,7 +11,7 @@
   "name": "bigquerystorage",
   "name_pretty": "Google BigQuery Storage",
   "api_id": "bigquerystorage.googleapis.com",
-  "codeowner_team": "@googleapis/api-bigquery",
+  "codeowner_team": "@googleapis/bigquery-team @googleapis/cloud-sdk-nodejs-team",
   "api_shortname": "bigquerystorage",
   "library_type": "GAPIC_AUTO"
 }
