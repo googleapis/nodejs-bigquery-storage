@@ -796,6 +796,8 @@ describe('managedwriter.WriterClient', () => {
         options['formatOptions.timestampOutputFormat'] = timestampOutputFormat;
         options['formatOptions.useInt64Timestamp'] = useInt64Timestamp;
 
+        // TODO: When the latest version of Bigquery is released supporting high
+        // precision reads then we should use that instead of request here.
         await new Promise<void>((resolve, reject) => {
           (table as any).request(
             {
