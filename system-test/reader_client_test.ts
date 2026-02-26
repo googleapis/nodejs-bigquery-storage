@@ -283,6 +283,98 @@ describe('reader.ReaderClient', () => {
       }
     });
 
+    it.only('should allow to read a table with picosecond precision as an Arrow byte stream', async () => {
+      const picosTableId = generateUuid();
+      const picosSchema: any = {
+        fields: [
+          {
+            name: 'customer_name',
+            type: 'STRING',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'row_num',
+            type: 'INTEGER',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'created_at',
+            type: 'TIMESTAMP',
+            mode: 'NULLABLE',
+            timestampPrecision: 12,
+          },
+        ],
+      };
+      await bigquery
+        .dataset(datasetId)
+        .createTable(picosTableId, {schema: picosSchema});
+      await bigquery
+        .dataset(datasetId)
+        .table(picosTableId)
+        .insert([
+          {
+            customer_name: 'my-name',
+            row_num: 1,
+            created_at: '2024-04-05T15:45:58.981123456789Z',
+          },
+        ]);
+
+      bqReadClient.initialize().catch(err => {
+        throw err;
+      });
+      const client = new ReadClient();
+      client.setClient(bqReadClient);
+
+      try {
+        const reader = await client.createArrowTableReader({
+          table: {
+            projectId,
+            datasetId,
+            tableId: picosTableId,
+          },
+        });
+
+        const rawStream = await reader.getStream();
+
+        const session = reader.getSessionInfo();
+        assert.notEqual(session, null);
+        assert.equal(session?.dataFormat, ArrowFormat);
+
+        console.log('printing data');
+        const content: Buffer = await new Promise((resolve, reject) => {
+          let serializedSchema: string | Uint8Array = '';
+          if (session?.arrowSchema?.serializedSchema) {
+            serializedSchema = session?.arrowSchema?.serializedSchema;
+          }
+          // type checking needs to occur before calling Buffer.from
+          // has to do with overload resolution
+          // related to https://github.com/microsoft/TypeScript/issues/14107
+          let buf: Buffer;
+          if (typeof serializedSchema === 'string') {
+            buf = Buffer.from(serializedSchema);
+          } else if (serializedSchema instanceof Uint8Array) {
+            buf = Buffer.from(serializedSchema);
+          }
+          rawStream.on('data', (data: Uint8Array) => {
+            console.log(data);
+            buf = Buffer.concat([buf, data]);
+          });
+          rawStream.on('error', reject);
+          rawStream.on('end', () => {
+            resolve(buf);
+          });
+        });
+        const table = await tableFromIPC(content);
+
+        assert.equal(table.numRows, 1);
+        assert.equal(table.numCols, 1);
+
+        reader.close();
+      } finally {
+        client.close();
+      }
+    });
+
     it('should allow to read a table as a stream of Arrow Record Batches', async () => {
       bqReadClient.initialize().catch(err => {
         throw err;
