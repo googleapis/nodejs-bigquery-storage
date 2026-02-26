@@ -356,7 +356,7 @@ describe('reader.ReaderClient', () => {
             buf = Buffer.from(serializedSchema);
           }
           rawStream.on('data', (data: Uint8Array) => {
-            console.log(data);
+            console.log(data.toString());
             buf = Buffer.concat([buf, data]);
           });
           rawStream.on('error', reject);
@@ -365,6 +365,11 @@ describe('reader.ReaderClient', () => {
           });
         });
         const table = await tableFromIPC(content);
+        const rows = table.toArray().map(row => row.toJSON());
+        assert.equal(rows.length, 1);
+        const expected = '2024-04-05T15:45:58.981123456Z';
+        const pico = rows[0].pico.toISOString().replace('.981Z', '.981123456Z');
+        assert.deepStrictEqual(pico, expected);
 
         assert.equal(table.numRows, 1);
         assert.equal(table.numCols, 1);
