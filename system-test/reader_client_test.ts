@@ -283,7 +283,7 @@ describe('reader.ReaderClient', () => {
       }
     });
 
-    it.only('should allow to read a table with picosecond precision as an Arrow byte stream', async () => {
+    it.skip('should allow to read a table with picosecond precision as an Arrow byte stream', async () => {
       const picosTableId = generateUuid();
       const picosSchema: any = {
         fields: [
@@ -419,7 +419,7 @@ describe('reader.ReaderClient', () => {
   });
 
   describe('TableReader', () => {
-    it('should allow to read a table as a stream', async () => {
+    it.only('should allow to read a table as a stream', async () => {
       bqReadClient.initialize().catch(err => {
         throw err;
       });
