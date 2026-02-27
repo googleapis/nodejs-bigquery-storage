@@ -21,6 +21,7 @@ import {ReadStream} from './read_stream';
 import {TableReader} from './table_reader';
 import {ArrowTableReader} from './arrow_reader';
 import {DataFormat} from './data_format';
+import { google } from "../../protos/protos";
 
 type CreateReadSessionRequest =
   protos.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest;
@@ -140,6 +141,11 @@ export class ReadClient {
         dataFormat,
         readOptions: {
           selectedFields: selectedFields,
+          arrowSerializationOptions: {
+            picosTimestampPrecision:
+              google.cloud.bigquery.storage.v1.ArrowSerializationOptions
+                .PicosTimestampPrecision.TIMESTAMP_PRECISION_PICOS,
+          },
         },
       },
       preferredMinStreamCount: maxWorkerCount,
