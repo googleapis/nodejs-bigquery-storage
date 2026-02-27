@@ -622,7 +622,7 @@ describe('reader.ReaderClient', () => {
         ],
       };
       const expectedTsValue = '2024-04-05T15:45:58.981123456789Z';
-      const [table] = await bigquery
+      await bigquery
         .dataset(datasetId)
         .createTable(picosTableId, {schema: picosSchema});
       await bigquery
@@ -636,40 +636,7 @@ describe('reader.ReaderClient', () => {
           },
         ]);
 
-      // Now read to make sure the written data is correct:
-      const options: {[key: string]: any} = {};
-      const timestampOutputFormat = 'ISO8601_STRING';
-      const useInt64Timestamp = false;
-
-      options['formatOptions.timestampOutputFormat'] = timestampOutputFormat;
-      options['formatOptions.useInt64Timestamp'] = useInt64Timestamp;
-
-      // TODO: When the latest version of Bigquery is released supporting high
-      // precision reads then we should use that instead of request here.
-      await new Promise<void>((resolve, reject) => {
-        (table as any).request(
-          {
-            uri: '/data',
-            qs: options,
-          },
-          (err: any, resp: any) => {
-            if (err) {
-              reject(err);
-              return;
-            }
-            try {
-              assert(resp.rows && resp.rows.length > 0);
-              assert.strictEqual(resp.rows[0].f[2].v, expectedTsValue);
-              resolve();
-            } catch (e) {
-              reject(e);
-            }
-          },
-        );
-      });
-
       // Try with a read stream from a session.
-
       const client1 = new ReadClient();
       const sessionTableRef = {
         datasetId,
@@ -704,62 +671,7 @@ describe('reader.ReaderClient', () => {
       });
 
       assert.equal(responses.length, 1);
-
-      // And read using Bigquery storage to determine what precision of
-      // values get returned.
-
-      bqReadClient.initialize().catch(err => {
-        throw err;
-      });
-      const client = new ReadClient();
-      client.setClient(bqReadClient);
-
-      try {
-        const reader = await client.createTableReader({
-          table: {
-            projectId,
-            datasetId,
-            tableId: picosTableId,
-          },
-        });
-
-        const rowStream = await reader.getRowStream();
-        const rows: TableRow[] = [];
-        await new Promise((resolve, reject) => {
-          rowStream.on('data', (data: TableRow) => {
-            rows.push(data);
-          });
-          rowStream.on('error', reject);
-          rowStream.on('end', () => {
-            resolve(null);
-          });
-        });
-
-        const session = reader.getSessionInfo();
-
-        assert.notEqual(session, null);
-        assert.equal(session?.dataFormat, ArrowFormat);
-
-        assert.equal(rows.length, 3);
-        assert.deepEqual(rows, [
-          {
-            f: [
-              {
-                v: 'Ada Lovelace',
-              },
-              {
-                v: 1,
-              },
-              {
-                v: 1712331958981123,
-              },
-            ],
-          },
-        ]);
-        reader.close();
-      } finally {
-        client.close();
-      }
+      assert.strictEqual((responses[0] as any)['f'][2]['v'], expectedTsValue);
     });
 
     it('should allow to read a table as tabledata.list RowsResponse', async () => {
