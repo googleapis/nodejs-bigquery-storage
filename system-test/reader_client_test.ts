@@ -24,8 +24,11 @@ import {ClientOptions} from 'google-gax';
 import * as customerRecordProtoJson from '../samples/customer_record.json';
 import * as bigquerystorage from '../src';
 import * as reader from '../src/reader';
+import {ReadSession} from '../src/reader/read_session';
 import {cleanupDatasets} from './util';
 import {RecordBatch, Table, tableFromIPC} from 'apache-arrow';
+import { ArrowRawTransform, ArrowRecordBatchTableRowTransform, ArrowRecordBatchTransform, ArrowRecordReaderTransform } from "../src/reader/arrow_transform";
+import { ResourceStream } from "@google-cloud/paginator";
 
 type ReadRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IReadRowsResponse;
@@ -668,25 +671,34 @@ describe('reader.ReaderClient', () => {
       // Try with a read stream from a session.
 
       const client1 = new ReadClient();
-      const session = await client1.createReadSession({
-        parent,
-        table: tableRef,
-        dataFormat: ArrowFormat,
-      });
-      const readStream = session.streams![0];
-      const stream1 = await client1.createReadStream({
-        session,
-        streamName: readStream.name!,
-      });
-      const rowStream = stream1.getRowsStream();
+      const sessionTableRef = {
+        datasetId,
+        projectId,
+        tableId: picosTableId,
+      };
+      const readSession = new ReadSession(
+        client1,
+        sessionTableRef,
+        ArrowFormat,
+      );
+      // Now replicate getRecordBatchStream code.
+      const myStream = await readSession.getStream();
+      const info = readSession.getSessionInfo();
+      const pipedMyStream = myStream
+        .pipe(new ArrowRawTransform())
+        .pipe(new ArrowRecordReaderTransform(info!))
+        .pipe(new ArrowRecordBatchTransform()) as ResourceStream<RecordBatch>;
+      const finalStream = pipedMyStream.pipe(
+        new ArrowRecordBatchTableRowTransform(),
+      ) as ResourceStream<TableRow>;
 
       const responses: ReadRowsResponse[] = [];
       await new Promise((resolve, reject) => {
-        rowStream.on('data', (data: ReadRowsResponse) => {
+        finalStream.on('data', (data: ReadRowsResponse) => {
           responses.push(data);
         });
-        rowStream.on('error', reject);
-        rowStream.on('end', () => {
+        finalStream.on('error', reject);
+        finalStream.on('end', () => {
           resolve(null);
         });
       });
