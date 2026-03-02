@@ -508,7 +508,7 @@ describe('reader.ReaderClient', () => {
       }
     });
 
-    it.only('should allow to read a table with picosecond precision as a stream', async () => {
+    it('should allow to read a table with picosecond precision as a stream', async () => {
       const picosTableId = generateUuid();
       const picosSchema: any = {
         fields: [
