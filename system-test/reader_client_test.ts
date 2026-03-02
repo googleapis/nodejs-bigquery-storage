@@ -27,8 +27,13 @@ import * as reader from '../src/reader';
 import {ReadSession} from '../src/reader/read_session';
 import {cleanupDatasets} from './util';
 import {RecordBatch, Table, tableFromIPC} from 'apache-arrow';
-import { ArrowRawTransform, ArrowRecordBatchTableRowTransform, ArrowRecordBatchTransform, ArrowRecordReaderTransform } from "../src/reader/arrow_transform";
-import { ResourceStream } from "@google-cloud/paginator";
+import {
+  ArrowRawTransform,
+  ArrowRecordBatchTableRowTransform,
+  ArrowRecordBatchTransform,
+  ArrowRecordReaderTransform,
+} from '../src/reader/arrow_transform';
+import {ResourceStream} from '@google-cloud/paginator';
 
 type ReadRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IReadRowsResponse;
