@@ -141,13 +141,11 @@ export class ReadClient {
         dataFormat,
         readOptions: {
           selectedFields: selectedFields,
-          /*
           arrowSerializationOptions: {
             picosTimestampPrecision:
               google.cloud.bigquery.storage.v1.ArrowSerializationOptions
                 .PicosTimestampPrecision.TIMESTAMP_PRECISION_PICOS,
           },
-           */
         },
       },
       preferredMinStreamCount: maxWorkerCount,
