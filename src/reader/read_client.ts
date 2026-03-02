@@ -21,13 +21,12 @@ import {ReadStream} from './read_stream';
 import {TableReader} from './table_reader';
 import {ArrowTableReader} from './arrow_reader';
 import {DataFormat} from './data_format';
-import { google } from "../../protos/protos";
 
 type CreateReadSessionRequest =
   protos.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest;
 type ReadSession = protos.google.cloud.bigquery.storage.v1.IReadSession;
 type ArrowSerializationOptions = {
-  picosTimestampPrecision: google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosTimestampPrecision;
+  picosTimestampPrecision: protos.google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosTimestampPrecision;
 };
 
 export type TableReference = {
