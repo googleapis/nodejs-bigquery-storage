@@ -29,7 +29,6 @@ import {cleanupDatasets} from './util';
 import {RecordBatch, Table, tableFromIPC} from 'apache-arrow';
 import { ArrowRawTransform, ArrowRecordBatchTableRowTransform, ArrowRecordBatchTransform, ArrowRecordReaderTransform } from "../src/reader/arrow_transform";
 import { ResourceStream } from "@google-cloud/paginator";
-import { google } from "../protos/protos";
 
 type ReadRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IReadRowsResponse;
@@ -554,21 +553,10 @@ describe('reader.ReaderClient', () => {
       );
       // Now replicate getRecordBatchStream code.
       const myStream = await readSession.getStream();
-      // const info = readSession.getSessionInfo();
-      const info2 = {
-        table: tableId,
-        dataformat: ArrowFormat,
-        readOptions: {
-          arrowSerializationOptions: {
-            picosTimestampPrecision:
-              google.cloud.bigquery.storage.v1.ArrowSerializationOptions
-                .PicosTimestampPrecision.TIMESTAMP_PRECISION_PICOS,
-          },
-        },
-      };
+      const info = readSession.getSessionInfo();
       const pipedMyStream = myStream
         .pipe(new ArrowRawTransform())
-        .pipe(new ArrowRecordReaderTransform(info2!))
+        .pipe(new ArrowRecordReaderTransform(info!))
         .pipe(new ArrowRecordBatchTransform()) as ResourceStream<RecordBatch>;
       const finalStream = pipedMyStream.pipe(
         new ArrowRecordBatchTableRowTransform(),
