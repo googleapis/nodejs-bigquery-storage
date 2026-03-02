@@ -26,6 +26,9 @@ import { google } from "../../protos/protos";
 type CreateReadSessionRequest =
   protos.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest;
 type ReadSession = protos.google.cloud.bigquery.storage.v1.IReadSession;
+type ArrowSerializationOptions = {
+  picosTimestampPrecision: google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosTimestampPrecision;
+};
 
 export type TableReference = {
   /**
@@ -129,28 +132,29 @@ export class ReadClient {
     table: string;
     dataFormat: DataFormat;
     selectedFields?: string[];
+    arrowSerializationOptions?: ArrowSerializationOptions;
   }): Promise<ReadSession> {
     await this.initialize();
     const {table, parent, dataFormat, selectedFields} = request;
     const maxWorkerCount = 1;
     const maxStreamCount = 0;
-    const createReq: CreateReadSessionRequest = {
+    const createReq = {
       parent,
       readSession: {
         table,
         dataFormat,
         readOptions: {
           selectedFields: selectedFields,
-          arrowSerializationOptions: {
-            picosTimestampPrecision:
-              google.cloud.bigquery.storage.v1.ArrowSerializationOptions
-                .PicosTimestampPrecision.TIMESTAMP_PRECISION_PICOS,
-          },
         },
       },
       preferredMinStreamCount: maxWorkerCount,
       maxStreamCount: maxStreamCount,
     };
+    if (request.arrowSerializationOptions) {
+      Object.assign(createReq.readSession.readOptions, {
+        arrowSerializationOptions: request.arrowSerializationOptions,
+      });
+    }
     const [response] = await this._client.createReadSession(createReq);
     if (typeof [response] === undefined) {
       throw new gax.GoogleError(`${response}`);

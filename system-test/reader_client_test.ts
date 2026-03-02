@@ -502,7 +502,7 @@ describe('reader.ReaderClient', () => {
       }
     });
 
-    it.only('should allow to read a table with picosecond precision as a stream', async () => {
+    it('should allow to read a table with picosecond precision as a stream', async () => {
       const picosTableId = generateUuid();
       const picosSchema: any = {
         fields: [
@@ -552,7 +552,13 @@ describe('reader.ReaderClient', () => {
         ArrowFormat,
       );
       // Now replicate getRecordBatchStream code.
-      const myStream = await readSession.getStream();
+      const myStream = await readSession.getStream({
+        arrowSerializationOptions: {
+          picosTimestampPrecision:
+            protos.google.cloud.bigquery.storage.v1.ArrowSerializationOptions
+              .PicosTimestampPrecision.TIMESTAMP_PRECISION_PICOS,
+        },
+      });
       const info = readSession.getSessionInfo();
       const pipedMyStream = myStream
         .pipe(new ArrowRawTransform())
