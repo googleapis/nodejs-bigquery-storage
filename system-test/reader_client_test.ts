@@ -34,6 +34,7 @@ import {
   ArrowRecordReaderTransform,
 } from '../src/reader/arrow_transform';
 import {ResourceStream} from '@google-cloud/paginator';
+import {ArrowTableReader, TableReader} from '../src/reader';
 
 type ReadRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IReadRowsResponse;
@@ -507,7 +508,7 @@ describe('reader.ReaderClient', () => {
       }
     });
 
-    it('should allow to read a table with picosecond precision as a stream', async () => {
+    it.only('should allow to read a table with picosecond precision as a stream', async () => {
       const picosTableId = generateUuid();
       const picosSchema: any = {
         fields: [
@@ -551,25 +552,16 @@ describe('reader.ReaderClient', () => {
         projectId,
         tableId: picosTableId,
       };
-      const readSession = new ReadSession(
-        client1,
-        sessionTableRef,
-        ArrowFormat,
-      );
-      // Now replicate getRecordBatchStream code.
-      const myStream = await readSession.getStream({
-        arrowSerializationOptions: {
-          picosTimestampPrecision:
-            protos.google.cloud.bigquery.storage.v1.ArrowSerializationOptions
-              .PicosTimestampPrecision.TIMESTAMP_PRECISION_PICOS,
-        },
-      });
-      const info = readSession.getSessionInfo();
-      const pipedMyStream = myStream
-        .pipe(new ArrowRawTransform())
-        .pipe(new ArrowRecordReaderTransform(info!))
-        .pipe(new ArrowRecordBatchTransform()) as ResourceStream<RecordBatch>;
-      const finalStream = pipedMyStream.pipe(
+      const arrowReader = new ArrowTableReader(client1, sessionTableRef);
+      const finalStream = (
+        await arrowReader.getRecordBatchStream({
+          arrowSerializationOptions: {
+            picosTimestampPrecision:
+              protos.google.cloud.bigquery.storage.v1.ArrowSerializationOptions
+                .PicosTimestampPrecision.TIMESTAMP_PRECISION_PICOS,
+          },
+        })
+      ).pipe(
         new ArrowRecordBatchTableRowTransform(),
       ) as ResourceStream<TableRow>;
 
