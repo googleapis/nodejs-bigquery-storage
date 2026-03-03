@@ -150,9 +150,6 @@ export class ReadClient {
       maxStreamCount: maxStreamCount,
     };
     if (request.arrowSerializationOptions) {
-      // Use Object.assign instead of defining property inline.
-      // We prefer no arrowSerializationOptions property in the JSON request
-      // instead of having an `arrowSerializationOptions: undefined` mapping.
       Object.assign(createReq.readSession.readOptions, {
         arrowSerializationOptions: request.arrowSerializationOptions,
       });
