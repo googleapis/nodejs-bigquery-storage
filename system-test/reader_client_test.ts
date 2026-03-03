@@ -232,6 +232,42 @@ describe('reader.ReaderClient', () => {
 
   describe('AvroReader', () => {
     it('should read high precision timestamps from an avro stream', async () => {
+      const picosTableId = generateUuid();
+      const picosSchema: any = {
+        fields: [
+          {
+            name: 'customer_name',
+            type: 'STRING',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'row_num',
+            type: 'INTEGER',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'created_at',
+            type: 'TIMESTAMP',
+            mode: 'NULLABLE',
+            timestampPrecision: 12,
+          },
+        ],
+      };
+      const expectedTsValue = '2024-04-05T15:45:58.981123456789Z';
+      await bigquery
+        .dataset(datasetId)
+        .createTable(picosTableId, {schema: picosSchema});
+      await bigquery
+        .dataset(datasetId)
+        .table(picosTableId)
+        .insert([
+          {
+            customer_name: 'my-name',
+            row_num: 1,
+            created_at: expectedTsValue,
+          },
+        ]);
+
       bqReadClient.initialize().catch(err => {
         throw err;
       });
@@ -241,7 +277,7 @@ describe('reader.ReaderClient', () => {
       try {
         const session = await client.createReadSession({
           parent: `projects/${projectId}`,
-          table: `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`,
+          table: `projects/${projectId}/datasets/${datasetId}/tables/${picosTableId}`,
           dataFormat: AvroFormat,
         });
 
@@ -266,6 +302,12 @@ describe('reader.ReaderClient', () => {
             resolve(null);
           });
         });
+
+        assert.equal(responses.length, 1);
+        assert.equal(
+          (responses[0].avroRows?.serializedBinaryRows as Buffer).toString(),
+          '{"pico":{"value":"1712331958981123"}}',
+        );
 
         connection.close();
         client.close();
