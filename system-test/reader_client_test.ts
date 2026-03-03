@@ -26,6 +26,9 @@ import * as bigquerystorage from '../src';
 import * as reader from '../src/reader';
 import {cleanupDatasets} from './util';
 import {RecordBatch, Table, tableFromIPC} from 'apache-arrow';
+import {ArrowRecordBatchTableRowTransform} from '../src/reader/arrow_transform';
+import {ResourceStream} from '@google-cloud/paginator';
+import {ArrowTableReader} from '../src/reader';
 
 type ReadRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IReadRowsResponse;
@@ -497,6 +500,78 @@ describe('reader.ReaderClient', () => {
       } finally {
         client.close();
       }
+    });
+
+    it('should allow to read a table with picosecond precision as a stream', async () => {
+      const picosTableId = generateUuid();
+      const picosSchema: any = {
+        fields: [
+          {
+            name: 'customer_name',
+            type: 'STRING',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'row_num',
+            type: 'INTEGER',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'created_at',
+            type: 'TIMESTAMP',
+            mode: 'NULLABLE',
+            timestampPrecision: 12,
+          },
+        ],
+      };
+      const expectedTsValue = '2024-04-05T15:45:58.981123456789Z';
+      await bigquery
+        .dataset(datasetId)
+        .createTable(picosTableId, {schema: picosSchema});
+      await bigquery
+        .dataset(datasetId)
+        .table(picosTableId)
+        .insert([
+          {
+            customer_name: 'my-name',
+            row_num: 1,
+            created_at: expectedTsValue,
+          },
+        ]);
+
+      // Try with a read stream from a session.
+      const client1 = new ReadClient();
+      const sessionTableRef = {
+        datasetId,
+        projectId,
+        tableId: picosTableId,
+      };
+      const arrowReader = new ArrowTableReader(client1, sessionTableRef);
+      const finalStream = (
+        await arrowReader.getRecordBatchStream({
+          arrowSerializationOptions: {
+            picosTimestampPrecision:
+              protos.google.cloud.bigquery.storage.v1.ArrowSerializationOptions
+                .PicosTimestampPrecision.TIMESTAMP_PRECISION_PICOS,
+          },
+        })
+      ).pipe(
+        new ArrowRecordBatchTableRowTransform(),
+      ) as ResourceStream<TableRow>;
+
+      const responses: ReadRowsResponse[] = [];
+      await new Promise((resolve, reject) => {
+        finalStream.on('data', (data: ReadRowsResponse) => {
+          responses.push(data);
+        });
+        finalStream.on('error', reject);
+        finalStream.on('end', () => {
+          resolve(null);
+        });
+      });
+
+      assert.equal(responses.length, 1);
+      assert.strictEqual((responses[0] as any)['f'][2]['v'], expectedTsValue);
     });
 
     it('should allow to read a table as tabledata.list RowsResponse', async () => {

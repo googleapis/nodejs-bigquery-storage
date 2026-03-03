@@ -25,6 +25,9 @@ import {DataFormat} from './data_format';
 type CreateReadSessionRequest =
   protos.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest;
 type ReadSession = protos.google.cloud.bigquery.storage.v1.IReadSession;
+type ArrowSerializationOptions = {
+  picosTimestampPrecision: protos.google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosTimestampPrecision;
+};
 
 export type TableReference = {
   /**
@@ -128,12 +131,13 @@ export class ReadClient {
     table: string;
     dataFormat: DataFormat;
     selectedFields?: string[];
+    arrowSerializationOptions?: ArrowSerializationOptions;
   }): Promise<ReadSession> {
     await this.initialize();
     const {table, parent, dataFormat, selectedFields} = request;
     const maxWorkerCount = 1;
     const maxStreamCount = 0;
-    const createReq: CreateReadSessionRequest = {
+    const createReq = {
       parent,
       readSession: {
         table,
@@ -145,6 +149,14 @@ export class ReadClient {
       preferredMinStreamCount: maxWorkerCount,
       maxStreamCount: maxStreamCount,
     };
+    if (request.arrowSerializationOptions) {
+      // Use Object.assign instead of defining property inline.
+      // We prefer no arrowSerializationOptions property in the JSON request
+      // instead of having an `arrowSerializationOptions: undefined` mapping.
+      Object.assign(createReq.readSession.readOptions, {
+        arrowSerializationOptions: request.arrowSerializationOptions,
+      });
+    }
     const [response] = await this._client.createReadSession(createReq);
     if (typeof [response] === undefined) {
       throw new gax.GoogleError(`${response}`);

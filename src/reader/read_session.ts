@@ -25,6 +25,9 @@ type ReadRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IReadRowsResponse;
 type ReadSessionInfo = protos.google.cloud.bigquery.storage.v1.IReadSession;
 const ReadSessionInfo = protos.google.cloud.bigquery.storage.v1.ReadSession;
+type ArrowSerializationOptions = {
+  picosTimestampPrecision: protos.google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosTimestampPrecision;
+};
 
 export type GetStreamOptions = {
   /**
@@ -35,6 +38,10 @@ export type GetStreamOptions = {
    * Subset of fields to return, supports select into sub fields. Example: selected_fields = "a,e.d.f";
    */
   selectedFields?: string;
+  /**
+   * Option to opt into higher precision timestamps.
+   */
+  arrowSerializationOptions?: ArrowSerializationOptions;
 };
 
 /**
@@ -85,6 +92,7 @@ export class ReadSession {
       table: `projects/${this._tableRef.projectId}/datasets/${this._tableRef.datasetId}/tables/${this._tableRef.tableId}`,
       dataFormat: this._format,
       selectedFields: options?.selectedFields?.split(','),
+      arrowSerializationOptions: options?.arrowSerializationOptions,
     });
     this.trace(
       'session created',
