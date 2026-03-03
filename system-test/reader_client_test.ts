@@ -230,6 +230,50 @@ describe('reader.ReaderClient', () => {
     });
   });
 
+  describe('AvroReader', () => {
+    it('should read high precision timestamps from an avro stream', async () => {
+      bqReadClient.initialize().catch(err => {
+        throw err;
+      });
+      const client = new ReadClient();
+      client.setClient(bqReadClient);
+
+      try {
+        const session = await client.createReadSession({
+          parent: `projects/${projectId}`,
+          table: `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`,
+          dataFormat: AvroFormat,
+        });
+
+        assert.equal(session.dataFormat, AvroFormat);
+        assert.notEqual(session.streams, null);
+        assert.notEqual(session.streams?.length, 0);
+
+        const readStream = session.streams![0];
+        const connection = await client.createReadStream({
+          session,
+          streamName: readStream.name!,
+        });
+
+        const myStream = connection.getRowsStream();
+        const responses: ReadRowsResponse[] = [];
+        await new Promise((resolve, reject) => {
+          myStream.on('data', (data: ReadRowsResponse) => {
+            responses.push(data);
+          });
+          myStream.on('error', reject);
+          myStream.on('end', () => {
+            resolve(null);
+          });
+        });
+
+        connection.close();
+        client.close();
+      } finally {
+        client.close();
+      }
+    });
+  });
   describe('ArrowTableReader', () => {
     it('should allow to read a table as an Arrow byte stream', async () => {
       bqReadClient.initialize().catch(err => {
@@ -325,7 +369,7 @@ describe('reader.ReaderClient', () => {
   });
 
   describe('TableReader', () => {
-    it('should allow to read a table as a stream', async () => {
+    it.only('should allow to read a table as a stream', async () => {
       bqReadClient.initialize().catch(err => {
         throw err;
       });

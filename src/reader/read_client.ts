@@ -144,6 +144,11 @@ export class ReadClient {
         dataFormat,
         readOptions: {
           selectedFields: selectedFields,
+          avroSerializationOptions: {
+            picosTimestampPrecision:
+              protos.google.cloud.bigquery.storage.v1.AvroSerializationOptions
+                .PicosTimestampPrecision.TIMESTAMP_PRECISION_PICOS,
+          },
         },
       },
       preferredMinStreamCount: maxWorkerCount,
