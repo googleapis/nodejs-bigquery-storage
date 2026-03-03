@@ -231,7 +231,7 @@ describe('reader.ReaderClient', () => {
   });
 
   describe('AvroReader', () => {
-    it('should read high precision timestamps from an avro stream', async () => {
+    it.only('should read high precision timestamps from an avro stream', async () => {
       const picosTableId = generateUuid();
       const picosSchema: any = {
         fields: [
@@ -411,7 +411,7 @@ describe('reader.ReaderClient', () => {
   });
 
   describe('TableReader', () => {
-    it.only('should allow to read a table as a stream', async () => {
+    it('should allow to read a table as a stream', async () => {
       bqReadClient.initialize().catch(err => {
         throw err;
       });
