@@ -26,7 +26,7 @@ import * as bigquerystorage from '../src';
 import * as reader from '../src/reader';
 import {cleanupDatasets} from './util';
 import {RecordBatch, Table, tableFromIPC} from 'apache-arrow';
-import {ArrowRecordBatchTableRowTransform} from '../src/reader/arrow_transform';
+import { ArrowRawTransform, ArrowRecordBatchTableRowTransform, ArrowRecordBatchTransform, ArrowRecordReaderTransform } from "../src/reader/arrow_transform";
 import {ResourceStream} from '@google-cloud/paginator';
 import {ArrowTableReader} from '../src/reader';
 
@@ -291,7 +291,12 @@ describe('reader.ReaderClient', () => {
           streamName: readStream.name!,
         });
 
-        const myStream = connection.getRowsStream();
+        const myStream = connection
+          .getRowsStream()
+          .pipe(new ArrowRawTransform())
+          .pipe(new ArrowRecordReaderTransform(session!))
+          .pipe(new ArrowRecordBatchTransform())
+          .pipe(new ArrowRecordBatchTableRowTransform());
         const responses: ReadRowsResponse[] = [];
         await new Promise((resolve, reject) => {
           myStream.on('data', (data: ReadRowsResponse) => {
