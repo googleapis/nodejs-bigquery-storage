@@ -233,7 +233,7 @@ describe('reader.ReaderClient', () => {
   });
 
   describe('AvroReader', () => {
-    it.only('should read high precision timestamps from an avro stream', async () => {
+    it('should read high precision timestamps from an avro stream', async () => {
       const avro = require('avsc');
       class AvroRawTransform extends Transform {
         private session: ReadSession;
