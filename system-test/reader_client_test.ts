@@ -26,9 +26,10 @@ import * as bigquerystorage from '../src';
 import * as reader from '../src/reader';
 import {cleanupDatasets} from './util';
 import {RecordBatch, Table, tableFromIPC} from 'apache-arrow';
-import { ArrowRawTransform, ArrowRecordBatchTableRowTransform, ArrowRecordBatchTransform, ArrowRecordReaderTransform } from "../src/reader/arrow_transform";
+import {ArrowRecordBatchTableRowTransform} from '../src/reader/arrow_transform';
 import {ResourceStream} from '@google-cloud/paginator';
 import {ArrowTableReader} from '../src/reader';
+import {AvroRawTransform} from '../src/reader/avro_reader';
 
 type ReadRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IReadRowsResponse;
@@ -231,6 +232,118 @@ describe('reader.ReaderClient', () => {
   });
 
   describe('AvroReader', () => {
+    /*
+    it('from avro quickstart', async () => {
+      const avro = require('avsc');
+      // Get current project ID. The read session is created in this project.
+      // This project can be different from that which contains the table.
+
+      const picosTableId = generateUuid();
+      const picosSchema: any = {
+        fields: [
+          {
+            name: 'customer_name',
+            type: 'STRING',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'row_num',
+            type: 'INTEGER',
+            mode: 'REQUIRED',
+          },
+          {
+            name: 'created_at',
+            type: 'TIMESTAMP',
+            mode: 'NULLABLE',
+            timestampPrecision: 12,
+          },
+        ],
+      };
+      const expectedTsValue = '2024-04-05T15:45:58.981123456789Z';
+      await bigquery
+        .dataset(datasetId)
+        .createTable(picosTableId, {schema: picosSchema});
+      await bigquery
+        .dataset(datasetId)
+        .table(picosTableId)
+        .insert([
+          {
+            customer_name: 'my-name',
+            row_num: 1,
+            created_at: expectedTsValue,
+          },
+        ]);
+
+      bqReadClient.initialize().catch(err => {
+        throw err;
+      });
+      const client = new ReadClient();
+      client.setClient(bqReadClient);
+
+      const session = await client.createReadSession({
+        parent: `projects/${projectId}`,
+        table: `projects/${projectId}/datasets/${datasetId}/tables/${picosTableId}`,
+        dataFormat: AvroFormat,
+      });
+
+      assert(session);
+      assert(session.avroSchema);
+      const schema = JSON.parse(session.avroSchema.schema as string);
+
+      const avroType = avro.Type.forSchema(schema);
+
+      let offset = 0;
+
+      const readRowsRequest = {
+        // Required stream name and optional offset. Offset requested must be less than
+        // the last row read from readRows(). Requesting a larger offset is undefined.
+        readStream: (session.streams as any)[0].name,
+        offset,
+      };
+
+      const names = new Set();
+      const states = [];
+
+      // We'll use only a single stream for reading data from the table. Because
+      // of dynamic sharding, this will yield all the rows in the table. However,
+      // if you wanted to fan out multiple readers you could do so by having a
+      // reader process each individual stream.
+      //
+      client
+        .readRows(readRowsRequest)
+        .on('error', console.error)
+        .on('data', data => {
+          offset = data.avroRows.serializedBinaryRows.offset;
+
+          try {
+            // Decode all rows in buffer
+            let pos;
+            do {
+              const decodedData = avroType.decode(
+                data.avroRows.serializedBinaryRows,
+                pos,
+              );
+
+              if (decodedData.value) {
+                names.add(decodedData.value.name);
+
+                if (!states.includes(decodedData.value.state)) {
+                  states.push(decodedData.value.state);
+                }
+              }
+
+              pos = decodedData.offset;
+            } while (pos > 0);
+          } catch (error) {
+            console.log(error);
+          }
+        })
+        .on('end', () => {
+          console.log(`Got ${names.size} unique names in states: ${states}`);
+          console.log(`Last offset: ${offset}`);
+        });
+    });
+    */
     it.only('should read high precision timestamps from an avro stream', async () => {
       const picosTableId = generateUuid();
       const picosSchema: any = {
@@ -279,6 +392,11 @@ describe('reader.ReaderClient', () => {
           parent: `projects/${projectId}`,
           table: `projects/${projectId}/datasets/${datasetId}/tables/${picosTableId}`,
           dataFormat: AvroFormat,
+          avroSerializationOptions: {
+            picosTimestampPrecision:
+              protos.google.cloud.bigquery.storage.v1.ArrowSerializationOptions
+                .PicosTimestampPrecision.TIMESTAMP_PRECISION_PICOS,
+          },
         });
 
         assert.equal(session.dataFormat, AvroFormat);
@@ -293,10 +411,7 @@ describe('reader.ReaderClient', () => {
 
         const myStream = connection
           .getRowsStream()
-          .pipe(new ArrowRawTransform())
-          .pipe(new ArrowRecordReaderTransform(session!))
-          .pipe(new ArrowRecordBatchTransform())
-          .pipe(new ArrowRecordBatchTableRowTransform());
+          .pipe(new AvroRawTransform(session!));
         const responses: ReadRowsResponse[] = [];
         await new Promise((resolve, reject) => {
           myStream.on('data', (data: ReadRowsResponse) => {
@@ -309,10 +424,7 @@ describe('reader.ReaderClient', () => {
         });
 
         assert.equal(responses.length, 1);
-        assert.equal(
-          (responses[0].avroRows?.serializedBinaryRows as Buffer).toString(),
-          '{"pico":{"value":"1712331958981123"}}',
-        );
+        assert.equal((responses[0] as any)['created_at'], expectedTsValue);
 
         connection.close();
         client.close();

@@ -25,7 +25,7 @@ import {DataFormat} from './data_format';
 type CreateReadSessionRequest =
   protos.google.cloud.bigquery.storage.v1.ICreateReadSessionRequest;
 type ReadSession = protos.google.cloud.bigquery.storage.v1.IReadSession;
-type ArrowSerializationOptions = {
+type AvroArrowSerializationOptions = {
   picosTimestampPrecision: protos.google.cloud.bigquery.storage.v1.ArrowSerializationOptions.PicosTimestampPrecision;
 };
 
@@ -131,7 +131,8 @@ export class ReadClient {
     table: string;
     dataFormat: DataFormat;
     selectedFields?: string[];
-    arrowSerializationOptions?: ArrowSerializationOptions;
+    arrowSerializationOptions?: AvroArrowSerializationOptions;
+    avroSerializationOptions?: AvroArrowSerializationOptions;
   }): Promise<ReadSession> {
     await this.initialize();
     const {table, parent, dataFormat, selectedFields} = request;
@@ -144,11 +145,6 @@ export class ReadClient {
         dataFormat,
         readOptions: {
           selectedFields: selectedFields,
-          avroSerializationOptions: {
-            picosTimestampPrecision:
-              protos.google.cloud.bigquery.storage.v1.AvroSerializationOptions
-                .PicosTimestampPrecision.TIMESTAMP_PRECISION_PICOS,
-          },
         },
       },
       preferredMinStreamCount: maxWorkerCount,
@@ -157,6 +153,11 @@ export class ReadClient {
     if (request.arrowSerializationOptions) {
       Object.assign(createReq.readSession.readOptions, {
         arrowSerializationOptions: request.arrowSerializationOptions,
+      });
+    }
+    if (request.avroSerializationOptions) {
+      Object.assign(createReq.readSession.readOptions, {
+        avroSerializationOptions: request.avroSerializationOptions,
       });
     }
     const [response] = await this._client.createReadSession(createReq);

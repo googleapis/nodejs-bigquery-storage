@@ -30,11 +30,11 @@
     "@google-cloud/paginator": "^6.0.0",
     "@google-cloud/precise-date": "^5.0.0",
     "apache-arrow": "^21.0.0",
+    "avsc": "^5.7.9",
     "core-js": "^3.41.0",
     "extend": "^3.0.2",
     "google-auth-library": "^10.0.0",
     "google-gax": "^5.0.0"
-
   },
   "peerDependencies": {
     "protobufjs": "^7.2.4 - 7.5.0"
