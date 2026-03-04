@@ -29,7 +29,8 @@ import {RecordBatch, Table, tableFromIPC} from 'apache-arrow';
 import {ArrowRecordBatchTableRowTransform} from '../src/reader/arrow_transform';
 import {ResourceStream} from '@google-cloud/paginator';
 import {ArrowTableReader} from '../src/reader';
-import {AvroRawTransform} from '../src/reader/avro_reader';
+import {Transform, TransformCallback} from 'stream';
+type ReadSession = protos.google.cloud.bigquery.storage.v1.IReadSession;
 
 type ReadRowsResponse =
   protos.google.cloud.bigquery.storage.v1.IReadRowsResponse;
@@ -345,6 +346,42 @@ describe('reader.ReaderClient', () => {
     });
     */
     it.only('should read high precision timestamps from an avro stream', async () => {
+      const avro = require('avsc');
+      class AvroRawTransform extends Transform {
+        private session: ReadSession;
+
+        constructor(session: ReadSession) {
+          super({
+            objectMode: true,
+          });
+          this.session = session;
+        }
+
+        _transform(
+          serializedRecordBatch: any,
+          _: BufferEncoding,
+          callback: TransformCallback,
+        ): void {
+          const session = this.session;
+          const schema = JSON.parse(session?.avroSchema?.schema as string);
+          const avroType = avro.Type.forSchema(schema);
+          if (
+            !(
+              serializedRecordBatch.avroRows &&
+              serializedRecordBatch.avroRows.serializedBinaryRows
+            )
+          ) {
+            callback(null);
+            return;
+          }
+          const decodedData = avroType.decode(
+            serializedRecordBatch.avroRows.serializedBinaryRows,
+            0,
+          );
+          callback(null, decodedData.value);
+        }
+      }
+
       const picosTableId = generateUuid();
       const picosSchema: any = {
         fields: [
